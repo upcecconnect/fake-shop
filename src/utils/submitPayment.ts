@@ -23,7 +23,6 @@ const getNumberOrUndefined = (value: string|number): number|undefined => {
 const iframeCallback = (callbackData: PaymentIframeCallbackData, mode: PaymentMode) => {
   const { data: { height } } = callbackData;
   if (mode === PaymentMode.BuiltInIframe) {
-    alert('BuiltInIframe');
     const wrapper = document.querySelector('#payment-wrapper') as HTMLDivElement|null;
     if (wrapper) {
       wrapper.style.height = `${height + 40}px`;
@@ -31,7 +30,6 @@ const iframeCallback = (callbackData: PaymentIframeCallbackData, mode: PaymentMo
     return;
   }
   if (mode === PaymentMode.ModalIframe) {
-    alert('ModalIframe');
     const iframe = document.querySelector('#upc-payment-iframe') as HTMLDivElement|null;
     if (iframe) {
       iframe.style.height = `${height + 40}px`;

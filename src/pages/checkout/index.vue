@@ -23,7 +23,7 @@ const props = defineProps({
 const page = ref({ title: 'Checkout' });
 const breadcrumbs = ref([
   {
-    text: 'UPC test shop',
+    text: 'UPC demo shop',
     disabled: false,
     href: '#'
   },

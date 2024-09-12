@@ -4,6 +4,7 @@ import { useCartStore } from '@/stores/useCartStore';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { ShoppingCartIcon } from 'vue-tabler-icons';
+import { CreditCardIcon } from 'vue-tabler-icons';
 import { useProductsListStore } from '@/stores/useProductsListStore';
 
 const cartStore = useCartStore();
@@ -41,8 +42,19 @@ const isLoaded = ref(false);
           </router-link>
         </div>
         <v-spacer />
-        <h3>Fake shop</h3>
+        <h3>Demo shop</h3>
+   
         <v-spacer />
+        <v-btn
+          icon
+          variant="text"
+          color="primary"
+          title="Test Cards"
+          class="mr-5"
+          :to="{ name: RouteName.TestCards, query: { ...$route.query } }"
+        >
+          <CreditCardIcon stroke-width="1.5" size="22"  />
+        </v-btn>
         <v-btn icon variant="text" color="primary" :to="{ name: RouteName.Checkout, query: { ...$route.query } }">
           <v-badge color="error" :content="selectedProducts.size">
             <ShoppingCartIcon stroke-width="1.5" size="22" />
