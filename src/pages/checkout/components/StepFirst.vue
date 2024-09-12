@@ -9,6 +9,8 @@ import { asCurrency } from '@/utils/asCurrency';
 import type { ProductWithQuantity } from '@/types/ProductWithQuantity';
 import { TrashIcon } from 'vue-tabler-icons';
 import OrderSummary from './OrderSummary.vue';
+import { MinusIcon } from 'vue-tabler-icons';
+import { PlusIcon } from 'vue-tabler-icons';
 
 const cartStore = useCartStore();
 const { selectedProducts } = storeToRefs(cartStore);

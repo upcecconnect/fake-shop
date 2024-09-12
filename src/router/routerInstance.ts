@@ -13,7 +13,7 @@ const getPaymentMode = (route: RouteLocationNormalized) => {
 }
 
 export const router = createRouter({
-    history: createWebHistory('/'),
+    history: createWebHistory('/fake-shop'),
     routes: [
       {
         path: '',
@@ -36,7 +36,7 @@ export const router = createRouter({
           {
             path: '/checkout',
             name: RouteName.Checkout,
-            component: import('@/pages/checkout/index.vue'),
+            component: () => import('@/pages/checkout/index.vue'),
             props: (route) => {
               return getPaymentMode(route);
             },
