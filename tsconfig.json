@@ -1,0 +1,26 @@
+{
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "vite.config.*"],
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "composite": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "remove",
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noImplicitThis": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+  },
+  "exclude": ["node_modules", "dist"]
+}
