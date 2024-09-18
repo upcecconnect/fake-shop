@@ -23,7 +23,7 @@ const props = defineProps({
 const page = ref({ title: 'Checkout' });
 const breadcrumbs = ref([
   {
-    text: 'UPC demo shop',
+    text: 'UPC demo-shop',
     disabled: false,
     href: '#'
   },
@@ -94,7 +94,7 @@ const initPayment = () => {
       </v-tabs>
       <v-window v-model="tab">
         <v-window-item value="tab-1" class="pa-1">
-          <StepFirst />
+          <StepFirst :mode="mode" />
           <v-row class="mt-3">
             <v-col cols="12" sm="6">
               <v-btn color="primary" variant="tonal" :to="{ name: RouteName.Products, query: { ...$route.query } }">Continue Shopping</v-btn>

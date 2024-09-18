@@ -42,7 +42,7 @@ const isLoaded = ref(false);
           </router-link>
         </div>
         <v-spacer />
-        <h3>Demo shop</h3>
+        <h3>Demo-shop</h3>
    
         <v-spacer />
         <v-btn

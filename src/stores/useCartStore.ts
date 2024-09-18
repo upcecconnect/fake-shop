@@ -12,6 +12,7 @@ export const useCartStore = defineStore({
     discount: 0,
     subTotal: 0,
     billingAddress: null as BillingAddress | null,
+    paymentDescription: '',
   }),
   actions: {
     addProductToCart(productId: Product['id']) {

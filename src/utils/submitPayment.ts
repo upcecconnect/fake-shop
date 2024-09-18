@@ -39,7 +39,7 @@ const iframeCallback = (callbackData: PaymentIframeCallbackData, mode: PaymentMo
 
 export const submitPayment = (mode: PaymentMode, requestEntity?: RequestEntity) => {
   const cartStore = useCartStore();
-  const { billingAddress, total } = storeToRefs(cartStore);
+  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
   const merchant = {
     id: '1753545',
     terminalId: 'E7881545',
@@ -61,7 +61,7 @@ export const submitPayment = (mode: PaymentMode, requestEntity?: RequestEntity) 
 
     payment.pay({
       currencyNumericCode,
-      description: 'Payment description',
+      description: paymentDescription.value,
       orderId: Date.now().toString(),
       purchaseTime: Date.now(),
       totalAmountCents: total.value,
@@ -87,7 +87,7 @@ export const submitPayment = (mode: PaymentMode, requestEntity?: RequestEntity) 
 
     payment.pay({
       currencyNumericCode,
-      description: 'Payment description',
+      description: paymentDescription.value,
       orderId: Date.now().toString(),
       purchaseTime: Date.now(),
       totalAmountCents: total.value,
@@ -113,7 +113,7 @@ export const submitPayment = (mode: PaymentMode, requestEntity?: RequestEntity) 
 
     payment.pay({
       currencyNumericCode,
-      description: 'Payment description',
+      description: paymentDescription.value,
       orderId: Date.now().toString(),
       purchaseTime: Date.now(),
       totalAmountCents: total.value,
@@ -151,7 +151,7 @@ export const submitPayment = (mode: PaymentMode, requestEntity?: RequestEntity) 
       feeCents: getNumberOrUndefined(requestEntity.feeCents) || undefined,
       locale: requestEntity.locale || 'en',
       orderId: requestEntity.orderId || Date.now().toString(),
-      purchaseTime: requestEntity.purchaseTime || Date.now(),
+      purchaseTime: getNumberOrUndefined(requestEntity.purchaseTime) || Date.now(),
       token: requestEntity.token || '',
       totalAmountCents: getNumberOrUndefined(requestEntity.totalAmountCents) || total.value,
       url: requestEntity.url || '',

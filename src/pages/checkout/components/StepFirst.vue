@@ -1,19 +1,30 @@
 <script setup lang="ts">
+import { asCurrency } from '@/utils/asCurrency';
 import { computed } from 'vue';
 import imageEmpty from '@/assets/images/products/empty-shopping-cart.svg';
-import { RouteName } from '@/router/RouteName';
-import { useCartStore } from '@/stores/useCartStore';
-import { storeToRefs } from 'pinia';
-import type { Product } from '@/types/Product';
-import { asCurrency } from '@/utils/asCurrency';
-import type { ProductWithQuantity } from '@/types/ProductWithQuantity';
-import { TrashIcon } from 'vue-tabler-icons';
-import OrderSummary from './OrderSummary.vue';
 import { MinusIcon } from 'vue-tabler-icons';
+import { onMounted } from 'vue';
+import OrderSummary from './OrderSummary.vue';
+import { PaymentMode } from '@/types/PaymentMode';
 import { PlusIcon } from 'vue-tabler-icons';
+import type { Product } from '@/types/Product';
+import type { ProductWithQuantity } from '@/types/ProductWithQuantity';
+import { PropType } from 'vue';
+import { RouteName } from '@/router/RouteName';
+import { storeToRefs } from 'pinia';
+import { TrashIcon } from 'vue-tabler-icons';
+import { useCartStore } from '@/stores/useCartStore';
+
+defineProps({
+  mode: {
+    type: String as PropType<PaymentMode>,
+    required: false,
+    default: PaymentMode.Redirect,
+  },
+});
 
 const cartStore = useCartStore();
-const { selectedProducts } = storeToRefs(cartStore);
+const { selectedProducts, paymentDescription } = storeToRefs(cartStore);
 
 const productsComputed = computed<readonly ProductWithQuantity[]>(() => {
   return Array.from(selectedProducts.value.values());
@@ -22,6 +33,23 @@ const productsComputed = computed<readonly ProductWithQuantity[]>(() => {
 const removeItemFromCart = (id: Product['id']) => {
   cartStore.removeProductFromCart(id);
 };
+
+const paymentDescriptionComputed = computed({
+  get() {
+    return paymentDescription.value;
+  },
+  set(value: string) {
+    cartStore.$patch({
+      paymentDescription: value,
+    });
+  },
+});
+
+onMounted(() => {
+  const titles = productsComputed.value.map((product) => product.name);
+  paymentDescriptionComputed.value = `Payment for: ${titles.join(', ')}`;
+})
+
 </script>
 <template>
   <div v-if="selectedProducts.size > 0">
@@ -76,6 +104,13 @@ const removeItemFromCart = (id: Product['id']) => {
         </tr>
       </tbody>
     </v-table>
+    <v-text-field
+      v-if="mode !== PaymentMode.Manual"
+      v-model="paymentDescriptionComputed"
+      hide-details="auto"
+      label="Payment Description"
+      variant="outlined"
+    />
     <OrderSummary />
   </div>
   <div v-else class="d-flex justify-center">
