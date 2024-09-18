@@ -26,6 +26,7 @@ export const useCartStore = defineStore({
     },
     removeProductFromCart(productId: Product['id']) {
       this.selectedProducts.delete(productId);
+      this.setPrices();
     },
     incrementQuantity(productId: Product['id']) {
       const currentProduct = this.selectedProducts.get(productId);

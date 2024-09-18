@@ -97,8 +97,8 @@ onMounted(() => {
           </td>
           <td class="text-h5">{{ asCurrency(item.offerPrice * item.quantity) }} UAH</td>
           <td class="text-right">
-            <v-btn small icon flat elevation="0">
-              <TrashIcon size="18" class="text-error" @click="removeItemFromCart(item.id)" />
+            <v-btn small icon flat elevation="0" @click="removeItemFromCart(item.id)">
+              <TrashIcon size="18" class="text-error" />
             </v-btn>
           </td>
         </tr>

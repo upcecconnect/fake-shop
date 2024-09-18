@@ -22,13 +22,13 @@ const getSavedBillingAddress = () => {
     city: 'Kyiv',
     country: 'Ukraine',
     destination: 'Office',
-    email: 'contact@upc.ua',
+    email: '',
     firstName: 'John',
     id: 1,
     label: 'Home',
     lastName: 'Doe',
-    phone: '442474972',
-    phoneCode: '380',
+    phone: '',
+    phoneCode: '',
     street: 'Gareth Jones 8',
   };
   const savedBillingAddress = localStorage.getItem('billingAddress');
@@ -173,6 +173,7 @@ const onSubmit = async () => {
                     :readonly="!isEditing"
                     hide-details="auto"
                     label="Phone code"
+                    placeholder="380"
                     variant="outlined"
                   />
                 </v-col>
@@ -183,6 +184,7 @@ const onSubmit = async () => {
                     :readonly="!isEditing"
                     hide-details="auto"
                     label="Phone number"
+                    placeholder="000000000"
                     variant="outlined"
                   />
                 </v-col>

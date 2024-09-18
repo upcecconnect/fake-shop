@@ -460,6 +460,7 @@ const submitPaymentWithManualParams = () => {
                       hide-details="auto"
                       label="Customer phone code"
                       variant="outlined"
+                      placeholder="380"
                     />
                   </v-col>
                   <v-col cols="12" md="3">
@@ -469,6 +470,7 @@ const submitPaymentWithManualParams = () => {
                       hide-details="auto"
                       label="Customer phone number"
                       variant="outlined"
+                      placeholder="000000000"
                     />
                   </v-col>
                   <v-col cols="12" md="3">
