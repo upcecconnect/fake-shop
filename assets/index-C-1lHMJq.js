@@ -7327,6 +7327,7 @@ const useCartStore = defineStore({
     },
     removeProductFromCart(productId) {
       this.selectedProducts.delete(productId);
+      this.setPrices();
     },
     incrementQuantity(productId) {
       const currentProduct = this.selectedProducts.get(productId);
@@ -21698,17 +21699,17 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                       small: "",
                       icon: "",
                       flat: "",
-                      elevation: "0"
+                      elevation: "0",
+                      onClick: ($event) => removeItemFromCart(item.id)
                     }, {
                       default: withCtx(() => [
                         createVNode(unref(TrashIcon), {
                           size: "18",
-                          class: "text-error",
-                          onClick: ($event) => removeItemFromCart(item.id)
-                        }, null, 8, ["onClick"])
+                          class: "text-error"
+                        })
                       ]),
                       _: 2
-                    }, 1024)
+                    }, 1032, ["onClick"])
                   ])
                 ]);
               }), 128))
@@ -25804,7 +25805,8 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
                                             readonly: !isEditing.value,
                                             "hide-details": "auto",
                                             label: "Customer phone code",
-                                            variant: "outlined"
+                                            variant: "outlined",
+                                            placeholder: "380"
                                           }, null, 8, ["modelValue", "readonly"])
                                         ]),
                                         _: 1
@@ -25820,7 +25822,8 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
                                             readonly: !isEditing.value,
                                             "hide-details": "auto",
                                             label: "Customer phone number",
-                                            variant: "outlined"
+                                            variant: "outlined",
+                                            placeholder: "000000000"
                                           }, null, 8, ["modelValue", "readonly"])
                                         ]),
                                         _: 1
@@ -25988,13 +25991,13 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
         city: "Kyiv",
         country: "Ukraine",
         destination: "Office",
-        email: "contact@upc.ua",
+        email: "",
         firstName: "John",
         id: 1,
         label: "Home",
         lastName: "Doe",
-        phone: "442474972",
-        phoneCode: "380",
+        phone: "",
+        phoneCode: "",
         street: "Gareth Jones 8"
       };
       const savedBillingAddress = localStorage.getItem("billingAddress");
@@ -26188,6 +26191,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
                                         readonly: !isEditing.value,
                                         "hide-details": "auto",
                                         label: "Phone code",
+                                        placeholder: "380",
                                         variant: "outlined"
                                       }, null, 8, ["modelValue", "color", "readonly"])
                                     ]),
@@ -26205,6 +26209,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
                                         readonly: !isEditing.value,
                                         "hide-details": "auto",
                                         label: "Phone number",
+                                        placeholder: "000000000",
                                         variant: "outlined"
                                       }, null, 8, ["modelValue", "color", "readonly"])
                                     ]),
