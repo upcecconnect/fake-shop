@@ -7312,7 +7312,8 @@ const useCartStore = defineStore({
     total: 0,
     discount: 0,
     subTotal: 0,
-    billingAddress: null
+    billingAddress: null,
+    paymentDescription: ""
   }),
   actions: {
     addProductToCart(productId) {
@@ -13300,7 +13301,7 @@ const _hoisted_7$7 = /* @__PURE__ */ createBaseVNode("img", {
   src: _imports_0$1,
   alt: "upc"
 }, null, -1);
-const _hoisted_8$4 = /* @__PURE__ */ createBaseVNode("h3", null, "Demo shop", -1);
+const _hoisted_8$4 = /* @__PURE__ */ createBaseVNode("h3", null, "Demo-shop", -1);
 const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
   __name: "App",
   setup(__props) {
@@ -21596,15 +21597,36 @@ const _hoisted_13 = {
 const _hoisted_14 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5" }, "Cart is Empty", -1);
 const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
   __name: "StepFirst",
+  props: {
+    mode: {
+      type: String,
+      required: false,
+      default: PaymentMode.Redirect
+    }
+  },
   setup(__props) {
     const cartStore = useCartStore();
-    const { selectedProducts } = storeToRefs(cartStore);
+    const { selectedProducts, paymentDescription } = storeToRefs(cartStore);
     const productsComputed = computed(() => {
       return Array.from(selectedProducts.value.values());
     });
     const removeItemFromCart = (id) => {
       cartStore.removeProductFromCart(id);
     };
+    const paymentDescriptionComputed = computed({
+      get() {
+        return paymentDescription.value;
+      },
+      set(value) {
+        cartStore.$patch({
+          paymentDescription: value
+        });
+      }
+    });
+    onMounted(() => {
+      const titles = productsComputed.value.map((product) => product.name);
+      paymentDescriptionComputed.value = `Payment for: ${titles.join(", ")}`;
+    });
     return (_ctx, _cache) => {
       return unref(selectedProducts).size > 0 ? (openBlock(), createElementBlock("div", _hoisted_1$4, [
         createBaseVNode("h5", _hoisted_2$3, "Cart Item (" + toDisplayString(unref(selectedProducts).size) + ")", 1),
@@ -21694,6 +21716,14 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
           ]),
           _: 1
         }),
+        __props.mode !== unref(PaymentMode).Manual ? (openBlock(), createBlock(VTextField, {
+          key: 0,
+          modelValue: paymentDescriptionComputed.value,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => paymentDescriptionComputed.value = $event),
+          "hide-details": "auto",
+          label: "Payment Description",
+          variant: "outlined"
+        }, null, 8, ["modelValue"])) : createCommentVNode("", true),
         createVNode(_sfc_main$5)
       ])) : (openBlock(), createElementBlock("div", _hoisted_13, [
         createVNode(VRow, { class: "justify-center" }, {
@@ -22116,7 +22146,7 @@ const iframeCallback = (callbackData, mode) => {
 const submitPayment = (mode, requestEntity) => {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
   const cartStore = useCartStore();
-  const { billingAddress, total } = storeToRefs(cartStore);
+  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
   const merchant = {
     id: "1753545",
     terminalId: "E7881545",
@@ -22136,7 +22166,7 @@ const submitPayment = (mode, requestEntity) => {
     });
     payment.pay({
       currencyNumericCode,
-      description: "Payment description",
+      description: paymentDescription.value,
       orderId: Date.now().toString(),
       purchaseTime: Date.now(),
       totalAmountCents: total.value
@@ -22160,7 +22190,7 @@ const submitPayment = (mode, requestEntity) => {
     });
     payment.pay({
       currencyNumericCode,
-      description: "Payment description",
+      description: paymentDescription.value,
       orderId: Date.now().toString(),
       purchaseTime: Date.now(),
       totalAmountCents: total.value
@@ -22184,7 +22214,7 @@ const submitPayment = (mode, requestEntity) => {
     });
     payment.pay({
       currencyNumericCode,
-      description: "Payment description",
+      description: paymentDescription.value,
       orderId: Date.now().toString(),
       purchaseTime: Date.now(),
       totalAmountCents: total.value
@@ -22221,7 +22251,7 @@ const submitPayment = (mode, requestEntity) => {
       feeCents: getNumberOrUndefined(requestEntity.feeCents) || void 0,
       locale: requestEntity.locale || "en",
       orderId: requestEntity.orderId || Date.now().toString(),
-      purchaseTime: requestEntity.purchaseTime || Date.now(),
+      purchaseTime: getNumberOrUndefined(requestEntity.purchaseTime) || Date.now(),
       token: requestEntity.token || "",
       totalAmountCents: getNumberOrUndefined(requestEntity.totalAmountCents) || total.value,
       url: requestEntity.url || ""
@@ -27093,7 +27123,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
     const page = ref({ title: "Checkout" });
     const breadcrumbs = ref([
       {
-        text: "UPC demo shop",
+        text: "UPC demo-shop",
         disabled: false,
         href: "#"
       },
@@ -27208,7 +27238,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                       class: "pa-1"
                     }, {
                       default: withCtx(() => [
-                        createVNode(_sfc_main$4),
+                        createVNode(_sfc_main$4, { mode: __props.mode }, null, 8, ["mode"]),
                         createVNode(VRow, { class: "mt-3" }, {
                           default: withCtx(() => [
                             createVNode(VCol, {
