@@ -1,6 +1,3 @@
-var __defProp = Object.defineProperty;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -6317,7 +6314,7 @@ function getTimeout(delays, durations) {
   while (delays.length < durations.length) {
     delays = delays.concat(delays);
   }
-  return Math.max(...durations.map((d, i) => toMs(d) + toMs(delays[i])));
+  return Math.max(...durations.map((d2, i) => toMs(d2) + toMs(delays[i])));
 }
 function toMs(s) {
   if (s === "auto")
@@ -19691,18 +19688,18 @@ function getWeekArray(date2, locale) {
   return weeks;
 }
 function startOfWeek(date2) {
-  const d = new Date(date2);
-  while (d.getDay() !== 0) {
-    d.setDate(d.getDate() - 1);
+  const d2 = new Date(date2);
+  while (d2.getDay() !== 0) {
+    d2.setDate(d2.getDate() - 1);
   }
-  return d;
+  return d2;
 }
 function endOfWeek(date2) {
-  const d = new Date(date2);
-  while (d.getDay() !== 6) {
-    d.setDate(d.getDate() + 1);
+  const d2 = new Date(date2);
+  while (d2.getDay() !== 6) {
+    d2.setDate(d2.getDate() + 1);
   }
-  return d;
+  return d2;
 }
 function startOfMonth(date2) {
   return new Date(date2.getFullYear(), date2.getMonth(), 1);
@@ -19837,29 +19834,29 @@ function parseISO(value) {
   return new Date(year, month - 1, day);
 }
 function addMinutes(date2, amount) {
-  const d = new Date(date2);
-  d.setMinutes(d.getMinutes() + amount);
-  return d;
+  const d2 = new Date(date2);
+  d2.setMinutes(d2.getMinutes() + amount);
+  return d2;
 }
 function addHours(date2, amount) {
-  const d = new Date(date2);
-  d.setHours(d.getHours() + amount);
-  return d;
+  const d2 = new Date(date2);
+  d2.setHours(d2.getHours() + amount);
+  return d2;
 }
 function addDays(date2, amount) {
-  const d = new Date(date2);
-  d.setDate(d.getDate() + amount);
-  return d;
+  const d2 = new Date(date2);
+  d2.setDate(d2.getDate() + amount);
+  return d2;
 }
 function addWeeks(date2, amount) {
-  const d = new Date(date2);
-  d.setDate(d.getDate() + amount * 7);
-  return d;
+  const d2 = new Date(date2);
+  d2.setDate(d2.getDate() + amount * 7);
+  return d2;
 }
 function addMonths(date2, amount) {
-  const d = new Date(date2);
-  d.setMonth(d.getMonth() + amount);
-  return d;
+  const d2 = new Date(date2);
+  d2.setMonth(d2.getMonth() + amount);
+  return d2;
 }
 function getYear(date2) {
   return date2.getFullYear();
@@ -19886,8 +19883,8 @@ function isWithinRange(date2, range) {
   return isAfter(date2, range[0]) && isBefore(date2, range[1]);
 }
 function isValid(date2) {
-  const d = new Date(date2);
-  return d instanceof Date && !isNaN(d.getTime());
+  const d2 = new Date(date2);
+  return d2 instanceof Date && !isNaN(d2.getTime());
 }
 function isAfter(date2, comparing) {
   return date2.getTime() > comparing.getTime();
@@ -19905,32 +19902,32 @@ function isSameMonth(date2, comparing) {
   return date2.getMonth() === comparing.getMonth() && date2.getFullYear() === comparing.getFullYear();
 }
 function getDiff(date2, comparing, unit) {
-  const d = new Date(date2);
+  const d2 = new Date(date2);
   const c = new Date(comparing);
   if (unit === "month") {
-    return d.getMonth() - c.getMonth() + (d.getFullYear() - c.getFullYear()) * 12;
+    return d2.getMonth() - c.getMonth() + (d2.getFullYear() - c.getFullYear()) * 12;
   }
-  return Math.floor((d.getTime() - c.getTime()) / (1e3 * 60 * 60 * 24));
+  return Math.floor((d2.getTime() - c.getTime()) / (1e3 * 60 * 60 * 24));
 }
 function setHours(date2, count) {
-  const d = new Date(date2);
-  d.setHours(count);
-  return d;
+  const d2 = new Date(date2);
+  d2.setHours(count);
+  return d2;
 }
 function setMinutes(date2, count) {
-  const d = new Date(date2);
-  d.setMinutes(count);
-  return d;
+  const d2 = new Date(date2);
+  d2.setMinutes(count);
+  return d2;
 }
 function setMonth(date2, count) {
-  const d = new Date(date2);
-  d.setMonth(count);
-  return d;
+  const d2 = new Date(date2);
+  d2.setMonth(count);
+  return d2;
 }
 function setYear(date2, year) {
-  const d = new Date(date2);
-  d.setFullYear(year);
-  return d;
+  const d2 = new Date(date2);
+  d2.setFullYear(year);
+  return d2;
 }
 function startOfDay(date2) {
   return new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
@@ -21766,305 +21763,182 @@ const rules = {
   minLength: (minLength) => (value) => value.length > minLength || "Value is too short",
   required: (value) => !!value || "Required"
 };
-class UpcPayment {
-  constructor(props) {
-    __publicField(this, "mode");
-    __publicField(this, "merchant");
-    __publicField(this, "customer");
-    __publicField(this, "iframeProps");
-    const availableModes = ["PaymentIframe", "PaymentModalIframe", "PaymentPage"];
-    if (props.mode && availableModes.includes(props.mode)) {
-      this.mode = props.mode;
-    } else {
-      this.mode = "PaymentPage";
-    }
-    this.validateMerchantData(props.merchant);
-    this.merchant = props.merchant;
-    this.validateCustomerData(props.customer);
-    this.customer = props.customer;
-    this.validateIframeProps(props.iframeProps);
-    this.iframeProps = props.iframeProps;
+class d {
+  constructor(e) {
+    const r = ["PaymentIframe", "PaymentModalIframe", "PaymentPage"];
+    e.mode && r.includes(e.mode) ? this.mode = e.mode : this.mode = "PaymentPage", this.validateMerchantData(e.merchant), this.merchant = e.merchant, this.validateCustomerData(e.customer), this.customer = e.customer, this.validateIframeProps(e.iframeProps), this.iframeProps = e.iframeProps;
   }
-  pay(data) {
-    var _a, _b, _c, _d;
-    const form = this.getPaymentForm(data);
-    this.validatePaymentData(data);
-    if (this.mode === "PaymentPage") {
-      document.body.appendChild(form);
-      form.submit();
+  pay(e) {
+    var s, a, l, h2;
+    const r = this.getPaymentForm(e);
+    if (this.validatePaymentData(e), this.mode === "PaymentPage") {
+      document.body.appendChild(r), r.submit();
       return;
     }
-    const iframeWrapper = document.querySelector(((_a = this.iframeProps) == null ? void 0 : _a.wrapperSelector) || "body");
-    if (!iframeWrapper) {
+    const t = document.querySelector(((s = this.iframeProps) == null ? void 0 : s.wrapperSelector) || "body");
+    if (!t)
       throw new Error("Iframe wrapper element not found");
+    const n = document.querySelector(".upc-payment-iframe-wrapper");
+    n && n.remove();
+    const o = document.querySelector("#upc-payment-iframe");
+    o && o.remove();
+    const i = document.createElement("iframe");
+    if (this.setMessageListener(), i.setAttribute("frameborder", "0"), i.style.width = "100%", i.style.height = "100%", i.style.minHeight = "500px", i.id = "upc-payment-iframe", this.mode === "PaymentIframe")
+      t.appendChild(i);
+    else {
+      const m = this.getIframeWrapper();
+      (a = m.querySelector("button")) == null || a.addEventListener("click", () => {
+        m.remove();
+      }), (l = m.querySelector("main")) == null || l.appendChild(i), document.body.appendChild(m);
     }
-    const existingWrapper = document.querySelector(".upc-payment-iframe-wrapper");
-    if (existingWrapper) {
-      existingWrapper.remove();
-    }
-    const existingIframe = document.querySelector("#upc-payment-iframe");
-    if (existingIframe) {
-      existingIframe.remove();
-    }
-    const iframe = document.createElement("iframe");
-    this.setMessageListener(iframe);
-    iframe.setAttribute("frameborder", "0");
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    iframe.style.minHeight = "500px";
-    iframe.id = "upc-payment-iframe";
-    if (this.mode === "PaymentIframe") {
-      iframeWrapper.appendChild(iframe);
-    } else {
-      const iframeWrapperInternal = this.getIframeWrapper();
-      (_b = iframeWrapperInternal.querySelector("button")) == null ? void 0 : _b.addEventListener("click", () => {
-        iframeWrapperInternal.remove();
-      });
-      (_c = iframeWrapperInternal.querySelector("main")) == null ? void 0 : _c.appendChild(iframe);
-      document.body.appendChild(iframeWrapperInternal);
-    }
-    (_d = iframe.contentWindow) == null ? void 0 : _d.document.body.appendChild(form);
-    form.submit();
+    (h2 = i.contentWindow) == null || h2.document.body.appendChild(r), r.submit();
   }
-  validateMerchantData(data) {
-    if (typeof data.id !== "string" || !data.id) {
+  validateMerchantData(e) {
+    if (typeof e.id != "string" || !e.id)
       throw new Error('Field "merchant.id" is required');
-    }
-    if (typeof data.terminalId !== "string" || !data.terminalId) {
+    if (typeof e.terminalId != "string" || !e.terminalId)
       throw new Error('Field "merchant.terminalId" is required');
-    }
-    if (typeof data.signature !== "string" || !data.signature) {
+    if (typeof e.signature != "string" || !e.signature)
       throw new Error('Field "merchant.signature" is required');
+  }
+  validateCustomerData(e) {
+    if (e) {
+      if (e.email && typeof e.email != "string")
+        throw new Error('Field "customer.email" is invalid');
+      if (e.phoneCountryCode && typeof e.phoneCountryCode != "string")
+        throw new Error('Field "customer.phoneCountryCode" is invalid');
+      if (e.phoneNumber && typeof e.phoneNumber != "string")
+        throw new Error('Field "customer.phoneNumber" is invalid');
+      if (e.firstName && typeof e.firstName != "string")
+        throw new Error('Field "customer.firstName" is invalid');
+      if (e.lastName && typeof e.lastName != "string")
+        throw new Error('Field "customer.lastName" is invalid');
     }
   }
-  validateCustomerData(data) {
-    if (!data) {
-      return;
-    }
-    if (data.email && typeof data.email !== "string") {
-      throw new Error('Field "customer.email" is invalid');
-    }
-    if (data.phoneCountryCode && typeof data.phoneCountryCode !== "string") {
-      throw new Error('Field "customer.phoneCountryCode" is invalid');
-    }
-    if (data.phoneNumber && typeof data.phoneNumber !== "string") {
-      throw new Error('Field "customer.phoneNumber" is invalid');
-    }
-    if (data.firstName && typeof data.firstName !== "string") {
-      throw new Error('Field "customer.firstName" is invalid');
-    }
-    if (data.lastName && typeof data.lastName !== "string") {
-      throw new Error('Field "customer.lastName" is invalid');
-    }
-  }
-  validateIframeProps(props) {
-    if (!props) {
-      return;
-    }
-    if (props.wrapperSelector) {
-      if (typeof props.wrapperSelector !== "string") {
-        throw new Error('Field "iframeProps.wrapperSelector" is invalid');
+  validateIframeProps(e) {
+    if (e) {
+      if (e.wrapperSelector) {
+        if (typeof e.wrapperSelector != "string")
+          throw new Error('Field "iframeProps.wrapperSelector" is invalid');
+        if (!document.querySelector(e.wrapperSelector))
+          throw new Error("Wrapper element not found");
       }
-      const element = document.querySelector(props.wrapperSelector);
-      if (!element) {
-        throw new Error("Wrapper element not found");
-      }
-    }
-    if (props.callback && typeof props.callback !== "function") {
-      throw new Error('Field "iframeProps.callback" is invalid');
+      if (e.callback && typeof e.callback != "function")
+        throw new Error('Field "iframeProps.callback" is invalid');
     }
   }
-  validatePaymentData(data) {
-    if (data.altTotalAmountCents) {
-      if (typeof data.altTotalAmountCents !== "number") {
+  validatePaymentData(e) {
+    if (e.altTotalAmountCents) {
+      if (typeof e.altTotalAmountCents != "number")
         throw new Error('Field "payment.altTotalAmountCents" is invalid');
-      }
-      if (Number.isNaN(data.altTotalAmountCents)) {
+      if (Number.isNaN(e.altTotalAmountCents))
         throw new Error('Field "payment.altTotalAmountCents" is invalid');
-      }
     }
-    if (data.altCurrencyNumericCode && typeof data.altCurrencyNumericCode !== "string") {
+    if (e.altCurrencyNumericCode && typeof e.altCurrencyNumericCode != "string")
       throw new Error('Field "payment.altCurrencyNumericCode" is invalid');
-    }
-    if (data.altFeeCents && typeof data.altFeeCents !== "number") {
+    if (e.altFeeCents && typeof e.altFeeCents != "number")
       throw new Error('Field "payment.altFeeCents" is invalid');
-    }
-    if (typeof data.currencyNumericCode !== "string" || !data.currencyNumericCode) {
+    if (typeof e.currencyNumericCode != "string" || !e.currencyNumericCode)
       throw new Error('Field "payment.currencyNumericCode" is invalid');
-    }
-    if (data.delay) {
-      if (typeof data.delay !== "number") {
+    if (e.delay) {
+      if (typeof e.delay != "number")
         throw new Error('Field "payment.delay" is invalid');
-      }
-      if (Number.isNaN(data.delay)) {
+      if (Number.isNaN(e.delay))
         throw new Error('Field "payment.delay" is invalid');
-      }
     }
-    if (typeof data.description !== "string" || !data.description) {
+    if (typeof e.description != "string" || !e.description)
       throw new Error('Field "payment.description" is invalid');
-    }
-    if (data.feeCents && typeof data.feeCents !== "number") {
+    if (e.feeCents && typeof e.feeCents != "number")
       throw new Error('Field "payment.feeCents" is invalid');
-    }
-    if (data.locale && typeof data.locale !== "string") {
+    if (e.locale && typeof e.locale != "string")
       throw new Error('Field "payment.locale" is invalid');
-    }
-    if (typeof data.orderId !== "string" || !data.orderId) {
+    if (typeof e.orderId != "string" || !e.orderId)
       throw new Error('Field "payment.orderId" is invalid');
-    }
-    if (typeof data.purchaseTime !== "number" || !data.purchaseTime) {
+    if (typeof e.purchaseTime != "number" || !e.purchaseTime)
       throw new Error('Field "payment.purchaseTime" is invalid');
-    }
-    if (data.token && typeof data.token !== "string") {
+    if (e.token && typeof e.token != "string")
       throw new Error('Field "payment.token" is invalid');
-    }
-    if (typeof data.totalAmountCents !== "number" || !data.totalAmountCents) {
+    if (typeof e.totalAmountCents != "number" || !e.totalAmountCents)
       throw new Error("Payment totalAmountCents is invalid");
-    }
-    if (data.url && typeof data.url !== "string") {
+    if (e.url && typeof e.url != "string")
       throw new Error("Payment locale is invalid");
-    }
   }
-  getInputEl(name, value) {
-    const input = document.createElement("input");
-    input.setAttribute("type", "hidden");
-    input.setAttribute("name", name);
-    input.setAttribute("value", value);
-    return input;
+  getInputEl(e, r) {
+    const t = document.createElement("input");
+    return t.setAttribute("type", "hidden"), t.setAttribute("name", e), t.setAttribute("value", r), t;
   }
-  getPaymentForm(data) {
-    var _a, _b, _c, _d, _e;
-    const url = data.url || "https://ecg.test.upc.ua/go/pay";
-    const form = document.createElement("form");
-    form.setAttribute("action", url);
-    form.setAttribute("method", "POST");
-    form.style.visibility = "hidden";
-    if (this.mode === "PaymentPage") {
-      form.setAttribute("target", "_blank");
-    }
-    const meta = document.createElement("meta");
-    meta.setAttribute("http-equiv", "Content-Type");
-    meta.setAttribute("content", "text/html; charset=utf-8");
-    form.appendChild(meta);
-    form.appendChild(this.getInputEl("MerchantID", this.merchant.id));
-    form.appendChild(this.getInputEl("TerminalID", this.merchant.terminalId));
-    form.appendChild(this.getInputEl("Signature", this.merchant.signature));
-    if (data.altTotalAmountCents) {
-      form.appendChild(this.getInputEl("AltTotalAmount", data.altTotalAmountCents.toString()));
-    }
-    if (data.altCurrencyNumericCode) {
-      form.appendChild(this.getInputEl("AltCurrency", data.altCurrencyNumericCode));
-    }
-    if (data.altFeeCents) {
-      form.appendChild(this.getInputEl("AltFee", data.altFeeCents.toString()));
-    }
-    form.appendChild(this.getInputEl("Currency", data.currencyNumericCode));
-    if (data.delay) {
-      form.appendChild(this.getInputEl("delay", data.delay.toString()));
-    }
-    form.appendChild(this.getInputEl("PurchaseDesc", data.description));
-    if (data.feeCents) {
-      form.appendChild(this.getInputEl("Fee", data.feeCents.toString()));
-    }
-    if (data.locale) {
-      form.appendChild(this.getInputEl("locale", data.locale));
-    }
-    form.appendChild(this.getInputEl("OrderID", data.orderId));
-    if (data.purchaseTime) {
-      form.appendChild(this.getInputEl("PurchaseTime", data.purchaseTime.toString()));
-    }
-    if (data.token) {
-      form.appendChild(this.getInputEl("UPCToken", data.token));
-    }
-    form.appendChild(this.getInputEl("TotalAmount", data.totalAmountCents.toString()));
-    if ((_a = this.customer) == null ? void 0 : _a.email) {
-      form.appendChild(this.getInputEl("email", this.customer.email));
-    }
-    if ((_b = this.customer) == null ? void 0 : _b.phoneCountryCode) {
-      form.appendChild(this.getInputEl("phoneCountryCode", this.customer.phoneCountryCode));
-    }
-    if ((_c = this.customer) == null ? void 0 : _c.phoneNumber) {
-      form.appendChild(this.getInputEl("phoneNumber", this.customer.phoneNumber));
-    }
-    if ((_d = this.customer) == null ? void 0 : _d.firstName) {
-      form.appendChild(this.getInputEl("consumerFirstName", this.customer.firstName));
-    }
-    if ((_e = this.customer) == null ? void 0 : _e.lastName) {
-      form.appendChild(this.getInputEl("consumerLastName", this.customer.lastName));
-    }
-    return form;
+  getPaymentForm(e) {
+    var o, i, s, a, l;
+    const r = e.url || "https://ecg.test.upc.ua/go/pay", t = document.createElement("form");
+    t.setAttribute("action", r), t.setAttribute("method", "POST"), t.style.visibility = "hidden", this.mode === "PaymentPage" && t.setAttribute("target", "_blank");
+    const n = document.createElement("meta");
+    return n.setAttribute("http-equiv", "Content-Type"), n.setAttribute("content", "text/html; charset=utf-8"), t.appendChild(n), t.appendChild(this.getInputEl("MerchantID", this.merchant.id)), t.appendChild(this.getInputEl("TerminalID", this.merchant.terminalId)), t.appendChild(this.getInputEl("Signature", this.merchant.signature)), e.altTotalAmountCents && t.appendChild(this.getInputEl("AltTotalAmount", e.altTotalAmountCents.toString())), e.altCurrencyNumericCode && t.appendChild(this.getInputEl("AltCurrency", e.altCurrencyNumericCode)), e.altFeeCents && t.appendChild(this.getInputEl("AltFee", e.altFeeCents.toString())), t.appendChild(this.getInputEl("Currency", e.currencyNumericCode)), e.delay && t.appendChild(this.getInputEl("delay", e.delay.toString())), t.appendChild(this.getInputEl("PurchaseDesc", e.description)), e.feeCents && t.appendChild(this.getInputEl("Fee", e.feeCents.toString())), e.locale && t.appendChild(this.getInputEl("locale", e.locale)), t.appendChild(this.getInputEl("OrderID", e.orderId)), e.purchaseTime && t.appendChild(this.getInputEl("PurchaseTime", e.purchaseTime.toString())), e.token && t.appendChild(this.getInputEl("UPCToken", e.token)), t.appendChild(this.getInputEl("TotalAmount", e.totalAmountCents.toString())), (o = this.customer) != null && o.email && t.appendChild(this.getInputEl("email", this.customer.email)), (i = this.customer) != null && i.phoneCountryCode && t.appendChild(this.getInputEl("phoneCountryCode", this.customer.phoneCountryCode)), (s = this.customer) != null && s.phoneNumber && t.appendChild(this.getInputEl("phoneNumber", this.customer.phoneNumber)), (a = this.customer) != null && a.firstName && t.appendChild(this.getInputEl("consumerFirstName", this.customer.firstName)), (l = this.customer) != null && l.lastName && t.appendChild(this.getInputEl("consumerLastName", this.customer.lastName)), t;
   }
-  setMessageListener(iframe) {
-    const processEvent = (event) => {
-      var _a;
-      const from = event.data.from;
-      if (from !== "UpcPaymentIframe") {
+  setMessageListener() {
+    const e = (r) => {
+      var i;
+      if (r.data.from !== "UpcPaymentIframe")
         return;
-      }
-      let callback = () => {
+      let n = () => {
       };
-      if (typeof ((_a = this.iframeProps) == null ? void 0 : _a.callback) === "function") {
-        callback = this.iframeProps.callback;
-      }
-      const message = event.data.message;
-      switch (message) {
+      typeof ((i = this.iframeProps) == null ? void 0 : i.callback) == "function" && (n = this.iframeProps.callback);
+      const o = r.data.message;
+      switch (o) {
         case "AppLoaded":
-          callback({
+          n({
             event: "loaded",
             data: {
-              height: event.data.height,
-              width: event.data.width
+              height: r.data.height,
+              width: r.data.width
             }
           });
           break;
         case "Failure":
-          callback({
+          n({
             event: "failure",
             data: {
-              height: event.data.height,
-              width: event.data.width
+              height: r.data.height,
+              width: r.data.width
             }
           });
           break;
         case "Success":
-          callback({
+          n({
             event: "success",
             data: {
-              height: event.data.height,
-              width: event.data.width
+              height: r.data.height,
+              width: r.data.width
             }
           });
           break;
         case "GoBackToSite":
-          callback({
+          n({
             event: "go-back",
             data: {
-              height: event.data.height,
-              width: event.data.width
+              height: r.data.height,
+              width: r.data.width
             }
           });
           break;
         case "TryAgain":
-          callback({
+          n({
             event: "try-again",
             data: {
-              height: event.data.height,
-              width: event.data.width
+              height: r.data.height,
+              width: r.data.width
             }
           });
           break;
         default:
-          console.error(`Unknown message from iframe ${message}`);
+          console.error(`Unknown message from iframe ${o}`);
           break;
       }
     };
-    window.removeEventListener("message", processEvent);
-    window.addEventListener("message", processEvent);
+    window.removeEventListener("message", e), window.addEventListener("message", e);
   }
   getIframeWrapper() {
-    const container = document.createElement("div");
-    container.classList.add("upc-payment-iframe-wrapper");
-    container.style.cssText = `
+    const e = document.createElement("div");
+    return e.classList.add("upc-payment-iframe-wrapper"), e.style.cssText = `
       position: fixed;
       left: 0;
       right: 0;
@@ -22076,8 +21950,7 @@ class UpcPayment {
       justify-content: center;
       align-items: center;
 
-    `;
-    container.innerHTML = `
+    `, e.innerHTML = `
       <main
         style="
           background-color: #fff;
@@ -22110,8 +21983,7 @@ class UpcPayment {
           </svg>
         </button>
       </main>
-    `;
-    return container;
+    `, e;
   }
 }
 const getNumberOrUndefined = (value) => {
@@ -22155,7 +22027,7 @@ const submitPayment = (mode, requestEntity) => {
   };
   const currencyNumericCode = "980";
   if (mode === PaymentMode.Redirect) {
-    const payment = new UpcPayment({
+    const payment = new d({
       merchant,
       customer: {
         email: ((_a = billingAddress.value) == null ? void 0 : _a.email) ?? "",
@@ -22174,7 +22046,7 @@ const submitPayment = (mode, requestEntity) => {
     });
   }
   if (mode === PaymentMode.BuiltInIframe) {
-    const payment = new UpcPayment({
+    const payment = new d({
       mode: "PaymentIframe",
       merchant,
       customer: {
@@ -22198,7 +22070,7 @@ const submitPayment = (mode, requestEntity) => {
     });
   }
   if (mode === PaymentMode.ModalIframe) {
-    const payment = new UpcPayment({
+    const payment = new d({
       mode: "PaymentModalIframe",
       merchant,
       customer: {
@@ -22223,7 +22095,7 @@ const submitPayment = (mode, requestEntity) => {
   }
   if (mode === PaymentMode.Manual && requestEntity) {
     console.log("requestEntity", requestEntity);
-    const payment = new UpcPayment({
+    const payment = new d({
       mode: requestEntity.mode,
       merchant: {
         id: requestEntity.merchantId || merchant.id,
