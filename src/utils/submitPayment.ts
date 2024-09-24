@@ -1,8 +1,8 @@
 import { useCartStore } from '@/stores/useCartStore';
 import { PaymentMode } from '@/types/PaymentMode';
 import { storeToRefs } from 'pinia';
-import { PaymentIframeCallbackData } from './npm-lib';
-import { UpcPayment } from './npm-lib';
+import { PaymentIframeCallbackData } from 'upc-payment-js';
+import { UpcPayment } from 'upc-payment-js';
 import { RequestEntity } from '@/types/RequestEntity';
 
 const getNumberOrUndefined = (value: string|number): number|undefined => {
