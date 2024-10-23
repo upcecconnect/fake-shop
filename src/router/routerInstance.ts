@@ -11,7 +11,7 @@ import CheckoutPage from '@/pages/checkout/index.vue';
 import TestCards from '@/pages/test-cards/index.vue';
 
 const getPaymentMode = (route: RouteLocationNormalized) => {
-  let mode = route.query.mode as string;
+  const mode = route.query.mode as string;
   const enumValue = getPaymentModeFromValue(mode);
   return { mode: enumValue ?? PaymentMode.Redirect };
 }

@@ -9,4 +9,4 @@ export interface Product {
   readonly offerPrice: number;
   readonly price: number;
   readonly rating: number;
-};
+}

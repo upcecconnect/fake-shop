@@ -4,7 +4,6 @@ import { ref } from 'vue';
 import type { VForm } from 'vuetify/lib/components/index.mjs';
 import { rules } from '@/utils/rules';
 import { RequestEntity } from '@/types/RequestEntity';
-import { PaymentMode } from '@/types/PaymentMode';
 import { ChevronLeftIcon } from 'vue-tabler-icons';
 import { ChevronRightIcon } from 'vue-tabler-icons';
 import { submitPaymentManual } from '@/utils/submitPayment/submitPaymentManual';
