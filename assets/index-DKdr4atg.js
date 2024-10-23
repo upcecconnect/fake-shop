@@ -6314,7 +6314,7 @@ function getTimeout(delays, durations) {
   while (delays.length < durations.length) {
     delays = delays.concat(delays);
   }
-  return Math.max(...durations.map((d2, i) => toMs(d2) + toMs(delays[i])));
+  return Math.max(...durations.map((d, i) => toMs(d) + toMs(delays[i])));
 }
 function toMs(s) {
   if (s === "auto")
@@ -6548,8 +6548,8 @@ function parseName(name) {
   return [event, options];
 }
 let cachedNow = 0;
-const p = /* @__PURE__ */ Promise.resolve();
-const getNow = () => cachedNow || (p.then(() => cachedNow = 0), cachedNow = Date.now());
+const p$1 = /* @__PURE__ */ Promise.resolve();
+const getNow = () => cachedNow || (p$1.then(() => cachedNow = 0), cachedNow = Date.now());
 function createInvoker(initialValue, instance) {
   const invoker = (e) => {
     if (!e._vts) {
@@ -6929,7 +6929,7 @@ function mergeReactiveObjects(target, patchToApply) {
   }
   return target;
 }
-const { assign: assign$1 } = Object;
+const { assign: assign$2 } = Object;
 function isComputed(o) {
   return !!(isRef(o) && o.effect);
 }
@@ -6944,7 +6944,7 @@ function createOptionsStore(id, options, pinia, hot) {
       }
     }
     const localState = toRefs(pinia.state.value[id]);
-    return assign$1(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
+    return assign$2(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
       computedGetters[name] = markRaw(computed(() => {
         setActivePinia(pinia);
         const store2 = pinia._s.get(id);
@@ -6958,7 +6958,7 @@ function createOptionsStore(id, options, pinia, hot) {
 }
 function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) {
   let scope;
-  const optionsForPlugin = assign$1({ actions: {} }, options);
+  const optionsForPlugin = assign$2({ actions: {} }, options);
   const $subscribeOptions = {
     deep: true
     // flush: 'post',
@@ -7003,7 +7003,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
     const { state } = options;
     const newState = state ? state() : {};
     this.$patch(($state) => {
-      assign$1($state, newState);
+      assign$2($state, newState);
     });
   };
   function $dispose() {
@@ -7068,7 +7068,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
             events: debuggerEvents
           }, state);
         }
-      }, assign$1({}, $subscribeOptions, options2)));
+      }, assign$2({}, $subscribeOptions, options2)));
       return removeSubscription;
     },
     $dispose
@@ -7089,20 +7089,20 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
     } else ;
   }
   {
-    assign$1(store, setupStore);
-    assign$1(toRaw(store), setupStore);
+    assign$2(store, setupStore);
+    assign$2(toRaw(store), setupStore);
   }
   Object.defineProperty(store, "$state", {
     get: () => pinia.state.value[$id],
     set: (state) => {
       $patch(($state) => {
-        assign$1($state, state);
+        assign$2($state, state);
       });
     }
   });
   pinia._p.forEach((extender) => {
     {
-      assign$1(store, scope.run(() => extender({
+      assign$2(store, scope.run(() => extender({
         store,
         app: pinia._a,
         pinia,
@@ -7430,6 +7430,76 @@ var CheckIcon = {
       "fill": "none"
     }, null), createTextVNode("   "), createVNode("path", {
       "d": "M5 12l5 5l10 -10"
+    }, null), createTextVNode(" ")]);
+  }
+};
+var ChevronLeftIcon = {
+  name: "ChevronLeftIcon",
+  props: {
+    size: {
+      type: [Number, String],
+      default: 24
+    }
+  },
+  render() {
+    const size2 = this.$props.size + "px";
+    const attrs = this.$data.attrs || {};
+    const allAttrs = {
+      width: attrs.width || size2,
+      height: attrs.height || size2
+    };
+    return createVNode("svg", mergeProps({
+      "xmlns": "http://www.w3.org/2000/svg",
+      "class": "icon-tabler icon-tabler-chevron-left",
+      "width": "24",
+      "height": "24",
+      "viewBox": "0 0 24 24",
+      "stroke-width": "2",
+      "stroke": "currentColor",
+      "fill": "none",
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round"
+    }, allAttrs), [createTextVNode("   "), createVNode("path", {
+      "stroke": "none",
+      "d": "M0 0h24v24H0z",
+      "fill": "none"
+    }, null), createTextVNode("   "), createVNode("path", {
+      "d": "M15 6l-6 6l6 6"
+    }, null), createTextVNode(" ")]);
+  }
+};
+var ChevronRightIcon = {
+  name: "ChevronRightIcon",
+  props: {
+    size: {
+      type: [Number, String],
+      default: 24
+    }
+  },
+  render() {
+    const size2 = this.$props.size + "px";
+    const attrs = this.$data.attrs || {};
+    const allAttrs = {
+      width: attrs.width || size2,
+      height: attrs.height || size2
+    };
+    return createVNode("svg", mergeProps({
+      "xmlns": "http://www.w3.org/2000/svg",
+      "class": "icon-tabler icon-tabler-chevron-right",
+      "width": "24",
+      "height": "24",
+      "viewBox": "0 0 24 24",
+      "stroke-width": "2",
+      "stroke": "currentColor",
+      "fill": "none",
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round"
+    }, allAttrs), [createTextVNode("   "), createVNode("path", {
+      "stroke": "none",
+      "d": "M0 0h24v24H0z",
+      "fill": "none"
+    }, null), createTextVNode("   "), createVNode("path", {
+      "d": "M9 6l6 6l-6 6"
     }, null), createTextVNode(" ")]);
   }
 };
@@ -13283,7 +13353,7 @@ const VMain = genericComponent()({
 const _hoisted_1$a = { class: "maxWidth v-toolbar__content px-lg-0 px-4" };
 const _hoisted_2$8 = { class: "d-sm-flex d-none" };
 const _hoisted_3$8 = { class: "logo" };
-const _hoisted_4$7 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_4$8 = /* @__PURE__ */ createBaseVNode("img", {
   style: { "height": "100px" },
   src: _imports_0$1,
   alt: "upc"
@@ -13338,7 +13408,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
                       class: "d-flex"
                     }, {
                       default: withCtx(() => [
-                        _hoisted_4$7,
+                        _hoisted_4$8,
                         _hoisted_5$7
                       ]),
                       _: 1
@@ -13430,7 +13500,7 @@ const isBrowser = typeof window !== "undefined";
 function isESModule(obj) {
   return obj.__esModule || obj[Symbol.toStringTag] === "Module";
 }
-const assign = Object.assign;
+const assign$1 = Object.assign;
 function applyToParams(fn, params) {
   const newParams = {};
   for (const key in params) {
@@ -13659,7 +13729,7 @@ function useHistoryListeners(base, historyState, currentLocation, replace2) {
     const { history: history2 } = window;
     if (!history2.state)
       return;
-    history2.replaceState(assign({}, history2.state, { scroll: computeScrollPosition() }), "");
+    history2.replaceState(assign$1({}, history2.state, { scroll: computeScrollPosition() }), "");
   }
   function destroy() {
     for (const teardown of teardowns)
@@ -13721,7 +13791,7 @@ function useHistoryStateNavigation(base) {
     }
   }
   function replace2(to, data) {
-    const state = assign({}, history2.state, buildState(
+    const state = assign$1({}, history2.state, buildState(
       historyState.value.back,
       // keep back and forward entries but override current position
       to,
@@ -13732,7 +13802,7 @@ function useHistoryStateNavigation(base) {
     currentLocation.value = to;
   }
   function push(to, data) {
-    const currentState = assign(
+    const currentState = assign$1(
       {},
       // use current history state to gracefully handle a wrong call to
       // history.replaceState
@@ -13745,7 +13815,7 @@ function useHistoryStateNavigation(base) {
       }
     );
     changeLocation(currentState.current, currentState, true);
-    const state = assign({}, buildState(currentLocation.value, to, null), { position: currentState.position + 1 }, data);
+    const state = assign$1({}, buildState(currentLocation.value, to, null), { position: currentState.position + 1 }, data);
     changeLocation(to, state, false);
     currentLocation.value = to;
   }
@@ -13765,7 +13835,7 @@ function createWebHistory(base) {
       historyListeners.pauseListeners();
     history.go(delta2);
   }
-  const routerHistory = assign({
+  const routerHistory = assign$1({
     // it's overridden right after
     location: "",
     base,
@@ -13814,7 +13884,7 @@ var NavigationFailureType;
 })(NavigationFailureType || (NavigationFailureType = {}));
 function createRouterError(type, params) {
   {
-    return assign(new Error(), {
+    return assign$1(new Error(), {
       type,
       [NavigationFailureSymbol]: true
     }, params);
@@ -13832,7 +13902,7 @@ const BASE_PATH_PARSER_OPTIONS = {
 };
 const REGEX_CHARS_RE = /[.+*?^${}()[\]/\\]/g;
 function tokensToParser(segments, extraOptions) {
-  const options = assign({}, BASE_PATH_PARSER_OPTIONS, extraOptions);
+  const options = assign$1({}, BASE_PATH_PARSER_OPTIONS, extraOptions);
   const score = [];
   let pattern = options.start ? "^" : "";
   const keys2 = [];
@@ -13844,15 +13914,15 @@ function tokensToParser(segments, extraOptions) {
     if (options.strict && !segment.length)
       pattern += "/";
     for (let tokenIndex = 0; tokenIndex < segment.length; tokenIndex++) {
-      const token = segment[tokenIndex];
+      const token2 = segment[tokenIndex];
       let subSegmentScore = 40 + (options.sensitive ? 0.25 : 0);
-      if (token.type === 0) {
+      if (token2.type === 0) {
         if (!tokenIndex)
           pattern += "/";
-        pattern += token.value.replace(REGEX_CHARS_RE, "\\$&");
+        pattern += token2.value.replace(REGEX_CHARS_RE, "\\$&");
         subSegmentScore += 40;
-      } else if (token.type === 1) {
-        const { value, repeatable, optional, regexp } = token;
+      } else if (token2.type === 1) {
+        const { value, repeatable, optional, regexp } = token2;
         keys2.push({
           name: value,
           repeatable,
@@ -13917,11 +13987,11 @@ function tokensToParser(segments, extraOptions) {
       if (!avoidDuplicatedSlash || !path.endsWith("/"))
         path += "/";
       avoidDuplicatedSlash = false;
-      for (const token of segment) {
-        if (token.type === 0) {
-          path += token.value;
-        } else if (token.type === 1) {
-          const { value, repeatable, optional } = token;
+      for (const token2 of segment) {
+        if (token2.type === 0) {
+          path += token2.value;
+        } else if (token2.type === 1) {
+          const { value, repeatable, optional } = token2;
           const param = value in params ? params[value] : "";
           if (isArray(param) && !repeatable) {
             throw new Error(`Provided param "${value}" is an array but it is not repeatable (* or + modifiers)`);
@@ -14111,7 +14181,7 @@ function tokenizePath(path) {
 }
 function createRouteRecordMatcher(record, parent, options) {
   const parser = tokensToParser(tokenizePath(record.path), options);
-  const matcher = assign(parser, {
+  const matcher = assign$1(parser, {
     record,
     parent,
     // these needs to be populated by the parent
@@ -14142,7 +14212,7 @@ function createRouterMatcher(routes, globalOptions) {
     if ("alias" in record) {
       const aliases2 = typeof record.alias === "string" ? [record.alias] : record.alias;
       for (const alias of aliases2) {
-        normalizedRecords.push(assign({}, mainNormalizedRecord, {
+        normalizedRecords.push(assign$1({}, mainNormalizedRecord, {
           // this allows us to hold a copy of the `components` option
           // so that async components cache is hold on the original record
           components: originalRecord ? originalRecord.record.components : mainNormalizedRecord.components,
@@ -14233,7 +14303,7 @@ function createRouterMatcher(routes, globalOptions) {
           location: location2
         });
       name = matcher.record.name;
-      params = assign(
+      params = assign$1(
         // paramsFromLocation is a new object
         paramsFromLocation(
           currentLocation.params,
@@ -14261,7 +14331,7 @@ function createRouterMatcher(routes, globalOptions) {
           currentLocation
         });
       name = matcher.record.name;
-      params = assign({}, currentLocation.params, location2.params);
+      params = assign$1({}, currentLocation.params, location2.params);
       path = matcher.stringify(params);
     }
     const matched = [];
@@ -14326,7 +14396,7 @@ function isAliasRecord(record) {
   return false;
 }
 function mergeMetaFields(matched) {
-  return matched.reduce((meta, record) => assign(meta, record.meta), {});
+  return matched.reduce((meta, record) => assign$1(meta, record.meta), {});
 }
 function mergeOptions(defaults, partialOptions) {
   const options = {};
@@ -14705,7 +14775,7 @@ const RouterViewImpl = /* @__PURE__ */ defineComponent$1({
           matchedRoute.instances[currentName] = null;
         }
       };
-      const component = h(ViewComponent, assign({}, routeProps, attrs, {
+      const component = h(ViewComponent, assign$1({}, routeProps, attrs, {
         onVnodeUnmounted,
         ref: viewRef
       }));
@@ -14767,12 +14837,12 @@ function createRouter(options) {
     return !!matcher.getRecordMatcher(name);
   }
   function resolve2(rawLocation, currentLocation) {
-    currentLocation = assign({}, currentLocation || currentRoute.value);
+    currentLocation = assign$1({}, currentLocation || currentRoute.value);
     if (typeof rawLocation === "string") {
       const locationNormalized = parseURL(parseQuery$1, rawLocation, currentLocation.path);
       const matchedRoute2 = matcher.resolve({ path: locationNormalized.path }, currentLocation);
       const href2 = routerHistory.createHref(locationNormalized.fullPath);
-      return assign(locationNormalized, matchedRoute2, {
+      return assign$1(locationNormalized, matchedRoute2, {
         params: decodeParams(matchedRoute2.params),
         hash: decode(locationNormalized.hash),
         redirectedFrom: void 0,
@@ -14781,17 +14851,17 @@ function createRouter(options) {
     }
     let matcherLocation;
     if ("path" in rawLocation) {
-      matcherLocation = assign({}, rawLocation, {
+      matcherLocation = assign$1({}, rawLocation, {
         path: parseURL(parseQuery$1, rawLocation.path, currentLocation.path).path
       });
     } else {
-      const targetParams = assign({}, rawLocation.params);
+      const targetParams = assign$1({}, rawLocation.params);
       for (const key in targetParams) {
         if (targetParams[key] == null) {
           delete targetParams[key];
         }
       }
-      matcherLocation = assign({}, rawLocation, {
+      matcherLocation = assign$1({}, rawLocation, {
         params: encodeParams(targetParams)
       });
       currentLocation.params = encodeParams(currentLocation.params);
@@ -14799,12 +14869,12 @@ function createRouter(options) {
     const matchedRoute = matcher.resolve(matcherLocation, currentLocation);
     const hash = rawLocation.hash || "";
     matchedRoute.params = normalizeParams(decodeParams(matchedRoute.params));
-    const fullPath = stringifyURL(stringifyQuery$1, assign({}, rawLocation, {
+    const fullPath = stringifyURL(stringifyQuery$1, assign$1({}, rawLocation, {
       hash: encodeHash(hash),
       path: matchedRoute.path
     }));
     const href = routerHistory.createHref(fullPath);
-    return assign({
+    return assign$1({
       fullPath,
       // keep the hash encoded so fullPath is effectively path + encodedQuery +
       // hash
@@ -14823,7 +14893,7 @@ function createRouter(options) {
     });
   }
   function locationAsObject(to) {
-    return typeof to === "string" ? parseURL(parseQuery$1, to, currentRoute.value.path) : assign({}, to);
+    return typeof to === "string" ? parseURL(parseQuery$1, to, currentRoute.value.path) : assign$1({}, to);
   }
   function checkCanceledNavigation(to, from) {
     if (pendingLocation !== to) {
@@ -14837,7 +14907,7 @@ function createRouter(options) {
     return pushWithRedirect(to);
   }
   function replace2(to) {
-    return push(assign(locationAsObject(to), { replace: true }));
+    return push(assign$1(locationAsObject(to), { replace: true }));
   }
   function handleRedirectRecord(to) {
     const lastMatched = to.matched[to.matched.length - 1];
@@ -14851,7 +14921,7 @@ function createRouter(options) {
         );
         newTargetLocation.params = {};
       }
-      return assign({
+      return assign$1({
         query: to.query,
         hash: to.hash,
         // avoid transferring params if the redirect has a path
@@ -14868,8 +14938,8 @@ function createRouter(options) {
     const shouldRedirect = handleRedirectRecord(targetLocation);
     if (shouldRedirect)
       return pushWithRedirect(
-        assign(locationAsObject(shouldRedirect), {
-          state: typeof shouldRedirect === "object" ? assign({}, data, shouldRedirect.state) : data,
+        assign$1(locationAsObject(shouldRedirect), {
+          state: typeof shouldRedirect === "object" ? assign$1({}, data, shouldRedirect.state) : data,
           force,
           replace: replace22
         }),
@@ -14911,11 +14981,11 @@ function createRouter(options) {
         )) {
           return pushWithRedirect(
             // keep options
-            assign({
+            assign$1({
               // preserve an existing replacement but allow the redirect to override it
               replace: replace22
             }, locationAsObject(failure2.to), {
-              state: typeof failure2.to === "object" ? assign({}, data, failure2.to.state) : data,
+              state: typeof failure2.to === "object" ? assign$1({}, data, failure2.to.state) : data,
               force
             }),
             // preserve the original redirectedFrom if any
@@ -15007,7 +15077,7 @@ function createRouter(options) {
     const state = !isBrowser ? {} : history.state;
     if (isPush) {
       if (replace22 || isFirstNavigation)
-        routerHistory.replace(toLocation.fullPath, assign({
+        routerHistory.replace(toLocation.fullPath, assign$1({
           scroll: isFirstNavigation && state && state.scroll
         }, data));
       else
@@ -15027,7 +15097,7 @@ function createRouter(options) {
       const toLocation = resolve2(to);
       const shouldRedirect = handleRedirectRecord(toLocation);
       if (shouldRedirect) {
-        pushWithRedirect(assign(shouldRedirect, { replace: true }), toLocation).catch(noop);
+        pushWithRedirect(assign$1(shouldRedirect, { replace: true }), toLocation).catch(noop);
         return;
       }
       pendingLocation = toLocation;
@@ -15609,7 +15679,7 @@ const VCard = genericComponent()({
 const _hoisted_1$9 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with redirect", -1);
 const _hoisted_2$7 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Redirect to payment page on checkout", -1);
 const _hoisted_3$7 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with built-in iframe", -1);
-const _hoisted_4$6 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Show built-in payment iframe on checkout page", -1);
+const _hoisted_4$7 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Show built-in payment iframe on checkout page", -1);
 const _hoisted_5$6 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with modal iframe", -1);
 const _hoisted_6$6 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Show modal payment iframe on checkout page", -1);
 const _hoisted_7$6 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with manual params (development purpose only)", -1);
@@ -15681,7 +15751,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
                   }),
                   createVNode(VCardText, { class: "pa-6" }, {
                     default: withCtx(() => [
-                      _hoisted_4$6,
+                      _hoisted_4$7,
                       createVNode(VBtn, {
                         to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).BuiltInIframe } },
                         variant: "flat",
@@ -17603,7 +17673,7 @@ const VTooltip = genericComponent()({
 const _hoisted_1$8 = ["src"];
 const _hoisted_2$6 = { class: "d-flex justify-end mr-3 mt-n6" };
 const _hoisted_3$6 = { class: "text-h6" };
-const _hoisted_4$5 = { class: "d-flex align-center justify-space-between mt-1" };
+const _hoisted_4$6 = { class: "d-flex align-center justify-space-between mt-1" };
 const _hoisted_5$5 = { class: "d-flex align-center gap-2" };
 const _hoisted_6$5 = { class: "text-h6" };
 const _hoisted_7$5 = { class: "text-decoration-line-through text-medium-emphasis" };
@@ -17682,7 +17752,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent$1({
           createVNode(VCardItem, { class: "pt-1" }, {
             default: withCtx(() => [
               createBaseVNode("h6", _hoisted_3$6, toDisplayString(__props.name), 1),
-              createBaseVNode("div", _hoisted_4$5, [
+              createBaseVNode("div", _hoisted_4$6, [
                 createBaseVNode("div", _hoisted_5$5, [
                   createBaseVNode("h6", _hoisted_6$5, toDisplayString(unref(asCurrency)(__props.price)) + " UAH", 1),
                   createBaseVNode("p", _hoisted_7$5, toDisplayString(unref(asCurrency)(__props.offerPrice)) + " UAH", 1)
@@ -19688,18 +19758,18 @@ function getWeekArray(date2, locale) {
   return weeks;
 }
 function startOfWeek(date2) {
-  const d2 = new Date(date2);
-  while (d2.getDay() !== 0) {
-    d2.setDate(d2.getDate() - 1);
+  const d = new Date(date2);
+  while (d.getDay() !== 0) {
+    d.setDate(d.getDate() - 1);
   }
-  return d2;
+  return d;
 }
 function endOfWeek(date2) {
-  const d2 = new Date(date2);
-  while (d2.getDay() !== 6) {
-    d2.setDate(d2.getDate() + 1);
+  const d = new Date(date2);
+  while (d.getDay() !== 6) {
+    d.setDate(d.getDate() + 1);
   }
-  return d2;
+  return d;
 }
 function startOfMonth(date2) {
   return new Date(date2.getFullYear(), date2.getMonth(), 1);
@@ -19737,7 +19807,7 @@ function getWeekdays(locale) {
     }).format(weekday);
   });
 }
-function format(value, formatString, locale, formats) {
+function format$1(value, formatString, locale, formats) {
   const newDate = date(value) ?? /* @__PURE__ */ new Date();
   const customFormat = formats == null ? void 0 : formats[formatString];
   if (typeof customFormat === "function") {
@@ -19834,29 +19904,29 @@ function parseISO(value) {
   return new Date(year, month - 1, day);
 }
 function addMinutes(date2, amount) {
-  const d2 = new Date(date2);
-  d2.setMinutes(d2.getMinutes() + amount);
-  return d2;
+  const d = new Date(date2);
+  d.setMinutes(d.getMinutes() + amount);
+  return d;
 }
 function addHours(date2, amount) {
-  const d2 = new Date(date2);
-  d2.setHours(d2.getHours() + amount);
-  return d2;
+  const d = new Date(date2);
+  d.setHours(d.getHours() + amount);
+  return d;
 }
 function addDays(date2, amount) {
-  const d2 = new Date(date2);
-  d2.setDate(d2.getDate() + amount);
-  return d2;
+  const d = new Date(date2);
+  d.setDate(d.getDate() + amount);
+  return d;
 }
 function addWeeks(date2, amount) {
-  const d2 = new Date(date2);
-  d2.setDate(d2.getDate() + amount * 7);
-  return d2;
+  const d = new Date(date2);
+  d.setDate(d.getDate() + amount * 7);
+  return d;
 }
 function addMonths(date2, amount) {
-  const d2 = new Date(date2);
-  d2.setMonth(d2.getMonth() + amount);
-  return d2;
+  const d = new Date(date2);
+  d.setMonth(d.getMonth() + amount);
+  return d;
 }
 function getYear(date2) {
   return date2.getFullYear();
@@ -19883,8 +19953,8 @@ function isWithinRange(date2, range) {
   return isAfter(date2, range[0]) && isBefore(date2, range[1]);
 }
 function isValid(date2) {
-  const d2 = new Date(date2);
-  return d2 instanceof Date && !isNaN(d2.getTime());
+  const d = new Date(date2);
+  return d instanceof Date && !isNaN(d.getTime());
 }
 function isAfter(date2, comparing) {
   return date2.getTime() > comparing.getTime();
@@ -19902,32 +19972,32 @@ function isSameMonth(date2, comparing) {
   return date2.getMonth() === comparing.getMonth() && date2.getFullYear() === comparing.getFullYear();
 }
 function getDiff(date2, comparing, unit) {
-  const d2 = new Date(date2);
+  const d = new Date(date2);
   const c = new Date(comparing);
   if (unit === "month") {
-    return d2.getMonth() - c.getMonth() + (d2.getFullYear() - c.getFullYear()) * 12;
+    return d.getMonth() - c.getMonth() + (d.getFullYear() - c.getFullYear()) * 12;
   }
-  return Math.floor((d2.getTime() - c.getTime()) / (1e3 * 60 * 60 * 24));
+  return Math.floor((d.getTime() - c.getTime()) / (1e3 * 60 * 60 * 24));
 }
 function setHours(date2, count) {
-  const d2 = new Date(date2);
-  d2.setHours(count);
-  return d2;
+  const d = new Date(date2);
+  d.setHours(count);
+  return d;
 }
 function setMinutes(date2, count) {
-  const d2 = new Date(date2);
-  d2.setMinutes(count);
-  return d2;
+  const d = new Date(date2);
+  d.setMinutes(count);
+  return d;
 }
 function setMonth(date2, count) {
-  const d2 = new Date(date2);
-  d2.setMonth(count);
-  return d2;
+  const d = new Date(date2);
+  d.setMonth(count);
+  return d;
 }
 function setYear(date2, year) {
-  const d2 = new Date(date2);
-  d2.setFullYear(year);
-  return d2;
+  const d = new Date(date2);
+  d.setFullYear(year);
+  return d;
 }
 function startOfDay(date2) {
   return new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
@@ -19983,7 +20053,7 @@ class VuetifyDateAdapter {
     return endOfMonth(date2);
   }
   format(date2, formatString) {
-    return format(date2, formatString, this.locale, this.formats);
+    return format$1(date2, formatString, this.locale, this.formats);
   }
   isEqual(date2, comparing) {
     return isEqual(date2, comparing);
@@ -21292,7 +21362,7 @@ const _hoisted_2$5 = {
   class: "left-part"
 };
 const _hoisted_3$5 = { class: "right-part" };
-const _hoisted_4$4 = { class: "d-flex gap-2 align-center mb-4 justify-space-between" };
+const _hoisted_4$5 = { class: "d-flex gap-2 align-center mb-4 justify-space-between" };
 const _hoisted_5$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5 d-none d-lg-flex font-weight-semibold" }, "Products", -1));
 const _hoisted_6$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("h1", { class: "text-h1 mt-6" }, "There is no Product", -1));
 const _hoisted_7$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("p", null, "Try checking your spelling or use more general terms", -1));
@@ -21377,7 +21447,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent$1({
               createVNode(VDivider, { class: "d-lg-none d-block" }),
               createVNode(VSheet, { class: "pa-4" }, {
                 default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_4$4, [
+                  createBaseVNode("div", _hoisted_4$5, [
                     _hoisted_5$4,
                     createVNode(VSheet, { width: "300" }, {
                       default: withCtx(() => [
@@ -21475,7 +21545,7 @@ const ProductsPage = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "da
 const _hoisted_1$5 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5 mb-6" }, "Order Summary", -1);
 const _hoisted_2$4 = { class: "d-flex align-center justify-space-between my-5" };
 const _hoisted_3$4 = /* @__PURE__ */ createBaseVNode("h6", { class: "text-h6 font-weight-regular" }, "Sub Total", -1);
-const _hoisted_4$3 = { class: "font-weight-semibold text-h6" };
+const _hoisted_4$4 = { class: "font-weight-semibold text-h6" };
 const _hoisted_5$3 = { class: "d-flex align-center justify-space-between my-5" };
 const _hoisted_6$3 = /* @__PURE__ */ createBaseVNode("h6", { class: "text-h6 font-weight-regular" }, "Discount 5%", -1);
 const _hoisted_7$3 = { class: "font-weight-semibold text-h6 text-error" };
@@ -21498,7 +21568,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent$1({
               _hoisted_1$5,
               createBaseVNode("div", _hoisted_2$4, [
                 _hoisted_3$4,
-                createBaseVNode("h6", _hoisted_4$3, toDisplayString(unref(asCurrency)(unref(subTotal))) + " UAH", 1)
+                createBaseVNode("h6", _hoisted_4$4, toDisplayString(unref(asCurrency)(unref(subTotal))) + " UAH", 1)
               ]),
               createBaseVNode("div", _hoisted_5$3, [
                 _hoisted_6$3,
@@ -21579,7 +21649,7 @@ const _hoisted_3$3 = /* @__PURE__ */ createBaseVNode("thead", null, [
     })
   ])
 ], -1);
-const _hoisted_4$2 = { class: "d-flex flex-wrap align-center my-3 gap-2" };
+const _hoisted_4$3 = { class: "d-flex flex-wrap align-center my-3 gap-2" };
 const _hoisted_5$2 = ["src"];
 const _hoisted_6$2 = { class: "ma-2" };
 const _hoisted_7$2 = { class: "text-h6" };
@@ -21638,7 +21708,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                   key: item.id
                 }, [
                   createBaseVNode("td", null, [
-                    createBaseVNode("div", _hoisted_4$2, [
+                    createBaseVNode("div", _hoisted_4$3, [
                       createBaseVNode("img", {
                         alt: "product",
                         class: "rounded-md custom-img-box",
@@ -21763,13 +21833,13 @@ const rules = {
   minLength: (minLength) => (value) => value.length > minLength || "Value is too short",
   required: (value) => !!value || "Required"
 };
-class d {
+class p {
   constructor(e) {
     const r = ["PaymentIframe", "PaymentModalIframe", "PaymentPage"];
     e.mode && r.includes(e.mode) ? this.mode = e.mode : this.mode = "PaymentPage", this.validateMerchantData(e.merchant), this.merchant = e.merchant, this.validateCustomerData(e.customer), this.customer = e.customer, this.validateIframeProps(e.iframeProps), this.iframeProps = e.iframeProps;
   }
   pay(e) {
-    var s, a, l, h2;
+    var s, a, l, d;
     const r = this.getPaymentForm(e);
     if (this.validatePaymentData(e), this.mode === "PaymentPage") {
       document.body.appendChild(r), r.submit();
@@ -21791,7 +21861,7 @@ class d {
         m.remove();
       }), (l = m.querySelector("main")) == null || l.appendChild(i), document.body.appendChild(m);
     }
-    (h2 = i.contentWindow) == null || h2.document.body.appendChild(r), r.submit();
+    (d = i.contentWindow) == null || d.document.body.appendChild(r), r.submit();
   }
   validateMerchantData(e) {
     if (typeof e.id != "string" || !e.id)
@@ -21854,7 +21924,7 @@ class d {
       throw new Error('Field "payment.locale" is invalid');
     if (typeof e.orderId != "string" || !e.orderId)
       throw new Error('Field "payment.orderId" is invalid');
-    if (typeof e.purchaseTime != "number" || !e.purchaseTime)
+    if (!e.purchaseTime)
       throw new Error('Field "payment.purchaseTime" is invalid');
     if (e.token && typeof e.token != "string")
       throw new Error('Field "payment.token" is invalid');
@@ -21872,7 +21942,7 @@ class d {
     const r = e.url || "https://ecg.test.upc.ua/go/pay", t = document.createElement("form");
     t.setAttribute("action", r), t.setAttribute("method", "POST"), t.style.visibility = "hidden", this.mode === "PaymentPage" && t.setAttribute("target", "_blank");
     const n = document.createElement("meta");
-    return n.setAttribute("http-equiv", "Content-Type"), n.setAttribute("content", "text/html; charset=utf-8"), t.appendChild(n), t.appendChild(this.getInputEl("MerchantID", this.merchant.id)), t.appendChild(this.getInputEl("TerminalID", this.merchant.terminalId)), t.appendChild(this.getInputEl("Signature", this.merchant.signature)), e.altTotalAmountCents && t.appendChild(this.getInputEl("AltTotalAmount", e.altTotalAmountCents.toString())), e.altCurrencyNumericCode && t.appendChild(this.getInputEl("AltCurrency", e.altCurrencyNumericCode)), e.altFeeCents && t.appendChild(this.getInputEl("AltFee", e.altFeeCents.toString())), t.appendChild(this.getInputEl("Currency", e.currencyNumericCode)), e.delay && t.appendChild(this.getInputEl("delay", e.delay.toString())), t.appendChild(this.getInputEl("PurchaseDesc", e.description)), e.feeCents && t.appendChild(this.getInputEl("Fee", e.feeCents.toString())), e.locale && t.appendChild(this.getInputEl("locale", e.locale)), t.appendChild(this.getInputEl("OrderID", e.orderId)), e.purchaseTime && t.appendChild(this.getInputEl("PurchaseTime", e.purchaseTime.toString())), e.token && t.appendChild(this.getInputEl("UPCToken", e.token)), t.appendChild(this.getInputEl("TotalAmount", e.totalAmountCents.toString())), (o = this.customer) != null && o.email && t.appendChild(this.getInputEl("email", this.customer.email)), (i = this.customer) != null && i.phoneCountryCode && t.appendChild(this.getInputEl("phoneCountryCode", this.customer.phoneCountryCode)), (s = this.customer) != null && s.phoneNumber && t.appendChild(this.getInputEl("phoneNumber", this.customer.phoneNumber)), (a = this.customer) != null && a.firstName && t.appendChild(this.getInputEl("consumerFirstName", this.customer.firstName)), (l = this.customer) != null && l.lastName && t.appendChild(this.getInputEl("consumerLastName", this.customer.lastName)), t;
+    return n.setAttribute("http-equiv", "Content-Type"), n.setAttribute("content", "text/html; charset=utf-8"), t.appendChild(n), t.appendChild(this.getInputEl("MerchantID", this.merchant.id)), t.appendChild(this.getInputEl("TerminalID", this.merchant.terminalId)), t.appendChild(this.getInputEl("Signature", this.merchant.signature)), e.altTotalAmountCents && t.appendChild(this.getInputEl("AltTotalAmount", e.altTotalAmountCents.toString())), e.altCurrencyNumericCode && t.appendChild(this.getInputEl("AltCurrency", e.altCurrencyNumericCode)), e.altFeeCents && t.appendChild(this.getInputEl("AltFee", e.altFeeCents.toString())), t.appendChild(this.getInputEl("Currency", e.currencyNumericCode)), e.delay && t.appendChild(this.getInputEl("delay", e.delay.toString())), t.appendChild(this.getInputEl("PurchaseDesc", e.description)), e.feeCents && t.appendChild(this.getInputEl("Fee", e.feeCents.toString())), e.locale && t.appendChild(this.getInputEl("locale", e.locale)), t.appendChild(this.getInputEl("OrderID", e.orderId)), t.appendChild(this.getInputEl("PurchaseTime", String(e.purchaseTime))), e.token && t.appendChild(this.getInputEl("UPCToken", e.token)), t.appendChild(this.getInputEl("TotalAmount", e.totalAmountCents.toString())), (o = this.customer) != null && o.email && t.appendChild(this.getInputEl("email", this.customer.email)), (i = this.customer) != null && i.phoneCountryCode && t.appendChild(this.getInputEl("phoneCountryCode", this.customer.phoneCountryCode)), (s = this.customer) != null && s.phoneNumber && t.appendChild(this.getInputEl("phoneNumber", this.customer.phoneNumber)), (a = this.customer) != null && a.firstName && t.appendChild(this.getInputEl("consumerFirstName", this.customer.firstName)), (l = this.customer) != null && l.lastName && t.appendChild(this.getInputEl("consumerLastName", this.customer.lastName)), t;
   }
   setMessageListener() {
     const e = (r) => {
@@ -21986,6 +22056,210 @@ class d {
     `, e;
   }
 }
+const currencyNumericCode = "980";
+var token = /d{1,4}|M{1,4}|YY(?:YY)?|S{1,3}|Do|ZZ|Z|([HhMsDm])\1?|[aA]|"[^"]*"|'[^']*'/g;
+var literal = /\[([^]*?)\]/gm;
+function shorten(arr, sLen) {
+  var newArr = [];
+  for (var i = 0, len = arr.length; i < len; i++) {
+    newArr.push(arr[i].substr(0, sLen));
+  }
+  return newArr;
+}
+function assign(origObj) {
+  var args = [];
+  for (var _i = 1; _i < arguments.length; _i++) {
+    args[_i - 1] = arguments[_i];
+  }
+  for (var _a = 0, args_1 = args; _a < args_1.length; _a++) {
+    var obj = args_1[_a];
+    for (var key in obj) {
+      origObj[key] = obj[key];
+    }
+  }
+  return origObj;
+}
+var dayNames = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+var monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+var monthNamesShort = shorten(monthNames, 3);
+var dayNamesShort = shorten(dayNames, 3);
+var defaultI18n = {
+  dayNamesShort,
+  dayNames,
+  monthNamesShort,
+  monthNames,
+  amPm: ["am", "pm"],
+  DoFn: function(dayOfMonth) {
+    return dayOfMonth + ["th", "st", "nd", "rd"][dayOfMonth % 10 > 3 ? 0 : (dayOfMonth - dayOfMonth % 10 !== 10 ? 1 : 0) * dayOfMonth % 10];
+  }
+};
+var globalI18n = assign({}, defaultI18n);
+var pad = function(val, len) {
+  if (len === void 0) {
+    len = 2;
+  }
+  val = String(val);
+  while (val.length < len) {
+    val = "0" + val;
+  }
+  return val;
+};
+var formatFlags = {
+  D: function(dateObj) {
+    return String(dateObj.getDate());
+  },
+  DD: function(dateObj) {
+    return pad(dateObj.getDate());
+  },
+  Do: function(dateObj, i18n) {
+    return i18n.DoFn(dateObj.getDate());
+  },
+  d: function(dateObj) {
+    return String(dateObj.getDay());
+  },
+  dd: function(dateObj) {
+    return pad(dateObj.getDay());
+  },
+  ddd: function(dateObj, i18n) {
+    return i18n.dayNamesShort[dateObj.getDay()];
+  },
+  dddd: function(dateObj, i18n) {
+    return i18n.dayNames[dateObj.getDay()];
+  },
+  M: function(dateObj) {
+    return String(dateObj.getMonth() + 1);
+  },
+  MM: function(dateObj) {
+    return pad(dateObj.getMonth() + 1);
+  },
+  MMM: function(dateObj, i18n) {
+    return i18n.monthNamesShort[dateObj.getMonth()];
+  },
+  MMMM: function(dateObj, i18n) {
+    return i18n.monthNames[dateObj.getMonth()];
+  },
+  YY: function(dateObj) {
+    return pad(String(dateObj.getFullYear()), 4).substr(2);
+  },
+  YYYY: function(dateObj) {
+    return pad(dateObj.getFullYear(), 4);
+  },
+  h: function(dateObj) {
+    return String(dateObj.getHours() % 12 || 12);
+  },
+  hh: function(dateObj) {
+    return pad(dateObj.getHours() % 12 || 12);
+  },
+  H: function(dateObj) {
+    return String(dateObj.getHours());
+  },
+  HH: function(dateObj) {
+    return pad(dateObj.getHours());
+  },
+  m: function(dateObj) {
+    return String(dateObj.getMinutes());
+  },
+  mm: function(dateObj) {
+    return pad(dateObj.getMinutes());
+  },
+  s: function(dateObj) {
+    return String(dateObj.getSeconds());
+  },
+  ss: function(dateObj) {
+    return pad(dateObj.getSeconds());
+  },
+  S: function(dateObj) {
+    return String(Math.round(dateObj.getMilliseconds() / 100));
+  },
+  SS: function(dateObj) {
+    return pad(Math.round(dateObj.getMilliseconds() / 10), 2);
+  },
+  SSS: function(dateObj) {
+    return pad(dateObj.getMilliseconds(), 3);
+  },
+  a: function(dateObj, i18n) {
+    return dateObj.getHours() < 12 ? i18n.amPm[0] : i18n.amPm[1];
+  },
+  A: function(dateObj, i18n) {
+    return dateObj.getHours() < 12 ? i18n.amPm[0].toUpperCase() : i18n.amPm[1].toUpperCase();
+  },
+  ZZ: function(dateObj) {
+    var offset = dateObj.getTimezoneOffset();
+    return (offset > 0 ? "-" : "+") + pad(Math.floor(Math.abs(offset) / 60) * 100 + Math.abs(offset) % 60, 4);
+  },
+  Z: function(dateObj) {
+    var offset = dateObj.getTimezoneOffset();
+    return (offset > 0 ? "-" : "+") + pad(Math.floor(Math.abs(offset) / 60), 2) + ":" + pad(Math.abs(offset) % 60, 2);
+  }
+};
+var globalMasks = {
+  default: "ddd MMM DD YYYY HH:mm:ss",
+  shortDate: "M/D/YY",
+  mediumDate: "MMM D, YYYY",
+  longDate: "MMMM D, YYYY",
+  fullDate: "dddd, MMMM D, YYYY",
+  isoDate: "YYYY-MM-DD",
+  isoDateTime: "YYYY-MM-DDTHH:mm:ssZ",
+  shortTime: "HH:mm",
+  mediumTime: "HH:mm:ss",
+  longTime: "HH:mm:ss.SSS"
+};
+var format = function(dateObj, mask, i18n) {
+  if (mask === void 0) {
+    mask = globalMasks["default"];
+  }
+  if (i18n === void 0) {
+    i18n = {};
+  }
+  if (typeof dateObj === "number") {
+    dateObj = new Date(dateObj);
+  }
+  if (Object.prototype.toString.call(dateObj) !== "[object Date]" || isNaN(dateObj.getTime())) {
+    throw new Error("Invalid Date pass to format");
+  }
+  mask = globalMasks[mask] || mask;
+  var literals = [];
+  mask = mask.replace(literal, function($0, $1) {
+    literals.push($1);
+    return "@@@";
+  });
+  var combinedI18nSettings = assign(assign({}, globalI18n), i18n);
+  mask = mask.replace(token, function($0) {
+    return formatFlags[$0](dateObj, combinedI18nSettings);
+  });
+  return mask.replace(/@@@/g, function() {
+    return literals.shift();
+  });
+};
+const getPurchaseTime = () => {
+  return format(/* @__PURE__ */ new Date(), "YYMMDDHHmmss");
+};
+const merchantData = {
+  id: "1753545",
+  terminalId: "E7881545",
+  signature: "Signature"
+};
 const getNumberOrUndefined = (value) => {
   try {
     if (typeof value === "string") {
@@ -22000,7 +22274,7 @@ const getNumberOrUndefined = (value) => {
     return void 0;
   }
 };
-const iframeCallback = (callbackData, mode) => {
+const iframeCallback$2 = (callbackData, mode) => {
   const { data: { height } } = callbackData;
   if (mode === PaymentMode.BuiltInIframe) {
     const wrapper = document.querySelector("#payment-wrapper");
@@ -22010,126 +22284,53 @@ const iframeCallback = (callbackData, mode) => {
     return;
   }
   if (mode === PaymentMode.ModalIframe) {
+    const wrapper = document.querySelector("#payment-wrapper");
+    if (wrapper) {
+      wrapper.style.height = "auto";
+    }
     const iframe = document.querySelector("#upc-payment-iframe");
     if (iframe) {
       iframe.style.height = `${height + 40}px`;
     }
   }
 };
-const submitPayment = (mode, requestEntity) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
+const submitPaymentManual = (requestEntity) => {
   const cartStore = useCartStore();
-  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
-  const merchant = {
-    id: "1753545",
-    terminalId: "E7881545",
-    signature: "Signature"
-  };
-  const currencyNumericCode = "980";
-  if (mode === PaymentMode.Redirect) {
-    const payment = new d({
-      merchant,
-      customer: {
-        email: ((_a = billingAddress.value) == null ? void 0 : _a.email) ?? "",
-        firstName: ((_b = billingAddress.value) == null ? void 0 : _b.firstName) ?? "",
-        lastName: ((_c = billingAddress.value) == null ? void 0 : _c.lastName) ?? "",
-        phoneCountryCode: ((_d = billingAddress.value) == null ? void 0 : _d.phoneCode) ?? "",
-        phoneNumber: ((_e = billingAddress.value) == null ? void 0 : _e.phone) ?? ""
-      }
-    });
-    payment.pay({
-      currencyNumericCode,
-      description: paymentDescription.value,
-      orderId: Date.now().toString(),
-      purchaseTime: Date.now(),
-      totalAmountCents: total.value
-    });
-  }
-  if (mode === PaymentMode.BuiltInIframe) {
-    const payment = new d({
-      mode: "PaymentIframe",
-      merchant,
-      customer: {
-        email: ((_f = billingAddress.value) == null ? void 0 : _f.email) ?? "",
-        firstName: ((_g = billingAddress.value) == null ? void 0 : _g.firstName) ?? "",
-        lastName: ((_h = billingAddress.value) == null ? void 0 : _h.lastName) ?? "",
-        phoneCountryCode: ((_i = billingAddress.value) == null ? void 0 : _i.phoneCode) ?? "",
-        phoneNumber: ((_j = billingAddress.value) == null ? void 0 : _j.phone) ?? ""
-      },
-      iframeProps: {
-        wrapperSelector: "#payment-wrapper",
-        callback: (data) => iframeCallback(data, PaymentMode.BuiltInIframe)
-      }
-    });
-    payment.pay({
-      currencyNumericCode,
-      description: paymentDescription.value,
-      orderId: Date.now().toString(),
-      purchaseTime: Date.now(),
-      totalAmountCents: total.value
-    });
-  }
-  if (mode === PaymentMode.ModalIframe) {
-    const payment = new d({
-      mode: "PaymentModalIframe",
-      merchant,
-      customer: {
-        email: ((_k = billingAddress.value) == null ? void 0 : _k.email) ?? "",
-        firstName: ((_l = billingAddress.value) == null ? void 0 : _l.firstName) ?? "",
-        lastName: ((_m = billingAddress.value) == null ? void 0 : _m.lastName) ?? "",
-        phoneCountryCode: ((_n = billingAddress.value) == null ? void 0 : _n.phoneCode) ?? "",
-        phoneNumber: ((_o = billingAddress.value) == null ? void 0 : _o.phone) ?? ""
-      },
-      iframeProps: {
-        wrapperSelector: "#payment-wrapper",
-        callback: (data) => iframeCallback(data, PaymentMode.ModalIframe)
-      }
-    });
-    payment.pay({
-      currencyNumericCode,
-      description: paymentDescription.value,
-      orderId: Date.now().toString(),
-      purchaseTime: Date.now(),
-      totalAmountCents: total.value
-    });
-  }
-  if (mode === PaymentMode.Manual && requestEntity) {
-    console.log("requestEntity", requestEntity);
-    const payment = new d({
-      mode: requestEntity.mode,
-      merchant: {
-        id: requestEntity.merchantId || merchant.id,
-        terminalId: requestEntity.merchantTerminalId || merchant.terminalId,
-        signature: requestEntity.merchantSignature || merchant.signature
-      },
-      customer: {
-        email: requestEntity.customerEmail || void 0,
-        firstName: requestEntity.customerFirstName || void 0,
-        lastName: requestEntity.customerLastName || void 0,
-        phoneCountryCode: requestEntity.customerPhoneCode || void 0,
-        phoneNumber: requestEntity.customerPhone || void 0
-      },
-      iframeProps: {
-        wrapperSelector: "#payment-wrapper",
-        callback: (data) => iframeCallback(data, requestEntity.mode === "PaymentIframe" ? PaymentMode.BuiltInIframe : PaymentMode.ModalIframe)
-      }
-    });
-    payment.pay({
-      altCurrencyNumericCode: requestEntity.altCurrencyNumericCode || void 0,
-      altFeeCents: getNumberOrUndefined(requestEntity.altFeeCents) || void 0,
-      altTotalAmountCents: getNumberOrUndefined(requestEntity.altTotalAmountCents) || void 0,
-      currencyNumericCode: requestEntity.currencyNumericCode || currencyNumericCode,
-      delay: getNumberOrUndefined(requestEntity.delay) || void 0,
-      description: requestEntity.description || "Payment description",
-      feeCents: getNumberOrUndefined(requestEntity.feeCents) || void 0,
-      locale: requestEntity.locale || "en",
-      orderId: requestEntity.orderId || Date.now().toString(),
-      purchaseTime: getNumberOrUndefined(requestEntity.purchaseTime) || Date.now(),
-      token: requestEntity.token || "",
-      totalAmountCents: getNumberOrUndefined(requestEntity.totalAmountCents) || total.value,
-      url: requestEntity.url || ""
-    });
-  }
+  const { total } = storeToRefs(cartStore);
+  const payment = new p({
+    mode: requestEntity.mode,
+    merchant: {
+      id: requestEntity.merchantId || merchantData.id,
+      terminalId: requestEntity.merchantTerminalId || merchantData.terminalId,
+      signature: requestEntity.merchantSignature || merchantData.signature
+    },
+    customer: {
+      email: requestEntity.customerEmail || void 0,
+      firstName: requestEntity.customerFirstName || void 0,
+      lastName: requestEntity.customerLastName || void 0,
+      phoneCountryCode: requestEntity.customerPhoneCode || void 0,
+      phoneNumber: requestEntity.customerPhone || void 0
+    },
+    iframeProps: {
+      wrapperSelector: "#payment-wrapper",
+      callback: (data) => iframeCallback$2(data, requestEntity.mode === "PaymentIframe" ? PaymentMode.BuiltInIframe : PaymentMode.ModalIframe)
+    }
+  });
+  payment.pay({
+    altCurrencyNumericCode: requestEntity.altCurrencyNumericCode || void 0,
+    altFeeCents: getNumberOrUndefined(requestEntity.altFeeCents) || void 0,
+    altTotalAmountCents: getNumberOrUndefined(requestEntity.altTotalAmountCents) || void 0,
+    currencyNumericCode: requestEntity.currencyNumericCode || currencyNumericCode,
+    delay: getNumberOrUndefined(requestEntity.delay) || void 0,
+    description: requestEntity.description || "Payment description",
+    feeCents: getNumberOrUndefined(requestEntity.feeCents) || void 0,
+    locale: requestEntity.locale || "en",
+    orderId: requestEntity.orderId || Date.now().toString(),
+    purchaseTime: requestEntity.purchaseTime || getPurchaseTime(),
+    token: requestEntity.token || "",
+    totalAmountCents: getNumberOrUndefined(requestEntity.totalAmountCents) || total.value,
+    url: requestEntity.url || ""
+  });
 };
 const makeVFormProps = propsFactory({
   ...makeComponentProps(),
@@ -25065,11 +25266,14 @@ const VSelect = genericComponent()({
     }, vTextFieldRef);
   }
 });
-const _hoisted_1$3 = /* @__PURE__ */ createBaseVNode("div", { class: "d-flex align-center my-5" }, [
-  /* @__PURE__ */ createBaseVNode("h4", { class: "text-h5" }, "Manual request params")
-], -1);
+const _hoisted_1$3 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h5 my-5 text-center" }, "MANUAL REQUEST PARAMS FORM", -1);
 const _hoisted_2$2 = { class: "d-flex justify-space-between mb-4" };
-const _hoisted_3$2 = { class: "d-flex justify-space-between" };
+const _hoisted_3$2 = { class: "d-flex justify-center" };
+const _hoisted_4$2 = /* @__PURE__ */ createBaseVNode("div", {
+  id: "pay-by-bank",
+  class: "d-flex justify-center"
+}, null, -1);
+const localStorageKey = "requestEntities-2";
 const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
   __name: "ManualRequest",
   setup(__props) {
@@ -25092,25 +25296,28 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         customerPhone: "",
         customerPhoneCode: "",
         delay: 0,
-        description: "Description",
+        description: "",
         feeCents: 10,
         id: getUniqueEntityId(),
-        label: "Test data 1",
+        label: "Test form №1",
         locale: "en",
         merchantId: "1753545",
         merchantSignature: "Signature",
         merchantTerminalId: "E7881545",
         mode: "PaymentPage",
         orderId: Date.now().toString(),
-        purchaseTime: Date.now(),
+        purchaseTime: "",
         token: "",
         totalAmountCents: 100,
-        url: "https://ecg.test.upc.ua/go/pay"
+        url: "https://ecg.test.upc.ua/go/pay",
+        creditorCode: "",
+        creditorName: "",
+        creditorIBAN: ""
       };
       const testData2 = {
         altCurrencyNumericCode: "840",
-        altFeeCents: 11,
-        altTotalAmountCents: 101,
+        altFeeCents: 100,
+        altTotalAmountCents: 100,
         currencyNumericCode: "980",
         customerEmail: "",
         customerFirstName: "",
@@ -25121,19 +25328,22 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         description: "Description",
         feeCents: 10,
         id: getUniqueEntityId(),
-        label: "Test data 2",
+        label: "Custom form №2",
         locale: "en",
         merchantId: "1753545",
-        merchantSignature: "Signature",
+        merchantSignature: "merchantSignature",
         merchantTerminalId: "E7881545",
         mode: "PaymentIframe",
         orderId: Date.now().toString(),
-        purchaseTime: Date.now(),
+        purchaseTime: "",
         token: "",
         totalAmountCents: 100,
-        url: "https://ecg.test.upc.ua/go/pay"
+        url: "https://ecg.test.upc.ua/go/pay",
+        creditorCode: "",
+        creditorName: "",
+        creditorIBAN: ""
       };
-      const savedData = localStorage.getItem("requestEntities");
+      const savedData = localStorage.getItem(localStorageKey);
       if (savedData) {
         try {
           return JSON.parse(savedData);
@@ -25142,6 +25352,44 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         }
       }
       return [testData1, testData2];
+    };
+    const initPayByBank = () => {
+      const data = selectedEntity.value;
+      if (!data) {
+        return;
+      }
+      if (!window.UpcPayByBank) {
+        return;
+      }
+      const upcPayByBank = new window.UpcPayByBank({
+        merchant: {
+          id: (data == null ? void 0 : data.merchantId) || "",
+          terminalId: (data == null ? void 0 : data.merchantTerminalId) || "",
+          signature: (data == null ? void 0 : data.merchantSignature) || "",
+          creditorCode: data.creditorCode || "creditorCode",
+          creditorName: data.creditorName || "creditorName",
+          creditorIBAN: data.creditorIBAN || "creditorIBAN"
+        },
+        customer: {
+          email: "",
+          firstName: "",
+          lastName: "",
+          phoneCountryCode: "",
+          phoneNumber: ""
+        },
+        buttonProps: {
+          locale: data.locale,
+          wrapperSelector: "#pay-by-bank"
+        }
+      });
+      upcPayByBank.addButton({
+        currencyNumericCode: data.currencyNumericCode,
+        description: data.description || "description",
+        orderId: data.orderId,
+        purchaseTime: data.purchaseTime || "purchaseTime",
+        totalAmountCents: data.totalAmountCents,
+        url: data.url
+      });
     };
     const onSaveRequestItem = async () => {
       const vForm = paramsFormElement.value;
@@ -25175,10 +25423,13 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         merchantTerminalId: value.merchantTerminalId || "",
         mode: value.mode || "PaymentPage",
         orderId: value.orderId || Date.now().toString(),
-        purchaseTime: value.purchaseTime || Date.now(),
+        purchaseTime: value.purchaseTime || "",
         token: value.token || "",
         totalAmountCents: value.totalAmountCents || 0,
-        url: value.url || "https://ecg.test.upc.ua/go/pay"
+        url: value.url || "https://ecg.test.upc.ua/go/pay",
+        creditorCode: value.creditorCode || "",
+        creditorName: value.creditorName || "",
+        creditorIBAN: value.creditorIBAN || ""
       };
       const itemIndex = items.value.findIndex((item) => item.id === itemToSave.id);
       if (itemIndex === -1) {
@@ -25187,14 +25438,21 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         items.value = items.value.map((item) => item.id === itemToSave.id ? itemToSave : item);
       }
       try {
-        localStorage.setItem("requestEntities", JSON.stringify(items.value));
+        localStorage.setItem(localStorageKey, JSON.stringify(items.value));
       } catch (e) {
         console.error(e);
       }
+      const payByBankContainer = document.getElementById("pay-by-bank");
+      if (!payByBankContainer) {
+        return;
+      }
+      payByBankContainer.innerHTML = "";
+      initPayByBank();
     };
     onMounted(() => {
       items.value = getSavedRequestEntities();
       selectedEntity.value = { ...items.value[0] };
+      initPayByBank();
     });
     const switchEntity = (next = true) => {
       const currentIndex = items.value.findIndex((item) => {
@@ -25249,10 +25507,13 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         merchantTerminalId: "",
         mode: "PaymentPage",
         orderId: Date.now().toString(),
-        purchaseTime: Date.now(),
+        purchaseTime: "",
         token: "",
         totalAmountCents: 100,
-        url: "https://ecg.test.upc.ua/go/pay"
+        url: "https://ecg.test.upc.ua/go/pay",
+        creditorCode: "",
+        creditorName: "",
+        creditorIBAN: ""
       };
       isEditing.value = true;
     };
@@ -25272,7 +25533,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         return item.id !== ((_a = selectedEntity.value) == null ? void 0 : _a.id);
       });
       try {
-        localStorage.setItem("requestEntities", JSON.stringify(items.value));
+        localStorage.setItem(localStorageKey, JSON.stringify(items.value));
       } catch (e) {
         console.error(e);
       }
@@ -25289,558 +25550,438 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
       if (!selectedEntity.value) {
         return;
       }
-      submitPayment(PaymentMode.Manual, selectedEntity.value);
+      submitPaymentManual(selectedEntity.value);
     };
     return (_ctx, _cache) => {
-      return openBlock(), createBlock(VRow, null, {
-        default: withCtx(() => [
-          createVNode(VCol, { cols: "12" }, {
-            default: withCtx(() => [
-              _hoisted_1$3,
-              createVNode(VRow, null, {
-                default: withCtx(() => [
-                  createVNode(VCol, { cols: "12" }, {
-                    default: withCtx(() => [
-                      createBaseVNode("div", _hoisted_2$2, [
-                        createBaseVNode("div", null, [
-                          createVNode(VBtn, {
-                            color: "primary",
-                            type: "button",
-                            variant: "outlined",
-                            class: "mr-5",
-                            disabled: isEditing.value,
-                            onClick: _cache[0] || (_cache[0] = ($event) => switchEntity(false))
-                          }, {
-                            default: withCtx(() => [
-                              createTextVNode(" Prev ")
-                            ]),
-                            _: 1
-                          }, 8, ["disabled"]),
-                          createVNode(VBtn, {
-                            color: "primary",
-                            type: "button",
-                            variant: "outlined",
-                            disabled: isEditing.value,
-                            onClick: switchEntity
-                          }, {
-                            default: withCtx(() => [
-                              createTextVNode(" Next ")
-                            ]),
-                            _: 1
-                          }, 8, ["disabled"])
+      return openBlock(), createElementBlock(Fragment, null, [
+        createVNode(VRow, null, {
+          default: withCtx(() => [
+            createVNode(VCol, { cols: "12" }, {
+              default: withCtx(() => [
+                _hoisted_1$3,
+                createVNode(VRow, null, {
+                  default: withCtx(() => [
+                    createVNode(VCol, { cols: "12" }, {
+                      default: withCtx(() => [
+                        createBaseVNode("div", _hoisted_2$2, [
+                          createBaseVNode("div", null, [
+                            createVNode(VBtn, {
+                              size: "small",
+                              color: "primary",
+                              type: "button",
+                              variant: "outlined",
+                              icon: "",
+                              class: "mr-5",
+                              disabled: isEditing.value,
+                              onClick: _cache[0] || (_cache[0] = ($event) => switchEntity(false))
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(unref(ChevronLeftIcon), { size: "24" })
+                              ]),
+                              _: 1
+                            }, 8, ["disabled"]),
+                            createVNode(VBtn, {
+                              size: "small",
+                              color: "primary",
+                              type: "button",
+                              variant: "outlined",
+                              icon: "",
+                              disabled: isEditing.value,
+                              onClick: switchEntity
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(unref(ChevronRightIcon), { size: "24" })
+                              ]),
+                              _: 1
+                            }, 8, ["disabled"])
+                          ]),
+                          createBaseVNode("div", null, [
+                            createVNode(VBtn, {
+                              class: "mr-4",
+                              color: "primary",
+                              type: "button",
+                              variant: "outlined",
+                              disabled: isEditing.value,
+                              onClick: addNewItem
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode(" Add new form ")
+                              ]),
+                              _: 1
+                            }, 8, ["disabled"]),
+                            createVNode(VBtn, {
+                              color: "error",
+                              type: "button",
+                              variant: "outlined",
+                              disabled: isEditing.value || items.value.length === 1,
+                              onClick: removeItem
+                            }, {
+                              default: withCtx(() => [
+                                createTextVNode(" Remove form ")
+                              ]),
+                              _: 1
+                            }, 8, ["disabled"])
+                          ])
                         ]),
-                        createBaseVNode("div", null, [
-                          createVNode(VBtn, {
-                            class: "mr-4",
-                            color: "primary",
-                            type: "button",
-                            variant: "outlined",
-                            disabled: isEditing.value,
-                            onClick: addNewItem
-                          }, {
-                            default: withCtx(() => [
-                              createTextVNode(" Add new item ")
-                            ]),
-                            _: 1
-                          }, 8, ["disabled"]),
-                          createVNode(VBtn, {
-                            color: "error",
-                            type: "button",
-                            variant: "outlined",
-                            disabled: isEditing.value || items.value.length === 1,
-                            onClick: removeItem
-                          }, {
-                            default: withCtx(() => [
-                              createTextVNode(" Remove item ")
-                            ]),
-                            _: 1
-                          }, 8, ["disabled"])
-                        ])
-                      ]),
-                      createVNode(VRow, null, {
-                        default: withCtx(() => [
-                          selectedEntity.value ? (openBlock(), createBlock(VCol, {
-                            key: 0,
-                            cols: "12"
-                          }, {
-                            default: withCtx(() => [
-                              createVNode(VForm, {
-                                ref_key: "paramsFormElement",
-                                ref: paramsFormElement,
-                                class: "py-3",
-                                onSubmit: withModifiers(onSaveRequestItem, ["prevent"])
-                              }, {
-                                default: withCtx(() => [
-                                  createVNode(VRow, null, {
-                                    default: withCtx(() => [
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "4"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.label,
-                                            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => selectedEntity.value.label = $event),
-                                            readonly: !isEditing.value,
-                                            rules: [unref(rules).required],
-                                            "hide-details": "auto",
-                                            label: "Label",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly", "rules"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "4"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.url,
-                                            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => selectedEntity.value.url = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Url",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "4"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VSelect, {
-                                            modelValue: selectedEntity.value.mode,
-                                            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => selectedEntity.value.mode = $event),
-                                            readonly: !isEditing.value,
-                                            rules: [unref(rules).required],
-                                            "hide-details": "auto",
-                                            items: ["PaymentIframe", "PaymentModalIframe", "PaymentPage"],
-                                            label: "Mode",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly", "rules"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "4"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.merchantId,
-                                            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => selectedEntity.value.merchantId = $event),
-                                            readonly: !isEditing.value,
-                                            rules: [unref(rules).required],
-                                            "hide-details": "auto",
-                                            label: "Merchant ID",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly", "rules"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "4"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.merchantTerminalId,
-                                            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => selectedEntity.value.merchantTerminalId = $event),
-                                            readonly: !isEditing.value,
-                                            rules: [unref(rules).required],
-                                            "hide-details": "auto",
-                                            label: "Terminal ID",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly", "rules"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "4"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.orderId,
-                                            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => selectedEntity.value.orderId = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Order ID",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.currencyNumericCode,
-                                            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => selectedEntity.value.currencyNumericCode = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Currency numeric code",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.altCurrencyNumericCode,
-                                            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => selectedEntity.value.altCurrencyNumericCode = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Alt currency numeric code",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.altFeeCents,
-                                            "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => selectedEntity.value.altFeeCents = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Alt fee cents",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.feeCents,
-                                            "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => selectedEntity.value.feeCents = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Fee cents",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.altTotalAmountCents,
-                                            "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => selectedEntity.value.altTotalAmountCents = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Alt total amount cents",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.totalAmountCents,
-                                            "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => selectedEntity.value.totalAmountCents = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Total amount cents",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.locale,
-                                            "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => selectedEntity.value.locale = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Locale",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.purchaseTime,
-                                            "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => selectedEntity.value.purchaseTime = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Purchase Time",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.delay,
-                                            "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => selectedEntity.value.delay = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Delay",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.description,
-                                            "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => selectedEntity.value.description = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Description",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.token,
-                                            "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => selectedEntity.value.token = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Token",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.merchantSignature,
-                                            "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => selectedEntity.value.merchantSignature = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Signature",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.customerPhoneCode,
-                                            "onUpdate:modelValue": _cache[19] || (_cache[19] = ($event) => selectedEntity.value.customerPhoneCode = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Customer phone code",
-                                            variant: "outlined",
-                                            placeholder: "380"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.customerPhone,
-                                            "onUpdate:modelValue": _cache[20] || (_cache[20] = ($event) => selectedEntity.value.customerPhone = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Customer phone number",
-                                            variant: "outlined",
-                                            placeholder: "000000000"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.customerFirstName,
-                                            "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => selectedEntity.value.customerFirstName = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Customer First Name",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.customerLastName,
-                                            "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => selectedEntity.value.customerLastName = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Last Name",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VCol, {
-                                        cols: "12",
-                                        md: "3"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VTextField, {
-                                            modelValue: selectedEntity.value.customerEmail,
-                                            "onUpdate:modelValue": _cache[23] || (_cache[23] = ($event) => selectedEntity.value.customerEmail = $event),
-                                            readonly: !isEditing.value,
-                                            "hide-details": "auto",
-                                            label: "Customer email",
-                                            variant: "outlined"
-                                          }, null, 8, ["modelValue", "readonly"])
-                                        ]),
-                                        _: 1
-                                      })
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VRow, null, {
-                                    default: withCtx(() => [
-                                      isEditing.value ? (openBlock(), createBlock(VCol, {
-                                        key: 0,
-                                        cols: "12",
-                                        lg: "12",
-                                        class: "text-right"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createVNode(VBtn, {
-                                            class: "mr-4",
-                                            color: "error",
-                                            type: "button",
-                                            variant: "outlined",
-                                            onClick: onCancel
-                                          }, {
-                                            default: withCtx(() => [
-                                              createTextVNode(" Cancel ")
-                                            ]),
-                                            _: 1
-                                          }),
-                                          createVNode(VBtn, {
-                                            color: "primary",
-                                            type: "submit",
-                                            variant: "outlined"
-                                          }, {
-                                            default: withCtx(() => [
-                                              createTextVNode("Confirm")
-                                            ]),
-                                            _: 1
-                                          })
-                                        ]),
-                                        _: 1
-                                      })) : (openBlock(), createBlock(VCol, {
-                                        key: 1,
-                                        cols: "12",
-                                        lg: "12"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createBaseVNode("div", _hoisted_3$2, [
+                        createVNode(VRow, null, {
+                          default: withCtx(() => [
+                            selectedEntity.value ? (openBlock(), createBlock(VCol, {
+                              key: 0,
+                              cols: "4",
+                              class: "mx-auto"
+                            }, {
+                              default: withCtx(() => [
+                                createVNode(VForm, {
+                                  ref_key: "paramsFormElement",
+                                  ref: paramsFormElement,
+                                  class: "py-3",
+                                  onSubmit: withModifiers(onSaveRequestItem, ["prevent"])
+                                }, {
+                                  default: withCtx(() => [
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.label,
+                                      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => selectedEntity.value.label = $event),
+                                      readonly: !isEditing.value,
+                                      rules: [unref(rules).required],
+                                      "hide-details": "auto",
+                                      label: "Label",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly", "rules"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.url,
+                                      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => selectedEntity.value.url = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Url",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VSelect, {
+                                      modelValue: selectedEntity.value.mode,
+                                      "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => selectedEntity.value.mode = $event),
+                                      readonly: !isEditing.value,
+                                      rules: [unref(rules).required],
+                                      "hide-details": "auto",
+                                      items: ["PaymentIframe", "PaymentModalIframe", "PaymentPage"],
+                                      label: "Mode",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly", "rules"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.merchantId,
+                                      "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => selectedEntity.value.merchantId = $event),
+                                      readonly: !isEditing.value,
+                                      rules: [unref(rules).required],
+                                      "hide-details": "auto",
+                                      label: "Merchant ID",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly", "rules"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.merchantTerminalId,
+                                      "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => selectedEntity.value.merchantTerminalId = $event),
+                                      readonly: !isEditing.value,
+                                      rules: [unref(rules).required],
+                                      "hide-details": "auto",
+                                      label: "Terminal ID",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly", "rules"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.orderId,
+                                      "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => selectedEntity.value.orderId = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Order ID",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.currencyNumericCode,
+                                      "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => selectedEntity.value.currencyNumericCode = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Currency numeric code",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.altCurrencyNumericCode,
+                                      "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => selectedEntity.value.altCurrencyNumericCode = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Alt currency numeric code",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.altFeeCents,
+                                      "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => selectedEntity.value.altFeeCents = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Alt fee cents",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.feeCents,
+                                      "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => selectedEntity.value.feeCents = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Fee cents",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.altTotalAmountCents,
+                                      "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => selectedEntity.value.altTotalAmountCents = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Alt total amount cents",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.totalAmountCents,
+                                      "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => selectedEntity.value.totalAmountCents = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Total amount cents",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.locale,
+                                      "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => selectedEntity.value.locale = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Locale",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.purchaseTime,
+                                      "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => selectedEntity.value.purchaseTime = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Purchase Time",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.delay,
+                                      "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => selectedEntity.value.delay = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Delay",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.description,
+                                      "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => selectedEntity.value.description = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Description",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.token,
+                                      "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => selectedEntity.value.token = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Token",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.merchantSignature,
+                                      "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => selectedEntity.value.merchantSignature = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Signature",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.customerPhoneCode,
+                                      "onUpdate:modelValue": _cache[19] || (_cache[19] = ($event) => selectedEntity.value.customerPhoneCode = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Customer phone code",
+                                      variant: "outlined",
+                                      placeholder: "380",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.customerPhone,
+                                      "onUpdate:modelValue": _cache[20] || (_cache[20] = ($event) => selectedEntity.value.customerPhone = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Customer phone number",
+                                      variant: "outlined",
+                                      placeholder: "000000000",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.customerFirstName,
+                                      "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => selectedEntity.value.customerFirstName = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Customer First Name",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.customerLastName,
+                                      "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => selectedEntity.value.customerLastName = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Last Name",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.customerEmail,
+                                      "onUpdate:modelValue": _cache[23] || (_cache[23] = ($event) => selectedEntity.value.customerEmail = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Customer email",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.creditorIBAN,
+                                      "onUpdate:modelValue": _cache[24] || (_cache[24] = ($event) => selectedEntity.value.creditorIBAN = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Creditor IBAN",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.creditorName,
+                                      "onUpdate:modelValue": _cache[25] || (_cache[25] = ($event) => selectedEntity.value.creditorName = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Creditor Name",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VTextField, {
+                                      modelValue: selectedEntity.value.creditorCode,
+                                      "onUpdate:modelValue": _cache[26] || (_cache[26] = ($event) => selectedEntity.value.creditorCode = $event),
+                                      readonly: !isEditing.value,
+                                      "hide-details": "auto",
+                                      label: "Creditor Code",
+                                      variant: "outlined",
+                                      class: "mb-4"
+                                    }, null, 8, ["modelValue", "readonly"]),
+                                    createVNode(VRow, null, {
+                                      default: withCtx(() => [
+                                        isEditing.value ? (openBlock(), createBlock(VCol, {
+                                          key: 0,
+                                          cols: "12",
+                                          lg: "12",
+                                          class: "text-center"
+                                        }, {
+                                          default: withCtx(() => [
                                             createVNode(VBtn, {
-                                              color: "primary",
+                                              class: "mr-4",
+                                              color: "error",
                                               type: "button",
                                               variant: "outlined",
-                                              onClick: _cache[24] || (_cache[24] = ($event) => isEditing.value = true)
+                                              onClick: onCancel
                                             }, {
                                               default: withCtx(() => [
-                                                createTextVNode("Edit")
+                                                createTextVNode(" Cancel ")
                                               ]),
                                               _: 1
                                             }),
-                                            !isEditing.value ? (openBlock(), createBlock(VBtn, {
-                                              key: 0,
+                                            createVNode(VBtn, {
                                               color: "primary",
-                                              type: "button",
-                                              onClick: submitPaymentWithManualParams
+                                              type: "submit",
+                                              variant: "outlined"
                                             }, {
                                               default: withCtx(() => [
-                                                createTextVNode(" Submit payment ")
+                                                createTextVNode(" Save changes ")
                                               ]),
                                               _: 1
-                                            })) : createCommentVNode("", true)
-                                          ])
-                                        ]),
-                                        _: 1
-                                      }))
-                                    ]),
-                                    _: 1
-                                  })
-                                ]),
-                                _: 1
-                              }, 512)
-                            ]),
-                            _: 1
-                          })) : createCommentVNode("", true)
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          })
-        ]),
-        _: 1
-      });
+                                            })
+                                          ]),
+                                          _: 1
+                                        })) : (openBlock(), createBlock(VCol, {
+                                          key: 1,
+                                          cols: "12",
+                                          lg: "12"
+                                        }, {
+                                          default: withCtx(() => [
+                                            createBaseVNode("div", _hoisted_3$2, [
+                                              createVNode(VBtn, {
+                                                color: "primary",
+                                                type: "button",
+                                                variant: "outlined",
+                                                onClick: _cache[27] || (_cache[27] = ($event) => isEditing.value = true)
+                                              }, {
+                                                default: withCtx(() => [
+                                                  createTextVNode("Edit Form")
+                                                ]),
+                                                _: 1
+                                              })
+                                            ])
+                                          ]),
+                                          _: 1
+                                        }))
+                                      ]),
+                                      _: 1
+                                    })
+                                  ]),
+                                  _: 1
+                                }, 512),
+                                !isEditing.value ? (openBlock(), createBlock(VBtn, {
+                                  key: 0,
+                                  color: "primary",
+                                  type: "button",
+                                  class: "d-block mx-auto mt-5",
+                                  onClick: submitPaymentWithManualParams
+                                }, {
+                                  default: withCtx(() => [
+                                    createTextVNode(" Make payment ")
+                                  ]),
+                                  _: 1
+                                })) : createCommentVNode("", true)
+                              ]),
+                              _: 1
+                            })) : createCommentVNode("", true)
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    })
+                  ]),
+                  _: 1
+                })
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        }),
+        createVNode(VRow, null, {
+          default: withCtx(() => [
+            createVNode(VCol, null, {
+              default: withCtx(() => [
+                _hoisted_4$2
+              ]),
+              _: 1
+            })
+          ]),
+          _: 1
+        })
+      ], 64);
     };
   }
 });
@@ -25921,6 +26062,16 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
     };
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock(Fragment, null, [
+        createVNode(VRow, null, {
+          default: withCtx(() => [
+            createVNode(VCol, {
+              cols: "12",
+              md: "6",
+              id: "payment-wrapper"
+            })
+          ]),
+          _: 1
+        }),
         createVNode(VRow, null, {
           default: withCtx(() => [
             createVNode(VCol, { cols: "12" }, {
@@ -26166,6 +26317,15 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
                           }, 512)
                         ]),
                         _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        lg: "6"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(_sfc_main$5)
+                        ]),
+                        _: 1
                       })
                     ]),
                     _: 1
@@ -26176,30 +26336,127 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
             })
           ]),
           _: 1
-        }),
-        createVNode(VRow, null, {
-          default: withCtx(() => [
-            createVNode(VCol, {
-              cols: "12",
-              md: "6",
-              id: "payment-wrapper"
-            }),
-            createVNode(VCol, {
-              cols: "12",
-              lg: "6"
-            }, {
-              default: withCtx(() => [
-                createVNode(_sfc_main$5)
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
         })
       ], 64);
     };
   }
 });
+const submitPaymentRedirect = () => {
+  var _a, _b, _c, _d, _e;
+  const cartStore = useCartStore();
+  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
+  const payment = new p({
+    merchant: merchantData,
+    customer: {
+      email: ((_a = billingAddress.value) == null ? void 0 : _a.email) ?? "",
+      firstName: ((_b = billingAddress.value) == null ? void 0 : _b.firstName) ?? "",
+      lastName: ((_c = billingAddress.value) == null ? void 0 : _c.lastName) ?? "",
+      phoneCountryCode: ((_d = billingAddress.value) == null ? void 0 : _d.phoneCode) ?? "",
+      phoneNumber: ((_e = billingAddress.value) == null ? void 0 : _e.phone) ?? ""
+    }
+  });
+  payment.pay({
+    currencyNumericCode,
+    description: paymentDescription.value,
+    orderId: Date.now().toString(),
+    purchaseTime: getPurchaseTime(),
+    totalAmountCents: total.value
+  });
+};
+const iframeCallback$1 = (callbackData, mode) => {
+  const { data: { height } } = callbackData;
+  if (mode === PaymentMode.BuiltInIframe) {
+    const wrapper = document.querySelector("#payment-wrapper");
+    if (wrapper) {
+      wrapper.style.height = `${height + 40}px`;
+    }
+    return;
+  }
+  if (mode === PaymentMode.ModalIframe) {
+    const wrapper = document.querySelector("#payment-wrapper");
+    if (wrapper) {
+      wrapper.style.height = "auto";
+    }
+    const iframe = document.querySelector("#upc-payment-iframe");
+    if (iframe) {
+      iframe.style.height = `${height + 40}px`;
+    }
+  }
+};
+const submitPaymentBuiltIn = () => {
+  var _a, _b, _c, _d, _e;
+  const cartStore = useCartStore();
+  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
+  const payment = new p({
+    mode: "PaymentIframe",
+    merchant: merchantData,
+    customer: {
+      email: ((_a = billingAddress.value) == null ? void 0 : _a.email) ?? "",
+      firstName: ((_b = billingAddress.value) == null ? void 0 : _b.firstName) ?? "",
+      lastName: ((_c = billingAddress.value) == null ? void 0 : _c.lastName) ?? "",
+      phoneCountryCode: ((_d = billingAddress.value) == null ? void 0 : _d.phoneCode) ?? "",
+      phoneNumber: ((_e = billingAddress.value) == null ? void 0 : _e.phone) ?? ""
+    },
+    iframeProps: {
+      wrapperSelector: "#payment-wrapper",
+      callback: (data) => iframeCallback$1(data, PaymentMode.BuiltInIframe)
+    }
+  });
+  payment.pay({
+    currencyNumericCode,
+    description: paymentDescription.value,
+    orderId: Date.now().toString(),
+    purchaseTime: getPurchaseTime(),
+    totalAmountCents: total.value
+  });
+};
+const iframeCallback = (callbackData, mode) => {
+  const { data: { height } } = callbackData;
+  if (mode === PaymentMode.BuiltInIframe) {
+    const wrapper = document.querySelector("#payment-wrapper");
+    if (wrapper) {
+      wrapper.style.height = `${height + 40}px`;
+    }
+    return;
+  }
+  if (mode === PaymentMode.ModalIframe) {
+    const wrapper = document.querySelector("#payment-wrapper");
+    if (wrapper) {
+      wrapper.style.height = "auto";
+    }
+    const iframe = document.querySelector("#upc-payment-iframe");
+    if (iframe) {
+      iframe.style.height = `${height + 40}px`;
+    }
+  }
+};
+const submitPaymentModal = () => {
+  var _a, _b, _c, _d, _e;
+  const cartStore = useCartStore();
+  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
+  const payment = new p({
+    mode: "PaymentModalIframe",
+    merchant: merchantData,
+    customer: {
+      email: ((_a = billingAddress.value) == null ? void 0 : _a.email) ?? "",
+      firstName: ((_b = billingAddress.value) == null ? void 0 : _b.firstName) ?? "",
+      lastName: ((_c = billingAddress.value) == null ? void 0 : _c.lastName) ?? "",
+      phoneCountryCode: ((_d = billingAddress.value) == null ? void 0 : _d.phoneCode) ?? "",
+      phoneNumber: ((_e = billingAddress.value) == null ? void 0 : _e.phone) ?? ""
+    },
+    iframeProps: {
+      wrapperSelector: "#payment-wrapper",
+      callback: (data) => iframeCallback(data, PaymentMode.ModalIframe)
+    }
+  });
+  payment.pay({
+    currencyNumericCode,
+    description: paymentDescription.value,
+    orderId: Date.now().toString(),
+    purchaseTime: getPurchaseTime(),
+    totalAmountCents: total.value
+  });
+};
 const makeVBreadcrumbsDividerProps = propsFactory({
   divider: [Number, String],
   ...makeComponentProps()
@@ -27020,7 +27277,18 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
       tab.value = e;
     };
     const initPayment = () => {
-      submitPayment(props.mode);
+      if (props.mode === PaymentMode.Redirect) {
+        submitPaymentRedirect();
+        return;
+      }
+      if (props.mode === PaymentMode.BuiltInIframe) {
+        submitPaymentBuiltIn();
+        return;
+      }
+      if (props.mode === PaymentMode.ModalIframe) {
+        submitPaymentModal();
+        return;
+      }
     };
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock(Fragment, null, [
@@ -27171,7 +27439,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                           default: withCtx(() => [
                             createVNode(VCol, { cols: "6" }, {
                               default: withCtx(() => [
-                                createVNode(VBtn, {
+                                __props.mode !== unref(PaymentMode).Manual ? (openBlock(), createBlock(VBtn, {
+                                  key: 0,
                                   color: "primary",
                                   variant: "tonal",
                                   onClick: _cache[2] || (_cache[2] = ($event) => changeTab("tab-1"))
@@ -27180,7 +27449,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                                     createTextVNode("Back")
                                   ]),
                                   _: 1
-                                })
+                                })) : createCommentVNode("", true)
                               ]),
                               _: 1
                             }),
@@ -27503,7 +27772,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent$1({
   }
 });
 const getPaymentMode = (route) => {
-  let mode = route.query.mode;
+  const mode = route.query.mode;
   const enumValue = getPaymentModeFromValue(mode);
   return { mode: enumValue ?? PaymentMode.Redirect };
 };
