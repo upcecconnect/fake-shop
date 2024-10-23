@@ -9,8 +9,10 @@ import StepSecond from './components/StepSecond.vue';
 import { BasketIcon  } from 'vue-tabler-icons';
 import { FileDescriptionIcon } from 'vue-tabler-icons';
 import { RouteName } from '@/router/RouteName';
-import { submitPayment } from '@/utils/submitPayment';
 import { PaymentMode } from '@/types/PaymentMode';
+import { submitPaymentRedirect } from '@/utils/submitPayment/submitPaymentRedirect';
+import { submitPaymentBuiltIn } from '@/utils/submitPayment/submitPaymentBuiltIn';
+import { submitPaymentModal } from '@/utils/submitPayment/submitPaymentModal';
 
 const props = defineProps({
   mode: {
@@ -48,7 +50,18 @@ const changeTab = (e: string) => {
 }
 
 const initPayment = () => {
-  submitPayment(props.mode);
+  if (props.mode === PaymentMode.Redirect) {
+    submitPaymentRedirect();
+    return;
+  }
+  if (props.mode === PaymentMode.BuiltInIframe) {
+    submitPaymentBuiltIn();
+    return;
+  }
+  if (props.mode === PaymentMode.ModalIframe) {
+    submitPaymentModal();
+    return;
+  }
 }
 </script>
 
@@ -108,7 +121,12 @@ const initPayment = () => {
           <StepSecond :mode="mode" />
           <v-row class="mt-3">
             <v-col cols="6">
-              <v-btn color="primary" variant="tonal" @click="changeTab('tab-1')">Back</v-btn>
+              <v-btn
+                v-if="mode !== PaymentMode.Manual"
+                color="primary"
+                variant="tonal"
+                @click="changeTab('tab-1')"
+              >Back</v-btn>
             </v-col>
             <v-col cols="6" class="text-right">
               <v-btn

@@ -19,8 +19,11 @@ export interface RequestEntity {
   readonly merchantTerminalId: string;
   readonly mode: 'PaymentIframe'|'PaymentModalIframe'|'PaymentPage';
   readonly orderId: string;
-  readonly purchaseTime: number;
+  readonly purchaseTime: string;
   readonly token: string;
   readonly totalAmountCents: number;
   readonly url: string;
+  readonly creditorIBAN: string;
+  readonly creditorName: string;
+  readonly creditorCode: string;
 }

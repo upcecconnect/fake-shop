@@ -89,6 +89,9 @@ const onSubmit = async () => {
 
 <template>
   <v-row>
+    <v-col cols="12" md="6" id="payment-wrapper"></v-col>
+  </v-row>
+  <v-row>
     <v-col cols="12">
       <template v-if="mode === PaymentMode.Manual">
         <ManualRequest />
@@ -218,14 +221,11 @@ const onSubmit = async () => {
               </v-row>
             </v-form>
           </v-col>
+          <v-col cols="12" lg="6">
+            <OrderSummary />
+          </v-col>
         </v-row>
       </template>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col cols="12" md="6" id="payment-wrapper"></v-col>
-    <v-col cols="12" lg="6">
-      <OrderSummary />
     </v-col>
   </v-row>
 </template>
