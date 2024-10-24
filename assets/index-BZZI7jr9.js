@@ -25388,7 +25388,8 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         orderId: data.orderId,
         purchaseTime: data.purchaseTime || "purchaseTime",
         totalAmountCents: data.totalAmountCents,
-        url: data.url
+        url: data.url,
+        locale: data.locale || "uk"
       });
     };
     const onSaveRequestItem = async () => {
