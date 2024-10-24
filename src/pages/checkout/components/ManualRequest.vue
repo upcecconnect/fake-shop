@@ -125,6 +125,7 @@ const initPayByBank = () => {
     purchaseTime: data.purchaseTime || 'purchaseTime',
     totalAmountCents: data.totalAmountCents,
     url: data.url,
+    locale: data.locale || 'uk',
   });
 }
 
