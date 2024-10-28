@@ -25387,7 +25387,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         description: data.description || "description",
         orderId: data.orderId,
         purchaseTime: data.purchaseTime || "purchaseTime",
-        totalAmountCents: data.totalAmountCents,
+        totalAmountCents: Number(data.totalAmountCents),
         url: data.url,
         locale: data.locale || "uk"
       });
