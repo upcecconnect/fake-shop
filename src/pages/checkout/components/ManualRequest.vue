@@ -123,7 +123,7 @@ const initPayByBank = () => {
     description: data.description || 'description',
     orderId: data.orderId,
     purchaseTime: data.purchaseTime || 'purchaseTime',
-    totalAmountCents: data.totalAmountCents,
+    totalAmountCents: Number(data.totalAmountCents),
     url: data.url,
     locale: data.locale || 'uk',
   });
