@@ -13353,7 +13353,7 @@ const VMain = genericComponent()({
 const _hoisted_1$a = { class: "maxWidth v-toolbar__content px-lg-0 px-4" };
 const _hoisted_2$8 = { class: "d-sm-flex d-none" };
 const _hoisted_3$8 = { class: "logo" };
-const _hoisted_4$8 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_4$7 = /* @__PURE__ */ createBaseVNode("img", {
   style: { "height": "100px" },
   src: _imports_0$1,
   alt: "upc"
@@ -13408,7 +13408,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
                       class: "d-flex"
                     }, {
                       default: withCtx(() => [
-                        _hoisted_4$8,
+                        _hoisted_4$7,
                         _hoisted_5$7
                       ]),
                       _: 1
@@ -15679,7 +15679,7 @@ const VCard = genericComponent()({
 const _hoisted_1$9 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with redirect", -1);
 const _hoisted_2$7 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Redirect to payment page on checkout", -1);
 const _hoisted_3$7 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with built-in iframe", -1);
-const _hoisted_4$7 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Show built-in payment iframe on checkout page", -1);
+const _hoisted_4$6 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Show built-in payment iframe on checkout page", -1);
 const _hoisted_5$6 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with modal iframe", -1);
 const _hoisted_6$6 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Show modal payment iframe on checkout page", -1);
 const _hoisted_7$6 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with manual params (development purpose only)", -1);
@@ -15751,7 +15751,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
                   }),
                   createVNode(VCardText, { class: "pa-6" }, {
                     default: withCtx(() => [
-                      _hoisted_4$7,
+                      _hoisted_4$6,
                       createVNode(VBtn, {
                         to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).BuiltInIframe } },
                         variant: "flat",
@@ -17673,7 +17673,7 @@ const VTooltip = genericComponent()({
 const _hoisted_1$8 = ["src"];
 const _hoisted_2$6 = { class: "d-flex justify-end mr-3 mt-n6" };
 const _hoisted_3$6 = { class: "text-h6" };
-const _hoisted_4$6 = { class: "d-flex align-center justify-space-between mt-1" };
+const _hoisted_4$5 = { class: "d-flex align-center justify-space-between mt-1" };
 const _hoisted_5$5 = { class: "d-flex align-center gap-2" };
 const _hoisted_6$5 = { class: "text-h6" };
 const _hoisted_7$5 = { class: "text-decoration-line-through text-medium-emphasis" };
@@ -17752,7 +17752,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent$1({
           createVNode(VCardItem, { class: "pt-1" }, {
             default: withCtx(() => [
               createBaseVNode("h6", _hoisted_3$6, toDisplayString(__props.name), 1),
-              createBaseVNode("div", _hoisted_4$6, [
+              createBaseVNode("div", _hoisted_4$5, [
                 createBaseVNode("div", _hoisted_5$5, [
                   createBaseVNode("h6", _hoisted_6$5, toDisplayString(unref(asCurrency)(__props.price)) + " UAH", 1),
                   createBaseVNode("p", _hoisted_7$5, toDisplayString(unref(asCurrency)(__props.offerPrice)) + " UAH", 1)
@@ -21362,7 +21362,7 @@ const _hoisted_2$5 = {
   class: "left-part"
 };
 const _hoisted_3$5 = { class: "right-part" };
-const _hoisted_4$5 = { class: "d-flex gap-2 align-center mb-4 justify-space-between" };
+const _hoisted_4$4 = { class: "d-flex gap-2 align-center mb-4 justify-space-between" };
 const _hoisted_5$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5 d-none d-lg-flex font-weight-semibold" }, "Products", -1));
 const _hoisted_6$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("h1", { class: "text-h1 mt-6" }, "There is no Product", -1));
 const _hoisted_7$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("p", null, "Try checking your spelling or use more general terms", -1));
@@ -21447,7 +21447,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent$1({
               createVNode(VDivider, { class: "d-lg-none d-block" }),
               createVNode(VSheet, { class: "pa-4" }, {
                 default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_4$5, [
+                  createBaseVNode("div", _hoisted_4$4, [
                     _hoisted_5$4,
                     createVNode(VSheet, { width: "300" }, {
                       default: withCtx(() => [
@@ -21545,7 +21545,7 @@ const ProductsPage = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "da
 const _hoisted_1$5 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5 mb-6" }, "Order Summary", -1);
 const _hoisted_2$4 = { class: "d-flex align-center justify-space-between my-5" };
 const _hoisted_3$4 = /* @__PURE__ */ createBaseVNode("h6", { class: "text-h6 font-weight-regular" }, "Sub Total", -1);
-const _hoisted_4$4 = { class: "font-weight-semibold text-h6" };
+const _hoisted_4$3 = { class: "font-weight-semibold text-h6" };
 const _hoisted_5$3 = { class: "d-flex align-center justify-space-between my-5" };
 const _hoisted_6$3 = /* @__PURE__ */ createBaseVNode("h6", { class: "text-h6 font-weight-regular" }, "Discount 5%", -1);
 const _hoisted_7$3 = { class: "font-weight-semibold text-h6 text-error" };
@@ -21568,7 +21568,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent$1({
               _hoisted_1$5,
               createBaseVNode("div", _hoisted_2$4, [
                 _hoisted_3$4,
-                createBaseVNode("h6", _hoisted_4$4, toDisplayString(unref(asCurrency)(unref(subTotal))) + " UAH", 1)
+                createBaseVNode("h6", _hoisted_4$3, toDisplayString(unref(asCurrency)(unref(subTotal))) + " UAH", 1)
               ]),
               createBaseVNode("div", _hoisted_5$3, [
                 _hoisted_6$3,
@@ -21649,7 +21649,7 @@ const _hoisted_3$3 = /* @__PURE__ */ createBaseVNode("thead", null, [
     })
   ])
 ], -1);
-const _hoisted_4$3 = { class: "d-flex flex-wrap align-center my-3 gap-2" };
+const _hoisted_4$2 = { class: "d-flex flex-wrap align-center my-3 gap-2" };
 const _hoisted_5$2 = ["src"];
 const _hoisted_6$2 = { class: "ma-2" };
 const _hoisted_7$2 = { class: "text-h6" };
@@ -21708,7 +21708,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                   key: item.id
                 }, [
                   createBaseVNode("td", null, [
-                    createBaseVNode("div", _hoisted_4$3, [
+                    createBaseVNode("div", _hoisted_4$2, [
                       createBaseVNode("img", {
                         alt: "product",
                         class: "rounded-md custom-img-box",
@@ -25267,9 +25267,8 @@ const VSelect = genericComponent()({
   }
 });
 const _hoisted_1$3 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h5 my-5 text-center" }, "MANUAL REQUEST PARAMS FORM", -1);
-const _hoisted_2$2 = { class: "d-flex justify-space-between mb-4" };
-const _hoisted_3$2 = { class: "d-flex justify-center" };
-const _hoisted_4$2 = /* @__PURE__ */ createBaseVNode("div", {
+const _hoisted_2$2 = { class: "d-flex justify-center" };
+const _hoisted_3$2 = /* @__PURE__ */ createBaseVNode("div", {
   id: "pay-by-bank",
   class: "d-flex justify-center"
 }, null, -1);
@@ -25277,6 +25276,7 @@ const localStorageKey = "requestEntities-2";
 const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
   __name: "ManualRequest",
   setup(__props) {
+    const { smAndDown } = useDisplay();
     const paramsFormElement = ref(null);
     const isEditing = ref(false);
     const items = ref([]);
@@ -25564,8 +25564,12 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
                   default: withCtx(() => [
                     createVNode(VCol, { cols: "12" }, {
                       default: withCtx(() => [
-                        createBaseVNode("div", _hoisted_2$2, [
-                          createBaseVNode("div", null, [
+                        createBaseVNode("div", {
+                          class: normalizeClass(["d-flex justify-space-between mb-4", { "flex-column": unref(smAndDown), "text-center": unref(smAndDown) }])
+                        }, [
+                          createBaseVNode("div", {
+                            class: normalizeClass({ "mb-5": unref(smAndDown) })
+                          }, [
                             createVNode(VBtn, {
                               size: "small",
                               color: "primary",
@@ -25595,7 +25599,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
                               ]),
                               _: 1
                             }, 8, ["disabled"])
-                          ]),
+                          ], 2),
                           createBaseVNode("div", null, [
                             createVNode(VBtn, {
                               class: "mr-4",
@@ -25623,12 +25627,13 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
                               _: 1
                             }, 8, ["disabled"])
                           ])
-                        ]),
+                        ], 2),
                         createVNode(VRow, null, {
                           default: withCtx(() => [
                             selectedEntity.value ? (openBlock(), createBlock(VCol, {
                               key: 0,
-                              cols: "4",
+                              cols: "12",
+                              md: "4",
                               class: "mx-auto"
                             }, {
                               default: withCtx(() => [
@@ -25919,7 +25924,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
                                           lg: "12"
                                         }, {
                                           default: withCtx(() => [
-                                            createBaseVNode("div", _hoisted_3$2, [
+                                            createBaseVNode("div", _hoisted_2$2, [
                                               createVNode(VBtn, {
                                                 color: "primary",
                                                 type: "button",
@@ -25975,7 +25980,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
           default: withCtx(() => [
             createVNode(VCol, null, {
               default: withCtx(() => [
-                _hoisted_4$2
+                _hoisted_3$2
               ]),
               _: 1
             })
