@@ -7,7 +7,9 @@ import { RequestEntity } from '@/types/RequestEntity';
 import { ChevronLeftIcon } from 'vue-tabler-icons';
 import { ChevronRightIcon } from 'vue-tabler-icons';
 import { submitPaymentManual } from '@/utils/submitPayment/submitPaymentManual';
+import { useDisplay } from 'vuetify'
 
+const { smAndDown } = useDisplay()
 const paramsFormElement = ref<VForm|null>(null);
 const isEditing = ref(false);
 const items = ref<readonly RequestEntity[]>([]);
@@ -293,8 +295,11 @@ const submitPaymentWithManualParams = () => {
 
       <v-row>
         <v-col cols="12">
-          <div class="d-flex justify-space-between mb-4">
-            <div>
+          <div 
+            class="d-flex justify-space-between mb-4"
+            :class="{ 'flex-column': smAndDown, 'text-center': smAndDown }"
+          >
+            <div :class="{ 'mb-5': smAndDown }">
               <v-btn
                 size="small"
                 color="primary"
@@ -343,7 +348,7 @@ const submitPaymentWithManualParams = () => {
             </div>
           </div>
           <v-row>
-            <v-col v-if="selectedEntity" cols="4" class="mx-auto">
+            <v-col v-if="selectedEntity" cols="12" md="4" class="mx-auto">
               <v-form
                 ref="paramsFormElement"
                 class="py-3"
