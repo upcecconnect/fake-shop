@@ -1,12 +1,12 @@
 import { useCartStore } from '@/stores/useCartStore';
-import { PaymentMode } from '@/types/PaymentMode';
+import { PaymentMode } from '@/enums/PaymentMode';
 import { storeToRefs } from 'pinia';
 import { PaymentIframeCallbackData } from 'upc-payment-js';
 import { UpcPayment } from 'upc-payment-js';
-import { RequestEntity } from '@/types/RequestEntity';
 import { currencyNumericCode } from '@/static/currencyNumericCode';
 import { getPurchaseTime } from './getPurchaseTime';
 import { merchantData } from '@/static/merchantData';
+import { RequestBean } from '@/types/RequestBean';
 
 const getNumberOrUndefined = (value: string|number): number|undefined => {
   try {
@@ -44,41 +44,53 @@ const iframeCallback = (callbackData: PaymentIframeCallbackData, mode: PaymentMo
   }
 }
 
-export const submitPaymentManual = (requestEntity: RequestEntity) => {
+const getUPCPaymentModeFromRequestBean = (requestBean: RequestBean): UpcPayment['mode'] => {
+  switch (requestBean.mode) {
+    case PaymentMode.BuiltInIframe:
+      return 'PaymentIframe' 
+    case PaymentMode.ModalIframe:
+      return 'PaymentModalIframe';
+    default:
+      return 'PaymentPage';
+  }
+}
+
+export const submitPaymentManual = (requestBean: RequestBean) => {
   const cartStore = useCartStore();
   const { total } = storeToRefs(cartStore);
+  const mode = getUPCPaymentModeFromRequestBean(requestBean);
   const payment = new UpcPayment({
-    mode: requestEntity.mode,
+    mode,
     merchant: {
-      id: requestEntity.merchantId || merchantData.id,
-      terminalId: requestEntity.merchantTerminalId || merchantData.terminalId,
-      signature: requestEntity.merchantSignature || merchantData.signature,
+      id: requestBean.merchantId || merchantData.id,
+      terminalId: requestBean.merchantTerminalId || merchantData.terminalId,
+      signature: requestBean.merchantSignature || merchantData.signature,
     },
     customer: {
-      email: requestEntity.customerEmail || undefined,
-      firstName: requestEntity.customerFirstName || undefined,
-      lastName: requestEntity.customerLastName || undefined,
-      phoneCountryCode: requestEntity.customerPhoneCode || undefined,
-      phoneNumber: requestEntity.customerPhone || undefined,
+      email: requestBean.customerEmail || undefined,
+      firstName: requestBean.customerFirstName || undefined,
+      lastName: requestBean.customerLastName || undefined,
+      phoneCountryCode: requestBean.customerPhoneCode || undefined,
+      phoneNumber: requestBean.customerPhone || undefined,
     },
     iframeProps: {
       wrapperSelector: '#payment-wrapper',
-      callback: (data) => iframeCallback(data, requestEntity.mode === 'PaymentIframe'? PaymentMode.BuiltInIframe : PaymentMode.ModalIframe),
+      callback: (data) => iframeCallback(data, mode === 'PaymentIframe'? PaymentMode.BuiltInIframe : PaymentMode.ModalIframe),
     },
   });
     payment.pay({
-      altCurrencyNumericCode: requestEntity.altCurrencyNumericCode || undefined,
-      altFeeCents: getNumberOrUndefined(requestEntity.altFeeCents) || undefined,
-      altTotalAmountCents: getNumberOrUndefined(requestEntity.altTotalAmountCents) || undefined,
-      currencyNumericCode: requestEntity.currencyNumericCode || currencyNumericCode,
-      delay: getNumberOrUndefined(requestEntity.delay) || undefined,
-      description: requestEntity.description || 'Payment description',
-      feeCents: getNumberOrUndefined(requestEntity.feeCents) || undefined,
-      locale: requestEntity.locale || 'en',
-      orderId: requestEntity.orderId || Date.now().toString(),
-      purchaseTime: requestEntity.purchaseTime || getPurchaseTime(),
-      token: requestEntity.token || '',
-      totalAmountCents: getNumberOrUndefined(requestEntity.totalAmountCents) || total.value,
-      url: requestEntity.url || '',
+      altCurrencyNumericCode: requestBean.altCurrencyNumericCode || undefined,
+      altFeeCents: getNumberOrUndefined(requestBean.altFeeCents) || undefined,
+      altTotalAmountCents: getNumberOrUndefined(requestBean.altTotalAmountCents) || undefined,
+      currencyNumericCode: requestBean.currencyNumericCode || currencyNumericCode,
+      delay: getNumberOrUndefined(requestBean.delay) || undefined,
+      description: requestBean.description || 'Payment description',
+      feeCents: getNumberOrUndefined(requestBean.feeCents) || undefined,
+      locale: requestBean.locale || 'en',
+      orderId: requestBean.orderId || Date.now().toString(),
+      purchaseTime: requestBean.purchaseTime || getPurchaseTime(),
+      token: requestBean.token || '',
+      totalAmountCents: getNumberOrUndefined(requestBean.totalAmountCents) || total.value,
+      url: requestBean.url || '',
     })
 }

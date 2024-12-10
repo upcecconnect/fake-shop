@@ -1,5 +1,5 @@
 import { useCartStore } from '@/stores/useCartStore';
-import { PaymentMode } from '@/types/PaymentMode';
+import { PaymentMode } from '@/enums/PaymentMode';
 import { storeToRefs } from 'pinia';
 import { PaymentIframeCallbackData } from 'upc-payment-js';
 import { UpcPayment } from 'upc-payment-js';

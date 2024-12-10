@@ -14,5 +14,6 @@ module.exports = {
   rules: {
     "comma-dangle": "off",
     "@typescript-eslint/comma-dangle": "off",
+    "vue/multi-word-component-names": "off",
   },
 };

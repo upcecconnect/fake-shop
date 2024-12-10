@@ -6,10 +6,10 @@ import { useCartStore } from '@/stores/useCartStore';
 import { storeToRefs } from 'pinia';
 import StepFirst from './components/StepFirst.vue';
 import StepSecond from './components/StepSecond.vue';
-import { BasketIcon  } from 'vue-tabler-icons';
-import { FileDescriptionIcon } from 'vue-tabler-icons';
+import { IconBasket } from '@tabler/icons-vue';
+import { IconFileDescription } from '@tabler/icons-vue';
 import { RouteName } from '@/router/RouteName';
-import { PaymentMode } from '@/types/PaymentMode';
+import { PaymentMode } from '@/enums/PaymentMode';
 import { submitPaymentRedirect } from '@/utils/submitPayment/submitPaymentRedirect';
 import { submitPaymentBuiltIn } from '@/utils/submitPayment/submitPaymentBuiltIn';
 import { submitPaymentModal } from '@/utils/submitPayment/submitPaymentModal';
@@ -87,20 +87,21 @@ const initPayment = () => {
     <v-card-text>
       <v-tabs v-model="tab" color="primary" class="customTab">
         <v-tab value="tab-1" rounded="md" class="mb-3 mx-2 text-left" height="70">
-          <BasketIcon stroke-width="1.5" width="20" class="v-icon--start" />
+          <IconBasket stroke-width="1.5" width="20" class="v-icon--start" />
           <div>
-            <div>Item Cart</div>
-            <span class="text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block">Product
-              Summary</span>
+            <div>{{ $t('text.item.cart') }}</div>
+            <span class="text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block">
+              {{ $t('text.product.summary') }}
+            </span>
           </div>
         </v-tab>
 
         <v-tab value="tab-2" rounded="md" class="mb-3 mx-2 text-left" height="70" :disabled="selectedProducts.size < 1">
-          <FileDescriptionIcon stroke-width="1.5" width="20" class="v-icon--start" />
+          <IconFileDescription stroke-width="1.5" width="20" class="v-icon--start" />
           <div>
-            <div>Billing</div>
+            <div>{{ $t('text.billing') }}</div>
             <span class="text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block">
-              Billing Information
+              {{ $t('text.billing.information') }}
             </span>
           </div>
         </v-tab>
@@ -110,10 +111,22 @@ const initPayment = () => {
           <StepFirst :mode="mode" />
           <v-row class="mt-3">
             <v-col cols="12" sm="6">
-              <v-btn color="primary" variant="tonal" :to="{ name: RouteName.Products, query: { ...$route.query } }">Continue Shopping</v-btn>
+              <v-btn 
+                color="primary"
+                variant="tonal"
+                :to="{ name: RouteName.Products, query: { ...$route.query } }"
+              >
+                {{ $t('action.continue.shopping') }}
+              </v-btn>
             </v-col>
             <v-col cols="12" sm="6" class="text-sm-right">
-              <v-btn color="primary" @click="changeTab('tab-2')" v-if="selectedProducts.size >= 1">CheckOut</v-btn>
+              <v-btn
+                v-if="selectedProducts.size >= 1"
+                color="primary"
+                @click="changeTab('tab-2')"
+              >
+                {{ $t('action.checkout') }}
+              </v-btn>
             </v-col>
           </v-row>
         </v-window-item>
@@ -126,17 +139,20 @@ const initPayment = () => {
                 color="primary"
                 variant="tonal"
                 @click="changeTab('tab-1')"
-              >Back</v-btn>
+              >
+                {{ $t('action.back') }}
+              </v-btn>
             </v-col>
             <v-col cols="6" class="text-right">
               <v-btn
-                v-if="mode !== PaymentMode.Manual"
+                v-if="mode !== PaymentMode.Manual && mode !== PaymentMode.PayByBank"
                 color="primary"
                 :disabled="!isInitPaymentButtonClickable"
                 @click="initPayment"
               >
-                Complete an Order
+                {{ $t('action.complete.an.order') }}
               </v-btn>
+              <div v-if="mode === PaymentMode.PayByBank">Pay by bank</div>
             </v-col>
           </v-row>
         </v-window-item>

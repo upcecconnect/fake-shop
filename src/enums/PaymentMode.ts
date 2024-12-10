@@ -2,6 +2,7 @@ export enum PaymentMode {
   Redirect = 'redirect',
   BuiltInIframe = 'built-in-iframe',
   ModalIframe = 'modal-iframe',
+  PayByBank = 'pay-by-bank',
   Manual = 'manual',
 }
 

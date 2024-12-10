@@ -1,4 +1,6 @@
-export interface RequestEntity {
+import { PaymentMode } from '@/enums/PaymentMode';
+
+export interface RequestBean {
   readonly altCurrencyNumericCode: string;
   readonly altFeeCents: number;
   readonly altTotalAmountCents: number;
@@ -17,13 +19,10 @@ export interface RequestEntity {
   readonly merchantId: string;
   readonly merchantSignature: string;
   readonly merchantTerminalId: string;
-  readonly mode: 'PaymentIframe'|'PaymentModalIframe'|'PaymentPage';
+  readonly mode: PaymentMode;
   readonly orderId: string;
   readonly purchaseTime: string;
   readonly token: string;
   readonly totalAmountCents: number;
   readonly url: string;
-  readonly creditorIBAN: string;
-  readonly creditorName: string;
-  readonly creditorCode: string;
 }

@@ -3,7 +3,7 @@ import { onMounted } from 'vue';
 import { ref } from 'vue';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { CheckIcon } from 'vue-tabler-icons';
+import { IconCheck } from '@tabler/icons-vue';
 import { useProductsFiltersStore } from '@/stores/useProductsFiltersStore';
 import { useProductsListStore } from '@/stores/useProductsListStore';
 import { FilterPrice } from '@/types/FilterPrice';
@@ -168,7 +168,7 @@ onMounted(() => {
   <v-sheet class="pa-4 pt-1">
     <v-expansion-panels v-model="panel" multiple>
       <v-expansion-panel elevation="0">
-        <v-expansion-panel-title class="font-weight-medium custom-accordion"> Gender </v-expansion-panel-title>
+        <v-expansion-panel-title class="font-weight-medium custom-accordion"> {{ $t('text.gender') }} </v-expansion-panel-title>
         <v-expansion-panel-text class="acco-body">
           <v-row no-gutters>
             <v-col cols="12">
@@ -200,7 +200,7 @@ onMounted(() => {
       </v-expansion-panel>
       <v-divider />
       <v-expansion-panel elevation="0">
-        <v-expansion-panel-title class="font-weight-medium custom-accordion"> Categories </v-expansion-panel-title>
+        <v-expansion-panel-title class="font-weight-medium custom-accordion"> {{ $t('text.categories') }} </v-expansion-panel-title>
         <v-expansion-panel-text class="acco-body">
           <v-row no-gutters>
             <v-col cols="12">
@@ -218,7 +218,7 @@ onMounted(() => {
       </v-expansion-panel>
       <v-divider />
       <v-expansion-panel elevation="0">
-        <v-expansion-panel-title class="font-weight-medium custom-accordion"> Colors </v-expansion-panel-title>
+        <v-expansion-panel-title class="font-weight-medium custom-accordion"> {{ $t('text.colors') }} </v-expansion-panel-title>
         <v-expansion-panel-text class="acco-body">
           <div v-if="productColors.length > 0" class="d-flex gap-2 flex-wrap v-col-11 px-0">
             <template v-for="color in productColors" :key="color">
@@ -230,7 +230,7 @@ onMounted(() => {
                 @click="() => selectedColorComputed = color"
               >
                 <template v-if="selectedColorComputed === color">
-                  <CheckIcon size="13" />
+                  <IconCheck size="13" />
                 </template>
               </v-avatar>
             </template>
@@ -239,7 +239,7 @@ onMounted(() => {
       </v-expansion-panel>
       <v-divider />
       <v-expansion-panel elevation="0">
-        <v-expansion-panel-title class="font-weight-medium custom-accordion"> Price </v-expansion-panel-title>
+        <v-expansion-panel-title class="font-weight-medium custom-accordion"> {{ $t('text.price') }} </v-expansion-panel-title>
         <v-expansion-panel-text class="acco-body">
           <v-radio-group v-model="selectedPriceComputed" class="custom-radio-box">
             <v-radio
@@ -256,15 +256,16 @@ onMounted(() => {
       </v-expansion-panel>
       <v-divider />
       <v-expansion-panel elevation="0">
-        <v-expansion-panel-title class="font-weight-medium custom-accordion"> Rating </v-expansion-panel-title>
+        <v-expansion-panel-title class="font-weight-medium custom-accordion"> {{ $t('text.rating') }} </v-expansion-panel-title>
         <v-expansion-panel-text class="acco-body">
           <v-rating hover color="warning" v-model="selectedRatingComputed" class="ma-2" density="compact"></v-rating>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
-    <v-btn color="primary" @click="resetFilters()" block class="mt-5">Reset Filters</v-btn>
+    <v-btn color="primary" @click="resetFilters()" block class="mt-5">{{ $t('action.reset.filters') }}</v-btn>
   </v-sheet>
 </template>
+
 <style lang="scss">
   .custom-accordion {
     padding: 18px 2px;

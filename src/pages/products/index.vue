@@ -4,13 +4,13 @@ import { computed } from 'vue';
 import ProductCard from './components/ProductCard.vue';
 import ProductFilters from '@/pages/products/components/ProductFilters.vue';
 import { useDisplay } from 'vuetify';
-import { Menu2Icon } from 'vue-tabler-icons';
 import imageEmpty from '@/assets/images/products/empty-shopping-cart.svg';
 import { storeToRefs } from 'pinia';
 import type { Product } from '@/types/Product';
 import { useProductsListStore } from '@/stores/useProductsListStore';
 import { useCartStore } from '@/stores/useCartStore';
 import { useProductsFiltersStore } from '@/stores/useProductsFiltersStore';
+import { IconMenu2 } from '@tabler/icons-vue';
 
 const { lgAndUp } = useDisplay();
 const sDrawer = ref(false);
@@ -77,7 +77,8 @@ const addToCart = (productId: Product['id']) => {
       </div>
       <div class="right-part">
         <v-btn block @click="sDrawer = !sDrawer" variant="text" class="d-lg-none d-md-flex d-sm-flex">
-          <Menu2Icon size="20" class="mr-2" /> Menu
+          <IconMenu2 size="20" class="mr-2" />
+          <span>{{ $t('text.menu') }}</span>
         </v-btn>
         <v-divider class="d-lg-none d-block" />
         <v-sheet class="pa-4">
@@ -111,8 +112,8 @@ const addToCart = (productId: Product['id']) => {
           <v-row v-else class="justify-center mt-10">
             <v-col class="text-center" lg="7">
               <v-img :src="imageEmpty" alt="cover" />
-              <h1 class="text-h1 mt-6">There is no Product</h1>
-              <p>Try checking your spelling or use more general terms</p>
+              <h1 class="text-h1 mt-6">{{ $t('text.there.is.no.product') }}</h1>
+              <p>{{ $t('text.there.is.no.product.description') }}</p>
             </v-col>
           </v-row>
         </v-sheet>

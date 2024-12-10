@@ -1,7 +1,7 @@
 import { merchantData } from '@/static/merchantData';
 import { currencyNumericCode } from '@/static/currencyNumericCode';
 import { useCartStore } from '@/stores/useCartStore';
-import { PaymentMode } from '@/types/PaymentMode';
+import { PaymentMode } from '@/enums/PaymentMode';
 import { storeToRefs } from 'pinia';
 import { UpcPayment } from 'upc-payment-js';
 import { getPurchaseTime } from './getPurchaseTime';

@@ -1,9 +1,5 @@
 .customize-table {
   border-radius: $border-radius-root;
-  .vue3-easy-data-table__main,
-  .vue3-easy-data-table__footer {
-    border-radius: $border-radius-root;
-  }
   white-space: nowrap;
   --easy-table-border: 1px solid rgb(var(--v-theme-inputBorder), 0.1);
   --easy-table-row-border: 1px solid rgb(var(--v-theme-inputBorder), 0.1);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CopyIcon } from 'vue-tabler-icons';
+import { IconCopy } from '@tabler/icons-vue';
 
 enum CardIssuer {
   VISA = 'VISA',
@@ -176,7 +176,7 @@ const copyToClipboard = (text: string) => {
         rounded="md"
         class="text-white"
       >
-        Card number copied to clipboard
+        {{ $t('snackbar.card.number.copied.to.clipboard') }}
       </v-snackbar>
       <div v-for="item in testCardsGroups" :key="item.issuer">
         <v-table>
@@ -210,9 +210,9 @@ const copyToClipboard = (text: string) => {
               </td>
             </tr>
             <tr>
-              <th>Transaction code</th>
-              <th>Description</th>
-              <th>Card number</th>
+              <th>{{ $t('text.transaction.code') }}</th>
+              <th>{{ $t('text.description') }}</th>
+              <th>{{ $t('text.card.number') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -225,10 +225,10 @@ const copyToClipboard = (text: string) => {
                   icon
                   variant="text"
                   color="primary"
-                  title="Copy"
+                  :title="$t('title.copy')"
                   @click="copyToClipboard(card.cardNumber)"
                 >
-                  <CopyIcon stroke-width="1.5" size="22"  />
+                  <IconCopy stroke-width="1.5" size="22"  />
                 </v-btn>
               </td>
             </tr>

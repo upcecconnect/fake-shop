@@ -3,7 +3,7 @@ import type { Product } from '@/types/Product';
 import { asCurrency } from '@/utils/asCurrency';
 import { ref } from 'vue';
 import type { PropType } from 'vue';
-import { BasketIcon } from 'vue-tabler-icons';
+import { IconBasket } from '@tabler/icons-vue';
 
 const props = defineProps({
   name: {
@@ -49,7 +49,7 @@ const selectProduct = () => {
   <v-card variant="outlined" class="rounded card-hover overflow-hidden bg-surface">
     <img alt="product" :src="image" class="w-100" />
     <div class="d-flex justify-end mr-3 mt-n6">
-      <v-tooltip text="Add to Cart" location="bottom">
+      <v-tooltip :text="$t('title.add.to.cart')" location="bottom">
         <template v-slot:activator="{ props }">
           <v-btn
             icon
@@ -59,7 +59,7 @@ const selectProduct = () => {
             size="x-small"
             @click="selectProduct"
             >
-            <BasketIcon size="18" />
+            <IconBasket size="18" />
           </v-btn>
         </template>
       </v-tooltip>
@@ -82,7 +82,7 @@ const selectProduct = () => {
       rounded="md"
       class="text-white"
     >
-      Item Added to The Cart
+      {{ $t('snackbar.item.added.to.the.cart') }}
     </v-snackbar>
   </v-card>
 </template>

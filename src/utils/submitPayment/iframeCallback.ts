@@ -1,4 +1,4 @@
-import { PaymentMode } from '@/types/PaymentMode';
+import { PaymentMode } from '@/enums/PaymentMode';
 import { PaymentIframeCallbackData } from 'upc-payment-js';
 
 export const iframeCallback = (callbackData: PaymentIframeCallbackData, mode: PaymentMode) => {

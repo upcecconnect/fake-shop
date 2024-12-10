@@ -4,7 +4,7 @@ import { ref } from 'vue';
 import OrderSummary from './OrderSummary.vue';
 import { useCartStore } from '@/stores/useCartStore';
 import type { VForm } from 'vuetify/lib/components/index.mjs';
-import { PaymentMode } from '@/types/PaymentMode';
+import { PaymentMode } from '@/enums/PaymentMode';
 import ManualRequest from './ManualRequest.vue';
 import { rules } from '@/utils/rules';
 
@@ -83,7 +83,7 @@ const onSubmit = async () => {
   }
   cartStore.$patch({
     billingAddress: billingAddress.value,
-  })
+  });
 };
 </script>
 
@@ -98,7 +98,7 @@ const onSubmit = async () => {
       </template>
       <template v-else>
         <div class="d-flex align-center my-5">
-          <h4 class="text-h5">Billing Address</h4>
+          <h4 class="text-h5">{{ $t('text.billing.address') }}</h4>
         </div>
         <v-row>
           <v-col cols="12" md="6">
@@ -211,12 +211,12 @@ const onSubmit = async () => {
                     variant="outlined"
                     @click="onCancel"
                   >
-                    Cancel
+                    {{ $t('action.cancel') }}
                   </v-btn>
-                  <v-btn color="primary" type="submit" variant="outlined">Confirm</v-btn>
+                  <v-btn color="primary" type="submit" variant="outlined">{{ $t('action.confirm') }}</v-btn>
                 </v-col>
                 <v-col v-else cols="12" lg="12" class="text-right">
-                  <v-btn color="primary" type="button" variant="outlined" @click="onEdit">Edit</v-btn>
+                  <v-btn color="primary" type="button" variant="outlined" @click="onEdit">{{ $t('action.edit') }}</v-btn>
                 </v-col>
               </v-row>
             </v-form>

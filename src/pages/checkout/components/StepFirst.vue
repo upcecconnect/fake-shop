@@ -2,17 +2,17 @@
 import { asCurrency } from '@/utils/asCurrency';
 import { computed } from 'vue';
 import imageEmpty from '@/assets/images/products/empty-shopping-cart.svg';
-import { MinusIcon } from 'vue-tabler-icons';
+import { IconMinus } from '@tabler/icons-vue';
 import { onMounted } from 'vue';
 import OrderSummary from './OrderSummary.vue';
-import { PaymentMode } from '@/types/PaymentMode';
-import { PlusIcon } from 'vue-tabler-icons';
+import { PaymentMode } from '@/enums/PaymentMode';
+import { IconPlus } from '@tabler/icons-vue';
 import type { Product } from '@/types/Product';
 import type { ProductWithQuantity } from '@/types/ProductWithQuantity';
 import { PropType } from 'vue';
 import { RouteName } from '@/router/RouteName';
 import { storeToRefs } from 'pinia';
-import { TrashIcon } from 'vue-tabler-icons';
+import { IconTrash } from '@tabler/icons-vue';
 import { useCartStore } from '@/stores/useCartStore';
 
 defineProps({
@@ -53,15 +53,15 @@ onMounted(() => {
 </script>
 <template>
   <div v-if="selectedProducts.size > 0">
-    <h5 class="text-h5 my-8">Cart Item ({{ selectedProducts.size }})</h5>
+    <h5 class="text-h5 my-8">{{ $t('text.item.cart') }} ({{ selectedProducts.size }})</h5>
     <v-divider />
     <v-table>
       <thead>
         <tr>
-          <th class="text-left text-subtitle-1 font-weight-semibold">Product</th>
-          <th class="text-left text-subtitle-1 font-weight-semibold">Price</th>
-          <th class="text-left text-subtitle-1 font-weight-semibold">Quantity</th>
-          <th class="text-left text-subtitle-1 font-weight-semibold">Total</th>
+          <th class="text-left text-subtitle-1 font-weight-semibold">{{ $t('text.product') }}</th>
+          <th class="text-left text-subtitle-1 font-weight-semibold">{{ $t('text.price') }}</th>
+          <th class="text-left text-subtitle-1 font-weight-semibold">{{ $t('text.quantity') }}</th>
+          <th class="text-left text-subtitle-1 font-weight-semibold">{{ $t('text.total') }}</th>
           <th class="text-right" aria-hidden="true"></th>
         </tr>
       </thead>
@@ -83,7 +83,7 @@ onMounted(() => {
           <td>
             <v-btn-toggle variant="outlined" divided color="success">
               <v-btn size="x-small" @click="cartStore.decrementQuantity(item.id)" :disabled="item.quantity < 2">
-                <MinusIcon size="18" />
+                <IconMinus size="18" />
               </v-btn>
 
               <v-btn size="x-small">
@@ -91,14 +91,14 @@ onMounted(() => {
               </v-btn>
 
               <v-btn size="x-small" @click="cartStore.incrementQuantity(item.id)">
-                <PlusIcon size="18" />
+                <IconPlus size="18" />
               </v-btn>
             </v-btn-toggle>
           </td>
           <td class="text-h5">{{ asCurrency(item.offerPrice * item.quantity) }} UAH</td>
           <td class="text-right">
             <v-btn small icon flat elevation="0" @click="removeItemFromCart(item.id)">
-              <TrashIcon size="18" class="text-error" />
+              <IconTrash size="18" class="text-error" />
             </v-btn>
           </td>
         </tr>
@@ -117,8 +117,15 @@ onMounted(() => {
     <v-row class="justify-center">
       <v-col class="text-center" lg="6">
         <v-img :src="imageEmpty" alt="cover" width="300px" class="mx-auto mt-5" />
-        <h5 class="text-h5">Cart is Empty</h5>
-        <v-btn class="mt-3" :to="{ name: RouteName.Products, query: { ...$route.query } }" variant="flat" color="primary">Go Back to Shopping</v-btn>
+        <h5 class="text-h5">{{ $t('text.cart.is.empty') }}</h5>
+        <v-btn
+          class="mt-3"
+          :to="{ name: RouteName.Products, query: { ...$route.query } }"
+          variant="flat"
+          color="primary"
+        >
+          {{ $t('action.go.back.to.shopping') }}
+        </v-btn>
       </v-col>
     </v-row>
   </div>
