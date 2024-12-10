@@ -59,34 +59,34 @@ const remove = (arr, el) => {
     arr.splice(i, 1);
   }
 };
-const hasOwnProperty$1 = Object.prototype.hasOwnProperty;
-const hasOwn = (val, key) => hasOwnProperty$1.call(val, key);
-const isArray$1 = Array.isArray;
-const isMap = (val) => toTypeString(val) === "[object Map]";
-const isSet = (val) => toTypeString(val) === "[object Set]";
-const isFunction = (val) => typeof val === "function";
-const isString = (val) => typeof val === "string";
+const hasOwnProperty$2 = Object.prototype.hasOwnProperty;
+const hasOwn$1 = (val, key) => hasOwnProperty$2.call(val, key);
+const isArray$2 = Array.isArray;
+const isMap = (val) => toTypeString$1(val) === "[object Map]";
+const isSet = (val) => toTypeString$1(val) === "[object Set]";
+const isFunction$1 = (val) => typeof val === "function";
+const isString$1 = (val) => typeof val === "string";
 const isSymbol = (val) => typeof val === "symbol";
-const isObject$1 = (val) => val !== null && typeof val === "object";
-const isPromise = (val) => {
-  return (isObject$1(val) || isFunction(val)) && isFunction(val.then) && isFunction(val.catch);
+const isObject$2 = (val) => val !== null && typeof val === "object";
+const isPromise$1 = (val) => {
+  return (isObject$2(val) || isFunction$1(val)) && isFunction$1(val.then) && isFunction$1(val.catch);
 };
-const objectToString = Object.prototype.toString;
-const toTypeString = (value) => objectToString.call(value);
+const objectToString$1 = Object.prototype.toString;
+const toTypeString$1 = (value) => objectToString$1.call(value);
 const toRawType = (value) => {
-  return toTypeString(value).slice(8, -1);
+  return toTypeString$1(value).slice(8, -1);
 };
-const isPlainObject$1 = (val) => toTypeString(val) === "[object Object]";
-const isIntegerKey = (key) => isString(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
+const isPlainObject$2 = (val) => toTypeString$1(val) === "[object Object]";
+const isIntegerKey = (key) => isString$1(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
 const isReservedProp = /* @__PURE__ */ makeMap(
   // the leading comma is intentional so empty string "" is also included
   ",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted"
 );
 const cacheStringFunction = (fn) => {
-  const cache = /* @__PURE__ */ Object.create(null);
+  const cache2 = /* @__PURE__ */ Object.create(null);
   return (str) => {
-    const hit = cache[str];
-    return hit || (cache[str] = fn(str));
+    const hit = cache2[str];
+    return hit || (cache2[str] = fn(str));
   };
 };
 const camelizeRE = /-(\w)/g;
@@ -97,11 +97,11 @@ const hyphenateRE = /\B([A-Z])/g;
 const hyphenate = cacheStringFunction(
   (str) => str.replace(hyphenateRE, "-$1").toLowerCase()
 );
-const capitalize = cacheStringFunction((str) => {
+const capitalize$1 = cacheStringFunction((str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 });
 const toHandlerKey = cacheStringFunction((str) => {
-  const s = str ? `on${capitalize(str)}` : ``;
+  const s = str ? `on${capitalize$1(str)}` : ``;
   return s;
 });
 const hasChanged = (value, oldValue) => !Object.is(value, oldValue);
@@ -122,19 +122,19 @@ const looseToNumber = (val) => {
   return isNaN(n) ? val : n;
 };
 const toNumber = (val) => {
-  const n = isString(val) ? Number(val) : NaN;
+  const n = isString$1(val) ? Number(val) : NaN;
   return isNaN(n) ? val : n;
 };
-let _globalThis;
-const getGlobalThis = () => {
-  return _globalThis || (_globalThis = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {});
+let _globalThis$1;
+const getGlobalThis$1 = () => {
+  return _globalThis$1 || (_globalThis$1 = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {});
 };
 function normalizeStyle(value) {
-  if (isArray$1(value)) {
+  if (isArray$2(value)) {
     const res = {};
     for (let i = 0; i < value.length; i++) {
       const item = value[i];
-      const normalized = isString(item) ? parseStringStyle(item) : normalizeStyle(item);
+      const normalized = isString$1(item) ? parseStringStyle(item) : normalizeStyle(item);
       if (normalized) {
         for (const key in normalized) {
           res[key] = normalized[key];
@@ -142,7 +142,7 @@ function normalizeStyle(value) {
       }
     }
     return res;
-  } else if (isString(value) || isObject$1(value)) {
+  } else if (isString$1(value) || isObject$2(value)) {
     return value;
   }
 }
@@ -161,16 +161,16 @@ function parseStringStyle(cssText) {
 }
 function normalizeClass(value) {
   let res = "";
-  if (isString(value)) {
+  if (isString$1(value)) {
     res = value;
-  } else if (isArray$1(value)) {
+  } else if (isArray$2(value)) {
     for (let i = 0; i < value.length; i++) {
       const normalized = normalizeClass(value[i]);
       if (normalized) {
         res += normalized + " ";
       }
     }
-  } else if (isObject$1(value)) {
+  } else if (isObject$2(value)) {
     for (const name in value) {
       if (value[name]) {
         res += name + " ";
@@ -184,8 +184,8 @@ const isSpecialBooleanAttr = /* @__PURE__ */ makeMap(specialBooleanAttrs);
 function includeBooleanAttr(value) {
   return !!value || value === "";
 }
-const toDisplayString = (val) => {
-  return isString(val) ? val : val == null ? "" : isArray$1(val) || isObject$1(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
+const toDisplayString$1 = (val) => {
+  return isString$1(val) ? val : val == null ? "" : isArray$2(val) || isObject$2(val) && (val.toString === objectToString$1 || !isFunction$1(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
 };
 const replacer = (_key, val) => {
   if (val && val.__v_isRef) {
@@ -206,7 +206,7 @@ const replacer = (_key, val) => {
     };
   } else if (isSymbol(val)) {
     return stringifySymbol(val);
-  } else if (isObject$1(val) && !isArray$1(val) && !isPlainObject$1(val)) {
+  } else if (isObject$2(val) && !isArray$2(val) && !isPlainObject$2(val)) {
     return String(val);
   }
   return val;
@@ -484,7 +484,7 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
   let deps = [];
   if (type === "clear") {
     deps = [...depsMap.values()];
-  } else if (key === "length" && isArray$1(target)) {
+  } else if (key === "length" && isArray$2(target)) {
     const newLength = Number(newValue);
     depsMap.forEach((dep, key2) => {
       if (key2 === "length" || !isSymbol(key2) && key2 >= newLength) {
@@ -497,7 +497,7 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
     }
     switch (type) {
       case "add":
-        if (!isArray$1(target)) {
+        if (!isArray$2(target)) {
           deps.push(depsMap.get(ITERATE_KEY));
           if (isMap(target)) {
             deps.push(depsMap.get(MAP_KEY_ITERATE_KEY));
@@ -507,7 +507,7 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
         }
         break;
       case "delete":
-        if (!isArray$1(target)) {
+        if (!isArray$2(target)) {
           deps.push(depsMap.get(ITERATE_KEY));
           if (isMap(target)) {
             deps.push(depsMap.get(MAP_KEY_ITERATE_KEY));
@@ -569,7 +569,7 @@ function createArrayInstrumentations() {
   });
   return instrumentations;
 }
-function hasOwnProperty(key) {
+function hasOwnProperty$1(key) {
   const obj = toRaw(this);
   track(obj, "has", key);
   return obj.hasOwnProperty(key);
@@ -595,13 +595,13 @@ class BaseReactiveHandler {
       }
       return;
     }
-    const targetIsArray = isArray$1(target);
+    const targetIsArray = isArray$2(target);
     if (!isReadonly2) {
-      if (targetIsArray && hasOwn(arrayInstrumentations, key)) {
+      if (targetIsArray && hasOwn$1(arrayInstrumentations, key)) {
         return Reflect.get(arrayInstrumentations, key, receiver);
       }
       if (key === "hasOwnProperty") {
-        return hasOwnProperty;
+        return hasOwnProperty$1;
       }
     }
     const res = Reflect.get(target, key, receiver);
@@ -617,7 +617,7 @@ class BaseReactiveHandler {
     if (isRef(res)) {
       return targetIsArray && isIntegerKey(key) ? res : res.value;
     }
-    if (isObject$1(res)) {
+    if (isObject$2(res)) {
       return isReadonly2 ? readonly(res) : reactive(res);
     }
     return res;
@@ -635,7 +635,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
         oldValue = toRaw(oldValue);
         value = toRaw(value);
       }
-      if (!isArray$1(target) && isRef(oldValue) && !isRef(value)) {
+      if (!isArray$2(target) && isRef(oldValue) && !isRef(value)) {
         if (isOldValueReadonly) {
           return false;
         } else {
@@ -644,7 +644,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
         }
       }
     }
-    const hadKey = isArray$1(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn(target, key);
+    const hadKey = isArray$2(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn$1(target, key);
     const result = Reflect.set(target, key, value, receiver);
     if (target === toRaw(receiver)) {
       if (!hadKey) {
@@ -656,7 +656,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
     return result;
   }
   deleteProperty(target, key) {
-    const hadKey = hasOwn(target, key);
+    const hadKey = hasOwn$1(target, key);
     target[key];
     const result = Reflect.deleteProperty(target, key);
     if (result && hadKey) {
@@ -675,7 +675,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
     track(
       target,
       "iterate",
-      isArray$1(target) ? "length" : ITERATE_KEY
+      isArray$2(target) ? "length" : ITERATE_KEY
     );
     return Reflect.ownKeys(target);
   }
@@ -943,7 +943,7 @@ function createInstrumentationGetter(isReadonly2, shallow) {
       return target;
     }
     return Reflect.get(
-      hasOwn(instrumentations, key) && key in target ? instrumentations : target,
+      hasOwn$1(instrumentations, key) && key in target ? instrumentations : target,
       key,
       receiver
     );
@@ -1010,7 +1010,7 @@ function readonly(target) {
   );
 }
 function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
-  if (!isObject$1(target)) {
+  if (!isObject$2(target)) {
     return target;
   }
   if (target["__v_raw"] && !(isReadonly2 && target["__v_isReactive"])) {
@@ -1056,8 +1056,8 @@ function markRaw(value) {
   }
   return value;
 }
-const toReactive = (value) => isObject$1(value) ? reactive(value) : value;
-const toReadonly = (value) => isObject$1(value) ? readonly(value) : value;
+const toReactive = (value) => isObject$2(value) ? reactive(value) : value;
+const toReadonly = (value) => isObject$2(value) ? readonly(value) : value;
 class ComputedRefImpl {
   constructor(getter, _setter, isReadonly2, isSSR) {
     this._setter = _setter;
@@ -1101,7 +1101,7 @@ class ComputedRefImpl {
 function computed$1(getterOrOptions, debugOptions, isSSR = false) {
   let getter;
   let setter;
-  const onlyGetter = isFunction(getterOrOptions);
+  const onlyGetter = isFunction$1(getterOrOptions);
   if (onlyGetter) {
     getter = getterOrOptions;
     setter = NOOP;
@@ -1191,7 +1191,7 @@ function proxyRefs(objectWithRefs) {
   return isReactive(objectWithRefs) ? objectWithRefs : new Proxy(objectWithRefs, shallowUnwrapHandlers);
 }
 function toRefs(object) {
-  const ret = isArray$1(object) ? new Array(object.length) : {};
+  const ret = isArray$2(object) ? new Array(object.length) : {};
   for (const key in object) {
     ret[key] = propertyToRef(object, key);
   }
@@ -1228,9 +1228,9 @@ class GetterRefImpl {
 function toRef(source, key, defaultValue) {
   if (isRef(source)) {
     return source;
-  } else if (isFunction(source)) {
+  } else if (isFunction$1(source)) {
     return new GetterRefImpl(source);
-  } else if (isObject$1(source) && arguments.length > 1) {
+  } else if (isObject$2(source) && arguments.length > 1) {
     return propertyToRef(source, key, defaultValue);
   } else {
     return ref(source);
@@ -1328,7 +1328,7 @@ function formatProps(props) {
   return res;
 }
 function formatProp(key, value, raw) {
-  if (isString(value)) {
+  if (isString$1(value)) {
     value = JSON.stringify(value);
     return raw ? value : [`${key}=${value}`];
   } else if (typeof value === "number" || typeof value === "boolean" || value == null) {
@@ -1336,7 +1336,7 @@ function formatProp(key, value, raw) {
   } else if (isRef(value)) {
     value = formatProp(key, toRaw(value.value), true);
     return raw ? value : [`${key}=Ref<`, value, `>`];
-  } else if (isFunction(value)) {
+  } else if (isFunction$1(value)) {
     return [`${key}=fn${value.name ? `<${value.name}>` : ``}`];
   } else {
     value = toRaw(value);
@@ -1353,9 +1353,9 @@ function callWithErrorHandling(fn, instance, type, args) {
   return res;
 }
 function callWithAsyncErrorHandling(fn, instance, type, args) {
-  if (isFunction(fn)) {
+  if (isFunction$1(fn)) {
     const res = callWithErrorHandling(fn, instance, type, args);
-    if (res && isPromise(res)) {
+    if (res && isPromise$1(res)) {
       res.catch((err) => {
         handleError(err, instance, type);
       });
@@ -1457,7 +1457,7 @@ function invalidateJob(job) {
   }
 }
 function queuePostFlushCb(cb) {
-  if (!isArray$1(cb)) {
+  if (!isArray$2(cb)) {
     if (!activePostFlushCbs || !activePostFlushCbs.includes(
       cb,
       cb.allowRecurse ? postFlushIndex + 1 : postFlushIndex
@@ -1543,11 +1543,11 @@ function emit(instance, event, ...rawArgs) {
   const modelArg = isModelListener2 && event.slice(7);
   if (modelArg && modelArg in props) {
     const modifiersKey = `${modelArg === "modelValue" ? "model" : modelArg}Modifiers`;
-    const { number, trim } = props[modifiersKey] || EMPTY_OBJ;
+    const { number: number2, trim } = props[modifiersKey] || EMPTY_OBJ;
     if (trim) {
-      args = rawArgs.map((a) => isString(a) ? a.trim() : a);
+      args = rawArgs.map((a) => isString$1(a) ? a.trim() : a);
     }
-    if (number) {
+    if (number2) {
       args = rawArgs.map(looseToNumber);
     }
   }
@@ -1582,15 +1582,15 @@ function emit(instance, event, ...rawArgs) {
   }
 }
 function normalizeEmitsOptions(comp, appContext, asMixin = false) {
-  const cache = appContext.emitsCache;
-  const cached = cache.get(comp);
+  const cache2 = appContext.emitsCache;
+  const cached = cache2.get(comp);
   if (cached !== void 0) {
     return cached;
   }
   const raw = comp.emits;
   let normalized = {};
   let hasExtends = false;
-  if (!isFunction(comp)) {
+  if (!isFunction$1(comp)) {
     const extendEmits = (raw2) => {
       const normalizedFromExtend = normalizeEmitsOptions(raw2, appContext, true);
       if (normalizedFromExtend) {
@@ -1609,18 +1609,18 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
     }
   }
   if (!raw && !hasExtends) {
-    if (isObject$1(comp)) {
-      cache.set(comp, null);
+    if (isObject$2(comp)) {
+      cache2.set(comp, null);
     }
     return null;
   }
-  if (isArray$1(raw)) {
+  if (isArray$2(raw)) {
     raw.forEach((key) => normalized[key] = null);
   } else {
     extend(normalized, raw);
   }
-  if (isObject$1(comp)) {
-    cache.set(comp, normalized);
+  if (isObject$2(comp)) {
+    cache2.set(comp, normalized);
   }
   return normalized;
 }
@@ -1629,7 +1629,7 @@ function isEmitListener(options, key) {
     return false;
   }
   key = key.slice(2).replace(/Once$/, "");
-  return hasOwn(options, key[0].toLowerCase() + key.slice(1)) || hasOwn(options, hyphenate(key)) || hasOwn(options, key);
+  return hasOwn$1(options, key[0].toLowerCase() + key.slice(1)) || hasOwn$1(options, hyphenate(key)) || hasOwn$1(options, key);
 }
 let currentRenderingInstance = null;
 let currentScopeId = null;
@@ -1872,7 +1872,7 @@ function resolveComponent(name, maybeSelfReference) {
 }
 const NULL_DYNAMIC_COMPONENT = Symbol.for("v-ndc");
 function resolveDynamicComponent(component) {
-  if (isString(component)) {
+  if (isString$1(component)) {
     return resolveAsset(COMPONENTS, component, false) || component;
   } else {
     return component;
@@ -1890,7 +1890,7 @@ function resolveAsset(type, name, warnMissing = true, maybeSelfReference = false
         Component,
         false
       );
-      if (selfName && (selfName === name || selfName === camelize(name) || selfName === capitalize(camelize(name)))) {
+      if (selfName && (selfName === name || selfName === camelize(name) || selfName === capitalize$1(camelize(name)))) {
         return Component;
       }
     }
@@ -1907,12 +1907,12 @@ function resolveAsset(type, name, warnMissing = true, maybeSelfReference = false
   }
 }
 function resolve(registry, name) {
-  return registry && (registry[name] || registry[camelize(name)] || registry[capitalize(camelize(name))]);
+  return registry && (registry[name] || registry[camelize(name)] || registry[capitalize$1(camelize(name))]);
 }
 const isSuspense = (type) => type.__isSuspense;
 function queueEffectWithSuspense(fn, suspense) {
   if (suspense && suspense.pendingBranch) {
-    if (isArray$1(fn)) {
+    if (isArray$2(fn)) {
       suspense.effects.push(...fn);
     } else {
       suspense.effects.push(fn);
@@ -1964,7 +1964,7 @@ function doWatch(source, cb, {
   } else if (isReactive(source)) {
     getter = () => reactiveGetter(source);
     forceTrigger = true;
-  } else if (isArray$1(source)) {
+  } else if (isArray$2(source)) {
     isMultiSource = true;
     forceTrigger = source.some((s) => isReactive(s) || isShallow(s));
     getter = () => source.map((s) => {
@@ -1972,11 +1972,11 @@ function doWatch(source, cb, {
         return s.value;
       } else if (isReactive(s)) {
         return reactiveGetter(s);
-      } else if (isFunction(s)) {
+      } else if (isFunction$1(s)) {
         return callWithErrorHandling(s, instance, 2);
       } else ;
     });
-  } else if (isFunction(source)) {
+  } else if (isFunction$1(source)) {
     if (cb) {
       getter = () => callWithErrorHandling(source, instance, 2);
     } else {
@@ -2088,9 +2088,9 @@ function doWatch(source, cb, {
 }
 function instanceWatch(source, value, options) {
   const publicThis = this.proxy;
-  const getter = isString(source) ? source.includes(".") ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
+  const getter = isString$1(source) ? source.includes(".") ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
   let cb;
-  if (isFunction(value)) {
+  if (isFunction$1(value)) {
     cb = value;
   } else {
     cb = value.handler;
@@ -2112,7 +2112,7 @@ function createPathGetter(ctx, path) {
   };
 }
 function traverse(value, depth, currentDepth = 0, seen) {
-  if (!isObject$1(value) || value["__v_skip"]) {
+  if (!isObject$2(value) || value["__v_skip"]) {
     return value;
   }
   if (depth && depth > 0) {
@@ -2128,7 +2128,7 @@ function traverse(value, depth, currentDepth = 0, seen) {
   seen.add(value);
   if (isRef(value)) {
     traverse(value.value, depth, currentDepth, seen);
-  } else if (isArray$1(value)) {
+  } else if (isArray$2(value)) {
     for (let i = 0; i < value.length; i++) {
       traverse(value[i], depth, currentDepth, seen);
     }
@@ -2136,7 +2136,7 @@ function traverse(value, depth, currentDepth = 0, seen) {
     value.forEach((v) => {
       traverse(v, depth, currentDepth, seen);
     });
-  } else if (isPlainObject$1(value)) {
+  } else if (isPlainObject$2(value)) {
     for (const key in value) {
       traverse(value[key], depth, currentDepth, seen);
     }
@@ -2152,7 +2152,7 @@ function withDirectives(vnode, directives) {
   for (let i = 0; i < directives.length; i++) {
     let [dir, value, arg, modifiers = EMPTY_OBJ] = directives[i];
     if (dir) {
-      if (isFunction(dir)) {
+      if (isFunction$1(dir)) {
         dir = {
           mounted: dir,
           updated: dir
@@ -2361,7 +2361,7 @@ function resolveTransitionHooks(vnode, props, state, instance) {
   const callAsyncHook = (hook, args) => {
     const done = args[1];
     callHook2(hook, args);
-    if (isArray$1(hook)) {
+    if (isArray$2(hook)) {
       if (hook.every((hook2) => hook2.length <= 1))
         done();
     } else if (hook.length <= 1) {
@@ -2517,7 +2517,7 @@ function getTransitionRawChildren(children, keepComment = false, parentKey) {
 /*! #__NO_SIDE_EFFECTS__ */
 // @__NO_SIDE_EFFECTS__
 function defineComponent$1(options, extraOptions) {
-  return isFunction(options) ? (
+  return isFunction$1(options) ? (
     // #8326: extend call and options.name access are considered side-effects
     // by Rollup, so we have to wrap it in a pure-annotated IIFE.
     /* @__PURE__ */ (() => extend({ name: options.name }, extraOptions, { setup: options }))()
@@ -2607,10 +2607,10 @@ const onRenderTracked = createHook(
 function onErrorCaptured(hook, target = currentInstance) {
   injectHook("ec", hook, target);
 }
-function renderList(source, renderItem, cache, index) {
+function renderList(source, renderItem, cache2, index) {
   let ret;
-  const cached = cache;
-  if (isArray$1(source) || isString(source)) {
+  const cached = cache2;
+  if (isArray$2(source) || isString$1(source)) {
     ret = new Array(source.length);
     for (let i = 0, l = source.length; i < l; i++) {
       ret[i] = renderItem(source[i], i, void 0, cached);
@@ -2620,7 +2620,7 @@ function renderList(source, renderItem, cache, index) {
     for (let i = 0; i < source; i++) {
       ret[i] = renderItem(i + 1, i, void 0, cached);
     }
-  } else if (isObject$1(source)) {
+  } else if (isObject$2(source)) {
     if (source[Symbol.iterator]) {
       ret = Array.from(
         source,
@@ -2642,7 +2642,7 @@ function renderList(source, renderItem, cache, index) {
 function createSlots(slots, dynamicSlots) {
   for (let i = 0; i < dynamicSlots.length; i++) {
     const slot = dynamicSlots[i];
-    if (isArray$1(slot)) {
+    if (isArray$2(slot)) {
       for (let j = 0; j < slot.length; j++) {
         slots[slot[j].name] = slot[j].fn;
       }
@@ -2687,7 +2687,7 @@ const publicPropertiesMap = (
     $watch: (i) => instanceWatch.bind(i)
   })
 );
-const hasSetupBinding = (state, key) => state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key);
+const hasSetupBinding = (state, key) => state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn$1(state, key);
 const PublicInstanceProxyHandlers = {
   get({ _: instance }, key) {
     const { ctx, setupState, data, props, accessCache, type, appContext } = instance;
@@ -2708,17 +2708,17 @@ const PublicInstanceProxyHandlers = {
       } else if (hasSetupBinding(setupState, key)) {
         accessCache[key] = 1;
         return setupState[key];
-      } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
+      } else if (data !== EMPTY_OBJ && hasOwn$1(data, key)) {
         accessCache[key] = 2;
         return data[key];
       } else if (
         // only cache other properties when instance has declared (thus stable)
         // props
-        (normalizedProps = instance.propsOptions[0]) && hasOwn(normalizedProps, key)
+        (normalizedProps = instance.propsOptions[0]) && hasOwn$1(normalizedProps, key)
       ) {
         accessCache[key] = 3;
         return props[key];
-      } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
+      } else if (ctx !== EMPTY_OBJ && hasOwn$1(ctx, key)) {
         accessCache[key] = 4;
         return ctx[key];
       } else if (shouldCacheAccess) {
@@ -2737,12 +2737,12 @@ const PublicInstanceProxyHandlers = {
       (cssModule = type.__cssModules) && (cssModule = cssModule[key])
     ) {
       return cssModule;
-    } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
+    } else if (ctx !== EMPTY_OBJ && hasOwn$1(ctx, key)) {
       accessCache[key] = 4;
       return ctx[key];
     } else if (
       // global properties
-      globalProperties = appContext.config.globalProperties, hasOwn(globalProperties, key)
+      globalProperties = appContext.config.globalProperties, hasOwn$1(globalProperties, key)
     ) {
       {
         return globalProperties[key];
@@ -2754,10 +2754,10 @@ const PublicInstanceProxyHandlers = {
     if (hasSetupBinding(setupState, key)) {
       setupState[key] = value;
       return true;
-    } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
+    } else if (data !== EMPTY_OBJ && hasOwn$1(data, key)) {
       data[key] = value;
       return true;
-    } else if (hasOwn(instance.props, key)) {
+    } else if (hasOwn$1(instance.props, key)) {
       return false;
     }
     if (key[0] === "$" && key.slice(1) in instance) {
@@ -2773,19 +2773,19 @@ const PublicInstanceProxyHandlers = {
     _: { data, setupState, accessCache, ctx, appContext, propsOptions }
   }, key) {
     let normalizedProps;
-    return !!accessCache[key] || data !== EMPTY_OBJ && hasOwn(data, key) || hasSetupBinding(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key);
+    return !!accessCache[key] || data !== EMPTY_OBJ && hasOwn$1(data, key) || hasSetupBinding(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn$1(normalizedProps, key) || hasOwn$1(ctx, key) || hasOwn$1(publicPropertiesMap, key) || hasOwn$1(appContext.config.globalProperties, key);
   },
   defineProperty(target, key, descriptor) {
     if (descriptor.get != null) {
       target._.accessCache[key] = 0;
-    } else if (hasOwn(descriptor, "value")) {
+    } else if (hasOwn$1(descriptor, "value")) {
       this.set(target, key, descriptor.value, null);
     }
     return Reflect.defineProperty(target, key, descriptor);
   }
 };
 function normalizePropsOrEmits(props) {
-  return isArray$1(props) ? props.reduce(
+  return isArray$2(props) ? props.reduce(
     (normalized, p2) => (normalized[p2] = null, normalized),
     {}
   ) : props;
@@ -2839,7 +2839,7 @@ function applyOptions(instance) {
   if (methods) {
     for (const key in methods) {
       const methodHandler = methods[key];
-      if (isFunction(methodHandler)) {
+      if (isFunction$1(methodHandler)) {
         {
           ctx[key] = methodHandler.bind(publicThis);
         }
@@ -2848,7 +2848,7 @@ function applyOptions(instance) {
   }
   if (dataOptions) {
     const data = dataOptions.call(publicThis, publicThis);
-    if (!isObject$1(data)) ;
+    if (!isObject$2(data)) ;
     else {
       instance.data = reactive(data);
     }
@@ -2857,8 +2857,8 @@ function applyOptions(instance) {
   if (computedOptions) {
     for (const key in computedOptions) {
       const opt = computedOptions[key];
-      const get2 = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
-      const set2 = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : NOOP;
+      const get2 = isFunction$1(opt) ? opt.bind(publicThis, publicThis) : isFunction$1(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
+      const set2 = !isFunction$1(opt) && isFunction$1(opt.set) ? opt.set.bind(publicThis) : NOOP;
       const c = computed({
         get: get2,
         set: set2
@@ -2877,7 +2877,7 @@ function applyOptions(instance) {
     }
   }
   if (provideOptions) {
-    const provides = isFunction(provideOptions) ? provideOptions.call(publicThis) : provideOptions;
+    const provides = isFunction$1(provideOptions) ? provideOptions.call(publicThis) : provideOptions;
     Reflect.ownKeys(provides).forEach((key) => {
       provide(key, provides[key]);
     });
@@ -2886,7 +2886,7 @@ function applyOptions(instance) {
     callHook$1(created, instance, "c");
   }
   function registerLifecycleHook(register, hook) {
-    if (isArray$1(hook)) {
+    if (isArray$2(hook)) {
       hook.forEach((_hook) => register(_hook.bind(publicThis)));
     } else if (hook) {
       register(hook.bind(publicThis));
@@ -2904,7 +2904,7 @@ function applyOptions(instance) {
   registerLifecycleHook(onBeforeUnmount, beforeUnmount);
   registerLifecycleHook(onUnmounted, unmounted2);
   registerLifecycleHook(onServerPrefetch, serverPrefetch);
-  if (isArray$1(expose)) {
+  if (isArray$2(expose)) {
     if (expose.length) {
       const exposed = instance.exposed || (instance.exposed = {});
       expose.forEach((key) => {
@@ -2929,13 +2929,13 @@ function applyOptions(instance) {
     instance.directives = directives;
 }
 function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) {
-  if (isArray$1(injectOptions)) {
+  if (isArray$2(injectOptions)) {
     injectOptions = normalizeInject(injectOptions);
   }
   for (const key in injectOptions) {
     const opt = injectOptions[key];
     let injected;
-    if (isObject$1(opt)) {
+    if (isObject$2(opt)) {
       if ("default" in opt) {
         injected = inject$1(
           opt.from || key,
@@ -2962,26 +2962,26 @@ function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) 
 }
 function callHook$1(hook, instance, type) {
   callWithAsyncErrorHandling(
-    isArray$1(hook) ? hook.map((h2) => h2.bind(instance.proxy)) : hook.bind(instance.proxy),
+    isArray$2(hook) ? hook.map((h2) => h2.bind(instance.proxy)) : hook.bind(instance.proxy),
     instance,
     type
   );
 }
 function createWatcher(raw, ctx, publicThis, key) {
   const getter = key.includes(".") ? createPathGetter(publicThis, key) : () => publicThis[key];
-  if (isString(raw)) {
+  if (isString$1(raw)) {
     const handler = ctx[raw];
-    if (isFunction(handler)) {
+    if (isFunction$1(handler)) {
       watch(getter, handler);
     }
-  } else if (isFunction(raw)) {
+  } else if (isFunction$1(raw)) {
     watch(getter, raw.bind(publicThis));
-  } else if (isObject$1(raw)) {
-    if (isArray$1(raw)) {
+  } else if (isObject$2(raw)) {
+    if (isArray$2(raw)) {
       raw.forEach((r) => createWatcher(r, ctx, publicThis, key));
     } else {
-      const handler = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
-      if (isFunction(handler)) {
+      const handler = isFunction$1(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
+      if (isFunction$1(handler)) {
         watch(getter, handler, raw);
       }
     }
@@ -2992,10 +2992,10 @@ function resolveMergedOptions(instance) {
   const { mixins, extends: extendsOptions } = base;
   const {
     mixins: globalMixins,
-    optionsCache: cache,
+    optionsCache: cache2,
     config: { optionMergeStrategies }
   } = instance.appContext;
-  const cached = cache.get(base);
+  const cached = cache2.get(base);
   let resolved;
   if (cached) {
     resolved = cached;
@@ -3012,8 +3012,8 @@ function resolveMergedOptions(instance) {
     }
     mergeOptions$1(resolved, base, optionMergeStrategies);
   }
-  if (isObject$1(base)) {
-    cache.set(base, resolved);
+  if (isObject$2(base)) {
+    cache2.set(base, resolved);
   }
   return resolved;
 }
@@ -3076,8 +3076,8 @@ function mergeDataFn(to, from) {
   }
   return function mergedDataFn() {
     return extend(
-      isFunction(to) ? to.call(this, this) : to,
-      isFunction(from) ? from.call(this, this) : from
+      isFunction$1(to) ? to.call(this, this) : to,
+      isFunction$1(from) ? from.call(this, this) : from
     );
   };
 }
@@ -3085,7 +3085,7 @@ function mergeInject(to, from) {
   return mergeObjectOptions(normalizeInject(to), normalizeInject(from));
 }
 function normalizeInject(raw) {
-  if (isArray$1(raw)) {
+  if (isArray$2(raw)) {
     const res = {};
     for (let i = 0; i < raw.length; i++) {
       res[raw[i]] = raw[i];
@@ -3102,7 +3102,7 @@ function mergeObjectOptions(to, from) {
 }
 function mergeEmitsOrPropsOptions(to, from) {
   if (to) {
-    if (isArray$1(to) && isArray$1(from)) {
+    if (isArray$2(to) && isArray$2(from)) {
       return [.../* @__PURE__ */ new Set([...to, ...from])];
     }
     return extend(
@@ -3149,16 +3149,16 @@ function createAppContext() {
 let uid$1 = 0;
 function createAppAPI(render, hydrate) {
   return function createApp2(rootComponent, rootProps = null) {
-    if (!isFunction(rootComponent)) {
+    if (!isFunction$1(rootComponent)) {
       rootComponent = extend({}, rootComponent);
     }
-    if (rootProps != null && !isObject$1(rootProps)) {
+    if (rootProps != null && !isObject$2(rootProps)) {
       rootProps = null;
     }
     const context = createAppContext();
     const installedPlugins = /* @__PURE__ */ new WeakSet();
     let isMounted = false;
-    const app2 = context.app = {
+    const app = context.app = {
       _uid: uid$1++,
       _component: rootComponent,
       _props: rootProps,
@@ -3173,14 +3173,14 @@ function createAppAPI(render, hydrate) {
       },
       use(plugin, ...options) {
         if (installedPlugins.has(plugin)) ;
-        else if (plugin && isFunction(plugin.install)) {
+        else if (plugin && isFunction$1(plugin.install)) {
           installedPlugins.add(plugin);
-          plugin.install(app2, ...options);
-        } else if (isFunction(plugin)) {
+          plugin.install(app, ...options);
+        } else if (isFunction$1(plugin)) {
           installedPlugins.add(plugin);
-          plugin(app2, ...options);
+          plugin(app, ...options);
         } else ;
-        return app2;
+        return app;
       },
       mixin(mixin) {
         {
@@ -3188,21 +3188,21 @@ function createAppAPI(render, hydrate) {
             context.mixins.push(mixin);
           }
         }
-        return app2;
+        return app;
       },
       component(name, component) {
         if (!component) {
           return context.components[name];
         }
         context.components[name] = component;
-        return app2;
+        return app;
       },
       directive(name, directive2) {
         if (!directive2) {
           return context.directives[name];
         }
         context.directives[name] = directive2;
-        return app2;
+        return app;
       },
       mount(rootContainer, isHydrate, namespace) {
         if (!isMounted) {
@@ -3219,24 +3219,24 @@ function createAppAPI(render, hydrate) {
             render(vnode, rootContainer, namespace);
           }
           isMounted = true;
-          app2._container = rootContainer;
-          rootContainer.__vue_app__ = app2;
+          app._container = rootContainer;
+          rootContainer.__vue_app__ = app;
           return getExposeProxy(vnode.component) || vnode.component.proxy;
         }
       },
       unmount() {
         if (isMounted) {
-          render(null, app2._container);
-          delete app2._container.__vue_app__;
+          render(null, app._container);
+          delete app._container.__vue_app__;
         }
       },
       provide(key, value) {
         context.provides[key] = value;
-        return app2;
+        return app;
       },
       runWithContext(fn) {
         const lastApp = currentApp;
-        currentApp = app2;
+        currentApp = app;
         try {
           return fn();
         } finally {
@@ -3244,7 +3244,7 @@ function createAppAPI(render, hydrate) {
         }
       }
     };
-    return app2;
+    return app;
   };
 }
 let currentApp = null;
@@ -3266,7 +3266,7 @@ function inject$1(key, defaultValue, treatDefaultAsFactory = false) {
     if (provides && key in provides) {
       return provides[key];
     } else if (arguments.length > 1) {
-      return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue.call(instance && instance.proxy) : defaultValue;
+      return treatDefaultAsFactory && isFunction$1(defaultValue) ? defaultValue.call(instance && instance.proxy) : defaultValue;
     } else ;
   }
 }
@@ -3319,7 +3319,7 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
         }
         const value = rawProps[key];
         if (options) {
-          if (hasOwn(attrs, key)) {
+          if (hasOwn$1(attrs, key)) {
             if (value !== attrs[key]) {
               attrs[key] = value;
               hasAttrsChanged = true;
@@ -3350,9 +3350,9 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
     let kebabKey;
     for (const key in rawCurrentProps) {
       if (!rawProps || // for camelCase
-      !hasOwn(rawProps, key) && // it's possible the original props was passed in as kebab-case
+      !hasOwn$1(rawProps, key) && // it's possible the original props was passed in as kebab-case
       // and converted to camelCase (#955)
-      ((kebabKey = hyphenate(key)) === key || !hasOwn(rawProps, kebabKey))) {
+      ((kebabKey = hyphenate(key)) === key || !hasOwn$1(rawProps, kebabKey))) {
         if (options) {
           if (rawPrevProps && // for camelCase
           (rawPrevProps[key] !== void 0 || // for kebab-case
@@ -3373,7 +3373,7 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
     }
     if (attrs !== rawCurrentProps) {
       for (const key in attrs) {
-        if (!rawProps || !hasOwn(rawProps, key) && true) {
+        if (!rawProps || !hasOwn$1(rawProps, key) && true) {
           delete attrs[key];
           hasAttrsChanged = true;
         }
@@ -3395,7 +3395,7 @@ function setFullProps(instance, rawProps, props, attrs) {
       }
       const value = rawProps[key];
       let camelKey;
-      if (options && hasOwn(options, camelKey = camelize(key))) {
+      if (options && hasOwn$1(options, camelKey = camelize(key))) {
         if (!needCastKeys || !needCastKeys.includes(camelKey)) {
           props[camelKey] = value;
         } else {
@@ -3420,7 +3420,7 @@ function setFullProps(instance, rawProps, props, attrs) {
         key,
         castValues[key],
         instance,
-        !hasOwn(castValues, key)
+        !hasOwn$1(castValues, key)
       );
     }
   }
@@ -3429,10 +3429,10 @@ function setFullProps(instance, rawProps, props, attrs) {
 function resolvePropValue(options, props, key, value, instance, isAbsent) {
   const opt = options[key];
   if (opt != null) {
-    const hasDefault = hasOwn(opt, "default");
+    const hasDefault = hasOwn$1(opt, "default");
     if (hasDefault && value === void 0) {
       const defaultValue = opt.default;
-      if (opt.type !== Function && !opt.skipFactory && isFunction(defaultValue)) {
+      if (opt.type !== Function && !opt.skipFactory && isFunction$1(defaultValue)) {
         const { propsDefaults } = instance;
         if (key in propsDefaults) {
           value = propsDefaults[key];
@@ -3465,8 +3465,8 @@ function resolvePropValue(options, props, key, value, instance, isAbsent) {
   return value;
 }
 function normalizePropsOptions(comp, appContext, asMixin = false) {
-  const cache = appContext.propsCache;
-  const cached = cache.get(comp);
+  const cache2 = appContext.propsCache;
+  const cached = cache2.get(comp);
   if (cached) {
     return cached;
   }
@@ -3474,7 +3474,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
   const normalized = {};
   const needCastKeys = [];
   let hasExtends = false;
-  if (!isFunction(comp)) {
+  if (!isFunction$1(comp)) {
     const extendProps = (raw2) => {
       hasExtends = true;
       const [props, keys2] = normalizePropsOptions(raw2, appContext, true);
@@ -3493,12 +3493,12 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
     }
   }
   if (!raw && !hasExtends) {
-    if (isObject$1(comp)) {
-      cache.set(comp, EMPTY_ARR);
+    if (isObject$2(comp)) {
+      cache2.set(comp, EMPTY_ARR);
     }
     return EMPTY_ARR;
   }
-  if (isArray$1(raw)) {
+  if (isArray$2(raw)) {
     for (let i = 0; i < raw.length; i++) {
       const normalizedKey = camelize(raw[i]);
       if (validatePropName(normalizedKey)) {
@@ -3510,7 +3510,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
       const normalizedKey = camelize(key);
       if (validatePropName(normalizedKey)) {
         const opt = raw[key];
-        const prop = normalized[normalizedKey] = isArray$1(opt) || isFunction(opt) ? { type: opt } : extend({}, opt);
+        const prop = normalized[normalizedKey] = isArray$2(opt) || isFunction$1(opt) ? { type: opt } : extend({}, opt);
         if (prop) {
           const booleanIndex = getTypeIndex(Boolean, prop.type);
           const stringIndex = getTypeIndex(String, prop.type);
@@ -3522,7 +3522,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
             1
             /* shouldCastTrue */
           ] = stringIndex < 0 || booleanIndex < stringIndex;
-          if (booleanIndex > -1 || hasOwn(prop, "default")) {
+          if (booleanIndex > -1 || hasOwn$1(prop, "default")) {
             needCastKeys.push(normalizedKey);
           }
         }
@@ -3530,8 +3530,8 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
     }
   }
   const res = [normalized, needCastKeys];
-  if (isObject$1(comp)) {
-    cache.set(comp, res);
+  if (isObject$2(comp)) {
+    cache2.set(comp, res);
   }
   return res;
 }
@@ -3549,15 +3549,15 @@ function isSameType(a, b) {
   return getType(a) === getType(b);
 }
 function getTypeIndex(type, expectedTypes) {
-  if (isArray$1(expectedTypes)) {
+  if (isArray$2(expectedTypes)) {
     return expectedTypes.findIndex((t) => isSameType(t, type));
-  } else if (isFunction(expectedTypes)) {
+  } else if (isFunction$1(expectedTypes)) {
     return isSameType(expectedTypes, type) ? 0 : -1;
   }
   return -1;
 }
 const isInternalKey = (key) => key[0] === "_" || key === "$stable";
-const normalizeSlotValue = (value) => isArray$1(value) ? value.map(normalizeVNode) : [normalizeVNode(value)];
+const normalizeSlotValue = (value) => isArray$2(value) ? value.map(normalizeVNode) : [normalizeVNode(value)];
 const normalizeSlot$1 = (key, rawSlot, ctx) => {
   if (rawSlot._n) {
     return rawSlot;
@@ -3575,7 +3575,7 @@ const normalizeObjectSlots = (rawSlots, slots, instance) => {
     if (isInternalKey(key))
       continue;
     const value = rawSlots[key];
-    if (isFunction(value)) {
+    if (isFunction$1(value)) {
       slots[key] = normalizeSlot$1(key, value, ctx);
     } else if (value != null) {
       const normalized = normalizeSlotValue(value);
@@ -3640,11 +3640,11 @@ const updateSlots = (instance, children, optimized) => {
   }
 };
 function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount = false) {
-  if (isArray$1(rawRef)) {
+  if (isArray$2(rawRef)) {
     rawRef.forEach(
       (r, i) => setRef(
         r,
-        oldRawRef && (isArray$1(oldRawRef) ? oldRawRef[i] : oldRawRef),
+        oldRawRef && (isArray$2(oldRawRef) ? oldRawRef[i] : oldRawRef),
         parentSuspense,
         vnode,
         isUnmount
@@ -3662,31 +3662,31 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount = false) {
   const refs = owner.refs === EMPTY_OBJ ? owner.refs = {} : owner.refs;
   const setupState = owner.setupState;
   if (oldRef != null && oldRef !== ref3) {
-    if (isString(oldRef)) {
+    if (isString$1(oldRef)) {
       refs[oldRef] = null;
-      if (hasOwn(setupState, oldRef)) {
+      if (hasOwn$1(setupState, oldRef)) {
         setupState[oldRef] = null;
       }
     } else if (isRef(oldRef)) {
       oldRef.value = null;
     }
   }
-  if (isFunction(ref3)) {
+  if (isFunction$1(ref3)) {
     callWithErrorHandling(ref3, owner, 12, [value, refs]);
   } else {
-    const _isString = isString(ref3);
+    const _isString = isString$1(ref3);
     const _isRef = isRef(ref3);
     if (_isString || _isRef) {
       const doSet = () => {
         if (rawRef.f) {
-          const existing = _isString ? hasOwn(setupState, ref3) ? setupState[ref3] : refs[ref3] : ref3.value;
+          const existing = _isString ? hasOwn$1(setupState, ref3) ? setupState[ref3] : refs[ref3] : ref3.value;
           if (isUnmount) {
-            isArray$1(existing) && remove(existing, refValue);
+            isArray$2(existing) && remove(existing, refValue);
           } else {
-            if (!isArray$1(existing)) {
+            if (!isArray$2(existing)) {
               if (_isString) {
                 refs[ref3] = [refValue];
-                if (hasOwn(setupState, ref3)) {
+                if (hasOwn$1(setupState, ref3)) {
                   setupState[ref3] = refs[ref3];
                 }
               } else {
@@ -3700,7 +3700,7 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount = false) {
           }
         } else if (_isString) {
           refs[ref3] = value;
-          if (hasOwn(setupState, ref3)) {
+          if (hasOwn$1(setupState, ref3)) {
             setupState[ref3] = value;
           }
         } else if (_isRef) {
@@ -3723,7 +3723,7 @@ function createRenderer(options) {
   return baseCreateRenderer(options);
 }
 function baseCreateRenderer(options, createHydrationFns) {
-  const target = getGlobalThis();
+  const target = getGlobalThis$1();
   target.__VUE__ = true;
   const {
     insert: hostInsert,
@@ -5020,7 +5020,7 @@ function needTransition(parentSuspense, transition) {
 function traverseStaticChildren(n1, n2, shallow = false) {
   const ch1 = n1.children;
   const ch2 = n2.children;
-  if (isArray$1(ch1) && isArray$1(ch2)) {
+  if (isArray$2(ch1) && isArray$2(ch2)) {
     for (let i = 0; i < ch1.length; i++) {
       const c1 = ch1[i];
       let c2 = ch2[i];
@@ -5094,7 +5094,7 @@ const isTargetSVG = (target) => typeof SVGElement !== "undefined" && target inst
 const isTargetMathML = (target) => typeof MathMLElement === "function" && target instanceof MathMLElement;
 const resolveTarget = (props, select) => {
   const targetSelector = props && props.to;
-  if (isString(targetSelector)) {
+  if (isString$1(targetSelector)) {
     if (!select) {
       return null;
     } else {
@@ -5388,7 +5388,7 @@ function createBlock(type, props, children, patchFlag, dynamicProps) {
     )
   );
 }
-function isVNode(value) {
+function isVNode$1(value) {
   return value ? value.__v_isVNode === true : false;
 }
 function isSameVNodeType(n1, n2) {
@@ -5404,7 +5404,7 @@ const normalizeRef = ({
   if (typeof ref3 === "number") {
     ref3 = "" + ref3;
   }
-  return ref3 != null ? isString(ref3) || isRef(ref3) || isFunction(ref3) ? { i: currentRenderingInstance, r: ref3, k: ref_key, f: !!ref_for } : ref3 : null;
+  return ref3 != null ? isString$1(ref3) || isRef(ref3) || isFunction$1(ref3) ? { i: currentRenderingInstance, r: ref3, k: ref_key, f: !!ref_for } : ref3 : null;
 };
 function createBaseVNode(type, props = null, children = null, patchFlag = 0, dynamicProps = null, shapeFlag = type === Fragment ? 0 : 1, isBlockNode = false, needFullChildrenNormalization = false) {
   const vnode = {
@@ -5441,7 +5441,7 @@ function createBaseVNode(type, props = null, children = null, patchFlag = 0, dyn
       type.normalize(vnode);
     }
   } else if (children) {
-    vnode.shapeFlag |= isString(children) ? 8 : 16;
+    vnode.shapeFlag |= isString$1(children) ? 8 : 16;
   }
   if (isBlockTreeEnabled > 0 && // avoid a block node from tracking itself
   !isBlockNode && // has current parent block
@@ -5461,7 +5461,7 @@ function _createVNode(type, props = null, children = null, patchFlag = 0, dynami
   if (!type || type === NULL_DYNAMIC_COMPONENT) {
     type = Comment;
   }
-  if (isVNode(type)) {
+  if (isVNode$1(type)) {
     const cloned = cloneVNode(
       type,
       props,
@@ -5487,17 +5487,17 @@ function _createVNode(type, props = null, children = null, patchFlag = 0, dynami
   if (props) {
     props = guardReactiveProps(props);
     let { class: klass, style } = props;
-    if (klass && !isString(klass)) {
+    if (klass && !isString$1(klass)) {
       props.class = normalizeClass(klass);
     }
-    if (isObject$1(style)) {
-      if (isProxy(style) && !isArray$1(style)) {
+    if (isObject$2(style)) {
+      if (isProxy(style) && !isArray$2(style)) {
         style = extend({}, style);
       }
       props.style = normalizeStyle(style);
     }
   }
-  const shapeFlag = isString(type) ? 1 : isSuspense(type) ? 128 : isTeleport(type) ? 64 : isObject$1(type) ? 4 : isFunction(type) ? 2 : 0;
+  const shapeFlag = isString$1(type) ? 1 : isSuspense(type) ? 128 : isTeleport(type) ? 64 : isObject$2(type) ? 4 : isFunction$1(type) ? 2 : 0;
   return createBaseVNode(
     type,
     props,
@@ -5527,7 +5527,7 @@ function cloneVNode(vnode, extraProps, mergeRef = false) {
       // #2078 in the case of <component :is="vnode" ref="extra"/>
       // if the vnode itself already has a ref, cloneVNode will need to merge
       // the refs so the single vnode can be set on multiple refs
-      mergeRef && ref3 ? isArray$1(ref3) ? ref3.concat(normalizeRef(extraProps)) : [ref3, normalizeRef(extraProps)] : normalizeRef(extraProps)
+      mergeRef && ref3 ? isArray$2(ref3) ? ref3.concat(normalizeRef(extraProps)) : [ref3, normalizeRef(extraProps)] : normalizeRef(extraProps)
     ) : ref3,
     scopeId: vnode.scopeId,
     slotScopeIds: vnode.slotScopeIds,
@@ -5570,7 +5570,7 @@ function createCommentVNode(text = "", asBlock = false) {
 function normalizeVNode(child) {
   if (child == null || typeof child === "boolean") {
     return createVNode(Comment);
-  } else if (isArray$1(child)) {
+  } else if (isArray$2(child)) {
     return createVNode(
       Fragment,
       null,
@@ -5591,7 +5591,7 @@ function normalizeChildren(vnode, children) {
   const { shapeFlag } = vnode;
   if (children == null) {
     children = null;
-  } else if (isArray$1(children)) {
+  } else if (isArray$2(children)) {
     type = 16;
   } else if (typeof children === "object") {
     if (shapeFlag & (1 | 64)) {
@@ -5616,7 +5616,7 @@ function normalizeChildren(vnode, children) {
         }
       }
     }
-  } else if (isFunction(children)) {
+  } else if (isFunction$1(children)) {
     children = { default: children, _ctx: currentRenderingInstance };
     type = 32;
   } else {
@@ -5645,7 +5645,7 @@ function mergeProps(...args) {
       } else if (isOn$1(key)) {
         const existing = ret[key];
         const incoming = toMerge[key];
-        if (incoming && existing !== incoming && !(isArray$1(existing) && existing.includes(incoming))) {
+        if (incoming && existing !== incoming && !(isArray$2(existing) && existing.includes(incoming))) {
           ret[key] = existing ? [].concat(existing, incoming) : incoming;
         }
       } else if (key !== "") {
@@ -5757,7 +5757,7 @@ const getCurrentInstance$1 = () => currentInstance || currentRenderingInstance;
 let internalSetCurrentInstance;
 let setInSSRSetupState;
 {
-  const g = getGlobalThis();
+  const g = getGlobalThis$1();
   const registerGlobalSetter = (key, setter) => {
     let setters;
     if (!(setters = g[key]))
@@ -5826,7 +5826,7 @@ function setupStatefulComponent(instance, isSSR) {
     );
     resetTracking();
     reset();
-    if (isPromise(setupResult)) {
+    if (isPromise$1(setupResult)) {
       setupResult.then(unsetCurrentInstance, unsetCurrentInstance);
       if (isSSR) {
         return setupResult.then((resolvedResult) => {
@@ -5845,22 +5845,22 @@ function setupStatefulComponent(instance, isSSR) {
   }
 }
 function handleSetupResult(instance, setupResult, isSSR) {
-  if (isFunction(setupResult)) {
+  if (isFunction$1(setupResult)) {
     if (instance.type.__ssrInlineRender) {
       instance.ssrRender = setupResult;
     } else {
       instance.render = setupResult;
     }
-  } else if (isObject$1(setupResult)) {
+  } else if (isObject$2(setupResult)) {
     instance.setupState = proxyRefs(setupResult);
   } else ;
   finishComponentSetup(instance, isSSR);
 }
-let compile;
+let compile$1;
 function finishComponentSetup(instance, isSSR, skipOptions) {
   const Component = instance.type;
   if (!instance.render) {
-    if (!isSSR && compile && !Component.render) {
+    if (!isSSR && compile$1 && !Component.render) {
       const template = Component.template || resolveMergedOptions(instance).template;
       if (template) {
         const { isCustomElement, compilerOptions } = instance.appContext.config;
@@ -5875,7 +5875,7 @@ function finishComponentSetup(instance, isSSR, skipOptions) {
           ),
           componentCompilerOptions
         );
-        Component.render = compile(template, finalCompilerOptions);
+        Component.render = compile$1(template, finalCompilerOptions);
       }
     }
     instance.render = Component.render || NOOP;
@@ -5936,7 +5936,7 @@ function getExposeProxy(instance) {
 const classifyRE = /(?:^|[-_])(\w)/g;
 const classify = (str) => str.replace(classifyRE, (c) => c.toUpperCase()).replace(/[-_]/g, "");
 function getComponentName(Component, includeInferred = true) {
-  return isFunction(Component) ? Component.displayName || Component.name : Component.name || includeInferred && Component.__name;
+  return isFunction$1(Component) ? Component.displayName || Component.name : Component.name || includeInferred && Component.__name;
 }
 function formatComponentName(instance, Component, isRoot = false) {
   let name = getComponentName(Component);
@@ -5961,7 +5961,7 @@ function formatComponentName(instance, Component, isRoot = false) {
   return name ? classify(name) : isRoot ? `App` : `Anonymous`;
 }
 function isClassComponent(value) {
-  return isFunction(value) && "__vccOpts" in value;
+  return isFunction$1(value) && "__vccOpts" in value;
 }
 const computed = (getterOrOptions, debugOptions) => {
   return computed$1(getterOrOptions, debugOptions, isInSSRComponentSetup);
@@ -5969,8 +5969,8 @@ const computed = (getterOrOptions, debugOptions) => {
 function h(type, propsOrChildren, children) {
   const l = arguments.length;
   if (l === 2) {
-    if (isObject$1(propsOrChildren) && !isArray$1(propsOrChildren)) {
-      if (isVNode(propsOrChildren)) {
+    if (isObject$2(propsOrChildren) && !isArray$2(propsOrChildren)) {
+      if (isVNode$1(propsOrChildren)) {
         return createVNode(type, null, [propsOrChildren]);
       }
       return createVNode(type, propsOrChildren);
@@ -5980,7 +5980,7 @@ function h(type, propsOrChildren, children) {
   } else {
     if (l > 3) {
       children = Array.prototype.slice.call(arguments, 2);
-    } else if (l === 3 && isVNode(children)) {
+    } else if (l === 3 && isVNode$1(children)) {
       children = [children];
     }
     return createVNode(type, propsOrChildren, children);
@@ -6088,14 +6088,14 @@ const TransitionPropsValidators = Transition.props = /* @__PURE__ */ extend(
   DOMTransitionPropsValidators
 );
 const callHook = (hook, args = []) => {
-  if (isArray$1(hook)) {
+  if (isArray$2(hook)) {
     hook.forEach((h2) => h2(...args));
   } else if (hook) {
     hook(...args);
   }
 };
 const hasExplicitCallback = (hook) => {
-  return hook ? isArray$1(hook) ? hook.some((h2) => h2.length > 1) : hook.length > 1 : false;
+  return hook ? isArray$2(hook) ? hook.some((h2) => h2.length > 1) : hook.length > 1 : false;
 };
 function resolveTransitionProps(rawProps) {
   const baseProps = {};
@@ -6208,7 +6208,7 @@ function resolveTransitionProps(rawProps) {
 function normalizeDuration(duration) {
   if (duration == null) {
     return null;
-  } else if (isObject$1(duration)) {
+  } else if (isObject$2(duration)) {
     return [NumberOf(duration.enter), NumberOf(duration.leave)];
   } else {
     const n = NumberOf(duration);
@@ -6380,9 +6380,9 @@ const CSS_VAR_TEXT = Symbol("");
 function patchStyle(el, prev, next) {
   const style = el.style;
   const currentDisplay = style.display;
-  const isCssString = isString(next);
+  const isCssString = isString$1(next);
   if (next && !isCssString) {
-    if (prev && !isString(prev)) {
+    if (prev && !isString$1(prev)) {
       for (const key in prev) {
         if (next[key] == null) {
           setStyle(style, key, "");
@@ -6411,7 +6411,7 @@ function patchStyle(el, prev, next) {
 }
 const importantRE = /\s*!important$/;
 function setStyle(style, name, val) {
-  if (isArray$1(val)) {
+  if (isArray$2(val)) {
     val.forEach((v) => setStyle(style, name, v));
   } else {
     if (val == null)
@@ -6443,7 +6443,7 @@ function autoPrefix(style, rawName) {
   if (name !== "filter" && name in style) {
     return prefixCache[rawName] = name;
   }
-  name = capitalize(name);
+  name = capitalize$1(name);
   for (let i = 0; i < prefixes.length; i++) {
     const prefixed = prefixes[i] + name;
     if (prefixed in style) {
@@ -6461,11 +6461,11 @@ function patchAttr(el, key, value, isSVG, instance) {
       el.setAttributeNS(xlinkNS, key, value);
     }
   } else {
-    const isBoolean = isSpecialBooleanAttr(key);
-    if (value == null || isBoolean && !includeBooleanAttr(value)) {
+    const isBoolean2 = isSpecialBooleanAttr(key);
+    if (value == null || isBoolean2 && !includeBooleanAttr(value)) {
       el.removeAttribute(key);
     } else {
-      el.setAttribute(key, isBoolean ? "" : value);
+      el.setAttribute(key, isBoolean2 ? "" : value);
     }
   }
 }
@@ -6569,7 +6569,7 @@ function createInvoker(initialValue, instance) {
   return invoker;
 }
 function patchStopImmediatePropagation(e, value) {
-  if (isArray$1(value)) {
+  if (isArray$2(value)) {
     const originalStop = e.stopImmediatePropagation;
     e.stopImmediatePropagation = () => {
       originalStop.call(e);
@@ -6616,7 +6616,7 @@ function shouldSetAsProp(el, key, value, isSVG) {
     if (key === "innerHTML" || key === "textContent") {
       return true;
     }
-    if (key in el && isNativeOn(key) && isFunction(value)) {
+    if (key in el && isNativeOn(key) && isFunction$1(value)) {
       return true;
     }
     return false;
@@ -6639,7 +6639,7 @@ function shouldSetAsProp(el, key, value, isSVG) {
       return false;
     }
   }
-  if (isNativeOn(key) && isString(value)) {
+  if (isNativeOn(key) && isString$1(value)) {
     return false;
   }
   return key in el;
@@ -6780,9 +6780,9 @@ const modifierGuards = {
   exact: (e, modifiers) => systemModifiers.some((m) => e[`${m}Key`] && !modifiers.includes(m))
 };
 const withModifiers = (fn, modifiers) => {
-  const cache = fn._withMods || (fn._withMods = {});
+  const cache2 = fn._withMods || (fn._withMods = {});
   const cacheKey = modifiers.join(".");
-  return cache[cacheKey] || (cache[cacheKey] = (event, ...args) => {
+  return cache2[cacheKey] || (cache2[cacheKey] = (event, ...args) => {
     for (let i = 0; i < modifiers.length; i++) {
       const guard = modifierGuards[modifiers[i]];
       if (guard && guard(event, modifiers))
@@ -6797,14 +6797,14 @@ function ensureRenderer() {
   return renderer || (renderer = createRenderer(rendererOptions));
 }
 const createApp = (...args) => {
-  const app2 = ensureRenderer().createApp(...args);
-  const { mount } = app2;
-  app2.mount = (containerOrSelector) => {
+  const app = ensureRenderer().createApp(...args);
+  const { mount } = app;
+  app.mount = (containerOrSelector) => {
     const container = normalizeContainer(containerOrSelector);
     if (!container)
       return;
-    const component = app2._component;
-    if (!isFunction(component) && !component.render && !component.template) {
+    const component = app._component;
+    if (!isFunction$1(component) && !component.render && !component.template) {
       component.template = container.innerHTML;
     }
     container.innerHTML = "";
@@ -6815,7 +6815,7 @@ const createApp = (...args) => {
     }
     return proxy;
   };
-  return app2;
+  return app;
 };
 function resolveRootNamespace(container) {
   if (container instanceof SVGElement) {
@@ -6826,7 +6826,7 @@ function resolveRootNamespace(container) {
   }
 }
 function normalizeContainer(container) {
-  if (isString(container)) {
+  if (isString$1(container)) {
     const res = document.querySelector(container);
     return res;
   }
@@ -6844,7 +6844,7 @@ const piniaSymbol = (
   /* istanbul ignore next */
   Symbol()
 );
-function isPlainObject(o) {
+function isPlainObject$1(o) {
   return o && typeof o === "object" && Object.prototype.toString.call(o) === "[object Object]" && typeof o.toJSON !== "function";
 }
 var MutationType;
@@ -6859,12 +6859,12 @@ function createPinia() {
   let _p = [];
   let toBeInstalled = [];
   const pinia = markRaw({
-    install(app2) {
+    install(app) {
       setActivePinia(pinia);
       {
-        pinia._a = app2;
-        app2.provide(piniaSymbol, pinia);
-        app2.config.globalProperties.$pinia = pinia;
+        pinia._a = app;
+        app.provide(piniaSymbol, pinia);
+        app.config.globalProperties.$pinia = pinia;
         toBeInstalled.forEach((plugin) => _p.push(plugin));
         toBeInstalled = [];
       }
@@ -6921,7 +6921,7 @@ function mergeReactiveObjects(target, patchToApply) {
       continue;
     const subPatch = patchToApply[key];
     const targetValue = target[key];
-    if (isPlainObject(targetValue) && isPlainObject(subPatch) && target.hasOwnProperty(key) && !isRef(subPatch) && !isReactive(subPatch)) {
+    if (isPlainObject$1(targetValue) && isPlainObject$1(subPatch) && target.hasOwnProperty(key) && !isRef(subPatch) && !isReactive(subPatch)) {
       target[key] = mergeReactiveObjects(targetValue, subPatch);
     } else {
       target[key] = subPatch;
@@ -6929,7 +6929,7 @@ function mergeReactiveObjects(target, patchToApply) {
   }
   return target;
 }
-const { assign: assign$2 } = Object;
+const { assign: assign$3 } = Object;
 function isComputed(o) {
   return !!(isRef(o) && o.effect);
 }
@@ -6944,7 +6944,7 @@ function createOptionsStore(id, options, pinia, hot) {
       }
     }
     const localState = toRefs(pinia.state.value[id]);
-    return assign$2(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
+    return assign$3(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
       computedGetters[name] = markRaw(computed(() => {
         setActivePinia(pinia);
         const store2 = pinia._s.get(id);
@@ -6958,7 +6958,7 @@ function createOptionsStore(id, options, pinia, hot) {
 }
 function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) {
   let scope;
-  const optionsForPlugin = assign$2({ actions: {} }, options);
+  const optionsForPlugin = assign$3({ actions: {} }, options);
   const $subscribeOptions = {
     deep: true
     // flush: 'post',
@@ -7003,7 +7003,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
     const { state } = options;
     const newState = state ? state() : {};
     this.$patch(($state) => {
-      assign$2($state, newState);
+      assign$3($state, newState);
     });
   };
   function $dispose() {
@@ -7068,7 +7068,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
             events: debuggerEvents
           }, state);
         }
-      }, assign$2({}, $subscribeOptions, options2)));
+      }, assign$3({}, $subscribeOptions, options2)));
       return removeSubscription;
     },
     $dispose
@@ -7089,20 +7089,20 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
     } else ;
   }
   {
-    assign$2(store, setupStore);
-    assign$2(toRaw(store), setupStore);
+    assign$3(store, setupStore);
+    assign$3(toRaw(store), setupStore);
   }
   Object.defineProperty(store, "$state", {
     get: () => pinia.state.value[$id],
     set: (state) => {
       $patch(($state) => {
-        assign$2($state, state);
+        assign$3($state, state);
       });
     }
   });
   pinia._p.forEach((extender) => {
     {
-      assign$2(store, scope.run(() => extender({
+      assign$3(store, scope.run(() => extender({
         store,
         app: pinia._a,
         pinia,
@@ -7359,463 +7359,4988 @@ const useCartStore = defineStore({
     }
   }
 });
-var BasketIcon = {
-  name: "BasketIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var defaultAttributes = {
+  outline: {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 24,
+    height: 24,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": 2,
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round"
   },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-basket",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M7 10l5 -6l5 6"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M21 10l-2 8a2 2.5 0 0 1 -2 2h-10a2 2.5 0 0 1 -2 -2l-2 -8z"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M12 15m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"
-    }, null), createTextVNode(" ")]);
+  filled: {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 24,
+    height: 24,
+    viewBox: "0 0 24 24",
+    fill: "currentColor",
+    stroke: "none"
   }
 };
-var CheckIcon = {
-  name: "CheckIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const createVueComponent = (type, iconName, iconNamePascal, iconNode) => ({ color = "currentColor", size: size2 = 24, stroke = 2, title, class: classes, ...rest }, { attrs, slots }) => {
+  let children = [...iconNode.map((child) => h(...child)), ...slots.default ? [slots.default()] : []];
+  if (title)
+    children = [h("title", title), ...children];
+  return h(
+    "svg",
+    {
+      ...defaultAttributes[type],
+      width: size2,
+      height: size2,
+      ...attrs,
+      class: ["tabler-icon", `tabler-icon-${iconName}`],
+      ...type === "filled" ? {
+        fill: color
+      } : {
+        "stroke-width": stroke ?? defaultAttributes[type]["stroke-width"],
+        stroke: color
+      },
+      ...rest
+    },
+    children
+  );
+};
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconAppWindow = createVueComponent("outline", "app-window", "IconAppWindow", [["path", { "d": "M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z", "key": "svg-0" }], ["path", { "d": "M6 8h.01", "key": "svg-1" }], ["path", { "d": "M9 8h.01", "key": "svg-2" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconBasket = createVueComponent("outline", "basket", "IconBasket", [["path", { "d": "M10 14a2 2 0 1 0 4 0a2 2 0 0 0 -4 0", "key": "svg-0" }], ["path", { "d": "M5.001 8h13.999a2 2 0 0 1 1.977 2.304l-1.255 7.152a3 3 0 0 1 -2.966 2.544h-9.512a3 3 0 0 1 -2.965 -2.544l-1.255 -7.152a2 2 0 0 1 1.977 -2.304z", "key": "svg-1" }], ["path", { "d": "M17 10l-2 -6", "key": "svg-2" }], ["path", { "d": "M7 10l2 -6", "key": "svg-3" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconCheck = createVueComponent("outline", "check", "IconCheck", [["path", { "d": "M5 12l5 5l10 -10", "key": "svg-0" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconChevronLeft = createVueComponent("outline", "chevron-left", "IconChevronLeft", [["path", { "d": "M15 6l-6 6l6 6", "key": "svg-0" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconChevronRight = createVueComponent("outline", "chevron-right", "IconChevronRight", [["path", { "d": "M9 6l6 6l-6 6", "key": "svg-0" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconCopy = createVueComponent("outline", "copy", "IconCopy", [["path", { "d": "M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z", "key": "svg-0" }], ["path", { "d": "M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1", "key": "svg-1" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconCornerUpRightDouble = createVueComponent("outline", "corner-up-right-double", "IconCornerUpRightDouble", [["path", { "d": "M4 18v-6a3 3 0 0 1 3 -3h7", "key": "svg-0" }], ["path", { "d": "M10 13l4 -4l-4 -4m5 8l4 -4l-4 -4", "key": "svg-1" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconCreditCard = createVueComponent("outline", "credit-card", "IconCreditCard", [["path", { "d": "M3 5m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z", "key": "svg-0" }], ["path", { "d": "M3 10l18 0", "key": "svg-1" }], ["path", { "d": "M7 15l.01 0", "key": "svg-2" }], ["path", { "d": "M11 15l2 0", "key": "svg-3" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconFileDescription = createVueComponent("outline", "file-description", "IconFileDescription", [["path", { "d": "M14 3v4a1 1 0 0 0 1 1h4", "key": "svg-0" }], ["path", { "d": "M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z", "key": "svg-1" }], ["path", { "d": "M9 17h6", "key": "svg-2" }], ["path", { "d": "M9 13h6", "key": "svg-3" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconMenu2 = createVueComponent("outline", "menu-2", "IconMenu2", [["path", { "d": "M4 6l16 0", "key": "svg-0" }], ["path", { "d": "M4 12l16 0", "key": "svg-1" }], ["path", { "d": "M4 18l16 0", "key": "svg-2" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconMinus = createVueComponent("outline", "minus", "IconMinus", [["path", { "d": "M5 12l14 0", "key": "svg-0" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconPlus = createVueComponent("outline", "plus", "IconPlus", [["path", { "d": "M12 5l0 14", "key": "svg-0" }], ["path", { "d": "M5 12l14 0", "key": "svg-1" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconShoppingCart = createVueComponent("outline", "shopping-cart", "IconShoppingCart", [["path", { "d": "M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0", "key": "svg-0" }], ["path", { "d": "M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0", "key": "svg-1" }], ["path", { "d": "M17 17h-11v-14h-2", "key": "svg-2" }], ["path", { "d": "M6 5l14 1l-1 7h-13", "key": "svg-3" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconTrash = createVueComponent("outline", "trash", "IconTrash", [["path", { "d": "M4 7l16 0", "key": "svg-0" }], ["path", { "d": "M10 11l0 6", "key": "svg-1" }], ["path", { "d": "M14 11l0 6", "key": "svg-2" }], ["path", { "d": "M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12", "key": "svg-3" }], ["path", { "d": "M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3", "key": "svg-4" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconWall = createVueComponent("outline", "wall", "IconWall", [["path", { "d": "M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z", "key": "svg-0" }], ["path", { "d": "M4 8h16", "key": "svg-1" }], ["path", { "d": "M20 12h-16", "key": "svg-2" }], ["path", { "d": "M4 16h16", "key": "svg-3" }], ["path", { "d": "M9 4v4", "key": "svg-4" }], ["path", { "d": "M14 8v4", "key": "svg-5" }], ["path", { "d": "M8 12v4", "key": "svg-6" }], ["path", { "d": "M16 12v4", "key": "svg-7" }], ["path", { "d": "M11 16v4", "key": "svg-8" }]]);
+/**
+ * @license @tabler/icons-vue v3.24.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconWorld = createVueComponent("outline", "world", "IconWorld", [["path", { "d": "M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0", "key": "svg-0" }], ["path", { "d": "M3.6 9h16.8", "key": "svg-1" }], ["path", { "d": "M3.6 15h16.8", "key": "svg-2" }], ["path", { "d": "M11.5 3a17 17 0 0 0 0 18", "key": "svg-3" }], ["path", { "d": "M12.5 3a17 17 0 0 1 0 18", "key": "svg-4" }]]);
+/*!
+  * shared v10.0.5
+  * (c) 2024 kazuya kawaguchi
+  * Released under the MIT License.
+  */
+const inBrowser = typeof window !== "undefined";
+const makeSymbol = (name, shareable = false) => !shareable ? Symbol(name) : Symbol.for(name);
+const generateFormatCacheKey = (locale2, key, source) => friendlyJSONstringify({ l: locale2, k: key, s: source });
+const friendlyJSONstringify = (json) => JSON.stringify(json).replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029").replace(/\u0027/g, "\\u0027");
+const isNumber = (val) => typeof val === "number" && isFinite(val);
+const isDate = (val) => toTypeString(val) === "[object Date]";
+const isRegExp = (val) => toTypeString(val) === "[object RegExp]";
+const isEmptyObject = (val) => isPlainObject(val) && Object.keys(val).length === 0;
+const assign$2 = Object.assign;
+const _create = Object.create;
+const create = (obj = null) => _create(obj);
+let _globalThis;
+const getGlobalThis = () => {
+  return _globalThis || (_globalThis = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : create());
+};
+function escapeHtml(rawText) {
+  return rawText.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn(obj, key) {
+  return hasOwnProperty.call(obj, key);
+}
+const isArray$1 = Array.isArray;
+const isFunction = (val) => typeof val === "function";
+const isString = (val) => typeof val === "string";
+const isBoolean = (val) => typeof val === "boolean";
+const isObject$1 = (val) => val !== null && typeof val === "object";
+const isPromise = (val) => {
+  return isObject$1(val) && isFunction(val.then) && isFunction(val.catch);
+};
+const objectToString = Object.prototype.toString;
+const toTypeString = (value) => objectToString.call(value);
+const isPlainObject = (val) => toTypeString(val) === "[object Object]";
+const toDisplayString = (val) => {
+  return val == null ? "" : isArray$1(val) || isPlainObject(val) && val.toString === objectToString ? JSON.stringify(val, null, 2) : String(val);
+};
+function join(items, separator = "") {
+  return items.reduce((str, item, index) => index === 0 ? str + item : str + separator + item, "");
+}
+function warn(msg, err) {
+  if (typeof console !== "undefined") {
+    console.warn(`[intlify] ` + msg);
+    if (err) {
+      console.warn(err.stack);
     }
-  },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
+  }
+}
+const isNotObjectOrIsArray = (val) => !isObject$1(val) || isArray$1(val);
+function deepCopy(src, des) {
+  if (isNotObjectOrIsArray(src) || isNotObjectOrIsArray(des)) {
+    throw new Error("Invalid value");
+  }
+  const stack2 = [{ src, des }];
+  while (stack2.length) {
+    const { src: src2, des: des2 } = stack2.pop();
+    Object.keys(src2).forEach((key) => {
+      if (key === "__proto__") {
+        return;
+      }
+      if (isObject$1(src2[key]) && !isObject$1(des2[key])) {
+        des2[key] = Array.isArray(src2[key]) ? [] : create();
+      }
+      if (isNotObjectOrIsArray(des2[key]) || isNotObjectOrIsArray(src2[key])) {
+        des2[key] = src2[key];
+      } else {
+        stack2.push({ src: src2[key], des: des2[key] });
+      }
+    });
+  }
+}
+/*!
+  * message-compiler v10.0.5
+  * (c) 2024 kazuya kawaguchi
+  * Released under the MIT License.
+  */
+function createPosition(line, column, offset) {
+  return { line, column, offset };
+}
+function createLocation(start, end, source) {
+  const loc = { start, end };
+  return loc;
+}
+const CompileErrorCodes = {
+  // tokenizer error codes
+  EXPECTED_TOKEN: 1,
+  INVALID_TOKEN_IN_PLACEHOLDER: 2,
+  UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER: 3,
+  UNKNOWN_ESCAPE_SEQUENCE: 4,
+  INVALID_UNICODE_ESCAPE_SEQUENCE: 5,
+  UNBALANCED_CLOSING_BRACE: 6,
+  UNTERMINATED_CLOSING_BRACE: 7,
+  EMPTY_PLACEHOLDER: 8,
+  NOT_ALLOW_NEST_PLACEHOLDER: 9,
+  INVALID_LINKED_FORMAT: 10,
+  // parser error codes
+  MUST_HAVE_MESSAGES_IN_PLURAL: 11,
+  UNEXPECTED_EMPTY_LINKED_MODIFIER: 12,
+  UNEXPECTED_EMPTY_LINKED_KEY: 13,
+  UNEXPECTED_LEXICAL_ANALYSIS: 14,
+  // generator error codes
+  UNHANDLED_CODEGEN_NODE_TYPE: 15,
+  // minifier error codes
+  UNHANDLED_MINIFIER_NODE_TYPE: 16
+};
+const COMPILE_ERROR_CODES_EXTEND_POINT = 17;
+function createCompileError(code, loc, options = {}) {
+  const { domain, messages, args } = options;
+  const msg = code;
+  const error = new SyntaxError(String(msg));
+  error.code = code;
+  if (loc) {
+    error.location = loc;
+  }
+  error.domain = domain;
+  return error;
+}
+function defaultOnError(error) {
+  throw error;
+}
+const CHAR_SP = " ";
+const CHAR_CR = "\r";
+const CHAR_LF = "\n";
+const CHAR_LS = String.fromCharCode(8232);
+const CHAR_PS = String.fromCharCode(8233);
+function createScanner(str) {
+  const _buf = str;
+  let _index = 0;
+  let _line = 1;
+  let _column = 1;
+  let _peekOffset = 0;
+  const isCRLF = (index2) => _buf[index2] === CHAR_CR && _buf[index2 + 1] === CHAR_LF;
+  const isLF = (index2) => _buf[index2] === CHAR_LF;
+  const isPS = (index2) => _buf[index2] === CHAR_PS;
+  const isLS = (index2) => _buf[index2] === CHAR_LS;
+  const isLineEnd = (index2) => isCRLF(index2) || isLF(index2) || isPS(index2) || isLS(index2);
+  const index = () => _index;
+  const line = () => _line;
+  const column = () => _column;
+  const peekOffset = () => _peekOffset;
+  const charAt = (offset) => isCRLF(offset) || isPS(offset) || isLS(offset) ? CHAR_LF : _buf[offset];
+  const currentChar = () => charAt(_index);
+  const currentPeek = () => charAt(_index + _peekOffset);
+  function next() {
+    _peekOffset = 0;
+    if (isLineEnd(_index)) {
+      _line++;
+      _column = 0;
+    }
+    if (isCRLF(_index)) {
+      _index++;
+    }
+    _index++;
+    _column++;
+    return _buf[_index];
+  }
+  function peek() {
+    if (isCRLF(_index + _peekOffset)) {
+      _peekOffset++;
+    }
+    _peekOffset++;
+    return _buf[_index + _peekOffset];
+  }
+  function reset() {
+    _index = 0;
+    _line = 1;
+    _column = 1;
+    _peekOffset = 0;
+  }
+  function resetPeek(offset = 0) {
+    _peekOffset = offset;
+  }
+  function skipToPeek() {
+    const target = _index + _peekOffset;
+    while (target !== _index) {
+      next();
+    }
+    _peekOffset = 0;
+  }
+  return {
+    index,
+    line,
+    column,
+    peekOffset,
+    charAt,
+    currentChar,
+    currentPeek,
+    next,
+    peek,
+    reset,
+    resetPeek,
+    skipToPeek
+  };
+}
+const EOF = void 0;
+const DOT = ".";
+const LITERAL_DELIMITER = "'";
+const ERROR_DOMAIN$3 = "tokenizer";
+function createTokenizer(source, options = {}) {
+  const location2 = options.location !== false;
+  const _scnr = createScanner(source);
+  const currentOffset = () => _scnr.index();
+  const currentPosition = () => createPosition(_scnr.line(), _scnr.column(), _scnr.index());
+  const _initLoc = currentPosition();
+  const _initOffset = currentOffset();
+  const _context = {
+    currentType: 13,
+    offset: _initOffset,
+    startLoc: _initLoc,
+    endLoc: _initLoc,
+    lastType: 13,
+    lastOffset: _initOffset,
+    lastStartLoc: _initLoc,
+    lastEndLoc: _initLoc,
+    braceNest: 0,
+    inLinked: false,
+    text: ""
+  };
+  const context = () => _context;
+  const { onError } = options;
+  function emitError(code, pos, offset, ...args) {
+    const ctx = context();
+    pos.column += offset;
+    pos.offset += offset;
+    if (onError) {
+      const loc = location2 ? createLocation(ctx.startLoc, pos) : null;
+      const err = createCompileError(code, loc, {
+        domain: ERROR_DOMAIN$3,
+        args
+      });
+      onError(err);
+    }
+  }
+  function getToken(context2, type, value) {
+    context2.endLoc = currentPosition();
+    context2.currentType = type;
+    const token2 = { type };
+    if (location2) {
+      token2.loc = createLocation(context2.startLoc, context2.endLoc);
+    }
+    if (value != null) {
+      token2.value = value;
+    }
+    return token2;
+  }
+  const getEndToken = (context2) => getToken(
+    context2,
+    13
+    /* TokenTypes.EOF */
+  );
+  function eat(scnr, ch) {
+    if (scnr.currentChar() === ch) {
+      scnr.next();
+      return ch;
+    } else {
+      emitError(CompileErrorCodes.EXPECTED_TOKEN, currentPosition(), 0, ch);
+      return "";
+    }
+  }
+  function peekSpaces(scnr) {
+    let buf = "";
+    while (scnr.currentPeek() === CHAR_SP || scnr.currentPeek() === CHAR_LF) {
+      buf += scnr.currentPeek();
+      scnr.peek();
+    }
+    return buf;
+  }
+  function skipSpaces(scnr) {
+    const buf = peekSpaces(scnr);
+    scnr.skipToPeek();
+    return buf;
+  }
+  function isIdentifierStart(ch) {
+    if (ch === EOF) {
+      return false;
+    }
+    const cc = ch.charCodeAt(0);
+    return cc >= 97 && cc <= 122 || // a-z
+    cc >= 65 && cc <= 90 || // A-Z
+    cc === 95;
+  }
+  function isNumberStart(ch) {
+    if (ch === EOF) {
+      return false;
+    }
+    const cc = ch.charCodeAt(0);
+    return cc >= 48 && cc <= 57;
+  }
+  function isNamedIdentifierStart(scnr, context2) {
+    const { currentType } = context2;
+    if (currentType !== 2) {
+      return false;
+    }
+    peekSpaces(scnr);
+    const ret = isIdentifierStart(scnr.currentPeek());
+    scnr.resetPeek();
+    return ret;
+  }
+  function isListIdentifierStart(scnr, context2) {
+    const { currentType } = context2;
+    if (currentType !== 2) {
+      return false;
+    }
+    peekSpaces(scnr);
+    const ch = scnr.currentPeek() === "-" ? scnr.peek() : scnr.currentPeek();
+    const ret = isNumberStart(ch);
+    scnr.resetPeek();
+    return ret;
+  }
+  function isLiteralStart(scnr, context2) {
+    const { currentType } = context2;
+    if (currentType !== 2) {
+      return false;
+    }
+    peekSpaces(scnr);
+    const ret = scnr.currentPeek() === LITERAL_DELIMITER;
+    scnr.resetPeek();
+    return ret;
+  }
+  function isLinkedDotStart(scnr, context2) {
+    const { currentType } = context2;
+    if (currentType !== 7) {
+      return false;
+    }
+    peekSpaces(scnr);
+    const ret = scnr.currentPeek() === ".";
+    scnr.resetPeek();
+    return ret;
+  }
+  function isLinkedModifierStart(scnr, context2) {
+    const { currentType } = context2;
+    if (currentType !== 8) {
+      return false;
+    }
+    peekSpaces(scnr);
+    const ret = isIdentifierStart(scnr.currentPeek());
+    scnr.resetPeek();
+    return ret;
+  }
+  function isLinkedDelimiterStart(scnr, context2) {
+    const { currentType } = context2;
+    if (!(currentType === 7 || currentType === 11)) {
+      return false;
+    }
+    peekSpaces(scnr);
+    const ret = scnr.currentPeek() === ":";
+    scnr.resetPeek();
+    return ret;
+  }
+  function isLinkedReferStart(scnr, context2) {
+    const { currentType } = context2;
+    if (currentType !== 9) {
+      return false;
+    }
+    const fn = () => {
+      const ch = scnr.currentPeek();
+      if (ch === "{") {
+        return isIdentifierStart(scnr.peek());
+      } else if (ch === "@" || ch === "|" || ch === ":" || ch === "." || ch === CHAR_SP || !ch) {
+        return false;
+      } else if (ch === CHAR_LF) {
+        scnr.peek();
+        return fn();
+      } else {
+        return isTextStart(scnr, false);
+      }
     };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-check",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M5 12l5 5l10 -10"
-    }, null), createTextVNode(" ")]);
+    const ret = fn();
+    scnr.resetPeek();
+    return ret;
+  }
+  function isPluralStart(scnr) {
+    peekSpaces(scnr);
+    const ret = scnr.currentPeek() === "|";
+    scnr.resetPeek();
+    return ret;
+  }
+  function isTextStart(scnr, reset = true) {
+    const fn = (hasSpace = false, prev = "") => {
+      const ch = scnr.currentPeek();
+      if (ch === "{") {
+        return hasSpace;
+      } else if (ch === "@" || !ch) {
+        return hasSpace;
+      } else if (ch === "|") {
+        return !(prev === CHAR_SP || prev === CHAR_LF);
+      } else if (ch === CHAR_SP) {
+        scnr.peek();
+        return fn(true, CHAR_SP);
+      } else if (ch === CHAR_LF) {
+        scnr.peek();
+        return fn(true, CHAR_LF);
+      } else {
+        return true;
+      }
+    };
+    const ret = fn();
+    reset && scnr.resetPeek();
+    return ret;
+  }
+  function takeChar(scnr, fn) {
+    const ch = scnr.currentChar();
+    if (ch === EOF) {
+      return EOF;
+    }
+    if (fn(ch)) {
+      scnr.next();
+      return ch;
+    }
+    return null;
+  }
+  function isIdentifier(ch) {
+    const cc = ch.charCodeAt(0);
+    return cc >= 97 && cc <= 122 || // a-z
+    cc >= 65 && cc <= 90 || // A-Z
+    cc >= 48 && cc <= 57 || // 0-9
+    cc === 95 || // _
+    cc === 36;
+  }
+  function takeIdentifierChar(scnr) {
+    return takeChar(scnr, isIdentifier);
+  }
+  function isNamedIdentifier(ch) {
+    const cc = ch.charCodeAt(0);
+    return cc >= 97 && cc <= 122 || // a-z
+    cc >= 65 && cc <= 90 || // A-Z
+    cc >= 48 && cc <= 57 || // 0-9
+    cc === 95 || // _
+    cc === 36 || // $
+    cc === 45;
+  }
+  function takeNamedIdentifierChar(scnr) {
+    return takeChar(scnr, isNamedIdentifier);
+  }
+  function isDigit(ch) {
+    const cc = ch.charCodeAt(0);
+    return cc >= 48 && cc <= 57;
+  }
+  function takeDigit(scnr) {
+    return takeChar(scnr, isDigit);
+  }
+  function isHexDigit(ch) {
+    const cc = ch.charCodeAt(0);
+    return cc >= 48 && cc <= 57 || // 0-9
+    cc >= 65 && cc <= 70 || // A-F
+    cc >= 97 && cc <= 102;
+  }
+  function takeHexDigit(scnr) {
+    return takeChar(scnr, isHexDigit);
+  }
+  function getDigits(scnr) {
+    let ch = "";
+    let num = "";
+    while (ch = takeDigit(scnr)) {
+      num += ch;
+    }
+    return num;
+  }
+  function readText(scnr) {
+    let buf = "";
+    while (true) {
+      const ch = scnr.currentChar();
+      if (ch === "{" || ch === "}" || ch === "@" || ch === "|" || !ch) {
+        break;
+      } else if (ch === CHAR_SP || ch === CHAR_LF) {
+        if (isTextStart(scnr)) {
+          buf += ch;
+          scnr.next();
+        } else if (isPluralStart(scnr)) {
+          break;
+        } else {
+          buf += ch;
+          scnr.next();
+        }
+      } else {
+        buf += ch;
+        scnr.next();
+      }
+    }
+    return buf;
+  }
+  function readNamedIdentifier(scnr) {
+    skipSpaces(scnr);
+    let ch = "";
+    let name = "";
+    while (ch = takeNamedIdentifierChar(scnr)) {
+      name += ch;
+    }
+    if (scnr.currentChar() === EOF) {
+      emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0);
+    }
+    return name;
+  }
+  function readListIdentifier(scnr) {
+    skipSpaces(scnr);
+    let value = "";
+    if (scnr.currentChar() === "-") {
+      scnr.next();
+      value += `-${getDigits(scnr)}`;
+    } else {
+      value += getDigits(scnr);
+    }
+    if (scnr.currentChar() === EOF) {
+      emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0);
+    }
+    return value;
+  }
+  function isLiteral2(ch) {
+    return ch !== LITERAL_DELIMITER && ch !== CHAR_LF;
+  }
+  function readLiteral(scnr) {
+    skipSpaces(scnr);
+    eat(scnr, `'`);
+    let ch = "";
+    let literal2 = "";
+    while (ch = takeChar(scnr, isLiteral2)) {
+      if (ch === "\\") {
+        literal2 += readEscapeSequence(scnr);
+      } else {
+        literal2 += ch;
+      }
+    }
+    const current = scnr.currentChar();
+    if (current === CHAR_LF || current === EOF) {
+      emitError(CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER, currentPosition(), 0);
+      if (current === CHAR_LF) {
+        scnr.next();
+        eat(scnr, `'`);
+      }
+      return literal2;
+    }
+    eat(scnr, `'`);
+    return literal2;
+  }
+  function readEscapeSequence(scnr) {
+    const ch = scnr.currentChar();
+    switch (ch) {
+      case "\\":
+      case `'`:
+        scnr.next();
+        return `\\${ch}`;
+      case "u":
+        return readUnicodeEscapeSequence(scnr, ch, 4);
+      case "U":
+        return readUnicodeEscapeSequence(scnr, ch, 6);
+      default:
+        emitError(CompileErrorCodes.UNKNOWN_ESCAPE_SEQUENCE, currentPosition(), 0, ch);
+        return "";
+    }
+  }
+  function readUnicodeEscapeSequence(scnr, unicode, digits) {
+    eat(scnr, unicode);
+    let sequence = "";
+    for (let i = 0; i < digits; i++) {
+      const ch = takeHexDigit(scnr);
+      if (!ch) {
+        emitError(CompileErrorCodes.INVALID_UNICODE_ESCAPE_SEQUENCE, currentPosition(), 0, `\\${unicode}${sequence}${scnr.currentChar()}`);
+        break;
+      }
+      sequence += ch;
+    }
+    return `\\${unicode}${sequence}`;
+  }
+  function isInvalidIdentifier(ch) {
+    return ch !== "{" && ch !== "}" && ch !== CHAR_SP && ch !== CHAR_LF;
+  }
+  function readInvalidIdentifier(scnr) {
+    skipSpaces(scnr);
+    let ch = "";
+    let identifiers = "";
+    while (ch = takeChar(scnr, isInvalidIdentifier)) {
+      identifiers += ch;
+    }
+    return identifiers;
+  }
+  function readLinkedModifier(scnr) {
+    let ch = "";
+    let name = "";
+    while (ch = takeIdentifierChar(scnr)) {
+      name += ch;
+    }
+    return name;
+  }
+  function readLinkedRefer(scnr) {
+    const fn = (buf) => {
+      const ch = scnr.currentChar();
+      if (ch === "{" || ch === "@" || ch === "|" || ch === "(" || ch === ")" || !ch) {
+        return buf;
+      } else if (ch === CHAR_SP) {
+        return buf;
+      } else if (ch === CHAR_LF || ch === DOT) {
+        buf += ch;
+        scnr.next();
+        return fn(buf);
+      } else {
+        buf += ch;
+        scnr.next();
+        return fn(buf);
+      }
+    };
+    return fn("");
+  }
+  function readPlural(scnr) {
+    skipSpaces(scnr);
+    const plural = eat(
+      scnr,
+      "|"
+      /* TokenChars.Pipe */
+    );
+    skipSpaces(scnr);
+    return plural;
+  }
+  function readTokenInPlaceholder(scnr, context2) {
+    let token2 = null;
+    const ch = scnr.currentChar();
+    switch (ch) {
+      case "{":
+        if (context2.braceNest >= 1) {
+          emitError(CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER, currentPosition(), 0);
+        }
+        scnr.next();
+        token2 = getToken(
+          context2,
+          2,
+          "{"
+          /* TokenChars.BraceLeft */
+        );
+        skipSpaces(scnr);
+        context2.braceNest++;
+        return token2;
+      case "}":
+        if (context2.braceNest > 0 && context2.currentType === 2) {
+          emitError(CompileErrorCodes.EMPTY_PLACEHOLDER, currentPosition(), 0);
+        }
+        scnr.next();
+        token2 = getToken(
+          context2,
+          3,
+          "}"
+          /* TokenChars.BraceRight */
+        );
+        context2.braceNest--;
+        context2.braceNest > 0 && skipSpaces(scnr);
+        if (context2.inLinked && context2.braceNest === 0) {
+          context2.inLinked = false;
+        }
+        return token2;
+      case "@":
+        if (context2.braceNest > 0) {
+          emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0);
+        }
+        token2 = readTokenInLinked(scnr, context2) || getEndToken(context2);
+        context2.braceNest = 0;
+        return token2;
+      default: {
+        let validNamedIdentifier = true;
+        let validListIdentifier = true;
+        let validLiteral = true;
+        if (isPluralStart(scnr)) {
+          if (context2.braceNest > 0) {
+            emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0);
+          }
+          token2 = getToken(context2, 1, readPlural(scnr));
+          context2.braceNest = 0;
+          context2.inLinked = false;
+          return token2;
+        }
+        if (context2.braceNest > 0 && (context2.currentType === 4 || context2.currentType === 5 || context2.currentType === 6)) {
+          emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0);
+          context2.braceNest = 0;
+          return readToken(scnr, context2);
+        }
+        if (validNamedIdentifier = isNamedIdentifierStart(scnr, context2)) {
+          token2 = getToken(context2, 4, readNamedIdentifier(scnr));
+          skipSpaces(scnr);
+          return token2;
+        }
+        if (validListIdentifier = isListIdentifierStart(scnr, context2)) {
+          token2 = getToken(context2, 5, readListIdentifier(scnr));
+          skipSpaces(scnr);
+          return token2;
+        }
+        if (validLiteral = isLiteralStart(scnr, context2)) {
+          token2 = getToken(context2, 6, readLiteral(scnr));
+          skipSpaces(scnr);
+          return token2;
+        }
+        if (!validNamedIdentifier && !validListIdentifier && !validLiteral) {
+          token2 = getToken(context2, 12, readInvalidIdentifier(scnr));
+          emitError(CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER, currentPosition(), 0, token2.value);
+          skipSpaces(scnr);
+          return token2;
+        }
+        break;
+      }
+    }
+    return token2;
+  }
+  function readTokenInLinked(scnr, context2) {
+    const { currentType } = context2;
+    let token2 = null;
+    const ch = scnr.currentChar();
+    if ((currentType === 7 || currentType === 8 || currentType === 11 || currentType === 9) && (ch === CHAR_LF || ch === CHAR_SP)) {
+      emitError(CompileErrorCodes.INVALID_LINKED_FORMAT, currentPosition(), 0);
+    }
+    switch (ch) {
+      case "@":
+        scnr.next();
+        token2 = getToken(
+          context2,
+          7,
+          "@"
+          /* TokenChars.LinkedAlias */
+        );
+        context2.inLinked = true;
+        return token2;
+      case ".":
+        skipSpaces(scnr);
+        scnr.next();
+        return getToken(
+          context2,
+          8,
+          "."
+          /* TokenChars.LinkedDot */
+        );
+      case ":":
+        skipSpaces(scnr);
+        scnr.next();
+        return getToken(
+          context2,
+          9,
+          ":"
+          /* TokenChars.LinkedDelimiter */
+        );
+      default:
+        if (isPluralStart(scnr)) {
+          token2 = getToken(context2, 1, readPlural(scnr));
+          context2.braceNest = 0;
+          context2.inLinked = false;
+          return token2;
+        }
+        if (isLinkedDotStart(scnr, context2) || isLinkedDelimiterStart(scnr, context2)) {
+          skipSpaces(scnr);
+          return readTokenInLinked(scnr, context2);
+        }
+        if (isLinkedModifierStart(scnr, context2)) {
+          skipSpaces(scnr);
+          return getToken(context2, 11, readLinkedModifier(scnr));
+        }
+        if (isLinkedReferStart(scnr, context2)) {
+          skipSpaces(scnr);
+          if (ch === "{") {
+            return readTokenInPlaceholder(scnr, context2) || token2;
+          } else {
+            return getToken(context2, 10, readLinkedRefer(scnr));
+          }
+        }
+        if (currentType === 7) {
+          emitError(CompileErrorCodes.INVALID_LINKED_FORMAT, currentPosition(), 0);
+        }
+        context2.braceNest = 0;
+        context2.inLinked = false;
+        return readToken(scnr, context2);
+    }
+  }
+  function readToken(scnr, context2) {
+    let token2 = {
+      type: 13
+      /* TokenTypes.EOF */
+    };
+    if (context2.braceNest > 0) {
+      return readTokenInPlaceholder(scnr, context2) || getEndToken(context2);
+    }
+    if (context2.inLinked) {
+      return readTokenInLinked(scnr, context2) || getEndToken(context2);
+    }
+    const ch = scnr.currentChar();
+    switch (ch) {
+      case "{":
+        return readTokenInPlaceholder(scnr, context2) || getEndToken(context2);
+      case "}":
+        emitError(CompileErrorCodes.UNBALANCED_CLOSING_BRACE, currentPosition(), 0);
+        scnr.next();
+        return getToken(
+          context2,
+          3,
+          "}"
+          /* TokenChars.BraceRight */
+        );
+      case "@":
+        return readTokenInLinked(scnr, context2) || getEndToken(context2);
+      default: {
+        if (isPluralStart(scnr)) {
+          token2 = getToken(context2, 1, readPlural(scnr));
+          context2.braceNest = 0;
+          context2.inLinked = false;
+          return token2;
+        }
+        if (isTextStart(scnr)) {
+          return getToken(context2, 0, readText(scnr));
+        }
+        break;
+      }
+    }
+    return token2;
+  }
+  function nextToken() {
+    const { currentType, offset, startLoc, endLoc } = _context;
+    _context.lastType = currentType;
+    _context.lastOffset = offset;
+    _context.lastStartLoc = startLoc;
+    _context.lastEndLoc = endLoc;
+    _context.offset = currentOffset();
+    _context.startLoc = currentPosition();
+    if (_scnr.currentChar() === EOF) {
+      return getToken(
+        _context,
+        13
+        /* TokenTypes.EOF */
+      );
+    }
+    return readToken(_scnr, _context);
+  }
+  return {
+    nextToken,
+    currentOffset,
+    currentPosition,
+    context
+  };
+}
+const ERROR_DOMAIN$2 = "parser";
+const KNOWN_ESCAPES = /(?:\\\\|\\'|\\u([0-9a-fA-F]{4})|\\U([0-9a-fA-F]{6}))/g;
+function fromEscapeSequence(match, codePoint4, codePoint6) {
+  switch (match) {
+    case `\\\\`:
+      return `\\`;
+    case `\\'`:
+      return `'`;
+    default: {
+      const codePoint = parseInt(codePoint4 || codePoint6, 16);
+      if (codePoint <= 55295 || codePoint >= 57344) {
+        return String.fromCodePoint(codePoint);
+      }
+      return "�";
+    }
+  }
+}
+function createParser(options = {}) {
+  const location2 = options.location !== false;
+  const { onError } = options;
+  function emitError(tokenzer, code, start, offset, ...args) {
+    const end = tokenzer.currentPosition();
+    end.offset += offset;
+    end.column += offset;
+    if (onError) {
+      const loc = location2 ? createLocation(start, end) : null;
+      const err = createCompileError(code, loc, {
+        domain: ERROR_DOMAIN$2,
+        args
+      });
+      onError(err);
+    }
+  }
+  function startNode(type, offset, loc) {
+    const node = { type };
+    if (location2) {
+      node.start = offset;
+      node.end = offset;
+      node.loc = { start: loc, end: loc };
+    }
+    return node;
+  }
+  function endNode(node, offset, pos, type) {
+    if (location2) {
+      node.end = offset;
+      if (node.loc) {
+        node.loc.end = pos;
+      }
+    }
+  }
+  function parseText(tokenizer, value) {
+    const context = tokenizer.context();
+    const node = startNode(3, context.offset, context.startLoc);
+    node.value = value;
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return node;
+  }
+  function parseList(tokenizer, index) {
+    const context = tokenizer.context();
+    const { lastOffset: offset, lastStartLoc: loc } = context;
+    const node = startNode(5, offset, loc);
+    node.index = parseInt(index, 10);
+    tokenizer.nextToken();
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return node;
+  }
+  function parseNamed(tokenizer, key) {
+    const context = tokenizer.context();
+    const { lastOffset: offset, lastStartLoc: loc } = context;
+    const node = startNode(4, offset, loc);
+    node.key = key;
+    tokenizer.nextToken();
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return node;
+  }
+  function parseLiteral(tokenizer, value) {
+    const context = tokenizer.context();
+    const { lastOffset: offset, lastStartLoc: loc } = context;
+    const node = startNode(9, offset, loc);
+    node.value = value.replace(KNOWN_ESCAPES, fromEscapeSequence);
+    tokenizer.nextToken();
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return node;
+  }
+  function parseLinkedModifier(tokenizer) {
+    const token2 = tokenizer.nextToken();
+    const context = tokenizer.context();
+    const { lastOffset: offset, lastStartLoc: loc } = context;
+    const node = startNode(8, offset, loc);
+    if (token2.type !== 11) {
+      emitError(tokenizer, CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_MODIFIER, context.lastStartLoc, 0);
+      node.value = "";
+      endNode(node, offset, loc);
+      return {
+        nextConsumeToken: token2,
+        node
+      };
+    }
+    if (token2.value == null) {
+      emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+    }
+    node.value = token2.value || "";
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return {
+      node
+    };
+  }
+  function parseLinkedKey(tokenizer, value) {
+    const context = tokenizer.context();
+    const node = startNode(7, context.offset, context.startLoc);
+    node.value = value;
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return node;
+  }
+  function parseLinked(tokenizer) {
+    const context = tokenizer.context();
+    const linkedNode = startNode(6, context.offset, context.startLoc);
+    let token2 = tokenizer.nextToken();
+    if (token2.type === 8) {
+      const parsed = parseLinkedModifier(tokenizer);
+      linkedNode.modifier = parsed.node;
+      token2 = parsed.nextConsumeToken || tokenizer.nextToken();
+    }
+    if (token2.type !== 9) {
+      emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+    }
+    token2 = tokenizer.nextToken();
+    if (token2.type === 2) {
+      token2 = tokenizer.nextToken();
+    }
+    switch (token2.type) {
+      case 10:
+        if (token2.value == null) {
+          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+        }
+        linkedNode.key = parseLinkedKey(tokenizer, token2.value || "");
+        break;
+      case 4:
+        if (token2.value == null) {
+          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+        }
+        linkedNode.key = parseNamed(tokenizer, token2.value || "");
+        break;
+      case 5:
+        if (token2.value == null) {
+          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+        }
+        linkedNode.key = parseList(tokenizer, token2.value || "");
+        break;
+      case 6:
+        if (token2.value == null) {
+          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+        }
+        linkedNode.key = parseLiteral(tokenizer, token2.value || "");
+        break;
+      default: {
+        emitError(tokenizer, CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_KEY, context.lastStartLoc, 0);
+        const nextContext = tokenizer.context();
+        const emptyLinkedKeyNode = startNode(7, nextContext.offset, nextContext.startLoc);
+        emptyLinkedKeyNode.value = "";
+        endNode(emptyLinkedKeyNode, nextContext.offset, nextContext.startLoc);
+        linkedNode.key = emptyLinkedKeyNode;
+        endNode(linkedNode, nextContext.offset, nextContext.startLoc);
+        return {
+          nextConsumeToken: token2,
+          node: linkedNode
+        };
+      }
+    }
+    endNode(linkedNode, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return {
+      node: linkedNode
+    };
+  }
+  function parseMessage(tokenizer) {
+    const context = tokenizer.context();
+    const startOffset = context.currentType === 1 ? tokenizer.currentOffset() : context.offset;
+    const startLoc = context.currentType === 1 ? context.endLoc : context.startLoc;
+    const node = startNode(2, startOffset, startLoc);
+    node.items = [];
+    let nextToken = null;
+    do {
+      const token2 = nextToken || tokenizer.nextToken();
+      nextToken = null;
+      switch (token2.type) {
+        case 0:
+          if (token2.value == null) {
+            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+          }
+          node.items.push(parseText(tokenizer, token2.value || ""));
+          break;
+        case 5:
+          if (token2.value == null) {
+            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+          }
+          node.items.push(parseList(tokenizer, token2.value || ""));
+          break;
+        case 4:
+          if (token2.value == null) {
+            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+          }
+          node.items.push(parseNamed(tokenizer, token2.value || ""));
+          break;
+        case 6:
+          if (token2.value == null) {
+            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+          }
+          node.items.push(parseLiteral(tokenizer, token2.value || ""));
+          break;
+        case 7: {
+          const parsed = parseLinked(tokenizer);
+          node.items.push(parsed.node);
+          nextToken = parsed.nextConsumeToken || null;
+          break;
+        }
+      }
+    } while (context.currentType !== 13 && context.currentType !== 1);
+    const endOffset = context.currentType === 1 ? context.lastOffset : tokenizer.currentOffset();
+    const endLoc = context.currentType === 1 ? context.lastEndLoc : tokenizer.currentPosition();
+    endNode(node, endOffset, endLoc);
+    return node;
+  }
+  function parsePlural(tokenizer, offset, loc, msgNode) {
+    const context = tokenizer.context();
+    let hasEmptyMessage = msgNode.items.length === 0;
+    const node = startNode(1, offset, loc);
+    node.cases = [];
+    node.cases.push(msgNode);
+    do {
+      const msg = parseMessage(tokenizer);
+      if (!hasEmptyMessage) {
+        hasEmptyMessage = msg.items.length === 0;
+      }
+      node.cases.push(msg);
+    } while (context.currentType !== 13);
+    if (hasEmptyMessage) {
+      emitError(tokenizer, CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL, loc, 0);
+    }
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return node;
+  }
+  function parseResource(tokenizer) {
+    const context = tokenizer.context();
+    const { offset, startLoc } = context;
+    const msgNode = parseMessage(tokenizer);
+    if (context.currentType === 13) {
+      return msgNode;
+    } else {
+      return parsePlural(tokenizer, offset, startLoc, msgNode);
+    }
+  }
+  function parse2(source) {
+    const tokenizer = createTokenizer(source, assign$2({}, options));
+    const context = tokenizer.context();
+    const node = startNode(0, context.offset, context.startLoc);
+    if (location2 && node.loc) {
+      node.loc.source = source;
+    }
+    node.body = parseResource(tokenizer);
+    if (options.onCacheKey) {
+      node.cacheKey = options.onCacheKey(source);
+    }
+    if (context.currentType !== 13) {
+      emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, source[context.offset] || "");
+    }
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
+    return node;
+  }
+  return { parse: parse2 };
+}
+function getTokenCaption(token2) {
+  if (token2.type === 13) {
+    return "EOF";
+  }
+  const name = (token2.value || "").replace(/\r?\n/gu, "\\n");
+  return name.length > 10 ? name.slice(0, 9) + "…" : name;
+}
+function createTransformer(ast, options = {}) {
+  const _context = {
+    ast,
+    helpers: /* @__PURE__ */ new Set()
+  };
+  const context = () => _context;
+  const helper = (name) => {
+    _context.helpers.add(name);
+    return name;
+  };
+  return { context, helper };
+}
+function traverseNodes(nodes, transformer) {
+  for (let i = 0; i < nodes.length; i++) {
+    traverseNode(nodes[i], transformer);
+  }
+}
+function traverseNode(node, transformer) {
+  switch (node.type) {
+    case 1:
+      traverseNodes(node.cases, transformer);
+      transformer.helper(
+        "plural"
+        /* HelperNameMap.PLURAL */
+      );
+      break;
+    case 2:
+      traverseNodes(node.items, transformer);
+      break;
+    case 6: {
+      const linked = node;
+      traverseNode(linked.key, transformer);
+      transformer.helper(
+        "linked"
+        /* HelperNameMap.LINKED */
+      );
+      transformer.helper(
+        "type"
+        /* HelperNameMap.TYPE */
+      );
+      break;
+    }
+    case 5:
+      transformer.helper(
+        "interpolate"
+        /* HelperNameMap.INTERPOLATE */
+      );
+      transformer.helper(
+        "list"
+        /* HelperNameMap.LIST */
+      );
+      break;
+    case 4:
+      transformer.helper(
+        "interpolate"
+        /* HelperNameMap.INTERPOLATE */
+      );
+      transformer.helper(
+        "named"
+        /* HelperNameMap.NAMED */
+      );
+      break;
+  }
+}
+function transform$1(ast, options = {}) {
+  const transformer = createTransformer(ast);
+  transformer.helper(
+    "normalize"
+    /* HelperNameMap.NORMALIZE */
+  );
+  ast.body && traverseNode(ast.body, transformer);
+  const context = transformer.context();
+  ast.helpers = Array.from(context.helpers);
+}
+function optimize(ast) {
+  const body = ast.body;
+  if (body.type === 2) {
+    optimizeMessageNode(body);
+  } else {
+    body.cases.forEach((c) => optimizeMessageNode(c));
+  }
+  return ast;
+}
+function optimizeMessageNode(message) {
+  if (message.items.length === 1) {
+    const item = message.items[0];
+    if (item.type === 3 || item.type === 9) {
+      message.static = item.value;
+      delete item.value;
+    }
+  } else {
+    const values = [];
+    for (let i = 0; i < message.items.length; i++) {
+      const item = message.items[i];
+      if (!(item.type === 3 || item.type === 9)) {
+        break;
+      }
+      if (item.value == null) {
+        break;
+      }
+      values.push(item.value);
+    }
+    if (values.length === message.items.length) {
+      message.static = join(values);
+      for (let i = 0; i < message.items.length; i++) {
+        const item = message.items[i];
+        if (item.type === 3 || item.type === 9) {
+          delete item.value;
+        }
+      }
+    }
+  }
+}
+function minify(node) {
+  node.t = node.type;
+  switch (node.type) {
+    case 0: {
+      const resource = node;
+      minify(resource.body);
+      resource.b = resource.body;
+      delete resource.body;
+      break;
+    }
+    case 1: {
+      const plural = node;
+      const cases = plural.cases;
+      for (let i = 0; i < cases.length; i++) {
+        minify(cases[i]);
+      }
+      plural.c = cases;
+      delete plural.cases;
+      break;
+    }
+    case 2: {
+      const message = node;
+      const items = message.items;
+      for (let i = 0; i < items.length; i++) {
+        minify(items[i]);
+      }
+      message.i = items;
+      delete message.items;
+      if (message.static) {
+        message.s = message.static;
+        delete message.static;
+      }
+      break;
+    }
+    case 3:
+    case 9:
+    case 8:
+    case 7: {
+      const valueNode = node;
+      if (valueNode.value) {
+        valueNode.v = valueNode.value;
+        delete valueNode.value;
+      }
+      break;
+    }
+    case 6: {
+      const linked = node;
+      minify(linked.key);
+      linked.k = linked.key;
+      delete linked.key;
+      if (linked.modifier) {
+        minify(linked.modifier);
+        linked.m = linked.modifier;
+        delete linked.modifier;
+      }
+      break;
+    }
+    case 5: {
+      const list = node;
+      list.i = list.index;
+      delete list.index;
+      break;
+    }
+    case 4: {
+      const named = node;
+      named.k = named.key;
+      delete named.key;
+      break;
+    }
+  }
+  delete node.type;
+}
+function createCodeGenerator(ast, options) {
+  const { sourceMap, filename, breakLineCode, needIndent: _needIndent } = options;
+  const location2 = options.location !== false;
+  const _context = {
+    filename,
+    code: "",
+    column: 1,
+    line: 1,
+    offset: 0,
+    map: void 0,
+    breakLineCode,
+    needIndent: _needIndent,
+    indentLevel: 0
+  };
+  if (location2 && ast.loc) {
+    _context.source = ast.loc.source;
+  }
+  const context = () => _context;
+  function push(code, node) {
+    _context.code += code;
+  }
+  function _newline(n, withBreakLine = true) {
+    const _breakLineCode = withBreakLine ? breakLineCode : "";
+    push(_needIndent ? _breakLineCode + `  `.repeat(n) : _breakLineCode);
+  }
+  function indent(withNewLine = true) {
+    const level = ++_context.indentLevel;
+    withNewLine && _newline(level);
+  }
+  function deindent(withNewLine = true) {
+    const level = --_context.indentLevel;
+    withNewLine && _newline(level);
+  }
+  function newline() {
+    _newline(_context.indentLevel);
+  }
+  const helper = (key) => `_${key}`;
+  const needIndent = () => _context.needIndent;
+  return {
+    context,
+    push,
+    indent,
+    deindent,
+    newline,
+    helper,
+    needIndent
+  };
+}
+function generateLinkedNode(generator, node) {
+  const { helper } = generator;
+  generator.push(`${helper(
+    "linked"
+    /* HelperNameMap.LINKED */
+  )}(`);
+  generateNode(generator, node.key);
+  if (node.modifier) {
+    generator.push(`, `);
+    generateNode(generator, node.modifier);
+    generator.push(`, _type`);
+  } else {
+    generator.push(`, undefined, _type`);
+  }
+  generator.push(`)`);
+}
+function generateMessageNode(generator, node) {
+  const { helper, needIndent } = generator;
+  generator.push(`${helper(
+    "normalize"
+    /* HelperNameMap.NORMALIZE */
+  )}([`);
+  generator.indent(needIndent());
+  const length = node.items.length;
+  for (let i = 0; i < length; i++) {
+    generateNode(generator, node.items[i]);
+    if (i === length - 1) {
+      break;
+    }
+    generator.push(", ");
+  }
+  generator.deindent(needIndent());
+  generator.push("])");
+}
+function generatePluralNode(generator, node) {
+  const { helper, needIndent } = generator;
+  if (node.cases.length > 1) {
+    generator.push(`${helper(
+      "plural"
+      /* HelperNameMap.PLURAL */
+    )}([`);
+    generator.indent(needIndent());
+    const length = node.cases.length;
+    for (let i = 0; i < length; i++) {
+      generateNode(generator, node.cases[i]);
+      if (i === length - 1) {
+        break;
+      }
+      generator.push(", ");
+    }
+    generator.deindent(needIndent());
+    generator.push(`])`);
+  }
+}
+function generateResource(generator, node) {
+  if (node.body) {
+    generateNode(generator, node.body);
+  } else {
+    generator.push("null");
+  }
+}
+function generateNode(generator, node) {
+  const { helper } = generator;
+  switch (node.type) {
+    case 0:
+      generateResource(generator, node);
+      break;
+    case 1:
+      generatePluralNode(generator, node);
+      break;
+    case 2:
+      generateMessageNode(generator, node);
+      break;
+    case 6:
+      generateLinkedNode(generator, node);
+      break;
+    case 8:
+      generator.push(JSON.stringify(node.value), node);
+      break;
+    case 7:
+      generator.push(JSON.stringify(node.value), node);
+      break;
+    case 5:
+      generator.push(`${helper(
+        "interpolate"
+        /* HelperNameMap.INTERPOLATE */
+      )}(${helper(
+        "list"
+        /* HelperNameMap.LIST */
+      )}(${node.index}))`, node);
+      break;
+    case 4:
+      generator.push(`${helper(
+        "interpolate"
+        /* HelperNameMap.INTERPOLATE */
+      )}(${helper(
+        "named"
+        /* HelperNameMap.NAMED */
+      )}(${JSON.stringify(node.key)}))`, node);
+      break;
+    case 9:
+      generator.push(JSON.stringify(node.value), node);
+      break;
+    case 3:
+      generator.push(JSON.stringify(node.value), node);
+      break;
+  }
+}
+const generate = (ast, options = {}) => {
+  const mode = isString(options.mode) ? options.mode : "normal";
+  const filename = isString(options.filename) ? options.filename : "message.intl";
+  const sourceMap = !!options.sourceMap;
+  const breakLineCode = options.breakLineCode != null ? options.breakLineCode : mode === "arrow" ? ";" : "\n";
+  const needIndent = options.needIndent ? options.needIndent : mode !== "arrow";
+  const helpers = ast.helpers || [];
+  const generator = createCodeGenerator(ast, {
+    mode,
+    filename,
+    sourceMap,
+    breakLineCode,
+    needIndent
+  });
+  generator.push(mode === "normal" ? `function __msg__ (ctx) {` : `(ctx) => {`);
+  generator.indent(needIndent);
+  if (helpers.length > 0) {
+    generator.push(`const { ${join(helpers.map((s) => `${s}: _${s}`), ", ")} } = ctx`);
+    generator.newline();
+  }
+  generator.push(`return `);
+  generateNode(generator, ast);
+  generator.deindent(needIndent);
+  generator.push(`}`);
+  delete ast.helpers;
+  const { code, map } = generator.context();
+  return {
+    ast,
+    code,
+    map: map ? map.toJSON() : void 0
+    // eslint-disable-line @typescript-eslint/no-explicit-any
+  };
+};
+function baseCompile$1(source, options = {}) {
+  const assignedOptions = assign$2({}, options);
+  const jit = !!assignedOptions.jit;
+  const enalbeMinify = !!assignedOptions.minify;
+  const enambeOptimize = assignedOptions.optimize == null ? true : assignedOptions.optimize;
+  const parser = createParser(assignedOptions);
+  const ast = parser.parse(source);
+  if (!jit) {
+    transform$1(ast, assignedOptions);
+    return generate(ast, assignedOptions);
+  } else {
+    enambeOptimize && optimize(ast);
+    enalbeMinify && minify(ast);
+    return { ast, code: "" };
+  }
+}
+/*!
+  * core-base v10.0.5
+  * (c) 2024 kazuya kawaguchi
+  * Released under the MIT License.
+  */
+function initFeatureFlags$1() {
+  if (typeof __INTLIFY_PROD_DEVTOOLS__ !== "boolean") {
+    getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false;
+  }
+  if (typeof __INTLIFY_DROP_MESSAGE_COMPILER__ !== "boolean") {
+    getGlobalThis().__INTLIFY_DROP_MESSAGE_COMPILER__ = false;
+  }
+}
+function format$2(ast) {
+  const msg = (ctx) => formatParts(ctx, ast);
+  return msg;
+}
+function formatParts(ctx, ast) {
+  const body = resolveBody(ast);
+  if (body == null) {
+    throw createUnhandleNodeError(
+      0
+      /* NodeTypes.Resource */
+    );
+  }
+  const type = resolveType(body);
+  if (type === 1) {
+    const plural = body;
+    const cases = resolveCases(plural);
+    return ctx.plural(cases.reduce((messages, c) => [
+      ...messages,
+      formatMessageParts(ctx, c)
+    ], []));
+  } else {
+    return formatMessageParts(ctx, body);
+  }
+}
+const PROPS_BODY = ["b", "body"];
+function resolveBody(node) {
+  return resolveProps(node, PROPS_BODY);
+}
+const PROPS_CASES = ["c", "cases"];
+function resolveCases(node) {
+  return resolveProps(node, PROPS_CASES, []);
+}
+function formatMessageParts(ctx, node) {
+  const static_ = resolveStatic(node);
+  if (static_ != null) {
+    return ctx.type === "text" ? static_ : ctx.normalize([static_]);
+  } else {
+    const messages = resolveItems(node).reduce((acm, c) => [...acm, formatMessagePart(ctx, c)], []);
+    return ctx.normalize(messages);
+  }
+}
+const PROPS_STATIC = ["s", "static"];
+function resolveStatic(node) {
+  return resolveProps(node, PROPS_STATIC);
+}
+const PROPS_ITEMS = ["i", "items"];
+function resolveItems(node) {
+  return resolveProps(node, PROPS_ITEMS, []);
+}
+function formatMessagePart(ctx, node) {
+  const type = resolveType(node);
+  switch (type) {
+    case 3: {
+      return resolveValue$1(node, type);
+    }
+    case 9: {
+      return resolveValue$1(node, type);
+    }
+    case 4: {
+      const named = node;
+      if (hasOwn(named, "k") && named.k) {
+        return ctx.interpolate(ctx.named(named.k));
+      }
+      if (hasOwn(named, "key") && named.key) {
+        return ctx.interpolate(ctx.named(named.key));
+      }
+      throw createUnhandleNodeError(type);
+    }
+    case 5: {
+      const list = node;
+      if (hasOwn(list, "i") && isNumber(list.i)) {
+        return ctx.interpolate(ctx.list(list.i));
+      }
+      if (hasOwn(list, "index") && isNumber(list.index)) {
+        return ctx.interpolate(ctx.list(list.index));
+      }
+      throw createUnhandleNodeError(type);
+    }
+    case 6: {
+      const linked = node;
+      const modifier = resolveLinkedModifier(linked);
+      const key = resolveLinkedKey(linked);
+      return ctx.linked(formatMessagePart(ctx, key), modifier ? formatMessagePart(ctx, modifier) : void 0, ctx.type);
+    }
+    case 7: {
+      return resolveValue$1(node, type);
+    }
+    case 8: {
+      return resolveValue$1(node, type);
+    }
+    default:
+      throw new Error(`unhandled node on format message part: ${type}`);
+  }
+}
+const PROPS_TYPE = ["t", "type"];
+function resolveType(node) {
+  return resolveProps(node, PROPS_TYPE);
+}
+const PROPS_VALUE = ["v", "value"];
+function resolveValue$1(node, type) {
+  const resolved = resolveProps(node, PROPS_VALUE);
+  if (resolved) {
+    return resolved;
+  } else {
+    throw createUnhandleNodeError(type);
+  }
+}
+const PROPS_MODIFIER = ["m", "modifier"];
+function resolveLinkedModifier(node) {
+  return resolveProps(node, PROPS_MODIFIER);
+}
+const PROPS_KEY = ["k", "key"];
+function resolveLinkedKey(node) {
+  const resolved = resolveProps(node, PROPS_KEY);
+  if (resolved) {
+    return resolved;
+  } else {
+    throw createUnhandleNodeError(
+      6
+      /* NodeTypes.Linked */
+    );
+  }
+}
+function resolveProps(node, props, defaultValue) {
+  for (let i = 0; i < props.length; i++) {
+    const prop = props[i];
+    if (hasOwn(node, prop) && node[prop] != null) {
+      return node[prop];
+    }
+  }
+  return defaultValue;
+}
+function createUnhandleNodeError(type) {
+  return new Error(`unhandled node type: ${type}`);
+}
+const defaultOnCacheKey = (message) => message;
+let compileCache = create();
+function isMessageAST(val) {
+  return isObject$1(val) && resolveType(val) === 0 && (hasOwn(val, "b") || hasOwn(val, "body"));
+}
+function baseCompile(message, options = {}) {
+  let detectError = false;
+  const onError = options.onError || defaultOnError;
+  options.onError = (err) => {
+    detectError = true;
+    onError(err);
+  };
+  return { ...baseCompile$1(message, options), detectError };
+}
+// @__NO_SIDE_EFFECTS__
+function compile(message, context) {
+  if (!__INTLIFY_DROP_MESSAGE_COMPILER__ && isString(message)) {
+    isBoolean(context.warnHtmlMessage) ? context.warnHtmlMessage : true;
+    const onCacheKey = context.onCacheKey || defaultOnCacheKey;
+    const cacheKey = onCacheKey(message);
+    const cached = compileCache[cacheKey];
+    if (cached) {
+      return cached;
+    }
+    const { ast, detectError } = baseCompile(message, {
+      ...context,
+      location: false,
+      jit: true
+    });
+    const msg = format$2(ast);
+    return !detectError ? compileCache[cacheKey] = msg : msg;
+  } else {
+    const cacheKey = message.cacheKey;
+    if (cacheKey) {
+      const cached = compileCache[cacheKey];
+      if (cached) {
+        return cached;
+      }
+      return compileCache[cacheKey] = format$2(message);
+    } else {
+      return format$2(message);
+    }
+  }
+}
+let devtools = null;
+function setDevToolsHook(hook) {
+  devtools = hook;
+}
+function initI18nDevTools(i18n2, version2, meta) {
+  devtools && devtools.emit("i18n:init", {
+    timestamp: Date.now(),
+    i18n: i18n2,
+    version: version2,
+    meta
+  });
+}
+const translateDevTools = /* @__PURE__ */ createDevToolsHook("function:translate");
+function createDevToolsHook(hook) {
+  return (payloads) => devtools && devtools.emit(hook, payloads);
+}
+const CoreErrorCodes = {
+  INVALID_ARGUMENT: COMPILE_ERROR_CODES_EXTEND_POINT,
+  // 17
+  INVALID_DATE_ARGUMENT: 18,
+  INVALID_ISO_DATE_ARGUMENT: 19,
+  NOT_SUPPORT_NON_STRING_MESSAGE: 20,
+  NOT_SUPPORT_LOCALE_PROMISE_VALUE: 21,
+  NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: 22,
+  NOT_SUPPORT_LOCALE_TYPE: 23
+};
+const CORE_ERROR_CODES_EXTEND_POINT = 24;
+function createCoreError(code) {
+  return createCompileError(code, null, void 0);
+}
+function getLocale(context, options) {
+  return options.locale != null ? resolveLocale(options.locale) : resolveLocale(context.locale);
+}
+let _resolveLocale;
+function resolveLocale(locale2) {
+  if (isString(locale2)) {
+    return locale2;
+  } else {
+    if (isFunction(locale2)) {
+      if (locale2.resolvedOnce && _resolveLocale != null) {
+        return _resolveLocale;
+      } else if (locale2.constructor.name === "Function") {
+        const resolve2 = locale2();
+        if (isPromise(resolve2)) {
+          throw createCoreError(CoreErrorCodes.NOT_SUPPORT_LOCALE_PROMISE_VALUE);
+        }
+        return _resolveLocale = resolve2;
+      } else {
+        throw createCoreError(CoreErrorCodes.NOT_SUPPORT_LOCALE_ASYNC_FUNCTION);
+      }
+    } else {
+      throw createCoreError(CoreErrorCodes.NOT_SUPPORT_LOCALE_TYPE);
+    }
+  }
+}
+function fallbackWithSimple(ctx, fallback, start) {
+  return [.../* @__PURE__ */ new Set([
+    start,
+    ...isArray$1(fallback) ? fallback : isObject$1(fallback) ? Object.keys(fallback) : isString(fallback) ? [fallback] : [start]
+  ])];
+}
+function fallbackWithLocaleChain(ctx, fallback, start) {
+  const startLocale = isString(start) ? start : DEFAULT_LOCALE;
+  const context = ctx;
+  if (!context.__localeChainCache) {
+    context.__localeChainCache = /* @__PURE__ */ new Map();
+  }
+  let chain = context.__localeChainCache.get(startLocale);
+  if (!chain) {
+    chain = [];
+    let block2 = [start];
+    while (isArray$1(block2)) {
+      block2 = appendBlockToChain(chain, block2, fallback);
+    }
+    const defaults = isArray$1(fallback) || !isPlainObject(fallback) ? fallback : fallback["default"] ? fallback["default"] : null;
+    block2 = isString(defaults) ? [defaults] : defaults;
+    if (isArray$1(block2)) {
+      appendBlockToChain(chain, block2, false);
+    }
+    context.__localeChainCache.set(startLocale, chain);
+  }
+  return chain;
+}
+function appendBlockToChain(chain, block2, blocks) {
+  let follow = true;
+  for (let i = 0; i < block2.length && isBoolean(follow); i++) {
+    const locale2 = block2[i];
+    if (isString(locale2)) {
+      follow = appendLocaleToChain(chain, block2[i], blocks);
+    }
+  }
+  return follow;
+}
+function appendLocaleToChain(chain, locale2, blocks) {
+  let follow;
+  const tokens = locale2.split("-");
+  do {
+    const target = tokens.join("-");
+    follow = appendItemToChain(chain, target, blocks);
+    tokens.splice(-1, 1);
+  } while (tokens.length && follow === true);
+  return follow;
+}
+function appendItemToChain(chain, target, blocks) {
+  let follow = false;
+  if (!chain.includes(target)) {
+    follow = true;
+    if (target) {
+      follow = target[target.length - 1] !== "!";
+      const locale2 = target.replace(/!/g, "");
+      chain.push(locale2);
+      if ((isArray$1(blocks) || isPlainObject(blocks)) && blocks[locale2]) {
+        follow = blocks[locale2];
+      }
+    }
+  }
+  return follow;
+}
+const pathStateMachine = [];
+pathStateMachine[
+  0
+  /* States.BEFORE_PATH */
+] = {
+  [
+    "w"
+    /* PathCharTypes.WORKSPACE */
+  ]: [
+    0
+    /* States.BEFORE_PATH */
+  ],
+  [
+    "i"
+    /* PathCharTypes.IDENT */
+  ]: [
+    3,
+    0
+    /* Actions.APPEND */
+  ],
+  [
+    "["
+    /* PathCharTypes.LEFT_BRACKET */
+  ]: [
+    4
+    /* States.IN_SUB_PATH */
+  ],
+  [
+    "o"
+    /* PathCharTypes.END_OF_FAIL */
+  ]: [
+    7
+    /* States.AFTER_PATH */
+  ]
+};
+pathStateMachine[
+  1
+  /* States.IN_PATH */
+] = {
+  [
+    "w"
+    /* PathCharTypes.WORKSPACE */
+  ]: [
+    1
+    /* States.IN_PATH */
+  ],
+  [
+    "."
+    /* PathCharTypes.DOT */
+  ]: [
+    2
+    /* States.BEFORE_IDENT */
+  ],
+  [
+    "["
+    /* PathCharTypes.LEFT_BRACKET */
+  ]: [
+    4
+    /* States.IN_SUB_PATH */
+  ],
+  [
+    "o"
+    /* PathCharTypes.END_OF_FAIL */
+  ]: [
+    7
+    /* States.AFTER_PATH */
+  ]
+};
+pathStateMachine[
+  2
+  /* States.BEFORE_IDENT */
+] = {
+  [
+    "w"
+    /* PathCharTypes.WORKSPACE */
+  ]: [
+    2
+    /* States.BEFORE_IDENT */
+  ],
+  [
+    "i"
+    /* PathCharTypes.IDENT */
+  ]: [
+    3,
+    0
+    /* Actions.APPEND */
+  ],
+  [
+    "0"
+    /* PathCharTypes.ZERO */
+  ]: [
+    3,
+    0
+    /* Actions.APPEND */
+  ]
+};
+pathStateMachine[
+  3
+  /* States.IN_IDENT */
+] = {
+  [
+    "i"
+    /* PathCharTypes.IDENT */
+  ]: [
+    3,
+    0
+    /* Actions.APPEND */
+  ],
+  [
+    "0"
+    /* PathCharTypes.ZERO */
+  ]: [
+    3,
+    0
+    /* Actions.APPEND */
+  ],
+  [
+    "w"
+    /* PathCharTypes.WORKSPACE */
+  ]: [
+    1,
+    1
+    /* Actions.PUSH */
+  ],
+  [
+    "."
+    /* PathCharTypes.DOT */
+  ]: [
+    2,
+    1
+    /* Actions.PUSH */
+  ],
+  [
+    "["
+    /* PathCharTypes.LEFT_BRACKET */
+  ]: [
+    4,
+    1
+    /* Actions.PUSH */
+  ],
+  [
+    "o"
+    /* PathCharTypes.END_OF_FAIL */
+  ]: [
+    7,
+    1
+    /* Actions.PUSH */
+  ]
+};
+pathStateMachine[
+  4
+  /* States.IN_SUB_PATH */
+] = {
+  [
+    "'"
+    /* PathCharTypes.SINGLE_QUOTE */
+  ]: [
+    5,
+    0
+    /* Actions.APPEND */
+  ],
+  [
+    '"'
+    /* PathCharTypes.DOUBLE_QUOTE */
+  ]: [
+    6,
+    0
+    /* Actions.APPEND */
+  ],
+  [
+    "["
+    /* PathCharTypes.LEFT_BRACKET */
+  ]: [
+    4,
+    2
+    /* Actions.INC_SUB_PATH_DEPTH */
+  ],
+  [
+    "]"
+    /* PathCharTypes.RIGHT_BRACKET */
+  ]: [
+    1,
+    3
+    /* Actions.PUSH_SUB_PATH */
+  ],
+  [
+    "o"
+    /* PathCharTypes.END_OF_FAIL */
+  ]: 8,
+  [
+    "l"
+    /* PathCharTypes.ELSE */
+  ]: [
+    4,
+    0
+    /* Actions.APPEND */
+  ]
+};
+pathStateMachine[
+  5
+  /* States.IN_SINGLE_QUOTE */
+] = {
+  [
+    "'"
+    /* PathCharTypes.SINGLE_QUOTE */
+  ]: [
+    4,
+    0
+    /* Actions.APPEND */
+  ],
+  [
+    "o"
+    /* PathCharTypes.END_OF_FAIL */
+  ]: 8,
+  [
+    "l"
+    /* PathCharTypes.ELSE */
+  ]: [
+    5,
+    0
+    /* Actions.APPEND */
+  ]
+};
+pathStateMachine[
+  6
+  /* States.IN_DOUBLE_QUOTE */
+] = {
+  [
+    '"'
+    /* PathCharTypes.DOUBLE_QUOTE */
+  ]: [
+    4,
+    0
+    /* Actions.APPEND */
+  ],
+  [
+    "o"
+    /* PathCharTypes.END_OF_FAIL */
+  ]: 8,
+  [
+    "l"
+    /* PathCharTypes.ELSE */
+  ]: [
+    6,
+    0
+    /* Actions.APPEND */
+  ]
+};
+const literalValueRE = /^\s?(?:true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/;
+function isLiteral(exp) {
+  return literalValueRE.test(exp);
+}
+function stripQuotes(str) {
+  const a = str.charCodeAt(0);
+  const b = str.charCodeAt(str.length - 1);
+  return a === b && (a === 34 || a === 39) ? str.slice(1, -1) : str;
+}
+function getPathCharType(ch) {
+  if (ch === void 0 || ch === null) {
+    return "o";
+  }
+  const code = ch.charCodeAt(0);
+  switch (code) {
+    case 91:
+    case 93:
+    case 46:
+    case 34:
+    case 39:
+      return ch;
+    case 95:
+    case 36:
+    case 45:
+      return "i";
+    case 9:
+    case 10:
+    case 13:
+    case 160:
+    case 65279:
+    case 8232:
+    case 8233:
+      return "w";
+  }
+  return "i";
+}
+function formatSubPath(path) {
+  const trimmed = path.trim();
+  if (path.charAt(0) === "0" && isNaN(parseInt(path))) {
+    return false;
+  }
+  return isLiteral(trimmed) ? stripQuotes(trimmed) : "*" + trimmed;
+}
+function parse(path) {
+  const keys2 = [];
+  let index = -1;
+  let mode = 0;
+  let subPathDepth = 0;
+  let c;
+  let key;
+  let newChar;
+  let type;
+  let transition;
+  let action;
+  let typeMap;
+  const actions = [];
+  actions[
+    0
+    /* Actions.APPEND */
+  ] = () => {
+    if (key === void 0) {
+      key = newChar;
+    } else {
+      key += newChar;
+    }
+  };
+  actions[
+    1
+    /* Actions.PUSH */
+  ] = () => {
+    if (key !== void 0) {
+      keys2.push(key);
+      key = void 0;
+    }
+  };
+  actions[
+    2
+    /* Actions.INC_SUB_PATH_DEPTH */
+  ] = () => {
+    actions[
+      0
+      /* Actions.APPEND */
+    ]();
+    subPathDepth++;
+  };
+  actions[
+    3
+    /* Actions.PUSH_SUB_PATH */
+  ] = () => {
+    if (subPathDepth > 0) {
+      subPathDepth--;
+      mode = 4;
+      actions[
+        0
+        /* Actions.APPEND */
+      ]();
+    } else {
+      subPathDepth = 0;
+      if (key === void 0) {
+        return false;
+      }
+      key = formatSubPath(key);
+      if (key === false) {
+        return false;
+      } else {
+        actions[
+          1
+          /* Actions.PUSH */
+        ]();
+      }
+    }
+  };
+  function maybeUnescapeQuote() {
+    const nextChar = path[index + 1];
+    if (mode === 5 && nextChar === "'" || mode === 6 && nextChar === '"') {
+      index++;
+      newChar = "\\" + nextChar;
+      actions[
+        0
+        /* Actions.APPEND */
+      ]();
+      return true;
+    }
+  }
+  while (mode !== null) {
+    index++;
+    c = path[index];
+    if (c === "\\" && maybeUnescapeQuote()) {
+      continue;
+    }
+    type = getPathCharType(c);
+    typeMap = pathStateMachine[mode];
+    transition = typeMap[type] || typeMap[
+      "l"
+      /* PathCharTypes.ELSE */
+    ] || 8;
+    if (transition === 8) {
+      return;
+    }
+    mode = transition[0];
+    if (transition[1] !== void 0) {
+      action = actions[transition[1]];
+      if (action) {
+        newChar = c;
+        if (action() === false) {
+          return;
+        }
+      }
+    }
+    if (mode === 7) {
+      return keys2;
+    }
+  }
+}
+const cache = /* @__PURE__ */ new Map();
+function resolveWithKeyValue(obj, path) {
+  return isObject$1(obj) ? obj[path] : null;
+}
+function resolveValue(obj, path) {
+  if (!isObject$1(obj)) {
+    return null;
+  }
+  let hit = cache.get(path);
+  if (!hit) {
+    hit = parse(path);
+    if (hit) {
+      cache.set(path, hit);
+    }
+  }
+  if (!hit) {
+    return null;
+  }
+  const len = hit.length;
+  let last = obj;
+  let i = 0;
+  while (i < len) {
+    const val = last[hit[i]];
+    if (val === void 0) {
+      return null;
+    }
+    if (isFunction(last)) {
+      return null;
+    }
+    last = val;
+    i++;
+  }
+  return last;
+}
+const VERSION$1 = "10.0.5";
+const NOT_REOSLVED = -1;
+const DEFAULT_LOCALE = "en-US";
+const MISSING_RESOLVE_VALUE = "";
+const capitalize = (str) => `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`;
+function getDefaultLinkedModifiers() {
+  return {
+    upper: (val, type) => {
+      return type === "text" && isString(val) ? val.toUpperCase() : type === "vnode" && isObject$1(val) && "__v_isVNode" in val ? val.children.toUpperCase() : val;
+    },
+    lower: (val, type) => {
+      return type === "text" && isString(val) ? val.toLowerCase() : type === "vnode" && isObject$1(val) && "__v_isVNode" in val ? val.children.toLowerCase() : val;
+    },
+    capitalize: (val, type) => {
+      return type === "text" && isString(val) ? capitalize(val) : type === "vnode" && isObject$1(val) && "__v_isVNode" in val ? capitalize(val.children) : val;
+    }
+  };
+}
+let _compiler;
+function registerMessageCompiler(compiler) {
+  _compiler = compiler;
+}
+let _resolver;
+function registerMessageResolver(resolver) {
+  _resolver = resolver;
+}
+let _fallbacker;
+function registerLocaleFallbacker(fallbacker) {
+  _fallbacker = fallbacker;
+}
+let _additionalMeta = null;
+const setAdditionalMeta = /* @__NO_SIDE_EFFECTS__ */ (meta) => {
+  _additionalMeta = meta;
+};
+const getAdditionalMeta = /* @__NO_SIDE_EFFECTS__ */ () => _additionalMeta;
+let _fallbackContext = null;
+const setFallbackContext = (context) => {
+  _fallbackContext = context;
+};
+const getFallbackContext = () => _fallbackContext;
+let _cid = 0;
+function createCoreContext(options = {}) {
+  const onWarn = isFunction(options.onWarn) ? options.onWarn : warn;
+  const version2 = isString(options.version) ? options.version : VERSION$1;
+  const locale2 = isString(options.locale) || isFunction(options.locale) ? options.locale : DEFAULT_LOCALE;
+  const _locale = isFunction(locale2) ? DEFAULT_LOCALE : locale2;
+  const fallbackLocale = isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || isString(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale;
+  const messages = isPlainObject(options.messages) ? options.messages : createResources(_locale);
+  const datetimeFormats = isPlainObject(options.datetimeFormats) ? options.datetimeFormats : createResources(_locale);
+  const numberFormats = isPlainObject(options.numberFormats) ? options.numberFormats : createResources(_locale);
+  const modifiers = assign$2(create(), options.modifiers, getDefaultLinkedModifiers());
+  const pluralRules = options.pluralRules || create();
+  const missing = isFunction(options.missing) ? options.missing : null;
+  const missingWarn = isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
+  const fallbackWarn = isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true;
+  const fallbackFormat = !!options.fallbackFormat;
+  const unresolving = !!options.unresolving;
+  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null;
+  const processor = isPlainObject(options.processor) ? options.processor : null;
+  const warnHtmlMessage = isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
+  const escapeParameter = !!options.escapeParameter;
+  const messageCompiler = isFunction(options.messageCompiler) ? options.messageCompiler : _compiler;
+  const messageResolver = isFunction(options.messageResolver) ? options.messageResolver : _resolver || resolveWithKeyValue;
+  const localeFallbacker = isFunction(options.localeFallbacker) ? options.localeFallbacker : _fallbacker || fallbackWithSimple;
+  const fallbackContext = isObject$1(options.fallbackContext) ? options.fallbackContext : void 0;
+  const internalOptions = options;
+  const __datetimeFormatters = isObject$1(internalOptions.__datetimeFormatters) ? internalOptions.__datetimeFormatters : /* @__PURE__ */ new Map();
+  const __numberFormatters = isObject$1(internalOptions.__numberFormatters) ? internalOptions.__numberFormatters : /* @__PURE__ */ new Map();
+  const __meta = isObject$1(internalOptions.__meta) ? internalOptions.__meta : {};
+  _cid++;
+  const context = {
+    version: version2,
+    cid: _cid,
+    locale: locale2,
+    fallbackLocale,
+    messages,
+    modifiers,
+    pluralRules,
+    missing,
+    missingWarn,
+    fallbackWarn,
+    fallbackFormat,
+    unresolving,
+    postTranslation,
+    processor,
+    warnHtmlMessage,
+    escapeParameter,
+    messageCompiler,
+    messageResolver,
+    localeFallbacker,
+    fallbackContext,
+    onWarn,
+    __meta
+  };
+  {
+    context.datetimeFormats = datetimeFormats;
+    context.numberFormats = numberFormats;
+    context.__datetimeFormatters = __datetimeFormatters;
+    context.__numberFormatters = __numberFormatters;
+  }
+  if (__INTLIFY_PROD_DEVTOOLS__) {
+    initI18nDevTools(context, version2, __meta);
+  }
+  return context;
+}
+const createResources = (locale2) => ({ [locale2]: create() });
+function handleMissing(context, key, locale2, missingWarn, type) {
+  const { missing, onWarn } = context;
+  if (missing !== null) {
+    const ret = missing(context, locale2, key, type);
+    return isString(ret) ? ret : key;
+  } else {
+    return key;
+  }
+}
+function updateFallbackLocale(ctx, locale2, fallback) {
+  const context = ctx;
+  context.__localeChainCache = /* @__PURE__ */ new Map();
+  ctx.localeFallbacker(ctx, fallback, locale2);
+}
+function isAlmostSameLocale(locale2, compareLocale) {
+  if (locale2 === compareLocale)
+    return false;
+  return locale2.split("-")[0] === compareLocale.split("-")[0];
+}
+function isImplicitFallback(targetLocale, locales) {
+  const index = locales.indexOf(targetLocale);
+  if (index === -1) {
+    return false;
+  }
+  for (let i = index + 1; i < locales.length; i++) {
+    if (isAlmostSameLocale(targetLocale, locales[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+function datetime(context, ...args) {
+  const { datetimeFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context;
+  const { __datetimeFormatters } = context;
+  const [key, value, options, overrides] = parseDateTimeArgs(...args);
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const part = !!options.part;
+  const locale2 = getLocale(context, options);
+  const locales = localeFallbacker(
+    context,
+    // eslint-disable-line @typescript-eslint/no-explicit-any
+    fallbackLocale,
+    locale2
+  );
+  if (!isString(key) || key === "") {
+    return new Intl.DateTimeFormat(locale2, overrides).format(value);
+  }
+  let datetimeFormat = {};
+  let targetLocale;
+  let format2 = null;
+  const type = "datetime format";
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i];
+    datetimeFormat = datetimeFormats[targetLocale] || {};
+    format2 = datetimeFormat[key];
+    if (isPlainObject(format2))
+      break;
+    handleMissing(context, key, targetLocale, missingWarn, type);
+  }
+  if (!isPlainObject(format2) || !isString(targetLocale)) {
+    return unresolving ? NOT_REOSLVED : key;
+  }
+  let id = `${targetLocale}__${key}`;
+  if (!isEmptyObject(overrides)) {
+    id = `${id}__${JSON.stringify(overrides)}`;
+  }
+  let formatter = __datetimeFormatters.get(id);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(targetLocale, assign$2({}, format2, overrides));
+    __datetimeFormatters.set(id, formatter);
+  }
+  return !part ? formatter.format(value) : formatter.formatToParts(value);
+}
+const DATETIME_FORMAT_OPTIONS_KEYS = [
+  "localeMatcher",
+  "weekday",
+  "era",
+  "year",
+  "month",
+  "day",
+  "hour",
+  "minute",
+  "second",
+  "timeZoneName",
+  "formatMatcher",
+  "hour12",
+  "timeZone",
+  "dateStyle",
+  "timeStyle",
+  "calendar",
+  "dayPeriod",
+  "numberingSystem",
+  "hourCycle",
+  "fractionalSecondDigits"
+];
+function parseDateTimeArgs(...args) {
+  const [arg1, arg2, arg3, arg4] = args;
+  const options = create();
+  let overrides = create();
+  let value;
+  if (isString(arg1)) {
+    const matches = arg1.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/);
+    if (!matches) {
+      throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT);
+    }
+    const dateTime = matches[3] ? matches[3].trim().startsWith("T") ? `${matches[1].trim()}${matches[3].trim()}` : `${matches[1].trim()}T${matches[3].trim()}` : matches[1].trim();
+    value = new Date(dateTime);
+    try {
+      value.toISOString();
+    } catch {
+      throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT);
+    }
+  } else if (isDate(arg1)) {
+    if (isNaN(arg1.getTime())) {
+      throw createCoreError(CoreErrorCodes.INVALID_DATE_ARGUMENT);
+    }
+    value = arg1;
+  } else if (isNumber(arg1)) {
+    value = arg1;
+  } else {
+    throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
+  }
+  if (isString(arg2)) {
+    options.key = arg2;
+  } else if (isPlainObject(arg2)) {
+    Object.keys(arg2).forEach((key) => {
+      if (DATETIME_FORMAT_OPTIONS_KEYS.includes(key)) {
+        overrides[key] = arg2[key];
+      } else {
+        options[key] = arg2[key];
+      }
+    });
+  }
+  if (isString(arg3)) {
+    options.locale = arg3;
+  } else if (isPlainObject(arg3)) {
+    overrides = arg3;
+  }
+  if (isPlainObject(arg4)) {
+    overrides = arg4;
+  }
+  return [options.key || "", value, options, overrides];
+}
+function clearDateTimeFormat(ctx, locale2, format2) {
+  const context = ctx;
+  for (const key in format2) {
+    const id = `${locale2}__${key}`;
+    if (!context.__datetimeFormatters.has(id)) {
+      continue;
+    }
+    context.__datetimeFormatters.delete(id);
+  }
+}
+function number(context, ...args) {
+  const { numberFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context;
+  const { __numberFormatters } = context;
+  const [key, value, options, overrides] = parseNumberArgs(...args);
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const part = !!options.part;
+  const locale2 = getLocale(context, options);
+  const locales = localeFallbacker(
+    context,
+    // eslint-disable-line @typescript-eslint/no-explicit-any
+    fallbackLocale,
+    locale2
+  );
+  if (!isString(key) || key === "") {
+    return new Intl.NumberFormat(locale2, overrides).format(value);
+  }
+  let numberFormat = {};
+  let targetLocale;
+  let format2 = null;
+  const type = "number format";
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i];
+    numberFormat = numberFormats[targetLocale] || {};
+    format2 = numberFormat[key];
+    if (isPlainObject(format2))
+      break;
+    handleMissing(context, key, targetLocale, missingWarn, type);
+  }
+  if (!isPlainObject(format2) || !isString(targetLocale)) {
+    return unresolving ? NOT_REOSLVED : key;
+  }
+  let id = `${targetLocale}__${key}`;
+  if (!isEmptyObject(overrides)) {
+    id = `${id}__${JSON.stringify(overrides)}`;
+  }
+  let formatter = __numberFormatters.get(id);
+  if (!formatter) {
+    formatter = new Intl.NumberFormat(targetLocale, assign$2({}, format2, overrides));
+    __numberFormatters.set(id, formatter);
+  }
+  return !part ? formatter.format(value) : formatter.formatToParts(value);
+}
+const NUMBER_FORMAT_OPTIONS_KEYS = [
+  "localeMatcher",
+  "style",
+  "currency",
+  "currencyDisplay",
+  "currencySign",
+  "useGrouping",
+  "minimumIntegerDigits",
+  "minimumFractionDigits",
+  "maximumFractionDigits",
+  "minimumSignificantDigits",
+  "maximumSignificantDigits",
+  "compactDisplay",
+  "notation",
+  "signDisplay",
+  "unit",
+  "unitDisplay",
+  "roundingMode",
+  "roundingPriority",
+  "roundingIncrement",
+  "trailingZeroDisplay"
+];
+function parseNumberArgs(...args) {
+  const [arg1, arg2, arg3, arg4] = args;
+  const options = create();
+  let overrides = create();
+  if (!isNumber(arg1)) {
+    throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
+  }
+  const value = arg1;
+  if (isString(arg2)) {
+    options.key = arg2;
+  } else if (isPlainObject(arg2)) {
+    Object.keys(arg2).forEach((key) => {
+      if (NUMBER_FORMAT_OPTIONS_KEYS.includes(key)) {
+        overrides[key] = arg2[key];
+      } else {
+        options[key] = arg2[key];
+      }
+    });
+  }
+  if (isString(arg3)) {
+    options.locale = arg3;
+  } else if (isPlainObject(arg3)) {
+    overrides = arg3;
+  }
+  if (isPlainObject(arg4)) {
+    overrides = arg4;
+  }
+  return [options.key || "", value, options, overrides];
+}
+function clearNumberFormat(ctx, locale2, format2) {
+  const context = ctx;
+  for (const key in format2) {
+    const id = `${locale2}__${key}`;
+    if (!context.__numberFormatters.has(id)) {
+      continue;
+    }
+    context.__numberFormatters.delete(id);
+  }
+}
+const DEFAULT_MODIFIER = (str) => str;
+const DEFAULT_MESSAGE = (ctx) => "";
+const DEFAULT_MESSAGE_DATA_TYPE = "text";
+const DEFAULT_NORMALIZE = (values) => values.length === 0 ? "" : join(values);
+const DEFAULT_INTERPOLATE = toDisplayString;
+function pluralDefault(choice, choicesLength) {
+  choice = Math.abs(choice);
+  if (choicesLength === 2) {
+    return choice ? choice > 1 ? 1 : 0 : 1;
+  }
+  return choice ? Math.min(choice, 2) : 0;
+}
+function getPluralIndex(options) {
+  const index = isNumber(options.pluralIndex) ? options.pluralIndex : -1;
+  return options.named && (isNumber(options.named.count) || isNumber(options.named.n)) ? isNumber(options.named.count) ? options.named.count : isNumber(options.named.n) ? options.named.n : index : index;
+}
+function normalizeNamed(pluralIndex, props) {
+  if (!props.count) {
+    props.count = pluralIndex;
+  }
+  if (!props.n) {
+    props.n = pluralIndex;
+  }
+}
+function createMessageContext(options = {}) {
+  const locale2 = options.locale;
+  const pluralIndex = getPluralIndex(options);
+  const pluralRule = isObject$1(options.pluralRules) && isString(locale2) && isFunction(options.pluralRules[locale2]) ? options.pluralRules[locale2] : pluralDefault;
+  const orgPluralRule = isObject$1(options.pluralRules) && isString(locale2) && isFunction(options.pluralRules[locale2]) ? pluralDefault : void 0;
+  const plural = (messages) => {
+    return messages[pluralRule(pluralIndex, messages.length, orgPluralRule)];
+  };
+  const _list = options.list || [];
+  const list = (index) => _list[index];
+  const _named = options.named || create();
+  isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named);
+  const named = (key) => _named[key];
+  function message(key, useLinked) {
+    const msg = isFunction(options.messages) ? options.messages(key, !!useLinked) : isObject$1(options.messages) ? options.messages[key] : false;
+    return !msg ? options.parent ? options.parent.message(key) : DEFAULT_MESSAGE : msg;
+  }
+  const _modifier = (name) => options.modifiers ? options.modifiers[name] : DEFAULT_MODIFIER;
+  const normalize = isPlainObject(options.processor) && isFunction(options.processor.normalize) ? options.processor.normalize : DEFAULT_NORMALIZE;
+  const interpolate = isPlainObject(options.processor) && isFunction(options.processor.interpolate) ? options.processor.interpolate : DEFAULT_INTERPOLATE;
+  const type = isPlainObject(options.processor) && isString(options.processor.type) ? options.processor.type : DEFAULT_MESSAGE_DATA_TYPE;
+  const linked = (key, ...args) => {
+    const [arg1, arg2] = args;
+    let type2 = "text";
+    let modifier = "";
+    if (args.length === 1) {
+      if (isObject$1(arg1)) {
+        modifier = arg1.modifier || modifier;
+        type2 = arg1.type || type2;
+      } else if (isString(arg1)) {
+        modifier = arg1 || modifier;
+      }
+    } else if (args.length === 2) {
+      if (isString(arg1)) {
+        modifier = arg1 || modifier;
+      }
+      if (isString(arg2)) {
+        type2 = arg2 || type2;
+      }
+    }
+    const ret = message(key, true)(ctx);
+    const msg = (
+      // The message in vnode resolved with linked are returned as an array by processor.nomalize
+      type2 === "vnode" && isArray$1(ret) && modifier ? ret[0] : ret
+    );
+    return modifier ? _modifier(modifier)(msg, type2) : msg;
+  };
+  const ctx = {
+    [
+      "list"
+      /* HelperNameMap.LIST */
+    ]: list,
+    [
+      "named"
+      /* HelperNameMap.NAMED */
+    ]: named,
+    [
+      "plural"
+      /* HelperNameMap.PLURAL */
+    ]: plural,
+    [
+      "linked"
+      /* HelperNameMap.LINKED */
+    ]: linked,
+    [
+      "message"
+      /* HelperNameMap.MESSAGE */
+    ]: message,
+    [
+      "type"
+      /* HelperNameMap.TYPE */
+    ]: type,
+    [
+      "interpolate"
+      /* HelperNameMap.INTERPOLATE */
+    ]: interpolate,
+    [
+      "normalize"
+      /* HelperNameMap.NORMALIZE */
+    ]: normalize,
+    [
+      "values"
+      /* HelperNameMap.VALUES */
+    ]: assign$2(create(), _list, _named)
+  };
+  return ctx;
+}
+const NOOP_MESSAGE_FUNCTION = () => "";
+const isMessageFunction = (val) => isFunction(val);
+function translate(context, ...args) {
+  const { fallbackFormat, postTranslation, unresolving, messageCompiler, fallbackLocale, messages } = context;
+  const [key, options] = parseTranslateArgs(...args);
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
+  const escapeParameter = isBoolean(options.escapeParameter) ? options.escapeParameter : context.escapeParameter;
+  const resolvedMessage = !!options.resolvedMessage;
+  const defaultMsgOrKey = isString(options.default) || isBoolean(options.default) ? !isBoolean(options.default) ? options.default : !messageCompiler ? () => key : key : fallbackFormat ? !messageCompiler ? () => key : key : null;
+  const enableDefaultMsg = fallbackFormat || defaultMsgOrKey != null && (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey));
+  const locale2 = getLocale(context, options);
+  escapeParameter && escapeParams(options);
+  let [formatScope, targetLocale, message] = !resolvedMessage ? resolveMessageFormat(context, key, locale2, fallbackLocale, fallbackWarn, missingWarn) : [
+    key,
+    locale2,
+    messages[locale2] || create()
+  ];
+  let format2 = formatScope;
+  let cacheBaseKey = key;
+  if (!resolvedMessage && !(isString(format2) || isMessageAST(format2) || isMessageFunction(format2))) {
+    if (enableDefaultMsg) {
+      format2 = defaultMsgOrKey;
+      cacheBaseKey = format2;
+    }
+  }
+  if (!resolvedMessage && (!(isString(format2) || isMessageAST(format2) || isMessageFunction(format2)) || !isString(targetLocale))) {
+    return unresolving ? NOT_REOSLVED : key;
+  }
+  let occurred = false;
+  const onError = () => {
+    occurred = true;
+  };
+  const msg = !isMessageFunction(format2) ? compileMessageFormat(context, key, targetLocale, format2, cacheBaseKey, onError) : format2;
+  if (occurred) {
+    return format2;
+  }
+  const ctxOptions = getMessageContextOptions(context, targetLocale, message, options);
+  const msgContext = createMessageContext(ctxOptions);
+  const messaged = evaluateMessage(context, msg, msgContext);
+  const ret = postTranslation ? postTranslation(messaged, key) : messaged;
+  if (__INTLIFY_PROD_DEVTOOLS__) {
+    const payloads = {
+      timestamp: Date.now(),
+      key: isString(key) ? key : isMessageFunction(format2) ? format2.key : "",
+      locale: targetLocale || (isMessageFunction(format2) ? format2.locale : ""),
+      format: isString(format2) ? format2 : isMessageFunction(format2) ? format2.source : "",
+      message: ret
+    };
+    payloads.meta = assign$2({}, context.__meta, /* @__PURE__ */ getAdditionalMeta() || {});
+    translateDevTools(payloads);
+  }
+  return ret;
+}
+function escapeParams(options) {
+  if (isArray$1(options.list)) {
+    options.list = options.list.map((item) => isString(item) ? escapeHtml(item) : item);
+  } else if (isObject$1(options.named)) {
+    Object.keys(options.named).forEach((key) => {
+      if (isString(options.named[key])) {
+        options.named[key] = escapeHtml(options.named[key]);
+      }
+    });
+  }
+}
+function resolveMessageFormat(context, key, locale2, fallbackLocale, fallbackWarn, missingWarn) {
+  const { messages, onWarn, messageResolver: resolveValue2, localeFallbacker } = context;
+  const locales = localeFallbacker(context, fallbackLocale, locale2);
+  let message = create();
+  let targetLocale;
+  let format2 = null;
+  const type = "translate";
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i];
+    message = messages[targetLocale] || create();
+    if ((format2 = resolveValue2(message, key)) === null) {
+      format2 = message[key];
+    }
+    if (isString(format2) || isMessageAST(format2) || isMessageFunction(format2)) {
+      break;
+    }
+    if (!isImplicitFallback(targetLocale, locales)) {
+      const missingRet = handleMissing(
+        context,
+        // eslint-disable-line @typescript-eslint/no-explicit-any
+        key,
+        targetLocale,
+        missingWarn,
+        type
+      );
+      if (missingRet !== key) {
+        format2 = missingRet;
+      }
+    }
+  }
+  return [format2, targetLocale, message];
+}
+function compileMessageFormat(context, key, targetLocale, format2, cacheBaseKey, onError) {
+  const { messageCompiler, warnHtmlMessage } = context;
+  if (isMessageFunction(format2)) {
+    const msg2 = format2;
+    msg2.locale = msg2.locale || targetLocale;
+    msg2.key = msg2.key || key;
+    return msg2;
+  }
+  if (messageCompiler == null) {
+    const msg2 = () => format2;
+    msg2.locale = targetLocale;
+    msg2.key = key;
+    return msg2;
+  }
+  const msg = messageCompiler(format2, getCompileContext(context, targetLocale, cacheBaseKey, format2, warnHtmlMessage, onError));
+  msg.locale = targetLocale;
+  msg.key = key;
+  msg.source = format2;
+  return msg;
+}
+function evaluateMessage(context, msg, msgCtx) {
+  const messaged = msg(msgCtx);
+  return messaged;
+}
+function parseTranslateArgs(...args) {
+  const [arg1, arg2, arg3] = args;
+  const options = create();
+  if (!isString(arg1) && !isNumber(arg1) && !isMessageFunction(arg1) && !isMessageAST(arg1)) {
+    throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT);
+  }
+  const key = isNumber(arg1) ? String(arg1) : isMessageFunction(arg1) ? arg1 : arg1;
+  if (isNumber(arg2)) {
+    options.plural = arg2;
+  } else if (isString(arg2)) {
+    options.default = arg2;
+  } else if (isPlainObject(arg2) && !isEmptyObject(arg2)) {
+    options.named = arg2;
+  } else if (isArray$1(arg2)) {
+    options.list = arg2;
+  }
+  if (isNumber(arg3)) {
+    options.plural = arg3;
+  } else if (isString(arg3)) {
+    options.default = arg3;
+  } else if (isPlainObject(arg3)) {
+    assign$2(options, arg3);
+  }
+  return [key, options];
+}
+function getCompileContext(context, locale2, key, source, warnHtmlMessage, onError) {
+  return {
+    locale: locale2,
+    key,
+    warnHtmlMessage,
+    onError: (err) => {
+      onError && onError(err);
+      {
+        throw err;
+      }
+    },
+    onCacheKey: (source2) => generateFormatCacheKey(locale2, key, source2)
+  };
+}
+function getMessageContextOptions(context, locale2, message, options) {
+  const { modifiers, pluralRules, messageResolver: resolveValue2, fallbackLocale, fallbackWarn, missingWarn, fallbackContext } = context;
+  const resolveMessage = (key, useLinked) => {
+    let val = resolveValue2(message, key);
+    if (val == null && (fallbackContext || useLinked)) {
+      const [, , message2] = resolveMessageFormat(
+        fallbackContext || context,
+        // NOTE: if has fallbackContext, fallback to root, else if use linked, fallback to local context
+        key,
+        locale2,
+        fallbackLocale,
+        fallbackWarn,
+        missingWarn
+      );
+      val = resolveValue2(message2, key);
+    }
+    if (isString(val) || isMessageAST(val)) {
+      let occurred = false;
+      const onError = () => {
+        occurred = true;
+      };
+      const msg = compileMessageFormat(context, key, locale2, val, key, onError);
+      return !occurred ? msg : NOOP_MESSAGE_FUNCTION;
+    } else if (isMessageFunction(val)) {
+      return val;
+    } else {
+      return NOOP_MESSAGE_FUNCTION;
+    }
+  };
+  const ctxOptions = {
+    locale: locale2,
+    modifiers,
+    pluralRules,
+    messages: resolveMessage
+  };
+  if (context.processor) {
+    ctxOptions.processor = context.processor;
+  }
+  if (options.list) {
+    ctxOptions.list = options.list;
+  }
+  if (options.named) {
+    ctxOptions.named = options.named;
+  }
+  if (isNumber(options.plural)) {
+    ctxOptions.pluralIndex = options.plural;
+  }
+  return ctxOptions;
+}
+{
+  initFeatureFlags$1();
+}
+/*!
+  * vue-i18n v10.0.5
+  * (c) 2024 kazuya kawaguchi
+  * Released under the MIT License.
+  */
+const VERSION = "10.0.5";
+function initFeatureFlags() {
+  if (typeof __VUE_I18N_FULL_INSTALL__ !== "boolean") {
+    getGlobalThis().__VUE_I18N_FULL_INSTALL__ = true;
+  }
+  if (typeof __VUE_I18N_LEGACY_API__ !== "boolean") {
+    getGlobalThis().__VUE_I18N_LEGACY_API__ = true;
+  }
+  if (typeof __INTLIFY_DROP_MESSAGE_COMPILER__ !== "boolean") {
+    getGlobalThis().__INTLIFY_DROP_MESSAGE_COMPILER__ = false;
+  }
+  if (typeof __INTLIFY_PROD_DEVTOOLS__ !== "boolean") {
+    getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false;
+  }
+}
+const I18nErrorCodes = {
+  // composer module errors
+  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT,
+  // 24
+  // legacy module errors
+  INVALID_ARGUMENT: 25,
+  // i18n module errors
+  MUST_BE_CALL_SETUP_TOP: 26,
+  NOT_INSTALLED: 27,
+  // directive module errors
+  REQUIRED_VALUE: 28,
+  INVALID_VALUE: 29,
+  // vue-devtools errors
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: 30,
+  NOT_INSTALLED_WITH_PROVIDE: 31,
+  // unexpected error
+  UNEXPECTED_ERROR: 32,
+  // not compatible legacy vue-i18n constructor
+  NOT_COMPATIBLE_LEGACY_VUE_I18N: 33,
+  // Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly
+  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: 34
+};
+function createI18nError(code, ...args) {
+  return createCompileError(code, null, void 0);
+}
+const TranslateVNodeSymbol = /* @__PURE__ */ makeSymbol("__translateVNode");
+const DatetimePartsSymbol = /* @__PURE__ */ makeSymbol("__datetimeParts");
+const NumberPartsSymbol = /* @__PURE__ */ makeSymbol("__numberParts");
+const SetPluralRulesSymbol = makeSymbol("__setPluralRules");
+const InejctWithOptionSymbol = /* @__PURE__ */ makeSymbol("__injectWithOption");
+const DisposeSymbol = /* @__PURE__ */ makeSymbol("__dispose");
+function handleFlatJson(obj) {
+  if (!isObject$1(obj)) {
+    return obj;
+  }
+  for (const key in obj) {
+    if (!hasOwn(obj, key)) {
+      continue;
+    }
+    if (!key.includes(".")) {
+      if (isObject$1(obj[key])) {
+        handleFlatJson(obj[key]);
+      }
+    } else {
+      const subKeys = key.split(".");
+      const lastIndex = subKeys.length - 1;
+      let currentObj = obj;
+      let hasStringValue = false;
+      for (let i = 0; i < lastIndex; i++) {
+        if (!(subKeys[i] in currentObj)) {
+          currentObj[subKeys[i]] = create();
+        }
+        if (!isObject$1(currentObj[subKeys[i]])) {
+          hasStringValue = true;
+          break;
+        }
+        currentObj = currentObj[subKeys[i]];
+      }
+      if (!hasStringValue) {
+        currentObj[subKeys[lastIndex]] = obj[key];
+        delete obj[key];
+      }
+      if (isObject$1(currentObj[subKeys[lastIndex]])) {
+        handleFlatJson(currentObj[subKeys[lastIndex]]);
+      }
+    }
+  }
+  return obj;
+}
+function getLocaleMessages(locale2, options) {
+  const { messages, __i18n, messageResolver, flatJson } = options;
+  const ret = isPlainObject(messages) ? messages : isArray$1(__i18n) ? create() : { [locale2]: create() };
+  if (isArray$1(__i18n)) {
+    __i18n.forEach((custom) => {
+      if ("locale" in custom && "resource" in custom) {
+        const { locale: locale22, resource } = custom;
+        if (locale22) {
+          ret[locale22] = ret[locale22] || create();
+          deepCopy(resource, ret[locale22]);
+        } else {
+          deepCopy(resource, ret);
+        }
+      } else {
+        isString(custom) && deepCopy(JSON.parse(custom), ret);
+      }
+    });
+  }
+  if (messageResolver == null && flatJson) {
+    for (const key in ret) {
+      if (hasOwn(ret, key)) {
+        handleFlatJson(ret[key]);
+      }
+    }
+  }
+  return ret;
+}
+function getComponentOptions(instance) {
+  return instance.type;
+}
+function adjustI18nResources(gl, options, componentOptions) {
+  let messages = isObject$1(options.messages) ? options.messages : create();
+  if ("__i18nGlobal" in componentOptions) {
+    messages = getLocaleMessages(gl.locale.value, {
+      messages,
+      __i18n: componentOptions.__i18nGlobal
+    });
+  }
+  const locales = Object.keys(messages);
+  if (locales.length) {
+    locales.forEach((locale2) => {
+      gl.mergeLocaleMessage(locale2, messages[locale2]);
+    });
+  }
+  {
+    if (isObject$1(options.datetimeFormats)) {
+      const locales2 = Object.keys(options.datetimeFormats);
+      if (locales2.length) {
+        locales2.forEach((locale2) => {
+          gl.mergeDateTimeFormat(locale2, options.datetimeFormats[locale2]);
+        });
+      }
+    }
+    if (isObject$1(options.numberFormats)) {
+      const locales2 = Object.keys(options.numberFormats);
+      if (locales2.length) {
+        locales2.forEach((locale2) => {
+          gl.mergeNumberFormat(locale2, options.numberFormats[locale2]);
+        });
+      }
+    }
+  }
+}
+function createTextNode(key) {
+  return createVNode(Text, null, key, 0);
+}
+const DEVTOOLS_META = "__INTLIFY_META__";
+const NOOP_RETURN_ARRAY = () => [];
+const NOOP_RETURN_FALSE = () => false;
+let composerID = 0;
+function defineCoreMissingHandler(missing) {
+  return (ctx, locale2, key, type) => {
+    return missing(locale2, key, getCurrentInstance$1() || void 0, type);
+  };
+}
+const getMetaInfo = /* @__NO_SIDE_EFFECTS__ */ () => {
+  const instance = getCurrentInstance$1();
+  let meta = null;
+  return instance && (meta = getComponentOptions(instance)[DEVTOOLS_META]) ? { [DEVTOOLS_META]: meta } : null;
+};
+function createComposer(options = {}) {
+  const { __root, __injectWithOption } = options;
+  const _isGlobal = __root === void 0;
+  const flatJson = options.flatJson;
+  const _ref = inBrowser ? ref : shallowRef;
+  let _inheritLocale = isBoolean(options.inheritLocale) ? options.inheritLocale : true;
+  const _locale = _ref(
+    // prettier-ignore
+    __root && _inheritLocale ? __root.locale.value : isString(options.locale) ? options.locale : DEFAULT_LOCALE
+  );
+  const _fallbackLocale = _ref(
+    // prettier-ignore
+    __root && _inheritLocale ? __root.fallbackLocale.value : isString(options.fallbackLocale) || isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale.value
+  );
+  const _messages = _ref(getLocaleMessages(_locale.value, options));
+  const _datetimeFormats = _ref(isPlainObject(options.datetimeFormats) ? options.datetimeFormats : { [_locale.value]: {} });
+  const _numberFormats = _ref(isPlainObject(options.numberFormats) ? options.numberFormats : { [_locale.value]: {} });
+  let _missingWarn = __root ? __root.missingWarn : isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
+  let _fallbackWarn = __root ? __root.fallbackWarn : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true;
+  let _fallbackRoot = __root ? __root.fallbackRoot : isBoolean(options.fallbackRoot) ? options.fallbackRoot : true;
+  let _fallbackFormat = !!options.fallbackFormat;
+  let _missing = isFunction(options.missing) ? options.missing : null;
+  let _runtimeMissing = isFunction(options.missing) ? defineCoreMissingHandler(options.missing) : null;
+  let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null;
+  let _warnHtmlMessage = __root ? __root.warnHtmlMessage : isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
+  let _escapeParameter = !!options.escapeParameter;
+  const _modifiers = __root ? __root.modifiers : isPlainObject(options.modifiers) ? options.modifiers : {};
+  let _pluralRules = options.pluralRules || __root && __root.pluralRules;
+  let _context;
+  const getCoreContext = () => {
+    _isGlobal && setFallbackContext(null);
+    const ctxOptions = {
+      version: VERSION,
+      locale: _locale.value,
+      fallbackLocale: _fallbackLocale.value,
+      messages: _messages.value,
+      modifiers: _modifiers,
+      pluralRules: _pluralRules,
+      missing: _runtimeMissing === null ? void 0 : _runtimeMissing,
+      missingWarn: _missingWarn,
+      fallbackWarn: _fallbackWarn,
+      fallbackFormat: _fallbackFormat,
+      unresolving: true,
+      postTranslation: _postTranslation === null ? void 0 : _postTranslation,
+      warnHtmlMessage: _warnHtmlMessage,
+      escapeParameter: _escapeParameter,
+      messageResolver: options.messageResolver,
+      messageCompiler: options.messageCompiler,
+      __meta: { framework: "vue" }
+    };
+    {
+      ctxOptions.datetimeFormats = _datetimeFormats.value;
+      ctxOptions.numberFormats = _numberFormats.value;
+      ctxOptions.__datetimeFormatters = isPlainObject(_context) ? _context.__datetimeFormatters : void 0;
+      ctxOptions.__numberFormatters = isPlainObject(_context) ? _context.__numberFormatters : void 0;
+    }
+    const ctx = createCoreContext(ctxOptions);
+    _isGlobal && setFallbackContext(ctx);
+    return ctx;
+  };
+  _context = getCoreContext();
+  updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+  function trackReactivityValues() {
+    return [
+      _locale.value,
+      _fallbackLocale.value,
+      _messages.value,
+      _datetimeFormats.value,
+      _numberFormats.value
+    ];
+  }
+  const locale2 = computed({
+    get: () => _locale.value,
+    set: (val) => {
+      _locale.value = val;
+      _context.locale = _locale.value;
+    }
+  });
+  const fallbackLocale = computed({
+    get: () => _fallbackLocale.value,
+    set: (val) => {
+      _fallbackLocale.value = val;
+      _context.fallbackLocale = _fallbackLocale.value;
+      updateFallbackLocale(_context, _locale.value, val);
+    }
+  });
+  const messages = computed(() => _messages.value);
+  const datetimeFormats = /* @__PURE__ */ computed(() => _datetimeFormats.value);
+  const numberFormats = /* @__PURE__ */ computed(() => _numberFormats.value);
+  function getPostTranslationHandler() {
+    return isFunction(_postTranslation) ? _postTranslation : null;
+  }
+  function setPostTranslationHandler(handler) {
+    _postTranslation = handler;
+    _context.postTranslation = handler;
+  }
+  function getMissingHandler() {
+    return _missing;
+  }
+  function setMissingHandler(handler) {
+    if (handler !== null) {
+      _runtimeMissing = defineCoreMissingHandler(handler);
+    }
+    _missing = handler;
+    _context.missing = _runtimeMissing;
+  }
+  const wrapWithDeps = (fn, argumentParser, warnType, fallbackSuccess, fallbackFail, successCondition) => {
+    trackReactivityValues();
+    let ret;
+    try {
+      if (__INTLIFY_PROD_DEVTOOLS__) {
+        /* @__PURE__ */ setAdditionalMeta(/* @__PURE__ */ getMetaInfo());
+      }
+      if (!_isGlobal) {
+        _context.fallbackContext = __root ? getFallbackContext() : void 0;
+      }
+      ret = fn(_context);
+    } finally {
+      if (__INTLIFY_PROD_DEVTOOLS__) ;
+      if (!_isGlobal) {
+        _context.fallbackContext = void 0;
+      }
+    }
+    if (warnType !== "translate exists" && // for not `te` (e.g `t`)
+    isNumber(ret) && ret === NOT_REOSLVED || warnType === "translate exists" && !ret) {
+      const [key, arg2] = argumentParser();
+      return __root && _fallbackRoot ? fallbackSuccess(__root) : fallbackFail(key);
+    } else if (successCondition(ret)) {
+      return ret;
+    } else {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_RETURN_TYPE);
+    }
+  };
+  function t(...args) {
+    return wrapWithDeps((context) => Reflect.apply(translate, null, [context, ...args]), () => parseTranslateArgs(...args), "translate", (root) => Reflect.apply(root.t, root, [...args]), (key) => key, (val) => isString(val));
+  }
+  function rt(...args) {
+    const [arg1, arg2, arg3] = args;
+    if (arg3 && !isObject$1(arg3)) {
+      throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT);
+    }
+    return t(...[arg1, arg2, assign$2({ resolvedMessage: true }, arg3 || {})]);
+  }
+  function d(...args) {
+    return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => Reflect.apply(root.d, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString(val));
+  }
+  function n(...args) {
+    return wrapWithDeps((context) => Reflect.apply(number, null, [context, ...args]), () => parseNumberArgs(...args), "number format", (root) => Reflect.apply(root.n, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString(val));
+  }
+  function normalize(values) {
+    return values.map((val) => isString(val) || isNumber(val) || isBoolean(val) ? createTextNode(String(val)) : val);
+  }
+  const interpolate = (val) => val;
+  const processor = {
+    normalize,
+    interpolate,
+    type: "vnode"
+  };
+  function translateVNode(...args) {
+    return wrapWithDeps((context) => {
+      let ret;
+      const _context2 = context;
+      try {
+        _context2.processor = processor;
+        ret = Reflect.apply(translate, null, [_context2, ...args]);
+      } finally {
+        _context2.processor = null;
+      }
+      return ret;
+    }, () => parseTranslateArgs(...args), "translate", (root) => root[TranslateVNodeSymbol](...args), (key) => [createTextNode(key)], (val) => isArray$1(val));
+  }
+  function numberParts(...args) {
+    return wrapWithDeps((context) => Reflect.apply(number, null, [context, ...args]), () => parseNumberArgs(...args), "number format", (root) => root[NumberPartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString(val) || isArray$1(val));
+  }
+  function datetimeParts(...args) {
+    return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => root[DatetimePartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString(val) || isArray$1(val));
+  }
+  function setPluralRules(rules2) {
+    _pluralRules = rules2;
+    _context.pluralRules = _pluralRules;
+  }
+  function te(key, locale22) {
+    return wrapWithDeps(() => {
+      if (!key) {
+        return false;
+      }
+      const targetLocale = isString(locale22) ? locale22 : _locale.value;
+      const message = getLocaleMessage(targetLocale);
+      const resolved = _context.messageResolver(message, key);
+      return isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved);
+    }, () => [key], "translate exists", (root) => {
+      return Reflect.apply(root.te, root, [key, locale22]);
+    }, NOOP_RETURN_FALSE, (val) => isBoolean(val));
+  }
+  function resolveMessages(key) {
+    let messages2 = null;
+    const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, _locale.value);
+    for (let i = 0; i < locales.length; i++) {
+      const targetLocaleMessages = _messages.value[locales[i]] || {};
+      const messageValue = _context.messageResolver(targetLocaleMessages, key);
+      if (messageValue != null) {
+        messages2 = messageValue;
+        break;
+      }
+    }
+    return messages2;
+  }
+  function tm(key) {
+    const messages2 = resolveMessages(key);
+    return messages2 != null ? messages2 : __root ? __root.tm(key) || {} : {};
+  }
+  function getLocaleMessage(locale22) {
+    return _messages.value[locale22] || {};
+  }
+  function setLocaleMessage(locale22, message) {
+    if (flatJson) {
+      const _message = { [locale22]: message };
+      for (const key in _message) {
+        if (hasOwn(_message, key)) {
+          handleFlatJson(_message[key]);
+        }
+      }
+      message = _message[locale22];
+    }
+    _messages.value[locale22] = message;
+    _context.messages = _messages.value;
+  }
+  function mergeLocaleMessage(locale22, message) {
+    _messages.value[locale22] = _messages.value[locale22] || {};
+    const _message = { [locale22]: message };
+    if (flatJson) {
+      for (const key in _message) {
+        if (hasOwn(_message, key)) {
+          handleFlatJson(_message[key]);
+        }
+      }
+    }
+    message = _message[locale22];
+    deepCopy(message, _messages.value[locale22]);
+    _context.messages = _messages.value;
+  }
+  function getDateTimeFormat(locale22) {
+    return _datetimeFormats.value[locale22] || {};
+  }
+  function setDateTimeFormat(locale22, format2) {
+    _datetimeFormats.value[locale22] = format2;
+    _context.datetimeFormats = _datetimeFormats.value;
+    clearDateTimeFormat(_context, locale22, format2);
+  }
+  function mergeDateTimeFormat(locale22, format2) {
+    _datetimeFormats.value[locale22] = assign$2(_datetimeFormats.value[locale22] || {}, format2);
+    _context.datetimeFormats = _datetimeFormats.value;
+    clearDateTimeFormat(_context, locale22, format2);
+  }
+  function getNumberFormat(locale22) {
+    return _numberFormats.value[locale22] || {};
+  }
+  function setNumberFormat(locale22, format2) {
+    _numberFormats.value[locale22] = format2;
+    _context.numberFormats = _numberFormats.value;
+    clearNumberFormat(_context, locale22, format2);
+  }
+  function mergeNumberFormat(locale22, format2) {
+    _numberFormats.value[locale22] = assign$2(_numberFormats.value[locale22] || {}, format2);
+    _context.numberFormats = _numberFormats.value;
+    clearNumberFormat(_context, locale22, format2);
+  }
+  composerID++;
+  if (__root && inBrowser) {
+    watch(__root.locale, (val) => {
+      if (_inheritLocale) {
+        _locale.value = val;
+        _context.locale = val;
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+      }
+    });
+    watch(__root.fallbackLocale, (val) => {
+      if (_inheritLocale) {
+        _fallbackLocale.value = val;
+        _context.fallbackLocale = val;
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+      }
+    });
+  }
+  const composer = {
+    id: composerID,
+    locale: locale2,
+    fallbackLocale,
+    get inheritLocale() {
+      return _inheritLocale;
+    },
+    set inheritLocale(val) {
+      _inheritLocale = val;
+      if (val && __root) {
+        _locale.value = __root.locale.value;
+        _fallbackLocale.value = __root.fallbackLocale.value;
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+      }
+    },
+    get availableLocales() {
+      return Object.keys(_messages.value).sort();
+    },
+    messages,
+    get modifiers() {
+      return _modifiers;
+    },
+    get pluralRules() {
+      return _pluralRules || {};
+    },
+    get isGlobal() {
+      return _isGlobal;
+    },
+    get missingWarn() {
+      return _missingWarn;
+    },
+    set missingWarn(val) {
+      _missingWarn = val;
+      _context.missingWarn = _missingWarn;
+    },
+    get fallbackWarn() {
+      return _fallbackWarn;
+    },
+    set fallbackWarn(val) {
+      _fallbackWarn = val;
+      _context.fallbackWarn = _fallbackWarn;
+    },
+    get fallbackRoot() {
+      return _fallbackRoot;
+    },
+    set fallbackRoot(val) {
+      _fallbackRoot = val;
+    },
+    get fallbackFormat() {
+      return _fallbackFormat;
+    },
+    set fallbackFormat(val) {
+      _fallbackFormat = val;
+      _context.fallbackFormat = _fallbackFormat;
+    },
+    get warnHtmlMessage() {
+      return _warnHtmlMessage;
+    },
+    set warnHtmlMessage(val) {
+      _warnHtmlMessage = val;
+      _context.warnHtmlMessage = val;
+    },
+    get escapeParameter() {
+      return _escapeParameter;
+    },
+    set escapeParameter(val) {
+      _escapeParameter = val;
+      _context.escapeParameter = val;
+    },
+    t,
+    getLocaleMessage,
+    setLocaleMessage,
+    mergeLocaleMessage,
+    getPostTranslationHandler,
+    setPostTranslationHandler,
+    getMissingHandler,
+    setMissingHandler,
+    [SetPluralRulesSymbol]: setPluralRules
+  };
+  {
+    composer.datetimeFormats = datetimeFormats;
+    composer.numberFormats = numberFormats;
+    composer.rt = rt;
+    composer.te = te;
+    composer.tm = tm;
+    composer.d = d;
+    composer.n = n;
+    composer.getDateTimeFormat = getDateTimeFormat;
+    composer.setDateTimeFormat = setDateTimeFormat;
+    composer.mergeDateTimeFormat = mergeDateTimeFormat;
+    composer.getNumberFormat = getNumberFormat;
+    composer.setNumberFormat = setNumberFormat;
+    composer.mergeNumberFormat = mergeNumberFormat;
+    composer[InejctWithOptionSymbol] = __injectWithOption;
+    composer[TranslateVNodeSymbol] = translateVNode;
+    composer[DatetimePartsSymbol] = datetimeParts;
+    composer[NumberPartsSymbol] = numberParts;
+  }
+  return composer;
+}
+function convertComposerOptions(options) {
+  const locale2 = isString(options.locale) ? options.locale : DEFAULT_LOCALE;
+  const fallbackLocale = isString(options.fallbackLocale) || isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : locale2;
+  const missing = isFunction(options.missing) ? options.missing : void 0;
+  const missingWarn = isBoolean(options.silentTranslationWarn) || isRegExp(options.silentTranslationWarn) ? !options.silentTranslationWarn : true;
+  const fallbackWarn = isBoolean(options.silentFallbackWarn) || isRegExp(options.silentFallbackWarn) ? !options.silentFallbackWarn : true;
+  const fallbackRoot = isBoolean(options.fallbackRoot) ? options.fallbackRoot : true;
+  const fallbackFormat = !!options.formatFallbackMessages;
+  const modifiers = isPlainObject(options.modifiers) ? options.modifiers : {};
+  const pluralizationRules = options.pluralizationRules;
+  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : void 0;
+  const warnHtmlMessage = isString(options.warnHtmlInMessage) ? options.warnHtmlInMessage !== "off" : true;
+  const escapeParameter = !!options.escapeParameterHtml;
+  const inheritLocale = isBoolean(options.sync) ? options.sync : true;
+  let messages = options.messages;
+  if (isPlainObject(options.sharedMessages)) {
+    const sharedMessages = options.sharedMessages;
+    const locales = Object.keys(sharedMessages);
+    messages = locales.reduce((messages2, locale22) => {
+      const message = messages2[locale22] || (messages2[locale22] = {});
+      assign$2(message, sharedMessages[locale22]);
+      return messages2;
+    }, messages || {});
+  }
+  const { __i18n, __root, __injectWithOption } = options;
+  const datetimeFormats = options.datetimeFormats;
+  const numberFormats = options.numberFormats;
+  const flatJson = options.flatJson;
+  return {
+    locale: locale2,
+    fallbackLocale,
+    messages,
+    flatJson,
+    datetimeFormats,
+    numberFormats,
+    missing,
+    missingWarn,
+    fallbackWarn,
+    fallbackRoot,
+    fallbackFormat,
+    modifiers,
+    pluralRules: pluralizationRules,
+    postTranslation,
+    warnHtmlMessage,
+    escapeParameter,
+    messageResolver: options.messageResolver,
+    inheritLocale,
+    __i18n,
+    __root,
+    __injectWithOption
+  };
+}
+function createVueI18n(options = {}) {
+  const composer = createComposer(convertComposerOptions(options));
+  const { __extender } = options;
+  const vueI18n = {
+    // id
+    id: composer.id,
+    // locale
+    get locale() {
+      return composer.locale.value;
+    },
+    set locale(val) {
+      composer.locale.value = val;
+    },
+    // fallbackLocale
+    get fallbackLocale() {
+      return composer.fallbackLocale.value;
+    },
+    set fallbackLocale(val) {
+      composer.fallbackLocale.value = val;
+    },
+    // messages
+    get messages() {
+      return composer.messages.value;
+    },
+    // datetimeFormats
+    get datetimeFormats() {
+      return composer.datetimeFormats.value;
+    },
+    // numberFormats
+    get numberFormats() {
+      return composer.numberFormats.value;
+    },
+    // availableLocales
+    get availableLocales() {
+      return composer.availableLocales;
+    },
+    // missing
+    get missing() {
+      return composer.getMissingHandler();
+    },
+    set missing(handler) {
+      composer.setMissingHandler(handler);
+    },
+    // silentTranslationWarn
+    get silentTranslationWarn() {
+      return isBoolean(composer.missingWarn) ? !composer.missingWarn : composer.missingWarn;
+    },
+    set silentTranslationWarn(val) {
+      composer.missingWarn = isBoolean(val) ? !val : val;
+    },
+    // silentFallbackWarn
+    get silentFallbackWarn() {
+      return isBoolean(composer.fallbackWarn) ? !composer.fallbackWarn : composer.fallbackWarn;
+    },
+    set silentFallbackWarn(val) {
+      composer.fallbackWarn = isBoolean(val) ? !val : val;
+    },
+    // modifiers
+    get modifiers() {
+      return composer.modifiers;
+    },
+    // formatFallbackMessages
+    get formatFallbackMessages() {
+      return composer.fallbackFormat;
+    },
+    set formatFallbackMessages(val) {
+      composer.fallbackFormat = val;
+    },
+    // postTranslation
+    get postTranslation() {
+      return composer.getPostTranslationHandler();
+    },
+    set postTranslation(handler) {
+      composer.setPostTranslationHandler(handler);
+    },
+    // sync
+    get sync() {
+      return composer.inheritLocale;
+    },
+    set sync(val) {
+      composer.inheritLocale = val;
+    },
+    // warnInHtmlMessage
+    get warnHtmlInMessage() {
+      return composer.warnHtmlMessage ? "warn" : "off";
+    },
+    set warnHtmlInMessage(val) {
+      composer.warnHtmlMessage = val !== "off";
+    },
+    // escapeParameterHtml
+    get escapeParameterHtml() {
+      return composer.escapeParameter;
+    },
+    set escapeParameterHtml(val) {
+      composer.escapeParameter = val;
+    },
+    // pluralizationRules
+    get pluralizationRules() {
+      return composer.pluralRules || {};
+    },
+    // for internal
+    __composer: composer,
+    // t
+    t(...args) {
+      return Reflect.apply(composer.t, composer, [...args]);
+    },
+    // rt
+    rt(...args) {
+      return Reflect.apply(composer.rt, composer, [...args]);
+    },
+    // tc
+    tc(...args) {
+      const [arg1, arg2, arg3] = args;
+      const options2 = { plural: 1 };
+      let list = null;
+      let named = null;
+      if (!isString(arg1)) {
+        throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT);
+      }
+      const key = arg1;
+      if (isString(arg2)) {
+        options2.locale = arg2;
+      } else if (isNumber(arg2)) {
+        options2.plural = arg2;
+      } else if (isArray$1(arg2)) {
+        list = arg2;
+      } else if (isPlainObject(arg2)) {
+        named = arg2;
+      }
+      if (isString(arg3)) {
+        options2.locale = arg3;
+      } else if (isArray$1(arg3)) {
+        list = arg3;
+      } else if (isPlainObject(arg3)) {
+        named = arg3;
+      }
+      return Reflect.apply(composer.t, composer, [
+        key,
+        list || named || {},
+        options2
+      ]);
+    },
+    // te
+    te(key, locale2) {
+      return composer.te(key, locale2);
+    },
+    // tm
+    tm(key) {
+      return composer.tm(key);
+    },
+    // getLocaleMessage
+    getLocaleMessage(locale2) {
+      return composer.getLocaleMessage(locale2);
+    },
+    // setLocaleMessage
+    setLocaleMessage(locale2, message) {
+      composer.setLocaleMessage(locale2, message);
+    },
+    // mergeLocaleMessage
+    mergeLocaleMessage(locale2, message) {
+      composer.mergeLocaleMessage(locale2, message);
+    },
+    // d
+    d(...args) {
+      return Reflect.apply(composer.d, composer, [...args]);
+    },
+    // getDateTimeFormat
+    getDateTimeFormat(locale2) {
+      return composer.getDateTimeFormat(locale2);
+    },
+    // setDateTimeFormat
+    setDateTimeFormat(locale2, format2) {
+      composer.setDateTimeFormat(locale2, format2);
+    },
+    // mergeDateTimeFormat
+    mergeDateTimeFormat(locale2, format2) {
+      composer.mergeDateTimeFormat(locale2, format2);
+    },
+    // n
+    n(...args) {
+      return Reflect.apply(composer.n, composer, [...args]);
+    },
+    // getNumberFormat
+    getNumberFormat(locale2) {
+      return composer.getNumberFormat(locale2);
+    },
+    // setNumberFormat
+    setNumberFormat(locale2, format2) {
+      composer.setNumberFormat(locale2, format2);
+    },
+    // mergeNumberFormat
+    mergeNumberFormat(locale2, format2) {
+      composer.mergeNumberFormat(locale2, format2);
+    }
+  };
+  vueI18n.__extender = __extender;
+  return vueI18n;
+}
+function defineMixin(vuei18n, composer, i18n2) {
+  return {
+    beforeCreate() {
+      const instance = getCurrentInstance$1();
+      if (!instance) {
+        throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+      }
+      const options = this.$options;
+      if (options.i18n) {
+        const optionsI18n = options.i18n;
+        if (options.__i18n) {
+          optionsI18n.__i18n = options.__i18n;
+        }
+        optionsI18n.__root = composer;
+        if (this === this.$root) {
+          this.$i18n = mergeToGlobal(vuei18n, optionsI18n);
+        } else {
+          optionsI18n.__injectWithOption = true;
+          optionsI18n.__extender = i18n2.__vueI18nExtend;
+          this.$i18n = createVueI18n(optionsI18n);
+          const _vueI18n = this.$i18n;
+          if (_vueI18n.__extender) {
+            _vueI18n.__disposer = _vueI18n.__extender(this.$i18n);
+          }
+        }
+      } else if (options.__i18n) {
+        if (this === this.$root) {
+          this.$i18n = mergeToGlobal(vuei18n, options);
+        } else {
+          this.$i18n = createVueI18n({
+            __i18n: options.__i18n,
+            __injectWithOption: true,
+            __extender: i18n2.__vueI18nExtend,
+            __root: composer
+          });
+          const _vueI18n = this.$i18n;
+          if (_vueI18n.__extender) {
+            _vueI18n.__disposer = _vueI18n.__extender(this.$i18n);
+          }
+        }
+      } else {
+        this.$i18n = vuei18n;
+      }
+      if (options.__i18nGlobal) {
+        adjustI18nResources(composer, options, options);
+      }
+      this.$t = (...args) => this.$i18n.t(...args);
+      this.$rt = (...args) => this.$i18n.rt(...args);
+      this.$tc = (...args) => this.$i18n.tc(...args);
+      this.$te = (key, locale2) => this.$i18n.te(key, locale2);
+      this.$d = (...args) => this.$i18n.d(...args);
+      this.$n = (...args) => this.$i18n.n(...args);
+      this.$tm = (key) => this.$i18n.tm(key);
+      i18n2.__setInstance(instance, this.$i18n);
+    },
+    mounted() {
+    },
+    unmounted() {
+      const instance = getCurrentInstance$1();
+      if (!instance) {
+        throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+      }
+      const _vueI18n = this.$i18n;
+      delete this.$t;
+      delete this.$rt;
+      delete this.$tc;
+      delete this.$te;
+      delete this.$d;
+      delete this.$n;
+      delete this.$tm;
+      if (_vueI18n.__disposer) {
+        _vueI18n.__disposer();
+        delete _vueI18n.__disposer;
+        delete _vueI18n.__extender;
+      }
+      i18n2.__deleteInstance(instance);
+      delete this.$i18n;
+    }
+  };
+}
+function mergeToGlobal(g, options) {
+  g.locale = options.locale || g.locale;
+  g.fallbackLocale = options.fallbackLocale || g.fallbackLocale;
+  g.missing = options.missing || g.missing;
+  g.silentTranslationWarn = options.silentTranslationWarn || g.silentFallbackWarn;
+  g.silentFallbackWarn = options.silentFallbackWarn || g.silentFallbackWarn;
+  g.formatFallbackMessages = options.formatFallbackMessages || g.formatFallbackMessages;
+  g.postTranslation = options.postTranslation || g.postTranslation;
+  g.warnHtmlInMessage = options.warnHtmlInMessage || g.warnHtmlInMessage;
+  g.escapeParameterHtml = options.escapeParameterHtml || g.escapeParameterHtml;
+  g.sync = options.sync || g.sync;
+  g.__composer[SetPluralRulesSymbol](options.pluralizationRules || g.pluralizationRules);
+  const messages = getLocaleMessages(g.locale, {
+    messages: options.messages,
+    __i18n: options.__i18n
+  });
+  Object.keys(messages).forEach((locale2) => g.mergeLocaleMessage(locale2, messages[locale2]));
+  if (options.datetimeFormats) {
+    Object.keys(options.datetimeFormats).forEach((locale2) => g.mergeDateTimeFormat(locale2, options.datetimeFormats[locale2]));
+  }
+  if (options.numberFormats) {
+    Object.keys(options.numberFormats).forEach((locale2) => g.mergeNumberFormat(locale2, options.numberFormats[locale2]));
+  }
+  return g;
+}
+const baseFormatProps = {
+  tag: {
+    type: [String, Object]
+  },
+  locale: {
+    type: String
+  },
+  scope: {
+    type: String,
+    // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
+    validator: (val) => val === "parent" || val === "global",
+    default: "parent"
+    /* ComponentI18nScope */
+  },
+  i18n: {
+    type: Object
   }
 };
-var ChevronLeftIcon = {
-  name: "ChevronLeftIcon",
-  props: {
-    size: {
+function getInterpolateArg({ slots }, keys2) {
+  if (keys2.length === 1 && keys2[0] === "default") {
+    const ret = slots.default ? slots.default() : [];
+    return ret.reduce((slot, current) => {
+      return [
+        ...slot,
+        // prettier-ignore
+        ...current.type === Fragment ? current.children : [current]
+      ];
+    }, []);
+  } else {
+    return keys2.reduce((arg, key) => {
+      const slot = slots[key];
+      if (slot) {
+        arg[key] = slot();
+      }
+      return arg;
+    }, create());
+  }
+}
+function getFragmentableTag() {
+  return Fragment;
+}
+const TranslationImpl = /* @__PURE__ */ defineComponent$1({
+  /* eslint-disable */
+  name: "i18n-t",
+  props: assign$2({
+    keypath: {
+      type: String,
+      required: true
+    },
+    plural: {
       type: [Number, String],
-      default: 24
+      validator: (val) => isNumber(val) || !isNaN(val)
     }
-  },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
+  }, baseFormatProps),
+  /* eslint-enable */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props, context) {
+    const { slots, attrs } = context;
+    const i18n2 = props.i18n || useI18n({
+      useScope: props.scope,
+      __useComponent: true
+    });
+    return () => {
+      const keys2 = Object.keys(slots).filter((key) => key !== "_");
+      const options = create();
+      if (props.locale) {
+        options.locale = props.locale;
+      }
+      if (props.plural !== void 0) {
+        options.plural = isString(props.plural) ? +props.plural : props.plural;
+      }
+      const arg = getInterpolateArg(context, keys2);
+      const children = i18n2[TranslateVNodeSymbol](props.keypath, arg, options);
+      const assignedAttrs = assign$2(create(), attrs);
+      const tag = isString(props.tag) || isObject$1(props.tag) ? props.tag : getFragmentableTag();
+      return h(tag, assignedAttrs, children);
     };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-chevron-left",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M15 6l-6 6l6 6"
-    }, null), createTextVNode(" ")]);
+  }
+});
+const Translation = TranslationImpl;
+function isVNode(target) {
+  return isArray$1(target) && !isString(target[0]);
+}
+function renderFormatter(props, context, slotKeys, partFormatter) {
+  const { slots, attrs } = context;
+  return () => {
+    const options = { part: true };
+    let overrides = create();
+    if (props.locale) {
+      options.locale = props.locale;
+    }
+    if (isString(props.format)) {
+      options.key = props.format;
+    } else if (isObject$1(props.format)) {
+      if (isString(props.format.key)) {
+        options.key = props.format.key;
+      }
+      overrides = Object.keys(props.format).reduce((options2, prop) => {
+        return slotKeys.includes(prop) ? assign$2(create(), options2, { [prop]: props.format[prop] }) : options2;
+      }, create());
+    }
+    const parts = partFormatter(...[props.value, options, overrides]);
+    let children = [options.key];
+    if (isArray$1(parts)) {
+      children = parts.map((part, index) => {
+        const slot = slots[part.type];
+        const node = slot ? slot({ [part.type]: part.value, index, parts }) : [part.value];
+        if (isVNode(node)) {
+          node[0].key = `${part.type}-${index}`;
+        }
+        return node;
+      });
+    } else if (isString(parts)) {
+      children = [parts];
+    }
+    const assignedAttrs = assign$2(create(), attrs);
+    const tag = isString(props.tag) || isObject$1(props.tag) ? props.tag : getFragmentableTag();
+    return h(tag, assignedAttrs, children);
+  };
+}
+const NumberFormatImpl = /* @__PURE__ */ defineComponent$1({
+  /* eslint-disable */
+  name: "i18n-n",
+  props: assign$2({
+    value: {
+      type: Number,
+      required: true
+    },
+    format: {
+      type: [String, Object]
+    }
+  }, baseFormatProps),
+  /* eslint-enable */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props, context) {
+    const i18n2 = props.i18n || useI18n({
+      useScope: props.scope,
+      __useComponent: true
+    });
+    return renderFormatter(props, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args) => (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      i18n2[NumberPartsSymbol](...args)
+    ));
+  }
+});
+const NumberFormat = NumberFormatImpl;
+const DatetimeFormatImpl = /* @__PURE__ */ defineComponent$1({
+  /* eslint-disable */
+  name: "i18n-d",
+  props: assign$2({
+    value: {
+      type: [Number, Date],
+      required: true
+    },
+    format: {
+      type: [String, Object]
+    }
+  }, baseFormatProps),
+  /* eslint-enable */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props, context) {
+    const i18n2 = props.i18n || useI18n({
+      useScope: props.scope,
+      __useComponent: true
+    });
+    return renderFormatter(props, context, DATETIME_FORMAT_OPTIONS_KEYS, (...args) => (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      i18n2[DatetimePartsSymbol](...args)
+    ));
+  }
+});
+const DatetimeFormat = DatetimeFormatImpl;
+function getComposer$1(i18n2, instance) {
+  const i18nInternal = i18n2;
+  if (i18n2.mode === "composition") {
+    return i18nInternal.__getInstance(instance) || i18n2.global;
+  } else {
+    const vueI18n = i18nInternal.__getInstance(instance);
+    return vueI18n != null ? vueI18n.__composer : i18n2.global.__composer;
+  }
+}
+function vTDirective(i18n2) {
+  const _process = (binding) => {
+    const { instance, value } = binding;
+    if (!instance || !instance.$) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+    }
+    const composer = getComposer$1(i18n2, instance.$);
+    const parsedValue = parseValue(value);
+    return [
+      Reflect.apply(composer.t, composer, [...makeParams(parsedValue)]),
+      composer
+    ];
+  };
+  const register = (el, binding) => {
+    const [textContent, composer] = _process(binding);
+    if (inBrowser && i18n2.global === composer) {
+      el.__i18nWatcher = watch(composer.locale, () => {
+        binding.instance && binding.instance.$forceUpdate();
+      });
+    }
+    el.__composer = composer;
+    el.textContent = textContent;
+  };
+  const unregister = (el) => {
+    if (inBrowser && el.__i18nWatcher) {
+      el.__i18nWatcher();
+      el.__i18nWatcher = void 0;
+      delete el.__i18nWatcher;
+    }
+    if (el.__composer) {
+      el.__composer = void 0;
+      delete el.__composer;
+    }
+  };
+  const update = (el, { value }) => {
+    if (el.__composer) {
+      const composer = el.__composer;
+      const parsedValue = parseValue(value);
+      el.textContent = Reflect.apply(composer.t, composer, [
+        ...makeParams(parsedValue)
+      ]);
+    }
+  };
+  const getSSRProps = (binding) => {
+    const [textContent] = _process(binding);
+    return { textContent };
+  };
+  return {
+    created: register,
+    unmounted: unregister,
+    beforeUpdate: update,
+    getSSRProps
+  };
+}
+function parseValue(value) {
+  if (isString(value)) {
+    return { path: value };
+  } else if (isPlainObject(value)) {
+    if (!("path" in value)) {
+      throw createI18nError(I18nErrorCodes.REQUIRED_VALUE, "path");
+    }
+    return value;
+  } else {
+    throw createI18nError(I18nErrorCodes.INVALID_VALUE);
+  }
+}
+function makeParams(value) {
+  const { path, locale: locale2, args, choice, plural } = value;
+  const options = {};
+  const named = args || {};
+  if (isString(locale2)) {
+    options.locale = locale2;
+  }
+  if (isNumber(choice)) {
+    options.plural = choice;
+  }
+  if (isNumber(plural)) {
+    options.plural = plural;
+  }
+  return [path, named, options];
+}
+function apply(app, i18n2, ...options) {
+  const pluginOptions = isPlainObject(options[0]) ? options[0] : {};
+  const globalInstall = isBoolean(pluginOptions.globalInstall) ? pluginOptions.globalInstall : true;
+  if (globalInstall) {
+    [Translation.name, "I18nT"].forEach((name) => app.component(name, Translation));
+    [NumberFormat.name, "I18nN"].forEach((name) => app.component(name, NumberFormat));
+    [DatetimeFormat.name, "I18nD"].forEach((name) => app.component(name, DatetimeFormat));
+  }
+  {
+    app.directive("t", vTDirective(i18n2));
+  }
+}
+const I18nInjectionKey = /* @__PURE__ */ makeSymbol("global-vue-i18n");
+function createI18n(options = {}, VueI18nLegacy) {
+  const __legacyMode = __VUE_I18N_LEGACY_API__ && isBoolean(options.legacy) ? options.legacy : __VUE_I18N_LEGACY_API__;
+  const __globalInjection = isBoolean(options.globalInjection) ? options.globalInjection : true;
+  const __instances = /* @__PURE__ */ new Map();
+  const [globalScope, __global] = createGlobal(options, __legacyMode);
+  const symbol = /* @__PURE__ */ makeSymbol("");
+  function __getInstance(component) {
+    return __instances.get(component) || null;
+  }
+  function __setInstance(component, instance) {
+    __instances.set(component, instance);
+  }
+  function __deleteInstance(component) {
+    __instances.delete(component);
+  }
+  const i18n2 = {
+    // mode
+    get mode() {
+      return __VUE_I18N_LEGACY_API__ && __legacyMode ? "legacy" : "composition";
+    },
+    // install plugin
+    async install(app, ...options2) {
+      app.__VUE_I18N_SYMBOL__ = symbol;
+      app.provide(app.__VUE_I18N_SYMBOL__, i18n2);
+      if (isPlainObject(options2[0])) {
+        const opts = options2[0];
+        i18n2.__composerExtend = opts.__composerExtend;
+        i18n2.__vueI18nExtend = opts.__vueI18nExtend;
+      }
+      let globalReleaseHandler = null;
+      if (!__legacyMode && __globalInjection) {
+        globalReleaseHandler = injectGlobalFields(app, i18n2.global);
+      }
+      if (__VUE_I18N_FULL_INSTALL__) {
+        apply(app, i18n2, ...options2);
+      }
+      if (__VUE_I18N_LEGACY_API__ && __legacyMode) {
+        app.mixin(defineMixin(__global, __global.__composer, i18n2));
+      }
+      const unmountApp = app.unmount;
+      app.unmount = () => {
+        globalReleaseHandler && globalReleaseHandler();
+        i18n2.dispose();
+        unmountApp();
+      };
+    },
+    // global accessor
+    get global() {
+      return __global;
+    },
+    dispose() {
+      globalScope.stop();
+    },
+    // @internal
+    __instances,
+    // @internal
+    __getInstance,
+    // @internal
+    __setInstance,
+    // @internal
+    __deleteInstance
+  };
+  return i18n2;
+}
+function useI18n(options = {}) {
+  const instance = getCurrentInstance$1();
+  if (instance == null) {
+    throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP);
+  }
+  if (!instance.isCE && instance.appContext.app != null && !instance.appContext.app.__VUE_I18N_SYMBOL__) {
+    throw createI18nError(I18nErrorCodes.NOT_INSTALLED);
+  }
+  const i18n2 = getI18nInstance(instance);
+  const gl = getGlobalComposer(i18n2);
+  const componentOptions = getComponentOptions(instance);
+  const scope = getScope(options, componentOptions);
+  if (scope === "global") {
+    adjustI18nResources(gl, options, componentOptions);
+    return gl;
+  }
+  if (scope === "parent") {
+    let composer2 = getComposer(i18n2, instance, options.__useComponent);
+    if (composer2 == null) {
+      composer2 = gl;
+    }
+    return composer2;
+  }
+  const i18nInternal = i18n2;
+  let composer = i18nInternal.__getInstance(instance);
+  if (composer == null) {
+    const composerOptions = assign$2({}, options);
+    if ("__i18n" in componentOptions) {
+      composerOptions.__i18n = componentOptions.__i18n;
+    }
+    if (gl) {
+      composerOptions.__root = gl;
+    }
+    composer = createComposer(composerOptions);
+    if (i18nInternal.__composerExtend) {
+      composer[DisposeSymbol] = i18nInternal.__composerExtend(composer);
+    }
+    setupLifeCycle(i18nInternal, instance, composer);
+    i18nInternal.__setInstance(instance, composer);
+  }
+  return composer;
+}
+function createGlobal(options, legacyMode, VueI18nLegacy) {
+  const scope = effectScope();
+  const obj = __VUE_I18N_LEGACY_API__ && legacyMode ? scope.run(() => createVueI18n(options)) : scope.run(() => createComposer(options));
+  if (obj == null) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+  }
+  return [scope, obj];
+}
+function getI18nInstance(instance) {
+  const i18n2 = inject$1(!instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__ : I18nInjectionKey);
+  if (!i18n2) {
+    throw createI18nError(!instance.isCE ? I18nErrorCodes.UNEXPECTED_ERROR : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE);
+  }
+  return i18n2;
+}
+function getScope(options, componentOptions) {
+  return isEmptyObject(options) ? "__i18n" in componentOptions ? "local" : "global" : !options.useScope ? "local" : options.useScope;
+}
+function getGlobalComposer(i18n2) {
+  return i18n2.mode === "composition" ? i18n2.global : i18n2.global.__composer;
+}
+function getComposer(i18n2, target, useComponent = false) {
+  let composer = null;
+  const root = target.root;
+  let current = getParentComponentInstance(target, useComponent);
+  while (current != null) {
+    const i18nInternal = i18n2;
+    if (i18n2.mode === "composition") {
+      composer = i18nInternal.__getInstance(current);
+    } else {
+      if (__VUE_I18N_LEGACY_API__) {
+        const vueI18n = i18nInternal.__getInstance(current);
+        if (vueI18n != null) {
+          composer = vueI18n.__composer;
+          if (useComponent && composer && !composer[InejctWithOptionSymbol]) {
+            composer = null;
+          }
+        }
+      }
+    }
+    if (composer != null) {
+      break;
+    }
+    if (root === current) {
+      break;
+    }
+    current = current.parent;
+  }
+  return composer;
+}
+function getParentComponentInstance(target, useComponent = false) {
+  if (target == null) {
+    return null;
+  }
+  return !useComponent ? target.parent : target.vnode.ctx || target.parent;
+}
+function setupLifeCycle(i18n2, target, composer) {
+  onMounted(() => {
+  }, target);
+  onUnmounted(() => {
+    const _composer = composer;
+    i18n2.__deleteInstance(target);
+    const dispose = _composer[DisposeSymbol];
+    if (dispose) {
+      dispose();
+      delete _composer[DisposeSymbol];
+    }
+  }, target);
+}
+const globalExportProps = [
+  "locale",
+  "fallbackLocale",
+  "availableLocales"
+];
+const globalExportMethods = ["t", "rt", "d", "n", "tm", "te"];
+function injectGlobalFields(app, composer) {
+  const i18n2 = /* @__PURE__ */ Object.create(null);
+  globalExportProps.forEach((prop) => {
+    const desc = Object.getOwnPropertyDescriptor(composer, prop);
+    if (!desc) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+    }
+    const wrap = isRef(desc.value) ? {
+      get() {
+        return desc.value.value;
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      set(val) {
+        desc.value.value = val;
+      }
+    } : {
+      get() {
+        return desc.get && desc.get();
+      }
+    };
+    Object.defineProperty(i18n2, prop, wrap);
+  });
+  app.config.globalProperties.$i18n = i18n2;
+  globalExportMethods.forEach((method) => {
+    const desc = Object.getOwnPropertyDescriptor(composer, method);
+    if (!desc || !desc.value) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+    }
+    Object.defineProperty(app.config.globalProperties, `$${method}`, desc);
+  });
+  const dispose = () => {
+    delete app.config.globalProperties.$i18n;
+    globalExportMethods.forEach((method) => {
+      delete app.config.globalProperties[`$${method}`];
+    });
+  };
+  return dispose;
+}
+{
+  initFeatureFlags();
+}
+registerMessageCompiler(compile);
+registerMessageResolver(resolveValue);
+registerLocaleFallbacker(fallbackWithLocaleChain);
+if (__INTLIFY_PROD_DEVTOOLS__) {
+  const target = getGlobalThis();
+  target.__INTLIFY__ = true;
+  setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__);
+}
+var LocaleCode = /* @__PURE__ */ ((LocaleCode2) => {
+  LocaleCode2["En"] = "en";
+  LocaleCode2["Uk"] = "uk";
+  return LocaleCode2;
+})(LocaleCode || {});
+const isStringLocaleCode = (value) => {
+  return Object.values(LocaleCode).includes(value ?? "");
+};
+const getLocaleCodeFromValue = (value) => {
+  return isStringLocaleCode(value) ? value : void 0;
+};
+const i18n = createI18n({
+  globalInjection: true,
+  legacy: false,
+  fallbackLocale: LocaleCode.En
+});
+const actionJSON = {
+  "action.try.it.out": {
+    en: "Try it out",
+    uk: "Спробувати"
+  },
+  "action.reset.filters": {
+    en: "Reset Filters",
+    uk: "Скинути фільтри"
+  },
+  "action.continue.shopping": {
+    en: "Continue Shopping",
+    uk: "Продовжити покупки"
+  },
+  "action.checkout": {
+    en: "Check Out",
+    uk: "Оформити замовлення"
+  },
+  "action.back": {
+    en: "Back",
+    uk: "Назад"
+  },
+  "action.complete.an.order": {
+    en: "Complete an Order",
+    uk: "Завершити замовлення"
+  },
+  "action.cancel": {
+    en: "Cancel",
+    uk: "Скасувати"
+  },
+  "action.confirm": {
+    en: "Confirm",
+    uk: "Підтвердити"
+  },
+  "action.edit": {
+    en: "Edit",
+    uk: "Редагувати"
+  },
+  "action.go.back.to.shopping": {
+    en: "Go Back to Shopping",
+    uk: "Повернутися до покупок"
+  },
+  "action.add.new.form": {
+    en: "Add New Form",
+    uk: "Додати нову форму"
+  },
+  "action.remove.form": {
+    en: "Remove Form",
+    uk: "Видалити форму"
+  },
+  "action.save.changes": {
+    en: "Save Changes",
+    uk: "Зберегти зміни"
+  },
+  "action.make.payment": {
+    en: "Make Payment",
+    uk: "Здійснити оплату"
+  },
+  "action.update.order.id": {
+    en: "Update Order ID",
+    uk: "Оновити ID замовлення"
   }
 };
-var ChevronRightIcon = {
-  name: "ChevronRightIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
-  },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-chevron-right",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M9 6l6 6l-6 6"
-    }, null), createTextVNode(" ")]);
+const metaJSON = {
+  "meta.title": {
+    en: "UPC demo-shop",
+    uk: "UPC демо-магазин"
   }
 };
-var CopyIcon = {
-  name: "CopyIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
+const textJSON = {
+  "text.payment.with.redirect": {
+    en: "Payment with redirect",
+    uk: "Оплата з перенаправленням"
   },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-copy",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
-    }, null), createTextVNode(" ")]);
+  "text.payment.with.redirect.description": {
+    en: "Redirect to payment page on checkout",
+    uk: "Перенаправлення на сторінку оплати при оформленні замовлення"
+  },
+  "text.payment.with.built.in.iframe": {
+    en: "Payment with built-in iframe",
+    uk: "Оплата з вбудованим iframe"
+  },
+  "text.payment.with.built.in.iframe.description": {
+    en: "Show built-in payment iframe on checkout page",
+    uk: "Показати вбудований iframe оплати на сторінці оформлення замовлення"
+  },
+  "text.payment.with.modal.iframe": {
+    en: "Payment with modal iframe",
+    uk: "Оплата з модальним iframe"
+  },
+  "text.payment.with.modal.iframe.description": {
+    en: "Show modal payment iframe on checkout page",
+    uk: "Показати модальний iframe оплати на сторінці оформлення замовлення"
+  },
+  "text.payment.with.manual.params": {
+    en: "Payment with manual params (developers purpose only)",
+    uk: "Оплата з ручними параметрами (тільки для розробників)"
+  },
+  "text.payment.with.manual.params.description": {
+    en: "Set all available payment parameters on checkout",
+    uk: "Встановити всі доступні параметри оплати при оформленні замовлення"
+  },
+  "text.payment.by.bank": {
+    en: "Pay by bank",
+    uk: "Оплата через банк"
+  },
+  "text.payment.by.bank.description": {
+    en: "Payment by 'Pay by bank' button",
+    uk: "Оплата платіжною кнопкою 'Оплатити через банк'"
+  },
+  "text.demo.shop": {
+    en: "Demo shop",
+    uk: "Демо магазин"
+  },
+  "text.transaction.code": {
+    en: "Transaction code",
+    uk: "Код транзакції"
+  },
+  "text.description": {
+    en: "Description",
+    uk: "Опис"
+  },
+  "text.card.number": {
+    en: "Card number",
+    uk: "Номер картки"
+  },
+  "text.menu": {
+    en: "Menu",
+    uk: "Меню"
+  },
+  "text.there.is.no.product": {
+    en: "There is no Product",
+    uk: "Товарів немає"
+  },
+  "text.there.is.no.product.description": {
+    en: "Try checking your spelling or use more general terms",
+    uk: "Спробуйте перевірити правопис або використовуйте більш загальні терміни"
+  },
+  "text.gender": {
+    en: "Gender",
+    uk: "Стать"
+  },
+  "text.categories": {
+    en: "Categories",
+    uk: "Категорії"
+  },
+  "text.colors": {
+    en: "Colors",
+    uk: "Кольори"
+  },
+  "text.price": {
+    en: "Price",
+    uk: "Ціна"
+  },
+  "text.rating": {
+    en: "Rating",
+    uk: "Рейтинг"
+  },
+  "text.item.cart": {
+    en: "Item Cart",
+    uk: "Кошик"
+  },
+  "text.product.summary": {
+    en: "Product Summary",
+    uk: "Опис товару"
+  },
+  "text.billing": {
+    en: "Billing",
+    uk: "Оплата"
+  },
+  "text.billing.information": {
+    en: "Billing Information",
+    uk: "Інформація про платника"
+  },
+  "text.billing.address": {
+    en: "Billing Address",
+    uk: "Адреса платника"
+  },
+  "text.product": {
+    en: "Product",
+    uk: "Товар"
+  },
+  "text.quantity": {
+    en: "Quantity",
+    uk: "Кількість"
+  },
+  "text.total": {
+    en: "Total",
+    uk: "Разом"
+  },
+  "text.cart.is.empty": {
+    en: "Cart is Empty",
+    uk: "Кошик порожній"
+  },
+  "text.order.summary": {
+    en: "Order Summary",
+    uk: "Огляд замовлення"
+  },
+  "text.sub.total": {
+    en: "Sub Total",
+    uk: "Підсумок"
+  },
+  "text.discount": {
+    en: "Discount",
+    uk: "Знижка"
+  },
+  "text.manual.request.params.form": {
+    en: "Manual request params form (developers purpose only)",
+    uk: "Форма ручного встановлення параметрів запиту (тільки для розробників)"
+  },
+  "text.form.params": {
+    en: "Form params",
+    uk: "Параметри форми"
+  },
+  "text.merchant": {
+    en: "Merchant",
+    uk: "Мерчант"
+  },
+  "text.currency": {
+    en: "Currency",
+    uk: "Валюта"
+  },
+  "text.fee": {
+    en: "Fee",
+    uk: "Комісія"
+  },
+  "text.total.amount": {
+    en: "Total Amount",
+    uk: "Загальна сума"
+  },
+  "text.customer.data": {
+    en: "Customer Data",
+    uk: "Дані покупця"
+  },
+  "text.other.params": {
+    en: "Other params",
+    uk: "Інші параметри"
   }
 };
-var CreditCardIcon = {
-  name: "CreditCardIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
+const titleJSON = {
+  "title.test.cards": {
+    en: "Test cards",
+    uk: "Тестові картки"
   },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-credit-card",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M3 5m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M3 10l18 0"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M7 15l.01 0"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M11 15l2 0"
-    }, null), createTextVNode(" ")]);
+  "title.shopping.cart": {
+    en: "Shopping cart",
+    uk: "Кошик"
+  },
+  "title.copy": {
+    en: "Copy",
+    uk: "Копіювати"
+  },
+  "title.add.to.cart": {
+    en: "Add to Cart",
+    uk: "Додати в кошик"
+  },
+  "title.previous.form": {
+    en: "Previous Form",
+    uk: "Попередня форма"
+  },
+  "title.next.form": {
+    en: "Next Form",
+    uk: "Наступна форма"
   }
 };
-var FileDescriptionIcon = {
-  name: "FileDescriptionIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
+const snackbarJSON = {
+  "snackbar.card.number.copied.to.clipboard": {
+    en: "Card number copied to clipboard",
+    uk: "Номер картки скопійовано в буфер обміну"
   },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-file-description",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M14 3v4a1 1 0 0 0 1 1h4"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M9 17h6"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M9 13h6"
-    }, null), createTextVNode(" ")]);
+  "snackbar.item.added.to.the.cart": {
+    en: "Item Added to The Cart",
+    uk: "Товар додано в кошик"
   }
 };
-var Menu2Icon = {
-  name: "Menu2Icon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
+const LocalStorageKey = Object.freeze({
+  Version: "version",
+  Locale: "locale",
+  RequestBeans: "request-beans"
+});
+const Storage = {
+  LocalStorageVersion: "0",
+  version: {
+    getValue() {
+      return localStorage.getItem(LocalStorageKey.Version) || "";
+    },
+    setValue(value) {
+      localStorage.setItem(LocalStorageKey.Version, value);
     }
   },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-menu-2",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M4 6l16 0"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M4 12l16 0"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M4 18l16 0"
-    }, null), createTextVNode(" ")]);
+  locale: {
+    getValue() {
+      return localStorage.getItem(LocalStorageKey.Locale) ?? "uk";
+    },
+    setValue(value) {
+      localStorage.setItem(LocalStorageKey.Locale, value);
+    }
+  },
+  requestBeans: {
+    getValue() {
+      const values = localStorage.getItem(LocalStorageKey.RequestBeans);
+      if (values) {
+        try {
+          return JSON.parse(values);
+        } catch (e) {
+          console.error(e);
+          return [];
+        }
+      }
+      return [];
+    },
+    setValue(value) {
+      localStorage.setItem(LocalStorageKey.RequestBeans, JSON.stringify(value));
+    }
   }
 };
-var MinusIcon = {
-  name: "MinusIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
+const labelJSON = {
+  "label.form.name": {
+    en: "Form Name",
+    uk: "Назва форми"
   },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-minus",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M5 12l14 0"
-    }, null), createTextVNode(" ")]);
+  "label.request.url": {
+    en: "Request URL",
+    uk: "URL запиту"
+  },
+  "label.payment.with.redirect": {
+    en: "Payment with Redirect",
+    uk: "Оплата з перенаправленням"
+  },
+  "label.payment.with.modal.iframe": {
+    en: "Payment with Modal Iframe",
+    uk: "Оплата з модальним iframe"
+  },
+  "label.payment.with.built.in.iframe": {
+    en: "Payment with Built-in Iframe",
+    uk: "Оплата з вбудованим iframe"
+  },
+  "label.payment.mode": {
+    en: "Payment Mode",
+    uk: "Режим оплати"
+  },
+  "label.merchant.id": {
+    en: "Merchant ID",
+    uk: "ID торгівця"
+  },
+  "label.terminal.id": {
+    en: "Terminal ID",
+    uk: "ID терміналу"
+  },
+  "label.order.id": {
+    en: "Order ID",
+    uk: "ID замовлення"
+  },
+  "label.currency.numeric.code": {
+    en: "Currency Numeric Code",
+    uk: "Числовий код валюти"
+  },
+  "label.currency.numeric.code.alternative": {
+    en: "Currency Numeric Code (Alternative)",
+    uk: "Числовий код валюти (альтернативний)"
+  },
+  "label.alternative.fee.cents": {
+    en: "Alternative Fee (Cents)",
+    uk: "Альтернативна комісія (центи)"
+  },
+  "label.fee.cents": {
+    en: "Fee (Cents)",
+    uk: "Комісія (центи)"
+  },
+  "label.alternative.total.amount.cents": {
+    en: "Alternative Total Amount (Cents)",
+    uk: "Альтернативна загальна сума (центи)"
+  },
+  "label.total.amount.cents": {
+    en: "Total Amount (Cents)",
+    uk: "Загальна сума (центи)"
+  },
+  "label.locale": {
+    en: "Locale",
+    uk: "Локаль"
+  },
+  "label.purchase.time": {
+    en: "Purchase Time (YYMMDDHHmmss) or (YYMMDDHHmmss+HHMM)",
+    uk: "Час покупки (YYMMDDHHmmss) або (YYMMDDHHmmss+HHMM)"
+  },
+  "label.delay": {
+    en: "Delay",
+    uk: "Затримка"
+  },
+  "label.purchase.description": {
+    en: "Purchase Description",
+    uk: "Опис покупки"
+  },
+  "label.payment.token": {
+    en: "Payment Token",
+    uk: "Токен оплати"
+  },
+  "label.signature": {
+    en: "Signature",
+    uk: "Підпис"
+  },
+  "label.customer.phone.code": {
+    en: "Customer Phone Code (Example: 380)",
+    uk: "Код телефону клієнта (Приклад: 380)"
+  },
+  "label.customer.phone.number": {
+    en: "Customer Phone Number (Example:  123456789)",
+    uk: "Номер телефону клієнта (Приклад: 123456789)"
+  },
+  "label.customer.first.name": {
+    en: "Customer First Name",
+    uk: "Ім'я клієнта"
+  },
+  "label.customer.last.name": {
+    en: "Customer Last Name",
+    uk: "Прізвище клієнта"
+  },
+  "label.customer.email": {
+    en: "Customer Email",
+    uk: "Email клієнта"
   }
 };
-var PlusIcon = {
-  name: "PlusIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
-  },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-plus",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M12 5l0 14"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M5 12l14 0"
-    }, null), createTextVNode(" ")]);
-  }
+const messagesDto = {
+  ...actionJSON,
+  ...metaJSON,
+  ...textJSON,
+  ...titleJSON,
+  ...snackbarJSON,
+  ...labelJSON
 };
-var ShoppingCartIcon = {
-  name: "ShoppingCartIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
-  },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-shopping-cart",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M17 17h-11v-14h-2"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M6 5l14 1l-1 7h-13"
-    }, null), createTextVNode(" ")]);
-  }
+const loadAndSetLocaleMessages = () => {
+  const formattedMessages = [LocaleCode.En, LocaleCode.Uk].reduce((acc, locale2) => {
+    const translate2 = Object.keys(messagesDto).reduce((accumulator, key) => {
+      const foundTranslate = messagesDto[key][locale2];
+      if (!accumulator[key]) {
+        accumulator[key] = foundTranslate;
+      }
+      return accumulator;
+    }, {});
+    acc[locale2] = translate2;
+    return acc;
+  }, {});
+  Object.keys(formattedMessages).forEach((locale2) => {
+    i18n.global.setLocaleMessage(locale2, formattedMessages[locale2]);
+  });
 };
-var TrashIcon = {
-  name: "TrashIcon",
-  props: {
-    size: {
-      type: [Number, String],
-      default: 24
-    }
-  },
-  render() {
-    const size2 = this.$props.size + "px";
-    const attrs = this.$data.attrs || {};
-    const allAttrs = {
-      width: attrs.width || size2,
-      height: attrs.height || size2
-    };
-    return createVNode("svg", mergeProps({
-      "xmlns": "http://www.w3.org/2000/svg",
-      "class": "icon-tabler icon-tabler-trash",
-      "width": "24",
-      "height": "24",
-      "viewBox": "0 0 24 24",
-      "stroke-width": "2",
-      "stroke": "currentColor",
-      "fill": "none",
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round"
-    }, allAttrs), [createTextVNode("   "), createVNode("path", {
-      "stroke": "none",
-      "d": "M0 0h24v24H0z",
-      "fill": "none"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M4 7l16 0"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M10 11l0 6"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M14 11l0 6"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"
-    }, null), createTextVNode("   "), createVNode("path", {
-      "d": "M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"
-    }, null), createTextVNode(" ")]);
-  }
+const setLocale = (locale2) => {
+  var _a;
+  i18n.global.locale.value = locale2;
+  (_a = document.querySelector("html")) == null ? void 0 : _a.setAttribute("lang", locale2);
+  document.title = i18n.global.t("meta.title");
+  Storage.locale.setValue(locale2);
 };
 function propsFactory(props, source) {
   return (defaults) => {
@@ -8170,7 +12695,7 @@ function eventName(propName) {
 }
 const EventProp = () => [Function, Array];
 function hasEvent(props, name) {
-  name = "on" + capitalize(name);
+  name = "on" + capitalize$1(name);
   return !!(props[name] || props[`${name}Once`] || props[`${name}Capture`] || props[`${name}OnceCapture`] || props[`${name}CaptureOnce`]);
 }
 function callEvent(handler) {
@@ -8230,7 +12755,7 @@ function matchesSelector(el, selector) {
 }
 function ensureValidVNode(vnodes) {
   return vnodes.some((child) => {
-    if (!isVNode(child)) return true;
+    if (!isVNode$1(child)) return true;
     if (child.type === Comment) return false;
     return child.type !== Fragment || ensureValidVNode(child.children);
   }) ? vnodes : null;
@@ -8848,7 +13373,7 @@ function createSimpleFunctional(klass) {
   let tag = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "div";
   let name = arguments.length > 2 ? arguments[2] : void 0;
   return genericComponent()({
-    name: name ?? capitalize(camelize(klass.replace(/__/g, "-"))),
+    name: name ?? capitalize$1(camelize(klass.replace(/__/g, "-"))),
     props: {
       tag: {
         type: String,
@@ -9520,17 +14045,17 @@ function isLocaleInstance(obj) {
   return obj.name != null;
 }
 function createLocale(options) {
-  const i18n = (options == null ? void 0 : options.adapter) && isLocaleInstance(options == null ? void 0 : options.adapter) ? options == null ? void 0 : options.adapter : createVuetifyAdapter(options);
-  const rtl = createRtl(i18n, options);
+  const i18n2 = (options == null ? void 0 : options.adapter) && isLocaleInstance(options == null ? void 0 : options.adapter) ? options == null ? void 0 : options.adapter : createVuetifyAdapter(options);
+  const rtl = createRtl(i18n2, options);
   return {
-    ...i18n,
+    ...i18n2,
     ...rtl
   };
 }
 function useLocale() {
-  const locale = inject$1(LocaleSymbol);
-  if (!locale) throw new Error("[Vuetify] Could not find injected locale instance");
-  return locale;
+  const locale2 = inject$1(LocaleSymbol);
+  if (!locale2) throw new Error("[Vuetify] Could not find injected locale instance");
+  return locale2;
 }
 function genDefaults$2() {
   return {
@@ -9578,9 +14103,9 @@ function genDefaults$2() {
     zhHant: false
   };
 }
-function createRtl(i18n, options) {
+function createRtl(i18n2, options) {
   const rtl = ref((options == null ? void 0 : options.rtl) ?? genDefaults$2());
-  const isRtl = computed(() => rtl.value[i18n.current.value] ?? false);
+  const isRtl = computed(() => rtl.value[i18n2.current.value] ?? false);
   return {
     isRtl,
     rtl,
@@ -9588,11 +14113,11 @@ function createRtl(i18n, options) {
   };
 }
 function useRtl() {
-  const locale = inject$1(LocaleSymbol);
-  if (!locale) throw new Error("[Vuetify] Could not find injected rtl instance");
+  const locale2 = inject$1(LocaleSymbol);
+  if (!locale2) throw new Error("[Vuetify] Could not find injected rtl instance");
   return {
-    isRtl: locale.isRtl,
-    rtlClasses: locale.rtlClasses
+    isRtl: locale2.isRtl,
+    rtlClasses: locale2.rtlClasses
   };
 }
 const ThemeSymbol = Symbol.for("vuetify:theme");
@@ -9771,9 +14296,9 @@ function createTheme(options) {
       }]
     };
   }
-  function install(app2) {
+  function install(app) {
     if (parsedOptions.isDisabled) return;
-    const head = app2._context.provides.usehead;
+    const head = app._context.provides.usehead;
     if (head) {
       if (head.push) {
         const entry = head.push(getHead);
@@ -13099,7 +17624,7 @@ const breakpointProps = (() => {
 })();
 const offsetProps = (() => {
   return breakpoints.reduce((props, val) => {
-    const offsetKey = "offset" + capitalize(val);
+    const offsetKey = "offset" + capitalize$1(val);
     props[offsetKey] = {
       type: [String, Number],
       default: null
@@ -13109,7 +17634,7 @@ const offsetProps = (() => {
 })();
 const orderProps = (() => {
   return breakpoints.reduce((props, val) => {
-    const orderKey = "order" + capitalize(val);
+    const orderKey = "order" + capitalize$1(val);
     props[orderKey] = {
       type: [String, Number],
       default: null
@@ -13206,7 +17731,7 @@ const ALIGNMENT = ["start", "end", "center"];
 const SPACE = ["space-between", "space-around", "space-evenly"];
 function makeRowProps(prefix, def2) {
   return breakpoints.reduce((props, val) => {
-    const prefixKey = prefix + capitalize(val);
+    const prefixKey = prefix + capitalize$1(val);
     props[prefixKey] = def2();
     return props;
   }, {});
@@ -13351,25 +17876,24 @@ const VMain = genericComponent()({
   }
 });
 const _hoisted_1$a = { class: "maxWidth v-toolbar__content px-lg-0 px-4" };
-const _hoisted_2$8 = { class: "d-sm-flex d-none" };
+const _hoisted_2$9 = { class: "d-sm-flex d-none" };
 const _hoisted_3$8 = { class: "logo" };
-const _hoisted_4$7 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_4$8 = /* @__PURE__ */ createBaseVNode("img", {
   style: { "height": "100px" },
   src: _imports_0$1,
   alt: "upc"
 }, null, -1);
-const _hoisted_5$7 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_5$8 = /* @__PURE__ */ createBaseVNode("img", {
   src: _imports_1$1,
   class: "pl-3",
   alt: "upc"
 }, null, -1);
-const _hoisted_6$7 = { class: "d-sm-none d-flex mr-2" };
+const _hoisted_6$8 = { class: "d-sm-none d-flex mr-2" };
 const _hoisted_7$7 = /* @__PURE__ */ createBaseVNode("img", {
   style: { "height": "100px" },
   src: _imports_0$1,
   alt: "upc"
 }, null, -1);
-const _hoisted_8$4 = /* @__PURE__ */ createBaseVNode("h3", null, "Demo-shop", -1);
 const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
   __name: "App",
   setup(__props) {
@@ -13383,6 +17907,10 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
       cartStore2.addProductToCart(1);
       isLoaded.value = true;
     })();
+    const i18n2 = useI18n();
+    const changeLocale = () => {
+      setLocale(i18n2.locale.value === LocaleCode.En ? LocaleCode.Uk : LocaleCode.En);
+    };
     return (_ctx, _cache) => {
       const _component_router_link = resolveComponent("router-link");
       const _component_router_view = resolveComponent("router-view");
@@ -13401,21 +17929,21 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
           }, {
             default: withCtx(() => [
               createBaseVNode("div", _hoisted_1$a, [
-                createBaseVNode("div", _hoisted_2$8, [
+                createBaseVNode("div", _hoisted_2$9, [
                   createBaseVNode("div", _hoisted_3$8, [
                     createVNode(_component_router_link, {
                       to: "/",
                       class: "d-flex"
                     }, {
                       default: withCtx(() => [
-                        _hoisted_4$7,
-                        _hoisted_5$7
+                        _hoisted_4$8,
+                        _hoisted_5$8
                       ]),
                       _: 1
                     })
                   ])
                 ]),
-                createBaseVNode("div", _hoisted_6$7, [
+                createBaseVNode("div", _hoisted_6$8, [
                   createVNode(_component_router_link, {
                     to: "/",
                     class: "d-flex"
@@ -13427,27 +17955,46 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
                   })
                 ]),
                 createVNode(VSpacer),
-                _hoisted_8$4,
+                createBaseVNode("h3", null, toDisplayString$1(_ctx.$t("text.demo.shop")), 1),
                 createVNode(VSpacer),
                 createVNode(VBtn, {
                   icon: "",
                   variant: "text",
                   color: "primary",
-                  title: "Test Cards",
+                  title: _ctx.$t("title.test.cards"),
                   class: "mr-5",
                   to: { name: unref(RouteName).TestCards, query: { ..._ctx.$route.query } }
                 }, {
                   default: withCtx(() => [
-                    createVNode(unref(CreditCardIcon), {
+                    createVNode(unref(IconCreditCard), {
                       "stroke-width": "1.5",
                       size: "22"
                     })
                   ]),
                   _: 1
-                }, 8, ["to"]),
+                }, 8, ["title", "to"]),
                 createVNode(VBtn, {
                   icon: "",
                   variant: "text",
+                  color: "primary",
+                  title: _ctx.$t("title.test.cards"),
+                  class: "mr-5",
+                  onClick: changeLocale
+                }, {
+                  default: withCtx(() => [
+                    createVNode(unref(IconWorld), {
+                      "stroke-width": "1.5",
+                      size: "22"
+                    }),
+                    createBaseVNode("span", null, toDisplayString$1(_ctx.$i18n.locale.toUpperCase()), 1)
+                  ]),
+                  _: 1
+                }, 8, ["title"]),
+                _ctx.$route.name !== unref(RouteName).Config ? (openBlock(), createBlock(VBtn, {
+                  key: 0,
+                  icon: "",
+                  variant: "text",
+                  title: _ctx.$t("title.shopping.cart"),
                   color: "primary",
                   to: { name: unref(RouteName).Checkout, query: { ..._ctx.$route.query } }
                 }, {
@@ -13457,7 +18004,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
                       content: unref(selectedProducts).size
                     }, {
                       default: withCtx(() => [
-                        createVNode(unref(ShoppingCartIcon), {
+                        createVNode(unref(IconShoppingCart), {
                           "stroke-width": "1.5",
                           size: "22"
                         })
@@ -13466,7 +18013,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
                     }, 8, ["content"])
                   ]),
                   _: 1
-                }, 8, ["to"])
+                }, 8, ["title", "to"])) : createCommentVNode("", true)
               ])
             ]),
             _: 1
@@ -13968,7 +18515,7 @@ function tokensToParser(segments, extraOptions) {
   else if (options.strict)
     pattern += "(?:/|$)";
   const re = new RegExp(pattern, options.sensitive ? "" : "i");
-  function parse(path) {
+  function parse2(path) {
     const match = path.match(re);
     const params = {};
     if (!match)
@@ -14018,7 +18565,7 @@ function tokensToParser(segments, extraOptions) {
     re,
     score,
     keys: keys2,
-    parse,
+    parse: parse2,
     stringify
   };
 }
@@ -15004,8 +19551,8 @@ function createRouter(options) {
     return error ? Promise.reject(error) : Promise.resolve();
   }
   function runWithContext(fn) {
-    const app2 = installedApps.values().next().value;
-    return app2 && typeof app2.runWithContext === "function" ? app2.runWithContext(fn) : fn();
+    const app = installedApps.values().next().value;
+    return app && typeof app.runWithContext === "function" ? app.runWithContext(fn) : fn();
   }
   function navigate(to, from) {
     let guards;
@@ -15223,12 +19770,12 @@ function createRouter(options) {
     afterEach: afterGuards.add,
     onError: errorListeners.add,
     isReady,
-    install(app2) {
+    install(app) {
       const router22 = this;
-      app2.component("RouterLink", RouterLink);
-      app2.component("RouterView", RouterView);
-      app2.config.globalProperties.$router = router22;
-      Object.defineProperty(app2.config.globalProperties, "$route", {
+      app.component("RouterLink", RouterLink);
+      app.component("RouterView", RouterView);
+      app.config.globalProperties.$router = router22;
+      Object.defineProperty(app.config.globalProperties, "$route", {
         enumerable: true,
         get: () => unref(currentRoute)
       });
@@ -15246,13 +19793,13 @@ function createRouter(options) {
           enumerable: true
         });
       }
-      app2.provide(routerKey, router22);
-      app2.provide(routeLocationKey, shallowReactive(reactiveRoute));
-      app2.provide(routerViewLocationKey, currentRoute);
-      const unmountApp = app2.unmount;
-      installedApps.add(app2);
-      app2.unmount = function() {
-        installedApps.delete(app2);
+      app.provide(routerKey, router22);
+      app.provide(routeLocationKey, shallowReactive(reactiveRoute));
+      app.provide(routerViewLocationKey, currentRoute);
+      const unmountApp = app.unmount;
+      installedApps.add(app);
+      app.unmount = function() {
+        installedApps.delete(app);
         if (installedApps.size < 1) {
           pendingLocation = START_LOCATION_NORMALIZED;
           removeHistoryListener && removeHistoryListener();
@@ -15296,6 +19843,7 @@ var PaymentMode = /* @__PURE__ */ ((PaymentMode2) => {
   PaymentMode2["Redirect"] = "redirect";
   PaymentMode2["BuiltInIframe"] = "built-in-iframe";
   PaymentMode2["ModalIframe"] = "modal-iframe";
+  PaymentMode2["PayByBank"] = "pay-by-bank";
   PaymentMode2["Manual"] = "manual";
   return PaymentMode2;
 })(PaymentMode || {});
@@ -15676,14 +20224,14 @@ const VCard = genericComponent()({
     return {};
   }
 });
-const _hoisted_1$9 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with redirect", -1);
-const _hoisted_2$7 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Redirect to payment page on checkout", -1);
-const _hoisted_3$7 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with built-in iframe", -1);
-const _hoisted_4$6 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Show built-in payment iframe on checkout page", -1);
-const _hoisted_5$6 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with modal iframe", -1);
-const _hoisted_6$6 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Show modal payment iframe on checkout page", -1);
-const _hoisted_7$6 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h6" }, "Payment with manual params (development purpose only)", -1);
-const _hoisted_8$3 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h6 title" }, "Set all available payment parameters on checkout", -1);
+const _hoisted_1$9 = { class: "text-h6 d-flex align-center" };
+const _hoisted_2$8 = { class: "text-h6 title" };
+const _hoisted_3$7 = { class: "text-h6 d-flex align-center" };
+const _hoisted_4$7 = { class: "text-h6 title" };
+const _hoisted_5$7 = { class: "text-h6 d-flex align-center" };
+const _hoisted_6$7 = { class: "text-h6 title" };
+const _hoisted_7$6 = { class: "text-h6 d-flex align-center" };
+const _hoisted_8$4 = { class: "text-h6 title" };
 const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
   __name: "index",
   setup(__props) {
@@ -15701,24 +20249,27 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
               }, {
                 default: withCtx(() => [
                   createVNode(VCardItem, {
-                    class: normalizeClass("py-4 px-6 text-white bg-secondary")
+                    class: normalizeClass("py-4 px-6 text-white bg-primary")
                   }, {
                     default: withCtx(() => [
-                      _hoisted_1$9
+                      createBaseVNode("h4", _hoisted_1$9, [
+                        createVNode(unref(IconCornerUpRightDouble), { class: "mr-4" }),
+                        createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.payment.with.redirect")), 1)
+                      ])
                     ]),
                     _: 1
                   }),
                   createVNode(VCardText, { class: "pa-6" }, {
                     default: withCtx(() => [
-                      _hoisted_2$7,
+                      createBaseVNode("h5", _hoisted_2$8, toDisplayString$1(_ctx.$t("text.payment.with.redirect.description")), 1),
                       createVNode(VBtn, {
                         to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).Redirect } },
                         variant: "flat",
                         class: "mt-4 text-white",
-                        color: "secondary"
+                        color: "primary"
                       }, {
                         default: withCtx(() => [
-                          createTextVNode(" SHOW ")
+                          createTextVNode(toDisplayString$1(_ctx.$t("action.try.it.out")), 1)
                         ]),
                         _: 1
                       }, 8, ["to"])
@@ -15745,13 +20296,16 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
                     class: normalizeClass("py-4 px-6 text-white bg-primary")
                   }, {
                     default: withCtx(() => [
-                      _hoisted_3$7
+                      createBaseVNode("h4", _hoisted_3$7, [
+                        createVNode(unref(IconWall), { class: "mr-4" }),
+                        createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.payment.with.built.in.iframe")), 1)
+                      ])
                     ]),
                     _: 1
                   }),
                   createVNode(VCardText, { class: "pa-6" }, {
                     default: withCtx(() => [
-                      _hoisted_4$6,
+                      createBaseVNode("h5", _hoisted_4$7, toDisplayString$1(_ctx.$t("text.payment.with.built.in.iframe.description")), 1),
                       createVNode(VBtn, {
                         to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).BuiltInIframe } },
                         variant: "flat",
@@ -15759,7 +20313,7 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
                         color: "primary"
                       }, {
                         default: withCtx(() => [
-                          createTextVNode(" SHOW ")
+                          createTextVNode(toDisplayString$1(_ctx.$t("action.try.it.out")), 1)
                         ]),
                         _: 1
                       }, 8, ["to"])
@@ -15783,24 +20337,27 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
               }, {
                 default: withCtx(() => [
                   createVNode(VCardItem, {
-                    class: normalizeClass("py-4 px-6 text-white bg-info")
+                    class: normalizeClass("py-4 px-6 text-white bg-primary")
                   }, {
                     default: withCtx(() => [
-                      _hoisted_5$6
+                      createBaseVNode("h4", _hoisted_5$7, [
+                        createVNode(unref(IconAppWindow), { class: "mr-4" }),
+                        createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.payment.with.modal.iframe")), 1)
+                      ])
                     ]),
                     _: 1
                   }),
                   createVNode(VCardText, { class: "pa-6" }, {
                     default: withCtx(() => [
-                      _hoisted_6$6,
+                      createBaseVNode("h5", _hoisted_6$7, toDisplayString$1(_ctx.$t("text.payment.with.modal.iframe.description")), 1),
                       createVNode(VBtn, {
                         to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).ModalIframe } },
                         variant: "flat",
                         class: "mt-4 text-white",
-                        color: "info"
+                        color: "primary"
                       }, {
                         default: withCtx(() => [
-                          createTextVNode(" SHOW ")
+                          createTextVNode(toDisplayString$1(_ctx.$t("action.try.it.out")), 1)
                         ]),
                         _: 1
                       }, 8, ["to"])
@@ -15824,24 +20381,27 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
               }, {
                 default: withCtx(() => [
                   createVNode(VCardItem, {
-                    class: normalizeClass("py-4 px-6 text-white bg-warning")
+                    class: normalizeClass("py-4 px-6 text-white bg-error")
                   }, {
                     default: withCtx(() => [
-                      _hoisted_7$6
+                      createBaseVNode("h4", _hoisted_7$6, [
+                        createVNode(unref(IconWall), { class: "mr-4" }),
+                        createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.payment.with.manual.params")), 1)
+                      ])
                     ]),
                     _: 1
                   }),
                   createVNode(VCardText, { class: "pa-6" }, {
                     default: withCtx(() => [
-                      _hoisted_8$3,
+                      createBaseVNode("h5", _hoisted_8$4, toDisplayString$1(_ctx.$t("text.payment.with.manual.params.description")), 1),
                       createVNode(VBtn, {
                         to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).Manual } },
                         variant: "flat",
                         class: "mt-4 text-white",
-                        color: "warning"
+                        color: "error"
                       }, {
                         default: withCtx(() => [
-                          createTextVNode(" SHOW ")
+                          createTextVNode(toDisplayString$1(_ctx.$t("action.try.it.out")), 1)
                         ]),
                         _: 1
                       }, 8, ["to"])
@@ -17034,9 +21594,9 @@ const ClickOutside = {
     const onMousedown = (e) => {
       el._clickOutside.lastMousedownWasOutside = checkEvent(e, el, binding);
     };
-    handleShadow(el, (app2) => {
-      app2.addEventListener("click", onClick, true);
-      app2.addEventListener("mousedown", onMousedown, true);
+    handleShadow(el, (app) => {
+      app.addEventListener("click", onClick, true);
+      app.addEventListener("mousedown", onMousedown, true);
     });
     if (!el._clickOutside) {
       el._clickOutside = {
@@ -17050,15 +21610,15 @@ const ClickOutside = {
   },
   unmounted(el, binding) {
     if (!el._clickOutside) return;
-    handleShadow(el, (app2) => {
+    handleShadow(el, (app) => {
       var _a;
-      if (!app2 || !((_a = el._clickOutside) == null ? void 0 : _a[binding.instance.$.uid])) return;
+      if (!app || !((_a = el._clickOutside) == null ? void 0 : _a[binding.instance.$.uid])) return;
       const {
         onClick,
         onMousedown
       } = el._clickOutside[binding.instance.$.uid];
-      app2.removeEventListener("click", onClick, true);
-      app2.removeEventListener("mousedown", onMousedown, true);
+      app.removeEventListener("click", onClick, true);
+      app.removeEventListener("mousedown", onMousedown, true);
     });
     delete el._clickOutside[binding.instance.$.uid];
   }
@@ -17671,11 +22231,11 @@ const VTooltip = genericComponent()({
   }
 });
 const _hoisted_1$8 = ["src"];
-const _hoisted_2$6 = { class: "d-flex justify-end mr-3 mt-n6" };
+const _hoisted_2$7 = { class: "d-flex justify-end mr-3 mt-n6" };
 const _hoisted_3$6 = { class: "text-h6" };
-const _hoisted_4$5 = { class: "d-flex align-center justify-space-between mt-1" };
-const _hoisted_5$5 = { class: "d-flex align-center gap-2" };
-const _hoisted_6$5 = { class: "text-h6" };
+const _hoisted_4$6 = { class: "d-flex align-center justify-space-between mt-1" };
+const _hoisted_5$6 = { class: "d-flex align-center gap-2" };
+const _hoisted_6$6 = { class: "text-h6" };
 const _hoisted_7$5 = { class: "text-decoration-line-through text-medium-emphasis" };
 const _sfc_main$8 = /* @__PURE__ */ defineComponent$1({
   __name: "ProductCard",
@@ -17728,9 +22288,9 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent$1({
             src: __props.image,
             class: "w-100"
           }, null, 8, _hoisted_1$8),
-          createBaseVNode("div", _hoisted_2$6, [
+          createBaseVNode("div", _hoisted_2$7, [
             createVNode(VTooltip, {
-              text: "Add to Cart",
+              text: _ctx.$t("title.add.to.cart"),
               location: "bottom"
             }, {
               activator: withCtx(({ props: props2 }) => [
@@ -17741,21 +22301,21 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent$1({
                   onClick: selectProduct
                 }), {
                   default: withCtx(() => [
-                    createVNode(unref(BasketIcon), { size: "18" })
+                    createVNode(unref(IconBasket), { size: "18" })
                   ]),
                   _: 2
                 }, 1040)
               ]),
               _: 1
-            })
+            }, 8, ["text"])
           ]),
           createVNode(VCardItem, { class: "pt-1" }, {
             default: withCtx(() => [
-              createBaseVNode("h6", _hoisted_3$6, toDisplayString(__props.name), 1),
-              createBaseVNode("div", _hoisted_4$5, [
-                createBaseVNode("div", _hoisted_5$5, [
-                  createBaseVNode("h6", _hoisted_6$5, toDisplayString(unref(asCurrency)(__props.price)) + " UAH", 1),
-                  createBaseVNode("p", _hoisted_7$5, toDisplayString(unref(asCurrency)(__props.offerPrice)) + " UAH", 1)
+              createBaseVNode("h6", _hoisted_3$6, toDisplayString$1(__props.name), 1),
+              createBaseVNode("div", _hoisted_4$6, [
+                createBaseVNode("div", _hoisted_5$6, [
+                  createBaseVNode("h6", _hoisted_6$6, toDisplayString$1(unref(asCurrency)(__props.price)) + " UAH", 1),
+                  createBaseVNode("p", _hoisted_7$5, toDisplayString$1(unref(asCurrency)(__props.offerPrice)) + " UAH", 1)
                 ]),
                 createVNode(VRating, {
                   modelValue: rate.value,
@@ -17779,7 +22339,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent$1({
             class: "text-white"
           }, {
             default: withCtx(() => [
-              createTextVNode(" Item Added to The Cart ")
+              createTextVNode(toDisplayString$1(_ctx.$t("snackbar.item.added.to.the.cart")), 1)
             ]),
             _: 1
           }, 8, ["modelValue"])
@@ -19339,7 +23899,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent$1({
                 default: withCtx(() => [
                   createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
                     default: withCtx(() => [
-                      createTextVNode(" Gender ")
+                      createTextVNode(toDisplayString$1(_ctx.$t("text.gender")), 1)
                     ]),
                     _: 1
                   }),
@@ -19397,7 +23957,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent$1({
                 default: withCtx(() => [
                   createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
                     default: withCtx(() => [
-                      createTextVNode(" Categories ")
+                      createTextVNode(toDisplayString$1(_ctx.$t("text.categories")), 1)
                     ]),
                     _: 1
                   }),
@@ -19462,7 +24022,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent$1({
                 default: withCtx(() => [
                   createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
                     default: withCtx(() => [
-                      createTextVNode(" Colors ")
+                      createTextVNode(toDisplayString$1(_ctx.$t("text.colors")), 1)
                     ]),
                     _: 1
                   }),
@@ -19479,7 +24039,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent$1({
                             onClick: () => selectedColorComputed.value = color
                           }, {
                             default: withCtx(() => [
-                              selectedColorComputed.value === color ? (openBlock(), createBlock(unref(CheckIcon), {
+                              selectedColorComputed.value === color ? (openBlock(), createBlock(unref(IconCheck), {
                                 key: 0,
                                 size: "13"
                               })) : createCommentVNode("", true)
@@ -19499,7 +24059,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent$1({
                 default: withCtx(() => [
                   createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
                     default: withCtx(() => [
-                      createTextVNode(" Price ")
+                      createTextVNode(toDisplayString$1(_ctx.$t("text.price")), 1)
                     ]),
                     _: 1
                   }),
@@ -19534,7 +24094,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent$1({
                 default: withCtx(() => [
                   createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
                     default: withCtx(() => [
-                      createTextVNode(" Rating ")
+                      createTextVNode(toDisplayString$1(_ctx.$t("text.rating")), 1)
                     ]),
                     _: 1
                   }),
@@ -19564,7 +24124,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent$1({
             class: "mt-5"
           }, {
             default: withCtx(() => [
-              createTextVNode("Reset Filters")
+              createTextVNode(toDisplayString$1(_ctx.$t("action.reset.filters")), 1)
             ]),
             _: 1
           })
@@ -19727,13 +24287,13 @@ const firstDay = {
   ZA: 0,
   ZW: 0
 };
-function getWeekArray(date2, locale) {
+function getWeekArray(date2, locale2) {
   const weeks = [];
   let currentWeek = [];
   const firstDayOfMonth = startOfMonth(date2);
   const lastDayOfMonth = endOfMonth(date2);
-  const firstDayWeekIndex = (firstDayOfMonth.getDay() - firstDay[locale.slice(-2).toUpperCase()] + 7) % 7;
-  const lastDayWeekIndex = (lastDayOfMonth.getDay() - firstDay[locale.slice(-2).toUpperCase()] + 7) % 7;
+  const firstDayWeekIndex = (firstDayOfMonth.getDay() - firstDay[locale2.slice(-2).toUpperCase()] + 7) % 7;
+  const lastDayWeekIndex = (lastDayOfMonth.getDay() - firstDay[locale2.slice(-2).toUpperCase()] + 7) % 7;
   for (let i = 0; i < firstDayWeekIndex; i++) {
     const adjacentDay = new Date(firstDayOfMonth);
     adjacentDay.setDate(adjacentDay.getDate() - (firstDayWeekIndex - i));
@@ -19797,21 +24357,21 @@ function date(value) {
   return null;
 }
 const sundayJanuarySecond2000 = new Date(2e3, 0, 2);
-function getWeekdays(locale) {
-  const daysFromSunday = firstDay[locale.slice(-2).toUpperCase()];
+function getWeekdays(locale2) {
+  const daysFromSunday = firstDay[locale2.slice(-2).toUpperCase()];
   return createRange(7).map((i) => {
     const weekday = new Date(sundayJanuarySecond2000);
     weekday.setDate(sundayJanuarySecond2000.getDate() + daysFromSunday + i);
-    return new Intl.DateTimeFormat(locale, {
+    return new Intl.DateTimeFormat(locale2, {
       weekday: "narrow"
     }).format(weekday);
   });
 }
-function format$1(value, formatString, locale, formats) {
+function format$1(value, formatString, locale2, formats) {
   const newDate = date(value) ?? /* @__PURE__ */ new Date();
   const customFormat = formats == null ? void 0 : formats[formatString];
   if (typeof customFormat === "function") {
-    return customFormat(newDate, formatString, locale);
+    return customFormat(newDate, formatString, locale2);
   }
   let options = {};
   switch (formatString) {
@@ -19866,7 +24426,7 @@ function format$1(value, formatString, locale, formats) {
       };
       break;
     case "dayOfMonth":
-      return new Intl.NumberFormat(locale).format(newDate.getDate());
+      return new Intl.NumberFormat(locale2).format(newDate.getDate());
     case "shortDate":
       options = {
         year: "2-digit",
@@ -19890,7 +24450,7 @@ function format$1(value, formatString, locale, formats) {
         timeZoneName: "short"
       };
   }
-  return new Intl.DateTimeFormat(locale, options).format(newDate);
+  return new Intl.DateTimeFormat(locale2, options).format(newDate);
 }
 function toISO(adapter, value) {
   const date2 = adapter.toJsDate(value);
@@ -20124,7 +24684,7 @@ class VuetifyDateAdapter {
 }
 const DateOptionsSymbol = Symbol.for("vuetify:date-options");
 const DateAdapterSymbol = Symbol.for("vuetify:date-adapter");
-function createDate(options, locale) {
+function createDate(options, locale2) {
   const _options = mergeDeep({
     adapter: VuetifyDateAdapter,
     locale: {
@@ -20173,15 +24733,15 @@ function createDate(options, locale) {
   }, options);
   return {
     options: _options,
-    instance: createInstance(_options, locale)
+    instance: createInstance(_options, locale2)
   };
 }
-function createInstance(options, locale) {
+function createInstance(options, locale2) {
   const instance = reactive(typeof options.adapter === "function" ? new options.adapter({
-    locale: options.locale[locale.current.value] ?? locale.current.value,
+    locale: options.locale[locale2.current.value] ?? locale2.current.value,
     formats: options.formats
   }) : options.adapter);
-  watch(locale.current, (value) => {
+  watch(locale2.current, (value) => {
     instance.locale = options.locale[value] ?? value ?? instance.locale;
   });
   return instance;
@@ -20211,9 +24771,9 @@ function genDefaults() {
     }
   };
 }
-function createGoTo(options, locale) {
+function createGoTo(options, locale2) {
   return {
-    rtl: locale.isRtl,
+    rtl: locale2.isRtl,
     options: mergeDeep(genDefaults(), options)
   };
 }
@@ -20233,52 +24793,52 @@ function createVuetify() {
   const display = createDisplay(options.display, options.ssr);
   const theme = createTheme(options.theme);
   const icons = createIcons(options.icons);
-  const locale = createLocale(options.locale);
-  const date2 = createDate(options.date, locale);
-  const goTo = createGoTo(options.goTo, locale);
-  const install = (app2) => {
+  const locale2 = createLocale(options.locale);
+  const date2 = createDate(options.date, locale2);
+  const goTo = createGoTo(options.goTo, locale2);
+  const install = (app) => {
     for (const key in directives) {
-      app2.directive(key, directives[key]);
+      app.directive(key, directives[key]);
     }
     for (const key in components) {
-      app2.component(key, components[key]);
+      app.component(key, components[key]);
     }
     for (const key in aliases2) {
-      app2.component(key, defineComponent({
+      app.component(key, defineComponent({
         ...aliases2[key],
         name: key,
         aliasName: aliases2[key].name
       }));
     }
-    theme.install(app2);
-    app2.provide(DefaultsSymbol, defaults);
-    app2.provide(DisplaySymbol, display);
-    app2.provide(ThemeSymbol, theme);
-    app2.provide(IconSymbol, icons);
-    app2.provide(LocaleSymbol, locale);
-    app2.provide(DateOptionsSymbol, date2.options);
-    app2.provide(DateAdapterSymbol, date2.instance);
-    app2.provide(GoToSymbol, goTo);
+    theme.install(app);
+    app.provide(DefaultsSymbol, defaults);
+    app.provide(DisplaySymbol, display);
+    app.provide(ThemeSymbol, theme);
+    app.provide(IconSymbol, icons);
+    app.provide(LocaleSymbol, locale2);
+    app.provide(DateOptionsSymbol, date2.options);
+    app.provide(DateAdapterSymbol, date2.instance);
+    app.provide(GoToSymbol, goTo);
     if (IN_BROWSER && options.ssr) {
-      if (app2.$nuxt) {
-        app2.$nuxt.hook("app:suspense:resolve", () => {
+      if (app.$nuxt) {
+        app.$nuxt.hook("app:suspense:resolve", () => {
           display.update();
         });
       } else {
         const {
           mount
-        } = app2;
-        app2.mount = function() {
+        } = app;
+        app.mount = function() {
           const vm = mount(...arguments);
           nextTick(() => display.update());
-          app2.mount = mount;
+          app.mount = mount;
           return vm;
         };
       }
     }
     getUid.reset();
     {
-      app2.mixin({
+      app.mixin({
         computed: {
           $vuetify() {
             return reactive({
@@ -20300,7 +24860,7 @@ function createVuetify() {
     display,
     theme,
     icons,
-    locale,
+    locale: locale2,
     date: date2,
     goTo
   };
@@ -21355,17 +25915,16 @@ const VTextField = genericComponent()({
     return forwardRefs({}, vInputRef, vFieldRef, inputRef);
   }
 });
-const _withScopeId = (n) => (pushScopeId("data-v-fa2a2e37"), n = n(), popScopeId(), n);
+const _withScopeId = (n) => (pushScopeId("data-v-d29abd00"), n = n(), popScopeId(), n);
 const _hoisted_1$6 = { class: "d-flex mainbox" };
-const _hoisted_2$5 = {
+const _hoisted_2$6 = {
   key: 0,
   class: "left-part"
 };
 const _hoisted_3$5 = { class: "right-part" };
-const _hoisted_4$4 = { class: "d-flex gap-2 align-center mb-4 justify-space-between" };
-const _hoisted_5$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5 d-none d-lg-flex font-weight-semibold" }, "Products", -1));
-const _hoisted_6$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("h1", { class: "text-h1 mt-6" }, "There is no Product", -1));
-const _hoisted_7$4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("p", null, "Try checking your spelling or use more general terms", -1));
+const _hoisted_4$5 = { class: "d-flex gap-2 align-center mb-4 justify-space-between" };
+const _hoisted_5$5 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5 d-none d-lg-flex font-weight-semibold" }, "Products", -1));
+const _hoisted_6$5 = { class: "text-h1 mt-6" };
 const _sfc_main$6 = /* @__PURE__ */ defineComponent$1({
   __name: "index",
   setup(__props) {
@@ -21425,7 +25984,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent$1({
       }, {
         default: withCtx(() => [
           createBaseVNode("div", _hoisted_1$6, [
-            unref(lgAndUp) ? (openBlock(), createElementBlock("div", _hoisted_2$5, [
+            unref(lgAndUp) ? (openBlock(), createElementBlock("div", _hoisted_2$6, [
               createVNode(_sfc_main$7)
             ])) : createCommentVNode("", true),
             createBaseVNode("div", _hoisted_3$5, [
@@ -21436,19 +25995,19 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent$1({
                 class: "d-lg-none d-md-flex d-sm-flex"
               }, {
                 default: withCtx(() => [
-                  createVNode(unref(Menu2Icon), {
+                  createVNode(unref(IconMenu2), {
                     size: "20",
                     class: "mr-2"
                   }),
-                  createTextVNode(" Menu ")
+                  createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.menu")), 1)
                 ]),
                 _: 1
               }),
               createVNode(VDivider, { class: "d-lg-none d-block" }),
               createVNode(VSheet, { class: "pa-4" }, {
                 default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_4$4, [
-                    _hoisted_5$4,
+                  createBaseVNode("div", _hoisted_4$5, [
+                    _hoisted_5$5,
                     createVNode(VSheet, { width: "300" }, {
                       default: withCtx(() => [
                         createVNode(VTextField, {
@@ -21504,8 +26063,8 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent$1({
                             src: unref(imageEmpty),
                             alt: "cover"
                           }, null, 8, ["src"]),
-                          _hoisted_6$4,
-                          _hoisted_7$4
+                          createBaseVNode("h1", _hoisted_6$5, toDisplayString$1(_ctx.$t("text.there.is.no.product")), 1),
+                          createBaseVNode("p", null, toDisplayString$1(_ctx.$t("text.there.is.no.product.description")), 1)
                         ]),
                         _: 1
                       })
@@ -21541,17 +26100,17 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent$1({
     };
   }
 });
-const ProductsPage = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-fa2a2e37"]]);
-const _hoisted_1$5 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5 mb-6" }, "Order Summary", -1);
-const _hoisted_2$4 = { class: "d-flex align-center justify-space-between my-5" };
-const _hoisted_3$4 = /* @__PURE__ */ createBaseVNode("h6", { class: "text-h6 font-weight-regular" }, "Sub Total", -1);
-const _hoisted_4$3 = { class: "font-weight-semibold text-h6" };
-const _hoisted_5$3 = { class: "d-flex align-center justify-space-between my-5" };
-const _hoisted_6$3 = /* @__PURE__ */ createBaseVNode("h6", { class: "text-h6 font-weight-regular" }, "Discount 5%", -1);
-const _hoisted_7$3 = { class: "font-weight-semibold text-h6 text-error" };
-const _hoisted_8$2 = { class: "d-flex align-center justify-space-between my-5" };
-const _hoisted_9$1 = /* @__PURE__ */ createBaseVNode("h6", { class: "text-h6" }, "Total", -1);
-const _hoisted_10$1 = { class: "font-weight-semibold text-h5" };
+const ProductsPage = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-d29abd00"]]);
+const _hoisted_1$5 = { class: "text-h5 mb-6" };
+const _hoisted_2$5 = { class: "d-flex align-center justify-space-between my-5" };
+const _hoisted_3$4 = { class: "text-h6 font-weight-regular" };
+const _hoisted_4$4 = { class: "font-weight-semibold text-h6" };
+const _hoisted_5$4 = { class: "d-flex align-center justify-space-between my-5" };
+const _hoisted_6$4 = { class: "text-h6 font-weight-regular" };
+const _hoisted_7$4 = { class: "font-weight-semibold text-h6 text-error" };
+const _hoisted_8$3 = { class: "d-flex align-center justify-space-between my-5" };
+const _hoisted_9$2 = { class: "text-h6" };
+const _hoisted_10$2 = { class: "font-weight-semibold text-h5" };
 const _sfc_main$5 = /* @__PURE__ */ defineComponent$1({
   __name: "OrderSummary",
   setup(__props) {
@@ -21565,18 +26124,18 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent$1({
         default: withCtx(() => [
           createVNode(VCardItem, null, {
             default: withCtx(() => [
-              _hoisted_1$5,
-              createBaseVNode("div", _hoisted_2$4, [
-                _hoisted_3$4,
-                createBaseVNode("h6", _hoisted_4$3, toDisplayString(unref(asCurrency)(unref(subTotal))) + " UAH", 1)
+              createBaseVNode("h5", _hoisted_1$5, toDisplayString$1(_ctx.$t("text.order.summary")), 1),
+              createBaseVNode("div", _hoisted_2$5, [
+                createBaseVNode("h6", _hoisted_3$4, toDisplayString$1(_ctx.$t("text.sub.total")), 1),
+                createBaseVNode("h6", _hoisted_4$4, toDisplayString$1(unref(asCurrency)(unref(subTotal))) + " UAH", 1)
               ]),
-              createBaseVNode("div", _hoisted_5$3, [
-                _hoisted_6$3,
-                createBaseVNode("h6", _hoisted_7$3, "- " + toDisplayString(unref(asCurrency)(unref(discount))) + " UAH", 1)
+              createBaseVNode("div", _hoisted_5$4, [
+                createBaseVNode("h6", _hoisted_6$4, toDisplayString$1(_ctx.$t("text.discount")) + " 5%", 1),
+                createBaseVNode("h6", _hoisted_7$4, "- " + toDisplayString$1(unref(asCurrency)(unref(discount))) + " UAH", 1)
               ]),
-              createBaseVNode("div", _hoisted_8$2, [
-                _hoisted_9$1,
-                createBaseVNode("h6", _hoisted_10$1, toDisplayString(unref(asCurrency)(unref(total))) + " UAH", 1)
+              createBaseVNode("div", _hoisted_8$3, [
+                createBaseVNode("h6", _hoisted_9$2, toDisplayString$1(_ctx.$t("text.total")), 1),
+                createBaseVNode("h6", _hoisted_10$2, toDisplayString$1(unref(asCurrency)(unref(total))) + " UAH", 1)
               ])
             ]),
             _: 1
@@ -21636,33 +26195,29 @@ const VTable = genericComponent()({
   }
 });
 const _hoisted_1$4 = { key: 0 };
-const _hoisted_2$3 = { class: "text-h5 my-8" };
-const _hoisted_3$3 = /* @__PURE__ */ createBaseVNode("thead", null, [
-  /* @__PURE__ */ createBaseVNode("tr", null, [
-    /* @__PURE__ */ createBaseVNode("th", { class: "text-left text-subtitle-1 font-weight-semibold" }, "Product"),
-    /* @__PURE__ */ createBaseVNode("th", { class: "text-left text-subtitle-1 font-weight-semibold" }, "Price"),
-    /* @__PURE__ */ createBaseVNode("th", { class: "text-left text-subtitle-1 font-weight-semibold" }, "Quantity"),
-    /* @__PURE__ */ createBaseVNode("th", { class: "text-left text-subtitle-1 font-weight-semibold" }, "Total"),
-    /* @__PURE__ */ createBaseVNode("th", {
-      class: "text-right",
-      "aria-hidden": "true"
-    })
-  ])
-], -1);
-const _hoisted_4$2 = { class: "d-flex flex-wrap align-center my-3 gap-2" };
-const _hoisted_5$2 = ["src"];
-const _hoisted_6$2 = { class: "ma-2" };
-const _hoisted_7$2 = { class: "text-h6" };
-const _hoisted_8$1 = { class: "text-subtitle-2" };
-const _hoisted_9 = { class: "text-h5" };
-const _hoisted_10 = { class: "text-decoration-line-through text-medium-emphasis" };
-const _hoisted_11 = { class: "text-h5" };
-const _hoisted_12 = { class: "text-right" };
-const _hoisted_13 = {
+const _hoisted_2$4 = { class: "text-h5 my-8" };
+const _hoisted_3$3 = { class: "text-left text-subtitle-1 font-weight-semibold" };
+const _hoisted_4$3 = { class: "text-left text-subtitle-1 font-weight-semibold" };
+const _hoisted_5$3 = { class: "text-left text-subtitle-1 font-weight-semibold" };
+const _hoisted_6$3 = { class: "text-left text-subtitle-1 font-weight-semibold" };
+const _hoisted_7$3 = /* @__PURE__ */ createBaseVNode("th", {
+  class: "text-right",
+  "aria-hidden": "true"
+}, null, -1);
+const _hoisted_8$2 = { class: "d-flex flex-wrap align-center my-3 gap-2" };
+const _hoisted_9$1 = ["src"];
+const _hoisted_10$1 = { class: "ma-2" };
+const _hoisted_11 = { class: "text-h6" };
+const _hoisted_12 = { class: "text-subtitle-2" };
+const _hoisted_13 = { class: "text-h5" };
+const _hoisted_14 = { class: "text-decoration-line-through text-medium-emphasis" };
+const _hoisted_15 = { class: "text-h5" };
+const _hoisted_16 = { class: "text-right" };
+const _hoisted_17 = {
   key: 1,
   class: "d-flex justify-center"
 };
-const _hoisted_14 = /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5" }, "Cart is Empty", -1);
+const _hoisted_18 = { class: "text-h5" };
 const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
   __name: "StepFirst",
   props: {
@@ -21697,32 +26252,40 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
     });
     return (_ctx, _cache) => {
       return unref(selectedProducts).size > 0 ? (openBlock(), createElementBlock("div", _hoisted_1$4, [
-        createBaseVNode("h5", _hoisted_2$3, "Cart Item (" + toDisplayString(unref(selectedProducts).size) + ")", 1),
+        createBaseVNode("h5", _hoisted_2$4, toDisplayString$1(_ctx.$t("text.item.cart")) + " (" + toDisplayString$1(unref(selectedProducts).size) + ")", 1),
         createVNode(VDivider),
         createVNode(VTable, null, {
           default: withCtx(() => [
-            _hoisted_3$3,
+            createBaseVNode("thead", null, [
+              createBaseVNode("tr", null, [
+                createBaseVNode("th", _hoisted_3$3, toDisplayString$1(_ctx.$t("text.product")), 1),
+                createBaseVNode("th", _hoisted_4$3, toDisplayString$1(_ctx.$t("text.price")), 1),
+                createBaseVNode("th", _hoisted_5$3, toDisplayString$1(_ctx.$t("text.quantity")), 1),
+                createBaseVNode("th", _hoisted_6$3, toDisplayString$1(_ctx.$t("text.total")), 1),
+                _hoisted_7$3
+              ])
+            ]),
             createBaseVNode("tbody", null, [
               (openBlock(true), createElementBlock(Fragment, null, renderList(productsComputed.value, (item) => {
                 return openBlock(), createElementBlock("tr", {
                   key: item.id
                 }, [
                   createBaseVNode("td", null, [
-                    createBaseVNode("div", _hoisted_4$2, [
+                    createBaseVNode("div", _hoisted_8$2, [
                       createBaseVNode("img", {
                         alt: "product",
                         class: "rounded-md custom-img-box",
                         src: item.image
-                      }, null, 8, _hoisted_5$2),
-                      createBaseVNode("div", _hoisted_6$2, [
-                        createBaseVNode("h6", _hoisted_7$2, toDisplayString(item.name), 1),
-                        createBaseVNode("span", _hoisted_8$1, toDisplayString(item.description), 1)
+                      }, null, 8, _hoisted_9$1),
+                      createBaseVNode("div", _hoisted_10$1, [
+                        createBaseVNode("h6", _hoisted_11, toDisplayString$1(item.name), 1),
+                        createBaseVNode("span", _hoisted_12, toDisplayString$1(item.description), 1)
                       ])
                     ])
                   ]),
                   createBaseVNode("td", null, [
-                    createBaseVNode("h4", _hoisted_9, toDisplayString(unref(asCurrency)(item.offerPrice)), 1),
-                    createBaseVNode("p", _hoisted_10, "$" + toDisplayString(unref(asCurrency)(item.price)), 1)
+                    createBaseVNode("h4", _hoisted_13, toDisplayString$1(unref(asCurrency)(item.offerPrice)), 1),
+                    createBaseVNode("p", _hoisted_14, "$" + toDisplayString$1(unref(asCurrency)(item.price)), 1)
                   ]),
                   createBaseVNode("td", null, [
                     createVNode(VBtnToggle, {
@@ -21737,13 +26300,13 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                           disabled: item.quantity < 2
                         }, {
                           default: withCtx(() => [
-                            createVNode(unref(MinusIcon), { size: "18" })
+                            createVNode(unref(IconMinus), { size: "18" })
                           ]),
                           _: 2
                         }, 1032, ["onClick", "disabled"]),
                         createVNode(VBtn, { size: "x-small" }, {
                           default: withCtx(() => [
-                            createTextVNode(toDisplayString(item.quantity), 1)
+                            createTextVNode(toDisplayString$1(item.quantity), 1)
                           ]),
                           _: 2
                         }, 1024),
@@ -21752,7 +26315,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                           onClick: ($event) => unref(cartStore).incrementQuantity(item.id)
                         }, {
                           default: withCtx(() => [
-                            createVNode(unref(PlusIcon), { size: "18" })
+                            createVNode(unref(IconPlus), { size: "18" })
                           ]),
                           _: 2
                         }, 1032, ["onClick"])
@@ -21760,8 +26323,8 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                       _: 2
                     }, 1024)
                   ]),
-                  createBaseVNode("td", _hoisted_11, toDisplayString(unref(asCurrency)(item.offerPrice * item.quantity)) + " UAH", 1),
-                  createBaseVNode("td", _hoisted_12, [
+                  createBaseVNode("td", _hoisted_15, toDisplayString$1(unref(asCurrency)(item.offerPrice * item.quantity)) + " UAH", 1),
+                  createBaseVNode("td", _hoisted_16, [
                     createVNode(VBtn, {
                       small: "",
                       icon: "",
@@ -21770,7 +26333,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                       onClick: ($event) => removeItemFromCart(item.id)
                     }, {
                       default: withCtx(() => [
-                        createVNode(unref(TrashIcon), {
+                        createVNode(unref(IconTrash), {
                           size: "18",
                           class: "text-error"
                         })
@@ -21793,7 +26356,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
           variant: "outlined"
         }, null, 8, ["modelValue"])) : createCommentVNode("", true),
         createVNode(_sfc_main$5)
-      ])) : (openBlock(), createElementBlock("div", _hoisted_13, [
+      ])) : (openBlock(), createElementBlock("div", _hoisted_17, [
         createVNode(VRow, { class: "justify-center" }, {
           default: withCtx(() => [
             createVNode(VCol, {
@@ -21807,7 +26370,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                   width: "300px",
                   class: "mx-auto mt-5"
                 }, null, 8, ["src"]),
-                _hoisted_14,
+                createBaseVNode("h5", _hoisted_18, toDisplayString$1(_ctx.$t("text.cart.is.empty")), 1),
                 createVNode(VBtn, {
                   class: "mt-3",
                   to: { name: unref(RouteName).Products, query: { ..._ctx.$route.query } },
@@ -21815,7 +26378,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
                   color: "primary"
                 }, {
                   default: withCtx(() => [
-                    createTextVNode("Go Back to Shopping")
+                    createTextVNode(toDisplayString$1(_ctx.$t("action.go.back.to.shopping")), 1)
                   ]),
                   _: 1
                 }, 8, ["to"])
@@ -22132,8 +26695,8 @@ var formatFlags = {
   DD: function(dateObj) {
     return pad(dateObj.getDate());
   },
-  Do: function(dateObj, i18n) {
-    return i18n.DoFn(dateObj.getDate());
+  Do: function(dateObj, i18n2) {
+    return i18n2.DoFn(dateObj.getDate());
   },
   d: function(dateObj) {
     return String(dateObj.getDay());
@@ -22141,11 +26704,11 @@ var formatFlags = {
   dd: function(dateObj) {
     return pad(dateObj.getDay());
   },
-  ddd: function(dateObj, i18n) {
-    return i18n.dayNamesShort[dateObj.getDay()];
+  ddd: function(dateObj, i18n2) {
+    return i18n2.dayNamesShort[dateObj.getDay()];
   },
-  dddd: function(dateObj, i18n) {
-    return i18n.dayNames[dateObj.getDay()];
+  dddd: function(dateObj, i18n2) {
+    return i18n2.dayNames[dateObj.getDay()];
   },
   M: function(dateObj) {
     return String(dateObj.getMonth() + 1);
@@ -22153,11 +26716,11 @@ var formatFlags = {
   MM: function(dateObj) {
     return pad(dateObj.getMonth() + 1);
   },
-  MMM: function(dateObj, i18n) {
-    return i18n.monthNamesShort[dateObj.getMonth()];
+  MMM: function(dateObj, i18n2) {
+    return i18n2.monthNamesShort[dateObj.getMonth()];
   },
-  MMMM: function(dateObj, i18n) {
-    return i18n.monthNames[dateObj.getMonth()];
+  MMMM: function(dateObj, i18n2) {
+    return i18n2.monthNames[dateObj.getMonth()];
   },
   YY: function(dateObj) {
     return pad(String(dateObj.getFullYear()), 4).substr(2);
@@ -22198,11 +26761,11 @@ var formatFlags = {
   SSS: function(dateObj) {
     return pad(dateObj.getMilliseconds(), 3);
   },
-  a: function(dateObj, i18n) {
-    return dateObj.getHours() < 12 ? i18n.amPm[0] : i18n.amPm[1];
+  a: function(dateObj, i18n2) {
+    return dateObj.getHours() < 12 ? i18n2.amPm[0] : i18n2.amPm[1];
   },
-  A: function(dateObj, i18n) {
-    return dateObj.getHours() < 12 ? i18n.amPm[0].toUpperCase() : i18n.amPm[1].toUpperCase();
+  A: function(dateObj, i18n2) {
+    return dateObj.getHours() < 12 ? i18n2.amPm[0].toUpperCase() : i18n2.amPm[1].toUpperCase();
   },
   ZZ: function(dateObj) {
     var offset = dateObj.getTimezoneOffset();
@@ -22225,12 +26788,12 @@ var globalMasks = {
   mediumTime: "HH:mm:ss",
   longTime: "HH:mm:ss.SSS"
 };
-var format = function(dateObj, mask, i18n) {
+var format = function(dateObj, mask, i18n2) {
   if (mask === void 0) {
     mask = globalMasks["default"];
   }
-  if (i18n === void 0) {
-    i18n = {};
+  if (i18n2 === void 0) {
+    i18n2 = {};
   }
   if (typeof dateObj === "number") {
     dateObj = new Date(dateObj);
@@ -22244,7 +26807,7 @@ var format = function(dateObj, mask, i18n) {
     literals.push($1);
     return "@@@";
   });
-  var combinedI18nSettings = assign(assign({}, globalI18n), i18n);
+  var combinedI18nSettings = assign(assign({}, globalI18n), i18n2);
   mask = mask.replace(token, function($0) {
     return formatFlags[$0](dateObj, combinedI18nSettings);
   });
@@ -22294,43 +26857,192 @@ const iframeCallback$2 = (callbackData, mode) => {
     }
   }
 };
-const submitPaymentManual = (requestEntity) => {
+const getUPCPaymentModeFromRequestBean = (requestBean) => {
+  switch (requestBean.mode) {
+    case PaymentMode.BuiltInIframe:
+      return "PaymentIframe";
+    case PaymentMode.ModalIframe:
+      return "PaymentModalIframe";
+    default:
+      return "PaymentPage";
+  }
+};
+const submitPaymentManual = (requestBean) => {
   const cartStore = useCartStore();
   const { total } = storeToRefs(cartStore);
+  const mode = getUPCPaymentModeFromRequestBean(requestBean);
   const payment = new p({
-    mode: requestEntity.mode,
+    mode,
     merchant: {
-      id: requestEntity.merchantId || merchantData.id,
-      terminalId: requestEntity.merchantTerminalId || merchantData.terminalId,
-      signature: requestEntity.merchantSignature || merchantData.signature
+      id: requestBean.merchantId || merchantData.id,
+      terminalId: requestBean.merchantTerminalId || merchantData.terminalId,
+      signature: requestBean.merchantSignature || merchantData.signature
     },
     customer: {
-      email: requestEntity.customerEmail || void 0,
-      firstName: requestEntity.customerFirstName || void 0,
-      lastName: requestEntity.customerLastName || void 0,
-      phoneCountryCode: requestEntity.customerPhoneCode || void 0,
-      phoneNumber: requestEntity.customerPhone || void 0
+      email: requestBean.customerEmail || void 0,
+      firstName: requestBean.customerFirstName || void 0,
+      lastName: requestBean.customerLastName || void 0,
+      phoneCountryCode: requestBean.customerPhoneCode || void 0,
+      phoneNumber: requestBean.customerPhone || void 0
     },
     iframeProps: {
       wrapperSelector: "#payment-wrapper",
-      callback: (data) => iframeCallback$2(data, requestEntity.mode === "PaymentIframe" ? PaymentMode.BuiltInIframe : PaymentMode.ModalIframe)
+      callback: (data) => iframeCallback$2(data, mode === "PaymentIframe" ? PaymentMode.BuiltInIframe : PaymentMode.ModalIframe)
     }
   });
   payment.pay({
-    altCurrencyNumericCode: requestEntity.altCurrencyNumericCode || void 0,
-    altFeeCents: getNumberOrUndefined(requestEntity.altFeeCents) || void 0,
-    altTotalAmountCents: getNumberOrUndefined(requestEntity.altTotalAmountCents) || void 0,
-    currencyNumericCode: requestEntity.currencyNumericCode || currencyNumericCode,
-    delay: getNumberOrUndefined(requestEntity.delay) || void 0,
-    description: requestEntity.description || "Payment description",
-    feeCents: getNumberOrUndefined(requestEntity.feeCents) || void 0,
-    locale: requestEntity.locale || "en",
-    orderId: requestEntity.orderId || Date.now().toString(),
-    purchaseTime: requestEntity.purchaseTime || getPurchaseTime(),
-    token: requestEntity.token || "",
-    totalAmountCents: getNumberOrUndefined(requestEntity.totalAmountCents) || total.value,
-    url: requestEntity.url || ""
+    altCurrencyNumericCode: requestBean.altCurrencyNumericCode || void 0,
+    altFeeCents: getNumberOrUndefined(requestBean.altFeeCents) || void 0,
+    altTotalAmountCents: getNumberOrUndefined(requestBean.altTotalAmountCents) || void 0,
+    currencyNumericCode: requestBean.currencyNumericCode || currencyNumericCode,
+    delay: getNumberOrUndefined(requestBean.delay) || void 0,
+    description: requestBean.description || "Payment description",
+    feeCents: getNumberOrUndefined(requestBean.feeCents) || void 0,
+    locale: requestBean.locale || "en",
+    orderId: requestBean.orderId || Date.now().toString(),
+    purchaseTime: requestBean.purchaseTime || getPurchaseTime(),
+    token: requestBean.token || "",
+    totalAmountCents: getNumberOrUndefined(requestBean.totalAmountCents) || total.value,
+    url: requestBean.url || ""
   });
+};
+const getUniqueId = () => {
+  return Date.now() + Math.floor(Math.random() * 9e3) + 1e3;
+};
+const getRequestBeansDefault = () => {
+  const testData1 = {
+    altCurrencyNumericCode: "840",
+    altFeeCents: 11,
+    altTotalAmountCents: 101,
+    currencyNumericCode: "980",
+    customerEmail: "",
+    customerFirstName: "",
+    customerLastName: "",
+    customerPhone: "",
+    customerPhoneCode: "",
+    delay: 0,
+    description: "",
+    feeCents: 10,
+    id: getUniqueId(),
+    label: "TEST FORM #1",
+    locale: "en",
+    merchantId: "1753545",
+    merchantSignature: "Signature",
+    merchantTerminalId: "E7881545",
+    mode: PaymentMode.Redirect,
+    orderId: Date.now().toString(),
+    purchaseTime: "20241210125959",
+    token: "",
+    totalAmountCents: 100,
+    url: "https://ecg.test.upc.ua/go/pay"
+  };
+  const testData2 = {
+    altCurrencyNumericCode: "840",
+    altFeeCents: 100,
+    altTotalAmountCents: 100,
+    currencyNumericCode: "980",
+    customerEmail: "",
+    customerFirstName: "",
+    customerLastName: "",
+    customerPhone: "",
+    customerPhoneCode: "",
+    delay: 0,
+    description: "Description",
+    feeCents: 10,
+    id: getUniqueId(),
+    label: "Custom form №2",
+    locale: "en",
+    merchantId: "1753545",
+    merchantSignature: "merchantSignature",
+    merchantTerminalId: "E7881545",
+    mode: PaymentMode.ModalIframe,
+    orderId: Date.now().toString(),
+    purchaseTime: "20241210125959",
+    token: "",
+    totalAmountCents: 100,
+    url: "https://ecg.test.upc.ua/go/pay"
+  };
+  return [testData1, testData2];
+};
+const fetchRequestBeans = () => {
+  const values = Storage.requestBeans.getValue();
+  if (values.length) {
+    return values;
+  }
+  const valuesDefault = getRequestBeansDefault();
+  Storage.requestBeans.setValue(valuesDefault);
+  return valuesDefault;
+};
+const deleteRequestBean = (id) => {
+  const requestBeans = fetchRequestBeans().filter((item) => item.id !== id);
+  Storage.requestBeans.setValue(requestBeans);
+  return requestBeans;
+};
+const createRequestBean = () => {
+  const requestBean = {
+    altCurrencyNumericCode: "",
+    altFeeCents: 0,
+    altTotalAmountCents: 0,
+    currencyNumericCode: "",
+    customerEmail: "",
+    customerFirstName: "",
+    customerLastName: "",
+    customerPhone: "",
+    customerPhoneCode: "",
+    delay: 0,
+    description: "",
+    feeCents: 10,
+    id: NaN,
+    label: "",
+    locale: "",
+    merchantId: "",
+    merchantSignature: "",
+    merchantTerminalId: "",
+    mode: PaymentMode.Redirect,
+    orderId: Date.now().toString(),
+    purchaseTime: "",
+    token: "",
+    totalAmountCents: 100,
+    url: "https://ecg.test.upc.ua/go/pay"
+  };
+  return requestBean;
+};
+const updateRequestBean = (value) => {
+  const itemToSave = {
+    altCurrencyNumericCode: value.altCurrencyNumericCode || "",
+    altFeeCents: value.altFeeCents || 0,
+    altTotalAmountCents: value.altTotalAmountCents || 0,
+    currencyNumericCode: value.currencyNumericCode || "",
+    customerEmail: "",
+    customerFirstName: "",
+    customerLastName: "",
+    customerPhone: "",
+    customerPhoneCode: "",
+    delay: value.delay || 0,
+    description: value.description || "",
+    feeCents: value.feeCents || 0,
+    id: value.id || getUniqueId(),
+    label: value.label || "",
+    locale: value.locale || "",
+    merchantId: value.merchantId || "",
+    merchantSignature: value.merchantSignature || "",
+    merchantTerminalId: value.merchantTerminalId || "",
+    mode: value.mode || "PaymentPage",
+    orderId: value.orderId || Date.now().toString(),
+    purchaseTime: value.purchaseTime || "",
+    token: value.token || "",
+    totalAmountCents: value.totalAmountCents || 0,
+    url: value.url || "https://ecg.test.upc.ua/go/pay"
+  };
+  let beans = fetchRequestBeans();
+  const itemIndex = beans.findIndex((item) => item.id === itemToSave.id);
+  if (itemIndex === -1) {
+    beans = [...beans, itemToSave];
+  } else {
+    beans = beans.map((item) => item.id === itemToSave.id ? itemToSave : item);
+  }
+  Storage.requestBeans.setValue(beans);
+  return beans;
 };
 const makeVFormProps = propsFactory({
   ...makeComponentProps(),
@@ -25266,131 +29978,93 @@ const VSelect = genericComponent()({
     }, vTextFieldRef);
   }
 });
-const _hoisted_1$3 = /* @__PURE__ */ createBaseVNode("h4", { class: "text-h5 my-5 text-center" }, "MANUAL REQUEST PARAMS FORM", -1);
-const _hoisted_2$2 = { class: "d-flex justify-center" };
-const _hoisted_3$2 = /* @__PURE__ */ createBaseVNode("div", {
-  id: "pay-by-bank",
-  class: "d-flex justify-center"
-}, null, -1);
-const localStorageKey = "requestEntities-2";
+const _hoisted_1$3 = { class: "text-h5 text-center" };
+const _hoisted_2$3 = { class: "text-h5 my-3 text-left" };
+const _hoisted_3$2 = { class: "text-h5 my-3 text-left" };
+const _hoisted_4$2 = { class: "d-flex align-center" };
+const _hoisted_5$2 = { class: "text-h5 my-3 text-left" };
+const _hoisted_6$2 = { class: "text-h5 my-3 text-left" };
+const _hoisted_7$2 = { class: "text-h5 my-3 text-left" };
+const _hoisted_8$1 = { class: "text-h5 my-3 text-left" };
+const _hoisted_9 = { class: "text-h5 my-3 text-left" };
+const _hoisted_10 = { class: "d-flex justify-center" };
 const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
   __name: "ManualRequest",
   setup(__props) {
     const { smAndDown } = useDisplay();
     const paramsFormElement = ref(null);
     const isEditing = ref(false);
+    const { t } = useI18n();
     const items = ref([]);
-    const selectedEntity = ref(null);
-    const getUniqueEntityId = () => {
-      return Date.now() + Math.floor(Math.random() * 9e3) + 1e3;
-    };
-    const getSavedRequestEntities = () => {
-      const testData1 = {
-        altCurrencyNumericCode: "840",
-        altFeeCents: 11,
-        altTotalAmountCents: 101,
-        currencyNumericCode: "980",
-        customerEmail: "",
-        customerFirstName: "",
-        customerLastName: "",
-        customerPhone: "",
-        customerPhoneCode: "",
-        delay: 0,
-        description: "",
-        feeCents: 10,
-        id: getUniqueEntityId(),
-        label: "Test form №1",
-        locale: "en",
-        merchantId: "1753545",
-        merchantSignature: "Signature",
-        merchantTerminalId: "E7881545",
-        mode: "PaymentPage",
-        orderId: Date.now().toString(),
-        purchaseTime: "",
-        token: "",
-        totalAmountCents: 100,
-        url: "https://ecg.test.upc.ua/go/pay",
-        creditorCode: "",
-        creditorName: "",
-        creditorIBAN: ""
-      };
-      const testData2 = {
-        altCurrencyNumericCode: "840",
-        altFeeCents: 100,
-        altTotalAmountCents: 100,
-        currencyNumericCode: "980",
-        customerEmail: "",
-        customerFirstName: "",
-        customerLastName: "",
-        customerPhone: "",
-        customerPhoneCode: "",
-        delay: 0,
-        description: "Description",
-        feeCents: 10,
-        id: getUniqueEntityId(),
-        label: "Custom form №2",
-        locale: "en",
-        merchantId: "1753545",
-        merchantSignature: "merchantSignature",
-        merchantTerminalId: "E7881545",
-        mode: "PaymentIframe",
-        orderId: Date.now().toString(),
-        purchaseTime: "",
-        token: "",
-        totalAmountCents: 100,
-        url: "https://ecg.test.upc.ua/go/pay",
-        creditorCode: "",
-        creditorName: "",
-        creditorIBAN: ""
-      };
-      const savedData = localStorage.getItem(localStorageKey);
-      if (savedData) {
-        try {
-          return JSON.parse(savedData);
-        } catch (e) {
-          return [testData1, testData2];
+    const currentRequestBean = ref(null);
+    const paymentModes = computed(() => {
+      return [
+        {
+          title: t("label.payment.with.redirect"),
+          value: PaymentMode.Redirect
+        },
+        {
+          title: t("label.payment.with.modal.iframe"),
+          value: PaymentMode.ModalIframe
+        },
+        {
+          title: t("label.payment.with.built.in.iframe"),
+          value: PaymentMode.BuiltInIframe
+        }
+      ];
+    });
+    const switchRequestBean = (next = true) => {
+      const currentIndex = items.value.findIndex((item) => {
+        var _a;
+        return item.id === ((_a = currentRequestBean.value) == null ? void 0 : _a.id);
+      });
+      if (next) {
+        if (currentIndex === items.value.length - 1) {
+          currentRequestBean.value = { ...items.value[0] };
+        } else {
+          currentRequestBean.value = { ...items.value[currentIndex + 1] };
+        }
+      } else {
+        if (currentIndex === 0) {
+          currentRequestBean.value = { ...items.value[items.value.length - 1] };
+        } else {
+          currentRequestBean.value = { ...items.value[currentIndex - 1] };
         }
       }
-      return [testData1, testData2];
     };
-    const initPayByBank = () => {
-      const data = selectedEntity.value;
-      if (!data) {
+    const onCancel = () => {
+      isEditing.value = false;
+      const itemIndex = items.value.findIndex((item) => {
+        var _a;
+        return item.id === ((_a = currentRequestBean.value) == null ? void 0 : _a.id);
+      });
+      if (itemIndex === -1) {
+        currentRequestBean.value = { ...items.value[0] };
         return;
       }
-      if (!window.UpcPayByBank) {
+      currentRequestBean.value = { ...items.value[itemIndex] };
+    };
+    const addNewItem = () => {
+      currentRequestBean.value = createRequestBean();
+      isEditing.value = true;
+    };
+    const removeItem = () => {
+      if (!currentRequestBean.value) {
         return;
       }
-      const upcPayByBank = new window.UpcPayByBank({
-        merchant: {
-          id: (data == null ? void 0 : data.merchantId) || "",
-          terminalId: (data == null ? void 0 : data.merchantTerminalId) || "",
-          signature: (data == null ? void 0 : data.merchantSignature) || "",
-          creditorCode: data.creditorCode || "creditorCode",
-          creditorName: data.creditorName || "creditorName",
-          creditorIBAN: data.creditorIBAN || "creditorIBAN"
-        },
-        customer: {
-          email: "",
-          firstName: "",
-          lastName: "",
-          phoneCountryCode: "",
-          phoneNumber: ""
-        },
-        buttonProps: {
-          locale: data.locale,
-          wrapperSelector: "#pay-by-bank"
-        }
+      const itemIndex = items.value.findIndex((item) => {
+        var _a;
+        return item.id === ((_a = currentRequestBean.value) == null ? void 0 : _a.id);
       });
-      upcPayByBank.addButton({
-        currencyNumericCode: data.currencyNumericCode,
-        description: data.description || "description",
-        orderId: data.orderId,
-        purchaseTime: data.purchaseTime || "purchaseTime",
-        totalAmountCents: Number(data.totalAmountCents),
-        url: data.url,
-        locale: data.locale || "uk"
-      });
+      if (itemIndex === -1) {
+        return;
+      }
+      const requestBeans = deleteRequestBean(currentRequestBean.value.id);
+      if (requestBeans.length === 0) {
+        currentRequestBean.value = null;
+        return;
+      }
+      currentRequestBean.value = { ...requestBeans[0] };
     };
     const onSaveRequestItem = async () => {
       const vForm = paramsFormElement.value;
@@ -25399,601 +30073,634 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
         return;
       }
       isEditing.value = false;
-      const value = selectedEntity.value;
+      const value = currentRequestBean.value;
       if (!value) {
         return;
       }
-      const itemToSave = {
-        altCurrencyNumericCode: value.altCurrencyNumericCode || "",
-        altFeeCents: value.altFeeCents || 0,
-        altTotalAmountCents: value.altTotalAmountCents || 0,
-        currencyNumericCode: value.currencyNumericCode || "",
-        customerEmail: "",
-        customerFirstName: "",
-        customerLastName: "",
-        customerPhone: "",
-        customerPhoneCode: "",
-        delay: value.delay || 0,
-        description: value.description || "",
-        feeCents: value.feeCents || 0,
-        id: value.id || getUniqueEntityId(),
-        label: value.label || "",
-        locale: value.locale || "",
-        merchantId: value.merchantId || "",
-        merchantSignature: value.merchantSignature || "",
-        merchantTerminalId: value.merchantTerminalId || "",
-        mode: value.mode || "PaymentPage",
-        orderId: value.orderId || Date.now().toString(),
-        purchaseTime: value.purchaseTime || "",
-        token: value.token || "",
-        totalAmountCents: value.totalAmountCents || 0,
-        url: value.url || "https://ecg.test.upc.ua/go/pay",
-        creditorCode: value.creditorCode || "",
-        creditorName: value.creditorName || "",
-        creditorIBAN: value.creditorIBAN || ""
-      };
-      const itemIndex = items.value.findIndex((item) => item.id === itemToSave.id);
-      if (itemIndex === -1) {
-        items.value = [...items.value, itemToSave];
-      } else {
-        items.value = items.value.map((item) => item.id === itemToSave.id ? itemToSave : item);
-      }
-      try {
-        localStorage.setItem(localStorageKey, JSON.stringify(items.value));
-      } catch (e) {
-        console.error(e);
-      }
-      const payByBankContainer = document.getElementById("pay-by-bank");
-      if (!payByBankContainer) {
-        return;
-      }
-      payByBankContainer.innerHTML = "";
-      initPayByBank();
-    };
-    onMounted(() => {
-      items.value = getSavedRequestEntities();
-      selectedEntity.value = { ...items.value[0] };
-      initPayByBank();
-    });
-    const switchEntity = (next = true) => {
-      const currentIndex = items.value.findIndex((item) => {
-        var _a;
-        return item.id === ((_a = selectedEntity.value) == null ? void 0 : _a.id);
-      });
-      if (next) {
-        if (currentIndex === items.value.length - 1) {
-          selectedEntity.value = { ...items.value[0] };
-        } else {
-          selectedEntity.value = { ...items.value[currentIndex + 1] };
-        }
-      } else {
-        if (currentIndex === 0) {
-          selectedEntity.value = { ...items.value[items.value.length - 1] };
-        } else {
-          selectedEntity.value = { ...items.value[currentIndex - 1] };
-        }
-      }
-    };
-    const onCancel = () => {
-      isEditing.value = false;
-      const itemIndex = items.value.findIndex((item) => {
-        var _a;
-        return item.id === ((_a = selectedEntity.value) == null ? void 0 : _a.id);
-      });
-      if (itemIndex === -1) {
-        selectedEntity.value = { ...items.value[0] };
-        return;
-      }
-      selectedEntity.value = { ...items.value[itemIndex] };
-    };
-    const addNewItem = () => {
-      selectedEntity.value = {
-        altCurrencyNumericCode: "",
-        altFeeCents: 0,
-        altTotalAmountCents: 0,
-        currencyNumericCode: "",
-        customerEmail: "",
-        customerFirstName: "",
-        customerLastName: "",
-        customerPhone: "",
-        customerPhoneCode: "",
-        delay: 0,
-        description: "",
-        feeCents: 10,
-        id: NaN,
-        label: "",
-        locale: "",
-        merchantId: "",
-        merchantSignature: "",
-        merchantTerminalId: "",
-        mode: "PaymentPage",
-        orderId: Date.now().toString(),
-        purchaseTime: "",
-        token: "",
-        totalAmountCents: 100,
-        url: "https://ecg.test.upc.ua/go/pay",
-        creditorCode: "",
-        creditorName: "",
-        creditorIBAN: ""
-      };
-      isEditing.value = true;
-    };
-    const removeItem = () => {
-      if (!selectedEntity.value) {
-        return;
-      }
-      const itemIndex = items.value.findIndex((item) => {
-        var _a;
-        return item.id === ((_a = selectedEntity.value) == null ? void 0 : _a.id);
-      });
-      if (itemIndex === -1) {
-        return;
-      }
-      items.value = items.value.filter((item) => {
-        var _a;
-        return item.id !== ((_a = selectedEntity.value) == null ? void 0 : _a.id);
-      });
-      try {
-        localStorage.setItem(localStorageKey, JSON.stringify(items.value));
-      } catch (e) {
-        console.error(e);
-      }
-      if (items.value.length === 0) {
-        selectedEntity.value = null;
-        return;
-      }
-      selectedEntity.value = { ...items.value[0] };
+      items.value = updateRequestBean(value);
     };
     const submitPaymentWithManualParams = () => {
       if (isEditing.value) {
         return;
       }
-      if (!selectedEntity.value) {
+      if (!currentRequestBean.value) {
         return;
       }
-      submitPaymentManual(selectedEntity.value);
+      submitPaymentManual(currentRequestBean.value);
     };
+    const isSwitchBackDisabled = computed(() => {
+      return items.value.length === 1 || isEditing.value || !currentRequestBean.value || currentRequestBean.value.id === items.value[0].id;
+    });
+    const isSwitchForwardDisabled = computed(() => {
+      return items.value.length === 1 || isEditing.value || !currentRequestBean.value || currentRequestBean.value.id === items.value[items.value.length - 1].id;
+    });
+    const updateOrderId = () => {
+      if (!currentRequestBean.value) {
+        return;
+      }
+      currentRequestBean.value = {
+        ...currentRequestBean.value,
+        orderId: Date.now().toString()
+      };
+    };
+    onMounted(() => {
+      items.value = fetchRequestBeans();
+      currentRequestBean.value = { ...items.value[0] };
+    });
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock(Fragment, null, [
-        createVNode(VRow, null, {
-          default: withCtx(() => [
-            createVNode(VCol, { cols: "12" }, {
-              default: withCtx(() => [
-                _hoisted_1$3,
-                createVNode(VRow, null, {
-                  default: withCtx(() => [
-                    createVNode(VCol, { cols: "12" }, {
-                      default: withCtx(() => [
-                        createBaseVNode("div", {
-                          class: normalizeClass(["d-flex justify-space-between mb-4", { "flex-column": unref(smAndDown), "text-center": unref(smAndDown) }])
-                        }, [
-                          createBaseVNode("div", {
-                            class: normalizeClass({ "mb-5": unref(smAndDown) })
-                          }, [
+      return openBlock(), createBlock(VRow, null, {
+        default: withCtx(() => [
+          createVNode(VCol, { cols: "12" }, {
+            default: withCtx(() => [
+              createBaseVNode("div", {
+                class: normalizeClass(["d-flex align-center justify-space-between mb-5", { "flex-column": unref(smAndDown), "text-center": unref(smAndDown) }])
+              }, [
+                createBaseVNode("div", {
+                  class: normalizeClass({ "mb-5": unref(smAndDown) })
+                }, [
+                  createVNode(VBtn, {
+                    size: "small",
+                    color: "primary",
+                    type: "button",
+                    variant: "outlined",
+                    icon: "",
+                    title: _ctx.$t("title.previous.form"),
+                    class: "mr-5",
+                    disabled: isSwitchBackDisabled.value,
+                    onClick: _cache[0] || (_cache[0] = ($event) => switchRequestBean(false))
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(unref(IconChevronLeft), { size: "24" })
+                    ]),
+                    _: 1
+                  }, 8, ["title", "disabled"]),
+                  createVNode(VBtn, {
+                    size: "small",
+                    color: "primary",
+                    type: "button",
+                    variant: "outlined",
+                    icon: "",
+                    title: _ctx.$t("title.next.form"),
+                    disabled: isSwitchForwardDisabled.value,
+                    onClick: switchRequestBean
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(unref(IconChevronRight), { size: "24" })
+                    ]),
+                    _: 1
+                  }, 8, ["title", "disabled"])
+                ], 2),
+                createBaseVNode("h4", _hoisted_1$3, toDisplayString$1(_ctx.$t("text.manual.request.params.form")), 1),
+                createBaseVNode("div", null, [
+                  createVNode(VBtn, {
+                    class: "mr-4",
+                    color: "primary",
+                    type: "button",
+                    variant: "outlined",
+                    disabled: isEditing.value,
+                    onClick: addNewItem
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(toDisplayString$1(_ctx.$t("action.add.new.form")), 1)
+                    ]),
+                    _: 1
+                  }, 8, ["disabled"]),
+                  createVNode(VBtn, {
+                    color: "error",
+                    type: "button",
+                    variant: "outlined",
+                    disabled: isEditing.value || items.value.length === 1,
+                    onClick: removeItem
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(toDisplayString$1(_ctx.$t("action.remove.form")), 1)
+                    ]),
+                    _: 1
+                  }, 8, ["disabled"])
+                ])
+              ], 2),
+              currentRequestBean.value ? (openBlock(), createBlock(VForm, {
+                key: 0,
+                ref_key: "paramsFormElement",
+                ref: paramsFormElement,
+                onSubmit: withModifiers(onSaveRequestItem, ["prevent"])
+              }, {
+                default: withCtx(() => [
+                  createBaseVNode("h3", _hoisted_2$3, toDisplayString$1(_ctx.$t("text.form.params")), 1),
+                  createVNode(VRow, null, {
+                    default: withCtx(() => [
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "4"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.label,
+                            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => currentRequestBean.value.label = $event),
+                            readonly: !isEditing.value,
+                            rules: [unref(rules).required],
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.form.name"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "rules", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "4"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.url,
+                            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => currentRequestBean.value.url = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.request.url"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "4"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VSelect, {
+                            modelValue: currentRequestBean.value.mode,
+                            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => currentRequestBean.value.mode = $event),
+                            readonly: !isEditing.value,
+                            rules: [unref(rules).required],
+                            "hide-details": "auto",
+                            items: paymentModes.value,
+                            label: _ctx.$t("label.payment.mode"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "rules", "items", "label"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createBaseVNode("h3", _hoisted_3$2, toDisplayString$1(_ctx.$t("text.merchant")), 1),
+                  createVNode(VRow, null, {
+                    default: withCtx(() => [
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "4"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.merchantId,
+                            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => currentRequestBean.value.merchantId = $event),
+                            readonly: !isEditing.value,
+                            rules: [unref(rules).required],
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.merchant.id"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "rules", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "4"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.merchantTerminalId,
+                            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => currentRequestBean.value.merchantTerminalId = $event),
+                            readonly: !isEditing.value,
+                            rules: [unref(rules).required],
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.terminal.id"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "rules", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "4"
+                      }, {
+                        default: withCtx(() => [
+                          createBaseVNode("div", _hoisted_4$2, [
+                            createVNode(VTextField, {
+                              modelValue: currentRequestBean.value.orderId,
+                              "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => currentRequestBean.value.orderId = $event),
+                              readonly: !isEditing.value,
+                              "hide-details": "auto",
+                              label: _ctx.$t("label.order.id"),
+                              variant: "outlined",
+                              class: "mr-2"
+                            }, null, 8, ["modelValue", "readonly", "label"]),
                             createVNode(VBtn, {
-                              size: "small",
                               color: "primary",
                               type: "button",
                               variant: "outlined",
-                              icon: "",
-                              class: "mr-5",
-                              disabled: isEditing.value,
-                              onClick: _cache[0] || (_cache[0] = ($event) => switchEntity(false))
+                              onClick: updateOrderId
                             }, {
                               default: withCtx(() => [
-                                createVNode(unref(ChevronLeftIcon), { size: "24" })
+                                createTextVNode(toDisplayString$1(_ctx.$t("action.update.order.id")), 1)
                               ]),
                               _: 1
-                            }, 8, ["disabled"]),
-                            createVNode(VBtn, {
-                              size: "small",
-                              color: "primary",
-                              type: "button",
-                              variant: "outlined",
-                              icon: "",
-                              disabled: isEditing.value,
-                              onClick: switchEntity
-                            }, {
-                              default: withCtx(() => [
-                                createVNode(unref(ChevronRightIcon), { size: "24" })
-                              ]),
-                              _: 1
-                            }, 8, ["disabled"])
-                          ], 2),
-                          createBaseVNode("div", null, [
-                            createVNode(VBtn, {
-                              class: "mr-4",
-                              color: "primary",
-                              type: "button",
-                              variant: "outlined",
-                              disabled: isEditing.value,
-                              onClick: addNewItem
-                            }, {
-                              default: withCtx(() => [
-                                createTextVNode(" Add new form ")
-                              ]),
-                              _: 1
-                            }, 8, ["disabled"]),
-                            createVNode(VBtn, {
-                              color: "error",
-                              type: "button",
-                              variant: "outlined",
-                              disabled: isEditing.value || items.value.length === 1,
-                              onClick: removeItem
-                            }, {
-                              default: withCtx(() => [
-                                createTextVNode(" Remove form ")
-                              ]),
-                              _: 1
-                            }, 8, ["disabled"])
+                            })
                           ])
-                        ], 2),
-                        createVNode(VRow, null, {
-                          default: withCtx(() => [
-                            selectedEntity.value ? (openBlock(), createBlock(VCol, {
-                              key: 0,
-                              cols: "12",
-                              md: "4",
-                              class: "mx-auto"
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createBaseVNode("h3", _hoisted_5$2, toDisplayString$1(_ctx.$t("text.currency")), 1),
+                  createVNode(VRow, null, {
+                    default: withCtx(() => [
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "6"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.currencyNumericCode,
+                            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => currentRequestBean.value.currencyNumericCode = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.currency.numeric.code"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "6"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.altCurrencyNumericCode,
+                            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => currentRequestBean.value.altCurrencyNumericCode = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.currency.numeric.code.alternative"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createBaseVNode("h3", _hoisted_6$2, toDisplayString$1(_ctx.$t("text.fee")), 1),
+                  createVNode(VRow, null, {
+                    default: withCtx(() => [
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "6"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.feeCents,
+                            "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => currentRequestBean.value.feeCents = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.fee.cents"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "6"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.altFeeCents,
+                            "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => currentRequestBean.value.altFeeCents = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.alternative.fee.cents"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createBaseVNode("h3", _hoisted_7$2, toDisplayString$1(_ctx.$t("text.total.amount")), 1),
+                  createVNode(VRow, null, {
+                    default: withCtx(() => [
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "6"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.totalAmountCents,
+                            "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => currentRequestBean.value.totalAmountCents = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.total.amount.cents"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "6"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.altTotalAmountCents,
+                            "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => currentRequestBean.value.altTotalAmountCents = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.alternative.total.amount.cents"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createBaseVNode("h3", _hoisted_8$1, toDisplayString$1(_ctx.$t("text.customer.data")), 1),
+                  createVNode(VRow, null, {
+                    default: withCtx(() => [
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.customerPhoneCode,
+                            "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => currentRequestBean.value.customerPhoneCode = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.customer.phone.code"),
+                            variant: "outlined",
+                            placeholder: "380"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.customerPhone,
+                            "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => currentRequestBean.value.customerPhone = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.customer.phone.number"),
+                            variant: "outlined",
+                            placeholder: "000000000"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.customerFirstName,
+                            "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => currentRequestBean.value.customerFirstName = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.customer.first.name"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.customerLastName,
+                            "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => currentRequestBean.value.customerLastName = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.customer.last.name"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.customerEmail,
+                            "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => currentRequestBean.value.customerEmail = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.customer.email"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createBaseVNode("h3", _hoisted_9, toDisplayString$1(_ctx.$t("text.other.params")), 1),
+                  createVNode(VRow, null, {
+                    default: withCtx(() => [
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.locale,
+                            "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => currentRequestBean.value.locale = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.locale"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.purchaseTime,
+                            "onUpdate:modelValue": _cache[19] || (_cache[19] = ($event) => currentRequestBean.value.purchaseTime = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.purchase.time"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.delay,
+                            "onUpdate:modelValue": _cache[20] || (_cache[20] = ($event) => currentRequestBean.value.delay = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.delay"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.description,
+                            "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => currentRequestBean.value.description = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.purchase.description"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.token,
+                            "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => currentRequestBean.value.token = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.payment.token"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      }),
+                      createVNode(VCol, {
+                        cols: "12",
+                        md: "3"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VTextField, {
+                            modelValue: currentRequestBean.value.merchantSignature,
+                            "onUpdate:modelValue": _cache[23] || (_cache[23] = ($event) => currentRequestBean.value.merchantSignature = $event),
+                            readonly: !isEditing.value,
+                            "hide-details": "auto",
+                            label: _ctx.$t("label.signature"),
+                            variant: "outlined"
+                          }, null, 8, ["modelValue", "readonly", "label"])
+                        ]),
+                        _: 1
+                      })
+                    ]),
+                    _: 1
+                  }),
+                  createVNode(VRow, null, {
+                    default: withCtx(() => [
+                      isEditing.value ? (openBlock(), createBlock(VCol, {
+                        key: 0,
+                        cols: "12",
+                        lg: "12",
+                        class: "text-center"
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(VBtn, {
+                            class: "mr-4",
+                            color: "error",
+                            type: "button",
+                            variant: "outlined",
+                            onClick: onCancel
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString$1(_ctx.$t("action.cancel")), 1)
+                            ]),
+                            _: 1
+                          }),
+                          createVNode(VBtn, {
+                            color: "primary",
+                            type: "submit",
+                            variant: "outlined"
+                          }, {
+                            default: withCtx(() => [
+                              createTextVNode(toDisplayString$1(_ctx.$t("action.save.changes")), 1)
+                            ]),
+                            _: 1
+                          })
+                        ]),
+                        _: 1
+                      })) : (openBlock(), createBlock(VCol, {
+                        key: 1,
+                        cols: "12",
+                        lg: "12"
+                      }, {
+                        default: withCtx(() => [
+                          createBaseVNode("div", _hoisted_10, [
+                            createVNode(VBtn, {
+                              color: "primary",
+                              type: "button",
+                              variant: "outlined",
+                              onClick: _cache[24] || (_cache[24] = ($event) => isEditing.value = true)
                             }, {
                               default: withCtx(() => [
-                                createVNode(VForm, {
-                                  ref_key: "paramsFormElement",
-                                  ref: paramsFormElement,
-                                  class: "py-3",
-                                  onSubmit: withModifiers(onSaveRequestItem, ["prevent"])
-                                }, {
-                                  default: withCtx(() => [
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.label,
-                                      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => selectedEntity.value.label = $event),
-                                      readonly: !isEditing.value,
-                                      rules: [unref(rules).required],
-                                      "hide-details": "auto",
-                                      label: "Label",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly", "rules"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.url,
-                                      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => selectedEntity.value.url = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Url",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VSelect, {
-                                      modelValue: selectedEntity.value.mode,
-                                      "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => selectedEntity.value.mode = $event),
-                                      readonly: !isEditing.value,
-                                      rules: [unref(rules).required],
-                                      "hide-details": "auto",
-                                      items: ["PaymentIframe", "PaymentModalIframe", "PaymentPage"],
-                                      label: "Mode",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly", "rules"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.merchantId,
-                                      "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => selectedEntity.value.merchantId = $event),
-                                      readonly: !isEditing.value,
-                                      rules: [unref(rules).required],
-                                      "hide-details": "auto",
-                                      label: "Merchant ID",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly", "rules"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.merchantTerminalId,
-                                      "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => selectedEntity.value.merchantTerminalId = $event),
-                                      readonly: !isEditing.value,
-                                      rules: [unref(rules).required],
-                                      "hide-details": "auto",
-                                      label: "Terminal ID",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly", "rules"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.orderId,
-                                      "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => selectedEntity.value.orderId = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Order ID",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.currencyNumericCode,
-                                      "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => selectedEntity.value.currencyNumericCode = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Currency numeric code",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.altCurrencyNumericCode,
-                                      "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => selectedEntity.value.altCurrencyNumericCode = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Alt currency numeric code",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.altFeeCents,
-                                      "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => selectedEntity.value.altFeeCents = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Alt fee cents",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.feeCents,
-                                      "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => selectedEntity.value.feeCents = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Fee cents",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.altTotalAmountCents,
-                                      "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => selectedEntity.value.altTotalAmountCents = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Alt total amount cents",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.totalAmountCents,
-                                      "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => selectedEntity.value.totalAmountCents = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Total amount cents",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.locale,
-                                      "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => selectedEntity.value.locale = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Locale",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.purchaseTime,
-                                      "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => selectedEntity.value.purchaseTime = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Purchase Time",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.delay,
-                                      "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => selectedEntity.value.delay = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Delay",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.description,
-                                      "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => selectedEntity.value.description = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Description",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.token,
-                                      "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => selectedEntity.value.token = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Token",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.merchantSignature,
-                                      "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => selectedEntity.value.merchantSignature = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Signature",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.customerPhoneCode,
-                                      "onUpdate:modelValue": _cache[19] || (_cache[19] = ($event) => selectedEntity.value.customerPhoneCode = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Customer phone code",
-                                      variant: "outlined",
-                                      placeholder: "380",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.customerPhone,
-                                      "onUpdate:modelValue": _cache[20] || (_cache[20] = ($event) => selectedEntity.value.customerPhone = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Customer phone number",
-                                      variant: "outlined",
-                                      placeholder: "000000000",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.customerFirstName,
-                                      "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => selectedEntity.value.customerFirstName = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Customer First Name",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.customerLastName,
-                                      "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => selectedEntity.value.customerLastName = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Last Name",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.customerEmail,
-                                      "onUpdate:modelValue": _cache[23] || (_cache[23] = ($event) => selectedEntity.value.customerEmail = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Customer email",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.creditorIBAN,
-                                      "onUpdate:modelValue": _cache[24] || (_cache[24] = ($event) => selectedEntity.value.creditorIBAN = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Creditor IBAN",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.creditorName,
-                                      "onUpdate:modelValue": _cache[25] || (_cache[25] = ($event) => selectedEntity.value.creditorName = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Creditor Name",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VTextField, {
-                                      modelValue: selectedEntity.value.creditorCode,
-                                      "onUpdate:modelValue": _cache[26] || (_cache[26] = ($event) => selectedEntity.value.creditorCode = $event),
-                                      readonly: !isEditing.value,
-                                      "hide-details": "auto",
-                                      label: "Creditor Code",
-                                      variant: "outlined",
-                                      class: "mb-4"
-                                    }, null, 8, ["modelValue", "readonly"]),
-                                    createVNode(VRow, null, {
-                                      default: withCtx(() => [
-                                        isEditing.value ? (openBlock(), createBlock(VCol, {
-                                          key: 0,
-                                          cols: "12",
-                                          lg: "12",
-                                          class: "text-center"
-                                        }, {
-                                          default: withCtx(() => [
-                                            createVNode(VBtn, {
-                                              class: "mr-4",
-                                              color: "error",
-                                              type: "button",
-                                              variant: "outlined",
-                                              onClick: onCancel
-                                            }, {
-                                              default: withCtx(() => [
-                                                createTextVNode(" Cancel ")
-                                              ]),
-                                              _: 1
-                                            }),
-                                            createVNode(VBtn, {
-                                              color: "primary",
-                                              type: "submit",
-                                              variant: "outlined"
-                                            }, {
-                                              default: withCtx(() => [
-                                                createTextVNode(" Save changes ")
-                                              ]),
-                                              _: 1
-                                            })
-                                          ]),
-                                          _: 1
-                                        })) : (openBlock(), createBlock(VCol, {
-                                          key: 1,
-                                          cols: "12",
-                                          lg: "12"
-                                        }, {
-                                          default: withCtx(() => [
-                                            createBaseVNode("div", _hoisted_2$2, [
-                                              createVNode(VBtn, {
-                                                color: "primary",
-                                                type: "button",
-                                                variant: "outlined",
-                                                onClick: _cache[27] || (_cache[27] = ($event) => isEditing.value = true)
-                                              }, {
-                                                default: withCtx(() => [
-                                                  createTextVNode("Edit Form")
-                                                ]),
-                                                _: 1
-                                              })
-                                            ])
-                                          ]),
-                                          _: 1
-                                        }))
-                                      ]),
-                                      _: 1
-                                    })
-                                  ]),
-                                  _: 1
-                                }, 512),
-                                !isEditing.value ? (openBlock(), createBlock(VBtn, {
-                                  key: 0,
-                                  color: "primary",
-                                  type: "button",
-                                  class: "d-block mx-auto mt-5",
-                                  onClick: submitPaymentWithManualParams
-                                }, {
-                                  default: withCtx(() => [
-                                    createTextVNode(" Make payment ")
-                                  ]),
-                                  _: 1
-                                })) : createCommentVNode("", true)
+                                createTextVNode(toDisplayString$1(_ctx.$t("action.edit")), 1)
                               ]),
                               _: 1
-                            })) : createCommentVNode("", true)
-                          ]),
-                          _: 1
-                        })
-                      ]),
-                      _: 1
-                    })
-                  ]),
-                  _: 1
-                })
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
-        }),
-        createVNode(VRow, null, {
-          default: withCtx(() => [
-            createVNode(VCol, null, {
-              default: withCtx(() => [
-                _hoisted_3$2
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
-        })
-      ], 64);
+                            })
+                          ])
+                        ]),
+                        _: 1
+                      }))
+                    ]),
+                    _: 1
+                  }),
+                  !isEditing.value ? (openBlock(), createBlock(VBtn, {
+                    key: 0,
+                    color: "primary",
+                    type: "button",
+                    class: "d-block ml-auto mt-5",
+                    onClick: submitPaymentWithManualParams
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(toDisplayString$1(_ctx.$t("action.make.payment")), 1)
+                    ]),
+                    _: 1
+                  })) : createCommentVNode("", true)
+                ]),
+                _: 1
+              }, 512)) : createCommentVNode("", true)
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      });
     };
   }
 });
-const _hoisted_1$2 = /* @__PURE__ */ createBaseVNode("div", { class: "d-flex align-center my-5" }, [
-  /* @__PURE__ */ createBaseVNode("h4", { class: "text-h5" }, "Billing Address")
-], -1);
+const _hoisted_1$2 = { class: "d-flex align-center my-5" };
+const _hoisted_2$2 = { class: "text-h5" };
 const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
   __name: "StepSecond",
   props: {
@@ -26083,7 +30790,9 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
             createVNode(VCol, { cols: "12" }, {
               default: withCtx(() => [
                 __props.mode === unref(PaymentMode).Manual ? (openBlock(), createBlock(_sfc_main$3, { key: 0 })) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
-                  _hoisted_1$2,
+                  createBaseVNode("div", _hoisted_1$2, [
+                    createBaseVNode("h4", _hoisted_2$2, toDisplayString$1(_ctx.$t("text.billing.address")), 1)
+                  ]),
                   createVNode(VRow, null, {
                     default: withCtx(() => [
                       createVNode(VCol, {
@@ -26278,7 +30987,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
                                         onClick: onCancel
                                       }, {
                                         default: withCtx(() => [
-                                          createTextVNode(" Cancel ")
+                                          createTextVNode(toDisplayString$1(_ctx.$t("action.cancel")), 1)
                                         ]),
                                         _: 1
                                       }),
@@ -26288,7 +30997,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
                                         variant: "outlined"
                                       }, {
                                         default: withCtx(() => [
-                                          createTextVNode("Confirm")
+                                          createTextVNode(toDisplayString$1(_ctx.$t("action.confirm")), 1)
                                         ]),
                                         _: 1
                                       })
@@ -26308,7 +31017,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
                                         onClick: onEdit
                                       }, {
                                         default: withCtx(() => [
-                                          createTextVNode("Edit")
+                                          createTextVNode(toDisplayString$1(_ctx.$t("action.edit")), 1)
                                         ]),
                                         _: 1
                                       })
@@ -27241,14 +31950,9 @@ const _hoisted_2$1 = { class: "d-flex justify-space-between" };
 const _hoisted_3$1 = { class: "d-flex py-0 align-center" };
 const _hoisted_4$1 = { class: "text-h3 mb-2" };
 const _hoisted_5$1 = { class: "text-h6 font-weight-regular" };
-const _hoisted_6$1 = /* @__PURE__ */ createBaseVNode("div", null, [
-  /* @__PURE__ */ createBaseVNode("div", null, "Item Cart"),
-  /* @__PURE__ */ createBaseVNode("span", { class: "text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block" }, "Product Summary")
-], -1);
-const _hoisted_7$1 = /* @__PURE__ */ createBaseVNode("div", null, [
-  /* @__PURE__ */ createBaseVNode("div", null, "Billing"),
-  /* @__PURE__ */ createBaseVNode("span", { class: "text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block" }, " Billing Information ")
-], -1);
+const _hoisted_6$1 = { class: "text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block" };
+const _hoisted_7$1 = { class: "text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block" };
+const _hoisted_8 = { key: 1 };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
   __name: "index",
   props: {
@@ -27302,13 +32006,13 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
           createBaseVNode("div", _hoisted_2$1, [
             createBaseVNode("div", _hoisted_3$1, [
               createBaseVNode("div", null, [
-                createBaseVNode("h3", _hoisted_4$1, toDisplayString(page.value.title), 1),
+                createBaseVNode("h3", _hoisted_4$1, toDisplayString$1(page.value.title), 1),
                 createVNode(VBreadcrumbs, {
                   items: breadcrumbs.value,
                   class: "pa-0 ml-n1"
                 }, createSlots({
                   title: withCtx(({ item }) => [
-                    createBaseVNode("h6", _hoisted_5$1, toDisplayString(item.text), 1)
+                    createBaseVNode("h6", _hoisted_5$1, toDisplayString$1(item.text), 1)
                   ]),
                   _: 2
                 }, [
@@ -27350,12 +32054,15 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                       height: "70"
                     }, {
                       default: withCtx(() => [
-                        createVNode(unref(BasketIcon), {
+                        createVNode(unref(IconBasket), {
                           "stroke-width": "1.5",
                           width: "20",
                           class: "v-icon--start"
                         }),
-                        _hoisted_6$1
+                        createBaseVNode("div", null, [
+                          createBaseVNode("div", null, toDisplayString$1(_ctx.$t("text.item.cart")), 1),
+                          createBaseVNode("span", _hoisted_6$1, toDisplayString$1(_ctx.$t("text.product.summary")), 1)
+                        ])
                       ]),
                       _: 1
                     }),
@@ -27367,12 +32074,15 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                       disabled: unref(selectedProducts).size < 1
                     }, {
                       default: withCtx(() => [
-                        createVNode(unref(FileDescriptionIcon), {
+                        createVNode(unref(IconFileDescription), {
                           "stroke-width": "1.5",
                           width: "20",
                           class: "v-icon--start"
                         }),
-                        _hoisted_7$1
+                        createBaseVNode("div", null, [
+                          createBaseVNode("div", null, toDisplayString$1(_ctx.$t("text.billing")), 1),
+                          createBaseVNode("span", _hoisted_7$1, toDisplayString$1(_ctx.$t("text.billing.information")), 1)
+                        ])
                       ]),
                       _: 1
                     }, 8, ["disabled"])
@@ -27403,7 +32113,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                                   to: { name: unref(RouteName).Products, query: { ..._ctx.$route.query } }
                                 }, {
                                   default: withCtx(() => [
-                                    createTextVNode("Continue Shopping")
+                                    createTextVNode(toDisplayString$1(_ctx.$t("action.continue.shopping")), 1)
                                   ]),
                                   _: 1
                                 }, 8, ["to"])
@@ -27422,7 +32132,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                                   onClick: _cache[1] || (_cache[1] = ($event) => changeTab("tab-2"))
                                 }, {
                                   default: withCtx(() => [
-                                    createTextVNode("CheckOut")
+                                    createTextVNode(toDisplayString$1(_ctx.$t("action.checkout")), 1)
                                   ]),
                                   _: 1
                                 })) : createCommentVNode("", true)
@@ -27452,7 +32162,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                                   onClick: _cache[2] || (_cache[2] = ($event) => changeTab("tab-1"))
                                 }, {
                                   default: withCtx(() => [
-                                    createTextVNode("Back")
+                                    createTextVNode(toDisplayString$1(_ctx.$t("action.back")), 1)
                                   ]),
                                   _: 1
                                 })) : createCommentVNode("", true)
@@ -27464,17 +32174,18 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
                               class: "text-right"
                             }, {
                               default: withCtx(() => [
-                                __props.mode !== unref(PaymentMode).Manual ? (openBlock(), createBlock(VBtn, {
+                                __props.mode !== unref(PaymentMode).Manual && __props.mode !== unref(PaymentMode).PayByBank ? (openBlock(), createBlock(VBtn, {
                                   key: 0,
                                   color: "primary",
                                   disabled: !isInitPaymentButtonClickable.value,
                                   onClick: initPayment
                                 }, {
                                   default: withCtx(() => [
-                                    createTextVNode(" Complete an Order ")
+                                    createTextVNode(toDisplayString$1(_ctx.$t("action.complete.an.order")), 1)
                                   ]),
                                   _: 1
-                                }, 8, ["disabled"])) : createCommentVNode("", true)
+                                }, 8, ["disabled"])) : createCommentVNode("", true),
+                                __props.mode === unref(PaymentMode).PayByBank ? (openBlock(), createElementBlock("div", _hoisted_8, "Pay by bank")) : createCommentVNode("", true)
                               ]),
                               _: 1
                             })
@@ -27530,12 +32241,7 @@ const _hoisted_6 = {
   src: _imports_3,
   alt: "Простір"
 };
-const _hoisted_7 = /* @__PURE__ */ createBaseVNode("tr", null, [
-  /* @__PURE__ */ createBaseVNode("th", null, "Transaction code"),
-  /* @__PURE__ */ createBaseVNode("th", null, "Description"),
-  /* @__PURE__ */ createBaseVNode("th", null, "Card number")
-], -1);
-const _hoisted_8 = /* @__PURE__ */ createBaseVNode("div", { class: "d-flex justify-space-between flex-wrap" }, [
+const _hoisted_7 = /* @__PURE__ */ createBaseVNode("div", { class: "d-flex justify-space-between flex-wrap" }, [
   /* @__PURE__ */ createBaseVNode("a", {
     href: "https://developer.mastercard.com/unified-checkout-solutions/documentation/testing/test_cases/click_to_pay_case/#test-cards",
     target: "_blank",
@@ -27713,7 +32419,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent$1({
                 class: "text-white"
               }, {
                 default: withCtx(() => [
-                  createTextVNode(" Card number copied to clipboard ")
+                  createTextVNode(toDisplayString$1(_ctx.$t("snackbar.card.number.copied.to.clipboard")), 1)
                 ]),
                 _: 1
               }, 8, ["modelValue"]),
@@ -27732,32 +32438,36 @@ const _sfc_main = /* @__PURE__ */ defineComponent$1({
                             item.issuer === "Prostir" ? (openBlock(), createElementBlock("img", _hoisted_6)) : createCommentVNode("", true)
                           ])
                         ]),
-                        _hoisted_7
+                        createBaseVNode("tr", null, [
+                          createBaseVNode("th", null, toDisplayString$1(_ctx.$t("text.transaction.code")), 1),
+                          createBaseVNode("th", null, toDisplayString$1(_ctx.$t("text.description")), 1),
+                          createBaseVNode("th", null, toDisplayString$1(_ctx.$t("text.card.number")), 1)
+                        ])
                       ]),
                       createBaseVNode("tbody", null, [
                         (openBlock(true), createElementBlock(Fragment, null, renderList(item.cards, (card) => {
                           return openBlock(), createElementBlock("tr", {
                             key: card.cardNumber
                           }, [
-                            createBaseVNode("td", null, toDisplayString(card.tranCode), 1),
-                            createBaseVNode("td", null, toDisplayString(card.description), 1),
+                            createBaseVNode("td", null, toDisplayString$1(card.tranCode), 1),
+                            createBaseVNode("td", null, toDisplayString$1(card.description), 1),
                             createBaseVNode("td", null, [
-                              createBaseVNode("span", null, toDisplayString(card.cardNumber), 1),
+                              createBaseVNode("span", null, toDisplayString$1(card.cardNumber), 1),
                               createVNode(VBtn, {
                                 icon: "",
                                 variant: "text",
                                 color: "primary",
-                                title: "Copy",
+                                title: _ctx.$t("title.copy"),
                                 onClick: ($event) => copyToClipboard(card.cardNumber)
                               }, {
                                 default: withCtx(() => [
-                                  createVNode(unref(CopyIcon), {
+                                  createVNode(unref(IconCopy), {
                                     "stroke-width": "1.5",
                                     size: "22"
                                   })
                                 ]),
                                 _: 2
-                              }, 1032, ["onClick"])
+                              }, 1032, ["title", "onClick"])
                             ])
                           ]);
                         }), 128))
@@ -27767,7 +32477,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent$1({
                   }, 1024)
                 ]);
               }), 64)),
-              _hoisted_8
+              _hoisted_7
             ]),
             _: 1
           })
@@ -27898,7 +32608,12 @@ const vuetify = createVuetify({
     }
   }
 });
-const app = createApp(_sfc_main$b);
-app.use(router);
-app.use(createPinia());
-app.use(vuetify).mount("#app");
+if (Storage.version.getValue() !== Storage.LocalStorageVersion) {
+  localStorage.clear();
+  sessionStorage.clear();
+  Storage.version.setValue(Storage.LocalStorageVersion);
+}
+loadAndSetLocaleMessages();
+const locale = getLocaleCodeFromValue(Storage.locale.getValue()) ?? LocaleCode.Uk;
+setLocale(locale);
+createApp(_sfc_main$b).use(router).use(createPinia()).use(i18n).use(vuetify).mount("#app");

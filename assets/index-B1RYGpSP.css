@@ -3769,30 +3769,30 @@ textarea.v-field__input::placeholder {
   opacity: 0;
 }
 
-/* endregion */.mainbox[data-v-fa2a2e37] {
+/* endregion */.mainbox[data-v-d29abd00] {
   position: relative;
   overflow: hidden;
 }
-.left-part[data-v-fa2a2e37] {
+.left-part[data-v-d29abd00] {
   width: 320px;
   border-right: 1px solid rgb(var(--v-border-color));
   min-height: 500px;
   transition: 0.1s ease-in;
   flex-shrink: 0;
 }
-.v-theme--light .left-part[data-v-fa2a2e37] {
+.v-theme--light .left-part[data-v-d29abd00] {
   background: white;
 }
-.v-theme--dark .left-part[data-v-fa2a2e37] {
+.v-theme--dark .left-part[data-v-d29abd00] {
   background: #2b2b2b;
 }
-.right-part[data-v-fa2a2e37] {
+.right-part[data-v-d29abd00] {
   width: 100%;
   min-height: 500px;
   position: relative;
 }
 @media (max-width: 1279px) {
-.v-card[data-v-fa2a2e37] {
+.v-card[data-v-d29abd00] {
     position: unset;
 }
 }.v-table {
@@ -49815,10 +49815,6 @@ html {
   --easy-table-scrollbar-thumb-color: #4c5d7a;
   --easy-table-scrollbar-corner-color: #;
   --easy-table-loading-mask-background-color: #;
-}
-.customize-table .vue3-easy-data-table__main,
-.customize-table .vue3-easy-data-table__footer {
-  border-radius: 7px;
 }
 .month-table.custom-px-0 thead tr th:first-child {
   padding-left: 0 !important;
