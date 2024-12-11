@@ -1,3 +1,4 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/index-DDOCiO4t.js","assets/VCard-w1fiAr5g.js","assets/VCard-Dqmb2AXB.css","assets/VRow-BRFRbXyO.js","assets/index-ZaagjZI9.js","assets/VTextField-KRwQFjK2.js","assets/forwardRefs-VFy-yl6w.js","assets/forwardRefs-O1SENgYM.css","assets/VTextField-DiRpeTuz.css","assets/VSnackbar-Btp4-gFm.js","assets/VSnackbar-Dv9oml3V.css","assets/index-XXNKNsor.css","assets/index-BbMPehs9.js","assets/VTable-BI0fq4TN.js","assets/VTable-hQtDlOgp.css","assets/index-fbgJwTLK.css","assets/index-AQxfZAt2.js"])))=>i.map(i=>d[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -1469,7 +1470,7 @@ function queuePostFlushCb(cb) {
   }
   queueFlush();
 }
-function flushPreFlushCbs(instance, seen, i = isFlushing ? flushIndex + 1 : 0) {
+function flushPreFlushCbs(instance, seen2, i = isFlushing ? flushIndex + 1 : 0) {
   for (; i < queue.length; i++) {
     const cb = queue[i];
     if (cb && cb.pre) {
@@ -1482,7 +1483,7 @@ function flushPreFlushCbs(instance, seen, i = isFlushing ? flushIndex + 1 : 0) {
     }
   }
 }
-function flushPostFlushCbs(seen) {
+function flushPostFlushCbs(seen2) {
   if (pendingPostFlushCbs.length) {
     const deduped = [...new Set(pendingPostFlushCbs)].sort(
       (a, b) => getId(a) - getId(b)
@@ -1511,7 +1512,7 @@ const comparator = (a, b) => {
   }
   return diff;
 };
-function flushJobs(seen) {
+function flushJobs(seen2) {
   isFlushPending = false;
   isFlushing = true;
   queue.sort(comparator);
@@ -2111,7 +2112,7 @@ function createPathGetter(ctx, path) {
     return cur;
   };
 }
-function traverse(value, depth, currentDepth = 0, seen) {
+function traverse(value, depth, currentDepth = 0, seen2) {
   if (!isObject$2(value) || value["__v_skip"]) {
     return value;
   }
@@ -2121,24 +2122,24 @@ function traverse(value, depth, currentDepth = 0, seen) {
     }
     currentDepth++;
   }
-  seen = seen || /* @__PURE__ */ new Set();
-  if (seen.has(value)) {
+  seen2 = seen2 || /* @__PURE__ */ new Set();
+  if (seen2.has(value)) {
     return value;
   }
-  seen.add(value);
+  seen2.add(value);
   if (isRef(value)) {
-    traverse(value.value, depth, currentDepth, seen);
+    traverse(value.value, depth, currentDepth, seen2);
   } else if (isArray$2(value)) {
     for (let i = 0; i < value.length; i++) {
-      traverse(value[i], depth, currentDepth, seen);
+      traverse(value[i], depth, currentDepth, seen2);
     }
   } else if (isSet(value) || isMap(value)) {
     value.forEach((v) => {
-      traverse(v, depth, currentDepth, seen);
+      traverse(v, depth, currentDepth, seen2);
     });
   } else if (isPlainObject$2(value)) {
     for (const key in value) {
-      traverse(value[key], depth, currentDepth, seen);
+      traverse(value[key], depth, currentDepth, seen2);
     }
   }
   return value;
@@ -3197,11 +3198,11 @@ function createAppAPI(render, hydrate) {
         context.components[name] = component;
         return app;
       },
-      directive(name, directive2) {
-        if (!directive2) {
+      directive(name, directive) {
+        if (!directive) {
           return context.directives[name];
         }
-        context.directives[name] = directive2;
+        context.directives[name] = directive;
         return app;
       },
       mount(rootContainer, isHydrate, namespace) {
@@ -6548,8 +6549,8 @@ function parseName(name) {
   return [event, options];
 }
 let cachedNow = 0;
-const p$1 = /* @__PURE__ */ Promise.resolve();
-const getNow = () => cachedNow || (p$1.then(() => cachedNow = 0), cachedNow = Date.now());
+const p = /* @__PURE__ */ Promise.resolve();
+const getNow = () => cachedNow || (p.then(() => cachedNow = 0), cachedNow = Date.now());
 function createInvoker(initialValue, instance) {
   const invoker = (e) => {
     if (!e._vts) {
@@ -6929,7 +6930,7 @@ function mergeReactiveObjects(target, patchToApply) {
   }
   return target;
 }
-const { assign: assign$3 } = Object;
+const { assign: assign$2 } = Object;
 function isComputed(o) {
   return !!(isRef(o) && o.effect);
 }
@@ -6944,7 +6945,7 @@ function createOptionsStore(id, options, pinia, hot) {
       }
     }
     const localState = toRefs(pinia.state.value[id]);
-    return assign$3(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
+    return assign$2(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
       computedGetters[name] = markRaw(computed(() => {
         setActivePinia(pinia);
         const store2 = pinia._s.get(id);
@@ -6958,7 +6959,7 @@ function createOptionsStore(id, options, pinia, hot) {
 }
 function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) {
   let scope;
-  const optionsForPlugin = assign$3({ actions: {} }, options);
+  const optionsForPlugin = assign$2({ actions: {} }, options);
   const $subscribeOptions = {
     deep: true
     // flush: 'post',
@@ -7003,7 +7004,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
     const { state } = options;
     const newState = state ? state() : {};
     this.$patch(($state) => {
-      assign$3($state, newState);
+      assign$2($state, newState);
     });
   };
   function $dispose() {
@@ -7068,7 +7069,7 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
             events: debuggerEvents
           }, state);
         }
-      }, assign$3({}, $subscribeOptions, options2)));
+      }, assign$2({}, $subscribeOptions, options2)));
       return removeSubscription;
     },
     $dispose
@@ -7089,20 +7090,20 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
     } else ;
   }
   {
-    assign$3(store, setupStore);
-    assign$3(toRaw(store), setupStore);
+    assign$2(store, setupStore);
+    assign$2(toRaw(store), setupStore);
   }
   Object.defineProperty(store, "$state", {
     get: () => pinia.state.value[$id],
     set: (state) => {
       $patch(($state) => {
-        assign$3($state, state);
+        assign$2($state, state);
       });
     }
   });
   pinia._p.forEach((extender) => {
     {
-      assign$3(store, scope.run(() => extender({
+      assign$2(store, scope.run(() => extender({
         store,
         app: pinia._a,
         pinia,
@@ -7160,8 +7161,8 @@ function storeToRefs(store) {
     return refs;
   }
 }
-const _imports_0$1 = "/fake-shop/assets/upc-CBCp4ns_.jpeg";
-const _imports_1$1 = "/fake-shop/assets/ecconnect-najfx_-e.svg";
+const _imports_0 = "/fake-shop/assets/upc-CBCp4ns_.jpeg";
+const _imports_1 = "/fake-shop/assets/ecconnect-najfx_-e.svg";
 const RouteName = Object.freeze({
   Config: "Config",
   Products: "Products",
@@ -7421,55 +7422,6 @@ const createVueComponent = (type, iconName, iconNamePascal, iconNode) => ({ colo
  * This source code is licensed under the MIT license.
  * See the LICENSE file in the root directory of this source tree.
  */
-var IconAppWindow = createVueComponent("outline", "app-window", "IconAppWindow", [["path", { "d": "M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z", "key": "svg-0" }], ["path", { "d": "M6 8h.01", "key": "svg-1" }], ["path", { "d": "M9 8h.01", "key": "svg-2" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconBasket = createVueComponent("outline", "basket", "IconBasket", [["path", { "d": "M10 14a2 2 0 1 0 4 0a2 2 0 0 0 -4 0", "key": "svg-0" }], ["path", { "d": "M5.001 8h13.999a2 2 0 0 1 1.977 2.304l-1.255 7.152a3 3 0 0 1 -2.966 2.544h-9.512a3 3 0 0 1 -2.965 -2.544l-1.255 -7.152a2 2 0 0 1 1.977 -2.304z", "key": "svg-1" }], ["path", { "d": "M17 10l-2 -6", "key": "svg-2" }], ["path", { "d": "M7 10l2 -6", "key": "svg-3" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconCheck = createVueComponent("outline", "check", "IconCheck", [["path", { "d": "M5 12l5 5l10 -10", "key": "svg-0" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconChevronLeft = createVueComponent("outline", "chevron-left", "IconChevronLeft", [["path", { "d": "M15 6l-6 6l6 6", "key": "svg-0" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconChevronRight = createVueComponent("outline", "chevron-right", "IconChevronRight", [["path", { "d": "M9 6l6 6l-6 6", "key": "svg-0" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconCopy = createVueComponent("outline", "copy", "IconCopy", [["path", { "d": "M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z", "key": "svg-0" }], ["path", { "d": "M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1", "key": "svg-1" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconCornerUpRightDouble = createVueComponent("outline", "corner-up-right-double", "IconCornerUpRightDouble", [["path", { "d": "M4 18v-6a3 3 0 0 1 3 -3h7", "key": "svg-0" }], ["path", { "d": "M10 13l4 -4l-4 -4m5 8l4 -4l-4 -4", "key": "svg-1" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
 var IconCreditCard = createVueComponent("outline", "credit-card", "IconCreditCard", [["path", { "d": "M3 5m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z", "key": "svg-0" }], ["path", { "d": "M3 10l18 0", "key": "svg-1" }], ["path", { "d": "M7 15l.01 0", "key": "svg-2" }], ["path", { "d": "M11 15l2 0", "key": "svg-3" }]]);
 /**
  * @license @tabler/icons-vue v3.24.0 - MIT
@@ -7477,49 +7429,7 @@ var IconCreditCard = createVueComponent("outline", "credit-card", "IconCreditCar
  * This source code is licensed under the MIT license.
  * See the LICENSE file in the root directory of this source tree.
  */
-var IconFileDescription = createVueComponent("outline", "file-description", "IconFileDescription", [["path", { "d": "M14 3v4a1 1 0 0 0 1 1h4", "key": "svg-0" }], ["path", { "d": "M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z", "key": "svg-1" }], ["path", { "d": "M9 17h6", "key": "svg-2" }], ["path", { "d": "M9 13h6", "key": "svg-3" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconMenu2 = createVueComponent("outline", "menu-2", "IconMenu2", [["path", { "d": "M4 6l16 0", "key": "svg-0" }], ["path", { "d": "M4 12l16 0", "key": "svg-1" }], ["path", { "d": "M4 18l16 0", "key": "svg-2" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconMinus = createVueComponent("outline", "minus", "IconMinus", [["path", { "d": "M5 12l14 0", "key": "svg-0" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconPlus = createVueComponent("outline", "plus", "IconPlus", [["path", { "d": "M12 5l0 14", "key": "svg-0" }], ["path", { "d": "M5 12l14 0", "key": "svg-1" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
 var IconShoppingCart = createVueComponent("outline", "shopping-cart", "IconShoppingCart", [["path", { "d": "M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0", "key": "svg-0" }], ["path", { "d": "M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0", "key": "svg-1" }], ["path", { "d": "M17 17h-11v-14h-2", "key": "svg-2" }], ["path", { "d": "M6 5l14 1l-1 7h-13", "key": "svg-3" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconTrash = createVueComponent("outline", "trash", "IconTrash", [["path", { "d": "M4 7l16 0", "key": "svg-0" }], ["path", { "d": "M10 11l0 6", "key": "svg-1" }], ["path", { "d": "M14 11l0 6", "key": "svg-2" }], ["path", { "d": "M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12", "key": "svg-3" }], ["path", { "d": "M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3", "key": "svg-4" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconWall = createVueComponent("outline", "wall", "IconWall", [["path", { "d": "M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z", "key": "svg-0" }], ["path", { "d": "M4 8h16", "key": "svg-1" }], ["path", { "d": "M20 12h-16", "key": "svg-2" }], ["path", { "d": "M4 16h16", "key": "svg-3" }], ["path", { "d": "M9 4v4", "key": "svg-4" }], ["path", { "d": "M14 8v4", "key": "svg-5" }], ["path", { "d": "M8 12v4", "key": "svg-6" }], ["path", { "d": "M16 12v4", "key": "svg-7" }], ["path", { "d": "M11 16v4", "key": "svg-8" }]]);
 /**
  * @license @tabler/icons-vue v3.24.0 - MIT
  *
@@ -7534,13 +7444,13 @@ var IconWorld = createVueComponent("outline", "world", "IconWorld", [["path", { 
   */
 const inBrowser = typeof window !== "undefined";
 const makeSymbol = (name, shareable = false) => !shareable ? Symbol(name) : Symbol.for(name);
-const generateFormatCacheKey = (locale2, key, source) => friendlyJSONstringify({ l: locale2, k: key, s: source });
+const generateFormatCacheKey = (locale, key, source) => friendlyJSONstringify({ l: locale, k: key, s: source });
 const friendlyJSONstringify = (json) => JSON.stringify(json).replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029").replace(/\u0027/g, "\\u0027");
 const isNumber = (val) => typeof val === "number" && isFinite(val);
 const isDate = (val) => toTypeString(val) === "[object Date]";
 const isRegExp = (val) => toTypeString(val) === "[object RegExp]";
 const isEmptyObject = (val) => isPlainObject(val) && Object.keys(val).length === 0;
-const assign$2 = Object.assign;
+const assign$1 = Object.assign;
 const _create = Object.create;
 const create = (obj = null) => _create(obj);
 let _globalThis;
@@ -7767,14 +7677,14 @@ function createTokenizer(source, options = {}) {
   function getToken(context2, type, value) {
     context2.endLoc = currentPosition();
     context2.currentType = type;
-    const token2 = { type };
+    const token = { type };
     if (location2) {
-      token2.loc = createLocation(context2.startLoc, context2.endLoc);
+      token.loc = createLocation(context2.startLoc, context2.endLoc);
     }
     if (value != null) {
-      token2.value = value;
+      token.value = value;
     }
-    return token2;
+    return token;
   }
   const getEndToken = (context2) => getToken(
     context2,
@@ -8045,12 +7955,12 @@ function createTokenizer(source, options = {}) {
     skipSpaces(scnr);
     eat(scnr, `'`);
     let ch = "";
-    let literal2 = "";
+    let literal = "";
     while (ch = takeChar(scnr, isLiteral2)) {
       if (ch === "\\") {
-        literal2 += readEscapeSequence(scnr);
+        literal += readEscapeSequence(scnr);
       } else {
-        literal2 += ch;
+        literal += ch;
       }
     }
     const current = scnr.currentChar();
@@ -8060,10 +7970,10 @@ function createTokenizer(source, options = {}) {
         scnr.next();
         eat(scnr, `'`);
       }
-      return literal2;
+      return literal;
     }
     eat(scnr, `'`);
-    return literal2;
+    return literal;
   }
   function readEscapeSequence(scnr) {
     const ch = scnr.currentChar();
@@ -8144,7 +8054,7 @@ function createTokenizer(source, options = {}) {
     return plural;
   }
   function readTokenInPlaceholder(scnr, context2) {
-    let token2 = null;
+    let token = null;
     const ch = scnr.currentChar();
     switch (ch) {
       case "{":
@@ -8152,7 +8062,7 @@ function createTokenizer(source, options = {}) {
           emitError(CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER, currentPosition(), 0);
         }
         scnr.next();
-        token2 = getToken(
+        token = getToken(
           context2,
           2,
           "{"
@@ -8160,13 +8070,13 @@ function createTokenizer(source, options = {}) {
         );
         skipSpaces(scnr);
         context2.braceNest++;
-        return token2;
+        return token;
       case "}":
         if (context2.braceNest > 0 && context2.currentType === 2) {
           emitError(CompileErrorCodes.EMPTY_PLACEHOLDER, currentPosition(), 0);
         }
         scnr.next();
-        token2 = getToken(
+        token = getToken(
           context2,
           3,
           "}"
@@ -8177,14 +8087,14 @@ function createTokenizer(source, options = {}) {
         if (context2.inLinked && context2.braceNest === 0) {
           context2.inLinked = false;
         }
-        return token2;
+        return token;
       case "@":
         if (context2.braceNest > 0) {
           emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0);
         }
-        token2 = readTokenInLinked(scnr, context2) || getEndToken(context2);
+        token = readTokenInLinked(scnr, context2) || getEndToken(context2);
         context2.braceNest = 0;
-        return token2;
+        return token;
       default: {
         let validNamedIdentifier = true;
         let validListIdentifier = true;
@@ -8193,10 +8103,10 @@ function createTokenizer(source, options = {}) {
           if (context2.braceNest > 0) {
             emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0);
           }
-          token2 = getToken(context2, 1, readPlural(scnr));
+          token = getToken(context2, 1, readPlural(scnr));
           context2.braceNest = 0;
           context2.inLinked = false;
-          return token2;
+          return token;
         }
         if (context2.braceNest > 0 && (context2.currentType === 4 || context2.currentType === 5 || context2.currentType === 6)) {
           emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0);
@@ -8204,34 +8114,34 @@ function createTokenizer(source, options = {}) {
           return readToken(scnr, context2);
         }
         if (validNamedIdentifier = isNamedIdentifierStart(scnr, context2)) {
-          token2 = getToken(context2, 4, readNamedIdentifier(scnr));
+          token = getToken(context2, 4, readNamedIdentifier(scnr));
           skipSpaces(scnr);
-          return token2;
+          return token;
         }
         if (validListIdentifier = isListIdentifierStart(scnr, context2)) {
-          token2 = getToken(context2, 5, readListIdentifier(scnr));
+          token = getToken(context2, 5, readListIdentifier(scnr));
           skipSpaces(scnr);
-          return token2;
+          return token;
         }
         if (validLiteral = isLiteralStart(scnr, context2)) {
-          token2 = getToken(context2, 6, readLiteral(scnr));
+          token = getToken(context2, 6, readLiteral(scnr));
           skipSpaces(scnr);
-          return token2;
+          return token;
         }
         if (!validNamedIdentifier && !validListIdentifier && !validLiteral) {
-          token2 = getToken(context2, 12, readInvalidIdentifier(scnr));
-          emitError(CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER, currentPosition(), 0, token2.value);
+          token = getToken(context2, 12, readInvalidIdentifier(scnr));
+          emitError(CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER, currentPosition(), 0, token.value);
           skipSpaces(scnr);
-          return token2;
+          return token;
         }
         break;
       }
     }
-    return token2;
+    return token;
   }
   function readTokenInLinked(scnr, context2) {
     const { currentType } = context2;
-    let token2 = null;
+    let token = null;
     const ch = scnr.currentChar();
     if ((currentType === 7 || currentType === 8 || currentType === 11 || currentType === 9) && (ch === CHAR_LF || ch === CHAR_SP)) {
       emitError(CompileErrorCodes.INVALID_LINKED_FORMAT, currentPosition(), 0);
@@ -8239,14 +8149,14 @@ function createTokenizer(source, options = {}) {
     switch (ch) {
       case "@":
         scnr.next();
-        token2 = getToken(
+        token = getToken(
           context2,
           7,
           "@"
           /* TokenChars.LinkedAlias */
         );
         context2.inLinked = true;
-        return token2;
+        return token;
       case ".":
         skipSpaces(scnr);
         scnr.next();
@@ -8267,10 +8177,10 @@ function createTokenizer(source, options = {}) {
         );
       default:
         if (isPluralStart(scnr)) {
-          token2 = getToken(context2, 1, readPlural(scnr));
+          token = getToken(context2, 1, readPlural(scnr));
           context2.braceNest = 0;
           context2.inLinked = false;
-          return token2;
+          return token;
         }
         if (isLinkedDotStart(scnr, context2) || isLinkedDelimiterStart(scnr, context2)) {
           skipSpaces(scnr);
@@ -8283,7 +8193,7 @@ function createTokenizer(source, options = {}) {
         if (isLinkedReferStart(scnr, context2)) {
           skipSpaces(scnr);
           if (ch === "{") {
-            return readTokenInPlaceholder(scnr, context2) || token2;
+            return readTokenInPlaceholder(scnr, context2) || token;
           } else {
             return getToken(context2, 10, readLinkedRefer(scnr));
           }
@@ -8297,7 +8207,7 @@ function createTokenizer(source, options = {}) {
     }
   }
   function readToken(scnr, context2) {
-    let token2 = {
+    let token = {
       type: 13
       /* TokenTypes.EOF */
     };
@@ -8324,10 +8234,10 @@ function createTokenizer(source, options = {}) {
         return readTokenInLinked(scnr, context2) || getEndToken(context2);
       default: {
         if (isPluralStart(scnr)) {
-          token2 = getToken(context2, 1, readPlural(scnr));
+          token = getToken(context2, 1, readPlural(scnr));
           context2.braceNest = 0;
           context2.inLinked = false;
-          return token2;
+          return token;
         }
         if (isTextStart(scnr)) {
           return getToken(context2, 0, readText(scnr));
@@ -8335,7 +8245,7 @@ function createTokenizer(source, options = {}) {
         break;
       }
     }
-    return token2;
+    return token;
   }
   function nextToken() {
     const { currentType, offset, startLoc, endLoc } = _context;
@@ -8446,23 +8356,23 @@ function createParser(options = {}) {
     return node;
   }
   function parseLinkedModifier(tokenizer) {
-    const token2 = tokenizer.nextToken();
+    const token = tokenizer.nextToken();
     const context = tokenizer.context();
     const { lastOffset: offset, lastStartLoc: loc } = context;
     const node = startNode(8, offset, loc);
-    if (token2.type !== 11) {
+    if (token.type !== 11) {
       emitError(tokenizer, CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_MODIFIER, context.lastStartLoc, 0);
       node.value = "";
       endNode(node, offset, loc);
       return {
-        nextConsumeToken: token2,
+        nextConsumeToken: token,
         node
       };
     }
-    if (token2.value == null) {
-      emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+    if (token.value == null) {
+      emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
     }
-    node.value = token2.value || "";
+    node.value = token.value || "";
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
     return {
       node
@@ -8478,43 +8388,43 @@ function createParser(options = {}) {
   function parseLinked(tokenizer) {
     const context = tokenizer.context();
     const linkedNode = startNode(6, context.offset, context.startLoc);
-    let token2 = tokenizer.nextToken();
-    if (token2.type === 8) {
+    let token = tokenizer.nextToken();
+    if (token.type === 8) {
       const parsed = parseLinkedModifier(tokenizer);
       linkedNode.modifier = parsed.node;
-      token2 = parsed.nextConsumeToken || tokenizer.nextToken();
+      token = parsed.nextConsumeToken || tokenizer.nextToken();
     }
-    if (token2.type !== 9) {
-      emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+    if (token.type !== 9) {
+      emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
     }
-    token2 = tokenizer.nextToken();
-    if (token2.type === 2) {
-      token2 = tokenizer.nextToken();
+    token = tokenizer.nextToken();
+    if (token.type === 2) {
+      token = tokenizer.nextToken();
     }
-    switch (token2.type) {
+    switch (token.type) {
       case 10:
-        if (token2.value == null) {
-          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+        if (token.value == null) {
+          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
         }
-        linkedNode.key = parseLinkedKey(tokenizer, token2.value || "");
+        linkedNode.key = parseLinkedKey(tokenizer, token.value || "");
         break;
       case 4:
-        if (token2.value == null) {
-          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+        if (token.value == null) {
+          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
         }
-        linkedNode.key = parseNamed(tokenizer, token2.value || "");
+        linkedNode.key = parseNamed(tokenizer, token.value || "");
         break;
       case 5:
-        if (token2.value == null) {
-          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+        if (token.value == null) {
+          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
         }
-        linkedNode.key = parseList(tokenizer, token2.value || "");
+        linkedNode.key = parseList(tokenizer, token.value || "");
         break;
       case 6:
-        if (token2.value == null) {
-          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+        if (token.value == null) {
+          emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
         }
-        linkedNode.key = parseLiteral(tokenizer, token2.value || "");
+        linkedNode.key = parseLiteral(tokenizer, token.value || "");
         break;
       default: {
         emitError(tokenizer, CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_KEY, context.lastStartLoc, 0);
@@ -8525,7 +8435,7 @@ function createParser(options = {}) {
         linkedNode.key = emptyLinkedKeyNode;
         endNode(linkedNode, nextContext.offset, nextContext.startLoc);
         return {
-          nextConsumeToken: token2,
+          nextConsumeToken: token,
           node: linkedNode
         };
       }
@@ -8543,32 +8453,32 @@ function createParser(options = {}) {
     node.items = [];
     let nextToken = null;
     do {
-      const token2 = nextToken || tokenizer.nextToken();
+      const token = nextToken || tokenizer.nextToken();
       nextToken = null;
-      switch (token2.type) {
+      switch (token.type) {
         case 0:
-          if (token2.value == null) {
-            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+          if (token.value == null) {
+            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
           }
-          node.items.push(parseText(tokenizer, token2.value || ""));
+          node.items.push(parseText(tokenizer, token.value || ""));
           break;
         case 5:
-          if (token2.value == null) {
-            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+          if (token.value == null) {
+            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
           }
-          node.items.push(parseList(tokenizer, token2.value || ""));
+          node.items.push(parseList(tokenizer, token.value || ""));
           break;
         case 4:
-          if (token2.value == null) {
-            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+          if (token.value == null) {
+            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
           }
-          node.items.push(parseNamed(tokenizer, token2.value || ""));
+          node.items.push(parseNamed(tokenizer, token.value || ""));
           break;
         case 6:
-          if (token2.value == null) {
-            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token2));
+          if (token.value == null) {
+            emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
           }
-          node.items.push(parseLiteral(tokenizer, token2.value || ""));
+          node.items.push(parseLiteral(tokenizer, token.value || ""));
           break;
         case 7: {
           const parsed = parseLinked(tokenizer);
@@ -8613,7 +8523,7 @@ function createParser(options = {}) {
     }
   }
   function parse2(source) {
-    const tokenizer = createTokenizer(source, assign$2({}, options));
+    const tokenizer = createTokenizer(source, assign$1({}, options));
     const context = tokenizer.context();
     const node = startNode(0, context.offset, context.startLoc);
     if (location2 && node.loc) {
@@ -8631,11 +8541,11 @@ function createParser(options = {}) {
   }
   return { parse: parse2 };
 }
-function getTokenCaption(token2) {
-  if (token2.type === 13) {
+function getTokenCaption(token) {
+  if (token.type === 13) {
     return "EOF";
   }
-  const name = (token2.value || "").replace(/\r?\n/gu, "\\n");
+  const name = (token.value || "").replace(/\r?\n/gu, "\\n");
   return name.length > 10 ? name.slice(0, 9) + "…" : name;
 }
 function createTransformer(ast, options = {}) {
@@ -9013,7 +8923,7 @@ const generate = (ast, options = {}) => {
   };
 };
 function baseCompile$1(source, options = {}) {
-  const assignedOptions = assign$2({}, options);
+  const assignedOptions = assign$1({}, options);
   const jit = !!assignedOptions.jit;
   const enalbeMinify = !!assignedOptions.minify;
   const enambeOptimize = assignedOptions.optimize == null ? true : assignedOptions.optimize;
@@ -9041,7 +8951,7 @@ function initFeatureFlags$1() {
     getGlobalThis().__INTLIFY_DROP_MESSAGE_COMPILER__ = false;
   }
 }
-function format$2(ast) {
+function format$1(ast) {
   const msg = (ctx) => formatParts(ctx, ast);
   return msg;
 }
@@ -9205,7 +9115,7 @@ function compile(message, context) {
       location: false,
       jit: true
     });
-    const msg = format$2(ast);
+    const msg = format$1(ast);
     return !detectError ? compileCache[cacheKey] = msg : msg;
   } else {
     const cacheKey = message.cacheKey;
@@ -9214,9 +9124,9 @@ function compile(message, context) {
       if (cached) {
         return cached;
       }
-      return compileCache[cacheKey] = format$2(message);
+      return compileCache[cacheKey] = format$1(message);
     } else {
-      return format$2(message);
+      return format$1(message);
     }
   }
 }
@@ -9254,15 +9164,15 @@ function getLocale(context, options) {
   return options.locale != null ? resolveLocale(options.locale) : resolveLocale(context.locale);
 }
 let _resolveLocale;
-function resolveLocale(locale2) {
-  if (isString(locale2)) {
-    return locale2;
+function resolveLocale(locale) {
+  if (isString(locale)) {
+    return locale;
   } else {
-    if (isFunction(locale2)) {
-      if (locale2.resolvedOnce && _resolveLocale != null) {
+    if (isFunction(locale)) {
+      if (locale.resolvedOnce && _resolveLocale != null) {
         return _resolveLocale;
-      } else if (locale2.constructor.name === "Function") {
-        const resolve2 = locale2();
+      } else if (locale.constructor.name === "Function") {
+        const resolve2 = locale();
         if (isPromise(resolve2)) {
           throw createCoreError(CoreErrorCodes.NOT_SUPPORT_LOCALE_PROMISE_VALUE);
         }
@@ -9306,16 +9216,16 @@ function fallbackWithLocaleChain(ctx, fallback, start) {
 function appendBlockToChain(chain, block2, blocks) {
   let follow = true;
   for (let i = 0; i < block2.length && isBoolean(follow); i++) {
-    const locale2 = block2[i];
-    if (isString(locale2)) {
+    const locale = block2[i];
+    if (isString(locale)) {
       follow = appendLocaleToChain(chain, block2[i], blocks);
     }
   }
   return follow;
 }
-function appendLocaleToChain(chain, locale2, blocks) {
+function appendLocaleToChain(chain, locale, blocks) {
   let follow;
-  const tokens = locale2.split("-");
+  const tokens = locale.split("-");
   do {
     const target = tokens.join("-");
     follow = appendItemToChain(chain, target, blocks);
@@ -9329,10 +9239,10 @@ function appendItemToChain(chain, target, blocks) {
     follow = true;
     if (target) {
       follow = target[target.length - 1] !== "!";
-      const locale2 = target.replace(/!/g, "");
-      chain.push(locale2);
-      if ((isArray$1(blocks) || isPlainObject(blocks)) && blocks[locale2]) {
-        follow = blocks[locale2];
+      const locale = target.replace(/!/g, "");
+      chain.push(locale);
+      if ((isArray$1(blocks) || isPlainObject(blocks)) && blocks[locale]) {
+        follow = blocks[locale];
       }
     }
   }
@@ -9818,13 +9728,13 @@ let _cid = 0;
 function createCoreContext(options = {}) {
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn;
   const version2 = isString(options.version) ? options.version : VERSION$1;
-  const locale2 = isString(options.locale) || isFunction(options.locale) ? options.locale : DEFAULT_LOCALE;
-  const _locale = isFunction(locale2) ? DEFAULT_LOCALE : locale2;
+  const locale = isString(options.locale) || isFunction(options.locale) ? options.locale : DEFAULT_LOCALE;
+  const _locale = isFunction(locale) ? DEFAULT_LOCALE : locale;
   const fallbackLocale = isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || isString(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale;
   const messages = isPlainObject(options.messages) ? options.messages : createResources(_locale);
   const datetimeFormats = isPlainObject(options.datetimeFormats) ? options.datetimeFormats : createResources(_locale);
   const numberFormats = isPlainObject(options.numberFormats) ? options.numberFormats : createResources(_locale);
-  const modifiers = assign$2(create(), options.modifiers, getDefaultLinkedModifiers());
+  const modifiers = assign$1(create(), options.modifiers, getDefaultLinkedModifiers());
   const pluralRules = options.pluralRules || create();
   const missing = isFunction(options.missing) ? options.missing : null;
   const missingWarn = isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
@@ -9847,7 +9757,7 @@ function createCoreContext(options = {}) {
   const context = {
     version: version2,
     cid: _cid,
-    locale: locale2,
+    locale,
     fallbackLocale,
     messages,
     modifiers,
@@ -9879,25 +9789,25 @@ function createCoreContext(options = {}) {
   }
   return context;
 }
-const createResources = (locale2) => ({ [locale2]: create() });
-function handleMissing(context, key, locale2, missingWarn, type) {
+const createResources = (locale) => ({ [locale]: create() });
+function handleMissing(context, key, locale, missingWarn, type) {
   const { missing, onWarn } = context;
   if (missing !== null) {
-    const ret = missing(context, locale2, key, type);
+    const ret = missing(context, locale, key, type);
     return isString(ret) ? ret : key;
   } else {
     return key;
   }
 }
-function updateFallbackLocale(ctx, locale2, fallback) {
+function updateFallbackLocale(ctx, locale, fallback) {
   const context = ctx;
   context.__localeChainCache = /* @__PURE__ */ new Map();
-  ctx.localeFallbacker(ctx, fallback, locale2);
+  ctx.localeFallbacker(ctx, fallback, locale);
 }
-function isAlmostSameLocale(locale2, compareLocale) {
-  if (locale2 === compareLocale)
+function isAlmostSameLocale(locale, compareLocale) {
+  if (locale === compareLocale)
     return false;
-  return locale2.split("-")[0] === compareLocale.split("-")[0];
+  return locale.split("-")[0] === compareLocale.split("-")[0];
 }
 function isImplicitFallback(targetLocale, locales) {
   const index = locales.indexOf(targetLocale);
@@ -9918,15 +9828,15 @@ function datetime(context, ...args) {
   const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
   isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
   const part = !!options.part;
-  const locale2 = getLocale(context, options);
+  const locale = getLocale(context, options);
   const locales = localeFallbacker(
     context,
     // eslint-disable-line @typescript-eslint/no-explicit-any
     fallbackLocale,
-    locale2
+    locale
   );
   if (!isString(key) || key === "") {
-    return new Intl.DateTimeFormat(locale2, overrides).format(value);
+    return new Intl.DateTimeFormat(locale, overrides).format(value);
   }
   let datetimeFormat = {};
   let targetLocale;
@@ -9949,7 +9859,7 @@ function datetime(context, ...args) {
   }
   let formatter = __datetimeFormatters.get(id);
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat(targetLocale, assign$2({}, format2, overrides));
+    formatter = new Intl.DateTimeFormat(targetLocale, assign$1({}, format2, overrides));
     __datetimeFormatters.set(id, formatter);
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value);
@@ -10024,10 +9934,10 @@ function parseDateTimeArgs(...args) {
   }
   return [options.key || "", value, options, overrides];
 }
-function clearDateTimeFormat(ctx, locale2, format2) {
+function clearDateTimeFormat(ctx, locale, format2) {
   const context = ctx;
   for (const key in format2) {
-    const id = `${locale2}__${key}`;
+    const id = `${locale}__${key}`;
     if (!context.__datetimeFormatters.has(id)) {
       continue;
     }
@@ -10041,15 +9951,15 @@ function number(context, ...args) {
   const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn;
   isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn;
   const part = !!options.part;
-  const locale2 = getLocale(context, options);
+  const locale = getLocale(context, options);
   const locales = localeFallbacker(
     context,
     // eslint-disable-line @typescript-eslint/no-explicit-any
     fallbackLocale,
-    locale2
+    locale
   );
   if (!isString(key) || key === "") {
-    return new Intl.NumberFormat(locale2, overrides).format(value);
+    return new Intl.NumberFormat(locale, overrides).format(value);
   }
   let numberFormat = {};
   let targetLocale;
@@ -10072,7 +9982,7 @@ function number(context, ...args) {
   }
   let formatter = __numberFormatters.get(id);
   if (!formatter) {
-    formatter = new Intl.NumberFormat(targetLocale, assign$2({}, format2, overrides));
+    formatter = new Intl.NumberFormat(targetLocale, assign$1({}, format2, overrides));
     __numberFormatters.set(id, formatter);
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value);
@@ -10128,10 +10038,10 @@ function parseNumberArgs(...args) {
   }
   return [options.key || "", value, options, overrides];
 }
-function clearNumberFormat(ctx, locale2, format2) {
+function clearNumberFormat(ctx, locale, format2) {
   const context = ctx;
   for (const key in format2) {
-    const id = `${locale2}__${key}`;
+    const id = `${locale}__${key}`;
     if (!context.__numberFormatters.has(id)) {
       continue;
     }
@@ -10163,10 +10073,10 @@ function normalizeNamed(pluralIndex, props) {
   }
 }
 function createMessageContext(options = {}) {
-  const locale2 = options.locale;
+  const locale = options.locale;
   const pluralIndex = getPluralIndex(options);
-  const pluralRule = isObject$1(options.pluralRules) && isString(locale2) && isFunction(options.pluralRules[locale2]) ? options.pluralRules[locale2] : pluralDefault;
-  const orgPluralRule = isObject$1(options.pluralRules) && isString(locale2) && isFunction(options.pluralRules[locale2]) ? pluralDefault : void 0;
+  const pluralRule = isObject$1(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale]) ? options.pluralRules[locale] : pluralDefault;
+  const orgPluralRule = isObject$1(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale]) ? pluralDefault : void 0;
   const plural = (messages) => {
     return messages[pluralRule(pluralIndex, messages.length, orgPluralRule)];
   };
@@ -10245,7 +10155,7 @@ function createMessageContext(options = {}) {
     [
       "values"
       /* HelperNameMap.VALUES */
-    ]: assign$2(create(), _list, _named)
+    ]: assign$1(create(), _list, _named)
   };
   return ctx;
 }
@@ -10260,12 +10170,12 @@ function translate(context, ...args) {
   const resolvedMessage = !!options.resolvedMessage;
   const defaultMsgOrKey = isString(options.default) || isBoolean(options.default) ? !isBoolean(options.default) ? options.default : !messageCompiler ? () => key : key : fallbackFormat ? !messageCompiler ? () => key : key : null;
   const enableDefaultMsg = fallbackFormat || defaultMsgOrKey != null && (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey));
-  const locale2 = getLocale(context, options);
+  const locale = getLocale(context, options);
   escapeParameter && escapeParams(options);
-  let [formatScope, targetLocale, message] = !resolvedMessage ? resolveMessageFormat(context, key, locale2, fallbackLocale, fallbackWarn, missingWarn) : [
+  let [formatScope, targetLocale, message] = !resolvedMessage ? resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn, missingWarn) : [
     key,
-    locale2,
-    messages[locale2] || create()
+    locale,
+    messages[locale] || create()
   ];
   let format2 = formatScope;
   let cacheBaseKey = key;
@@ -10298,7 +10208,7 @@ function translate(context, ...args) {
       format: isString(format2) ? format2 : isMessageFunction(format2) ? format2.source : "",
       message: ret
     };
-    payloads.meta = assign$2({}, context.__meta, /* @__PURE__ */ getAdditionalMeta() || {});
+    payloads.meta = assign$1({}, context.__meta, /* @__PURE__ */ getAdditionalMeta() || {});
     translateDevTools(payloads);
   }
   return ret;
@@ -10314,9 +10224,9 @@ function escapeParams(options) {
     });
   }
 }
-function resolveMessageFormat(context, key, locale2, fallbackLocale, fallbackWarn, missingWarn) {
+function resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn, missingWarn) {
   const { messages, onWarn, messageResolver: resolveValue2, localeFallbacker } = context;
-  const locales = localeFallbacker(context, fallbackLocale, locale2);
+  const locales = localeFallbacker(context, fallbackLocale, locale);
   let message = create();
   let targetLocale;
   let format2 = null;
@@ -10391,13 +10301,13 @@ function parseTranslateArgs(...args) {
   } else if (isString(arg3)) {
     options.default = arg3;
   } else if (isPlainObject(arg3)) {
-    assign$2(options, arg3);
+    assign$1(options, arg3);
   }
   return [key, options];
 }
-function getCompileContext(context, locale2, key, source, warnHtmlMessage, onError) {
+function getCompileContext(context, locale, key, source, warnHtmlMessage, onError) {
   return {
-    locale: locale2,
+    locale,
     key,
     warnHtmlMessage,
     onError: (err) => {
@@ -10406,10 +10316,10 @@ function getCompileContext(context, locale2, key, source, warnHtmlMessage, onErr
         throw err;
       }
     },
-    onCacheKey: (source2) => generateFormatCacheKey(locale2, key, source2)
+    onCacheKey: (source2) => generateFormatCacheKey(locale, key, source2)
   };
 }
-function getMessageContextOptions(context, locale2, message, options) {
+function getMessageContextOptions(context, locale, message, options) {
   const { modifiers, pluralRules, messageResolver: resolveValue2, fallbackLocale, fallbackWarn, missingWarn, fallbackContext } = context;
   const resolveMessage = (key, useLinked) => {
     let val = resolveValue2(message, key);
@@ -10418,7 +10328,7 @@ function getMessageContextOptions(context, locale2, message, options) {
         fallbackContext || context,
         // NOTE: if has fallbackContext, fallback to root, else if use linked, fallback to local context
         key,
-        locale2,
+        locale,
         fallbackLocale,
         fallbackWarn,
         missingWarn
@@ -10430,7 +10340,7 @@ function getMessageContextOptions(context, locale2, message, options) {
       const onError = () => {
         occurred = true;
       };
-      const msg = compileMessageFormat(context, key, locale2, val, key, onError);
+      const msg = compileMessageFormat(context, key, locale, val, key, onError);
       return !occurred ? msg : NOOP_MESSAGE_FUNCTION;
     } else if (isMessageFunction(val)) {
       return val;
@@ -10439,7 +10349,7 @@ function getMessageContextOptions(context, locale2, message, options) {
     }
   };
   const ctxOptions = {
-    locale: locale2,
+    locale,
     modifiers,
     pluralRules,
     messages: resolveMessage
@@ -10550,16 +10460,16 @@ function handleFlatJson(obj) {
   }
   return obj;
 }
-function getLocaleMessages(locale2, options) {
+function getLocaleMessages(locale, options) {
   const { messages, __i18n, messageResolver, flatJson } = options;
-  const ret = isPlainObject(messages) ? messages : isArray$1(__i18n) ? create() : { [locale2]: create() };
+  const ret = isPlainObject(messages) ? messages : isArray$1(__i18n) ? create() : { [locale]: create() };
   if (isArray$1(__i18n)) {
     __i18n.forEach((custom) => {
       if ("locale" in custom && "resource" in custom) {
-        const { locale: locale22, resource } = custom;
-        if (locale22) {
-          ret[locale22] = ret[locale22] || create();
-          deepCopy(resource, ret[locale22]);
+        const { locale: locale2, resource } = custom;
+        if (locale2) {
+          ret[locale2] = ret[locale2] || create();
+          deepCopy(resource, ret[locale2]);
         } else {
           deepCopy(resource, ret);
         }
@@ -10590,24 +10500,24 @@ function adjustI18nResources(gl, options, componentOptions) {
   }
   const locales = Object.keys(messages);
   if (locales.length) {
-    locales.forEach((locale2) => {
-      gl.mergeLocaleMessage(locale2, messages[locale2]);
+    locales.forEach((locale) => {
+      gl.mergeLocaleMessage(locale, messages[locale]);
     });
   }
   {
     if (isObject$1(options.datetimeFormats)) {
       const locales2 = Object.keys(options.datetimeFormats);
       if (locales2.length) {
-        locales2.forEach((locale2) => {
-          gl.mergeDateTimeFormat(locale2, options.datetimeFormats[locale2]);
+        locales2.forEach((locale) => {
+          gl.mergeDateTimeFormat(locale, options.datetimeFormats[locale]);
         });
       }
     }
     if (isObject$1(options.numberFormats)) {
       const locales2 = Object.keys(options.numberFormats);
       if (locales2.length) {
-        locales2.forEach((locale2) => {
-          gl.mergeNumberFormat(locale2, options.numberFormats[locale2]);
+        locales2.forEach((locale) => {
+          gl.mergeNumberFormat(locale, options.numberFormats[locale]);
         });
       }
     }
@@ -10621,8 +10531,8 @@ const NOOP_RETURN_ARRAY = () => [];
 const NOOP_RETURN_FALSE = () => false;
 let composerID = 0;
 function defineCoreMissingHandler(missing) {
-  return (ctx, locale2, key, type) => {
-    return missing(locale2, key, getCurrentInstance$1() || void 0, type);
+  return (ctx, locale, key, type) => {
+    return missing(locale, key, getCurrentInstance$1() || void 0, type);
   };
 }
 const getMetaInfo = /* @__NO_SIDE_EFFECTS__ */ () => {
@@ -10701,7 +10611,7 @@ function createComposer(options = {}) {
       _numberFormats.value
     ];
   }
-  const locale2 = computed({
+  const locale = computed({
     get: () => _locale.value,
     set: (val) => {
       _locale.value = val;
@@ -10771,7 +10681,7 @@ function createComposer(options = {}) {
     if (arg3 && !isObject$1(arg3)) {
       throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT);
     }
-    return t(...[arg1, arg2, assign$2({ resolvedMessage: true }, arg3 || {})]);
+    return t(...[arg1, arg2, assign$1({ resolvedMessage: true }, arg3 || {})]);
   }
   function d(...args) {
     return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => Reflect.apply(root.d, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString(val));
@@ -10807,21 +10717,21 @@ function createComposer(options = {}) {
   function datetimeParts(...args) {
     return wrapWithDeps((context) => Reflect.apply(datetime, null, [context, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => root[DatetimePartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString(val) || isArray$1(val));
   }
-  function setPluralRules(rules2) {
-    _pluralRules = rules2;
+  function setPluralRules(rules) {
+    _pluralRules = rules;
     _context.pluralRules = _pluralRules;
   }
-  function te(key, locale22) {
+  function te(key, locale2) {
     return wrapWithDeps(() => {
       if (!key) {
         return false;
       }
-      const targetLocale = isString(locale22) ? locale22 : _locale.value;
+      const targetLocale = isString(locale2) ? locale2 : _locale.value;
       const message = getLocaleMessage(targetLocale);
       const resolved = _context.messageResolver(message, key);
       return isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved);
     }, () => [key], "translate exists", (root) => {
-      return Reflect.apply(root.te, root, [key, locale22]);
+      return Reflect.apply(root.te, root, [key, locale2]);
     }, NOOP_RETURN_FALSE, (val) => isBoolean(val));
   }
   function resolveMessages(key) {
@@ -10841,25 +10751,25 @@ function createComposer(options = {}) {
     const messages2 = resolveMessages(key);
     return messages2 != null ? messages2 : __root ? __root.tm(key) || {} : {};
   }
-  function getLocaleMessage(locale22) {
-    return _messages.value[locale22] || {};
+  function getLocaleMessage(locale2) {
+    return _messages.value[locale2] || {};
   }
-  function setLocaleMessage(locale22, message) {
+  function setLocaleMessage(locale2, message) {
     if (flatJson) {
-      const _message = { [locale22]: message };
+      const _message = { [locale2]: message };
       for (const key in _message) {
         if (hasOwn(_message, key)) {
           handleFlatJson(_message[key]);
         }
       }
-      message = _message[locale22];
+      message = _message[locale2];
     }
-    _messages.value[locale22] = message;
+    _messages.value[locale2] = message;
     _context.messages = _messages.value;
   }
-  function mergeLocaleMessage(locale22, message) {
-    _messages.value[locale22] = _messages.value[locale22] || {};
-    const _message = { [locale22]: message };
+  function mergeLocaleMessage(locale2, message) {
+    _messages.value[locale2] = _messages.value[locale2] || {};
+    const _message = { [locale2]: message };
     if (flatJson) {
       for (const key in _message) {
         if (hasOwn(_message, key)) {
@@ -10867,35 +10777,35 @@ function createComposer(options = {}) {
         }
       }
     }
-    message = _message[locale22];
-    deepCopy(message, _messages.value[locale22]);
+    message = _message[locale2];
+    deepCopy(message, _messages.value[locale2]);
     _context.messages = _messages.value;
   }
-  function getDateTimeFormat(locale22) {
-    return _datetimeFormats.value[locale22] || {};
+  function getDateTimeFormat(locale2) {
+    return _datetimeFormats.value[locale2] || {};
   }
-  function setDateTimeFormat(locale22, format2) {
-    _datetimeFormats.value[locale22] = format2;
+  function setDateTimeFormat(locale2, format2) {
+    _datetimeFormats.value[locale2] = format2;
     _context.datetimeFormats = _datetimeFormats.value;
-    clearDateTimeFormat(_context, locale22, format2);
+    clearDateTimeFormat(_context, locale2, format2);
   }
-  function mergeDateTimeFormat(locale22, format2) {
-    _datetimeFormats.value[locale22] = assign$2(_datetimeFormats.value[locale22] || {}, format2);
+  function mergeDateTimeFormat(locale2, format2) {
+    _datetimeFormats.value[locale2] = assign$1(_datetimeFormats.value[locale2] || {}, format2);
     _context.datetimeFormats = _datetimeFormats.value;
-    clearDateTimeFormat(_context, locale22, format2);
+    clearDateTimeFormat(_context, locale2, format2);
   }
-  function getNumberFormat(locale22) {
-    return _numberFormats.value[locale22] || {};
+  function getNumberFormat(locale2) {
+    return _numberFormats.value[locale2] || {};
   }
-  function setNumberFormat(locale22, format2) {
-    _numberFormats.value[locale22] = format2;
+  function setNumberFormat(locale2, format2) {
+    _numberFormats.value[locale2] = format2;
     _context.numberFormats = _numberFormats.value;
-    clearNumberFormat(_context, locale22, format2);
+    clearNumberFormat(_context, locale2, format2);
   }
-  function mergeNumberFormat(locale22, format2) {
-    _numberFormats.value[locale22] = assign$2(_numberFormats.value[locale22] || {}, format2);
+  function mergeNumberFormat(locale2, format2) {
+    _numberFormats.value[locale2] = assign$1(_numberFormats.value[locale2] || {}, format2);
     _context.numberFormats = _numberFormats.value;
-    clearNumberFormat(_context, locale22, format2);
+    clearNumberFormat(_context, locale2, format2);
   }
   composerID++;
   if (__root && inBrowser) {
@@ -10916,7 +10826,7 @@ function createComposer(options = {}) {
   }
   const composer = {
     id: composerID,
-    locale: locale2,
+    locale,
     fallbackLocale,
     get inheritLocale() {
       return _inheritLocale;
@@ -11015,8 +10925,8 @@ function createComposer(options = {}) {
   return composer;
 }
 function convertComposerOptions(options) {
-  const locale2 = isString(options.locale) ? options.locale : DEFAULT_LOCALE;
-  const fallbackLocale = isString(options.fallbackLocale) || isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : locale2;
+  const locale = isString(options.locale) ? options.locale : DEFAULT_LOCALE;
+  const fallbackLocale = isString(options.fallbackLocale) || isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : locale;
   const missing = isFunction(options.missing) ? options.missing : void 0;
   const missingWarn = isBoolean(options.silentTranslationWarn) || isRegExp(options.silentTranslationWarn) ? !options.silentTranslationWarn : true;
   const fallbackWarn = isBoolean(options.silentFallbackWarn) || isRegExp(options.silentFallbackWarn) ? !options.silentFallbackWarn : true;
@@ -11032,9 +10942,9 @@ function convertComposerOptions(options) {
   if (isPlainObject(options.sharedMessages)) {
     const sharedMessages = options.sharedMessages;
     const locales = Object.keys(sharedMessages);
-    messages = locales.reduce((messages2, locale22) => {
-      const message = messages2[locale22] || (messages2[locale22] = {});
-      assign$2(message, sharedMessages[locale22]);
+    messages = locales.reduce((messages2, locale2) => {
+      const message = messages2[locale2] || (messages2[locale2] = {});
+      assign$1(message, sharedMessages[locale2]);
       return messages2;
     }, messages || {});
   }
@@ -11043,7 +10953,7 @@ function convertComposerOptions(options) {
   const numberFormats = options.numberFormats;
   const flatJson = options.flatJson;
   return {
-    locale: locale2,
+    locale,
     fallbackLocale,
     messages,
     flatJson,
@@ -11209,56 +11119,56 @@ function createVueI18n(options = {}) {
       ]);
     },
     // te
-    te(key, locale2) {
-      return composer.te(key, locale2);
+    te(key, locale) {
+      return composer.te(key, locale);
     },
     // tm
     tm(key) {
       return composer.tm(key);
     },
     // getLocaleMessage
-    getLocaleMessage(locale2) {
-      return composer.getLocaleMessage(locale2);
+    getLocaleMessage(locale) {
+      return composer.getLocaleMessage(locale);
     },
     // setLocaleMessage
-    setLocaleMessage(locale2, message) {
-      composer.setLocaleMessage(locale2, message);
+    setLocaleMessage(locale, message) {
+      composer.setLocaleMessage(locale, message);
     },
     // mergeLocaleMessage
-    mergeLocaleMessage(locale2, message) {
-      composer.mergeLocaleMessage(locale2, message);
+    mergeLocaleMessage(locale, message) {
+      composer.mergeLocaleMessage(locale, message);
     },
     // d
     d(...args) {
       return Reflect.apply(composer.d, composer, [...args]);
     },
     // getDateTimeFormat
-    getDateTimeFormat(locale2) {
-      return composer.getDateTimeFormat(locale2);
+    getDateTimeFormat(locale) {
+      return composer.getDateTimeFormat(locale);
     },
     // setDateTimeFormat
-    setDateTimeFormat(locale2, format2) {
-      composer.setDateTimeFormat(locale2, format2);
+    setDateTimeFormat(locale, format2) {
+      composer.setDateTimeFormat(locale, format2);
     },
     // mergeDateTimeFormat
-    mergeDateTimeFormat(locale2, format2) {
-      composer.mergeDateTimeFormat(locale2, format2);
+    mergeDateTimeFormat(locale, format2) {
+      composer.mergeDateTimeFormat(locale, format2);
     },
     // n
     n(...args) {
       return Reflect.apply(composer.n, composer, [...args]);
     },
     // getNumberFormat
-    getNumberFormat(locale2) {
-      return composer.getNumberFormat(locale2);
+    getNumberFormat(locale) {
+      return composer.getNumberFormat(locale);
     },
     // setNumberFormat
-    setNumberFormat(locale2, format2) {
-      composer.setNumberFormat(locale2, format2);
+    setNumberFormat(locale, format2) {
+      composer.setNumberFormat(locale, format2);
     },
     // mergeNumberFormat
-    mergeNumberFormat(locale2, format2) {
-      composer.mergeNumberFormat(locale2, format2);
+    mergeNumberFormat(locale, format2) {
+      composer.mergeNumberFormat(locale, format2);
     }
   };
   vueI18n.__extender = __extender;
@@ -11313,7 +11223,7 @@ function defineMixin(vuei18n, composer, i18n2) {
       this.$t = (...args) => this.$i18n.t(...args);
       this.$rt = (...args) => this.$i18n.rt(...args);
       this.$tc = (...args) => this.$i18n.tc(...args);
-      this.$te = (key, locale2) => this.$i18n.te(key, locale2);
+      this.$te = (key, locale) => this.$i18n.te(key, locale);
       this.$d = (...args) => this.$i18n.d(...args);
       this.$n = (...args) => this.$i18n.n(...args);
       this.$tm = (key) => this.$i18n.tm(key);
@@ -11360,12 +11270,12 @@ function mergeToGlobal(g, options) {
     messages: options.messages,
     __i18n: options.__i18n
   });
-  Object.keys(messages).forEach((locale2) => g.mergeLocaleMessage(locale2, messages[locale2]));
+  Object.keys(messages).forEach((locale) => g.mergeLocaleMessage(locale, messages[locale]));
   if (options.datetimeFormats) {
-    Object.keys(options.datetimeFormats).forEach((locale2) => g.mergeDateTimeFormat(locale2, options.datetimeFormats[locale2]));
+    Object.keys(options.datetimeFormats).forEach((locale) => g.mergeDateTimeFormat(locale, options.datetimeFormats[locale]));
   }
   if (options.numberFormats) {
-    Object.keys(options.numberFormats).forEach((locale2) => g.mergeNumberFormat(locale2, options.numberFormats[locale2]));
+    Object.keys(options.numberFormats).forEach((locale) => g.mergeNumberFormat(locale, options.numberFormats[locale]));
   }
   return g;
 }
@@ -11413,7 +11323,7 @@ function getFragmentableTag() {
 const TranslationImpl = /* @__PURE__ */ defineComponent$1({
   /* eslint-disable */
   name: "i18n-t",
-  props: assign$2({
+  props: assign$1({
     keypath: {
       type: String,
       required: true
@@ -11442,7 +11352,7 @@ const TranslationImpl = /* @__PURE__ */ defineComponent$1({
       }
       const arg = getInterpolateArg(context, keys2);
       const children = i18n2[TranslateVNodeSymbol](props.keypath, arg, options);
-      const assignedAttrs = assign$2(create(), attrs);
+      const assignedAttrs = assign$1(create(), attrs);
       const tag = isString(props.tag) || isObject$1(props.tag) ? props.tag : getFragmentableTag();
       return h(tag, assignedAttrs, children);
     };
@@ -11467,7 +11377,7 @@ function renderFormatter(props, context, slotKeys, partFormatter) {
         options.key = props.format.key;
       }
       overrides = Object.keys(props.format).reduce((options2, prop) => {
-        return slotKeys.includes(prop) ? assign$2(create(), options2, { [prop]: props.format[prop] }) : options2;
+        return slotKeys.includes(prop) ? assign$1(create(), options2, { [prop]: props.format[prop] }) : options2;
       }, create());
     }
     const parts = partFormatter(...[props.value, options, overrides]);
@@ -11484,7 +11394,7 @@ function renderFormatter(props, context, slotKeys, partFormatter) {
     } else if (isString(parts)) {
       children = [parts];
     }
-    const assignedAttrs = assign$2(create(), attrs);
+    const assignedAttrs = assign$1(create(), attrs);
     const tag = isString(props.tag) || isObject$1(props.tag) ? props.tag : getFragmentableTag();
     return h(tag, assignedAttrs, children);
   };
@@ -11492,7 +11402,7 @@ function renderFormatter(props, context, slotKeys, partFormatter) {
 const NumberFormatImpl = /* @__PURE__ */ defineComponent$1({
   /* eslint-disable */
   name: "i18n-n",
-  props: assign$2({
+  props: assign$1({
     value: {
       type: Number,
       required: true
@@ -11518,7 +11428,7 @@ const NumberFormat = NumberFormatImpl;
 const DatetimeFormatImpl = /* @__PURE__ */ defineComponent$1({
   /* eslint-disable */
   name: "i18n-d",
-  props: assign$2({
+  props: assign$1({
     value: {
       type: [Number, Date],
       required: true
@@ -11617,11 +11527,11 @@ function parseValue(value) {
   }
 }
 function makeParams(value) {
-  const { path, locale: locale2, args, choice, plural } = value;
+  const { path, locale, args, choice, plural } = value;
   const options = {};
   const named = args || {};
-  if (isString(locale2)) {
-    options.locale = locale2;
+  if (isString(locale)) {
+    options.locale = locale;
   }
   if (isNumber(choice)) {
     options.plural = choice;
@@ -11734,7 +11644,7 @@ function useI18n(options = {}) {
   const i18nInternal = i18n2;
   let composer = i18nInternal.__getInstance(instance);
   if (composer == null) {
-    const composerOptions = assign$2({}, options);
+    const composerOptions = assign$1({}, options);
     if ("__i18n" in componentOptions) {
       composerOptions.__i18n = componentOptions.__i18n;
     }
@@ -11874,6 +11784,63 @@ if (__INTLIFY_PROD_DEVTOOLS__) {
   target.__INTLIFY__ = true;
   setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__);
 }
+const scriptRel = "modulepreload";
+const assetsURL = function(dep) {
+  return "/fake-shop/" + dep;
+};
+const seen = {};
+const __vitePreload = function preload(baseModule, deps, importerUrl) {
+  let promise = Promise.resolve();
+  if (deps && deps.length > 0) {
+    document.getElementsByTagName("link");
+    const cspNonceMeta = document.querySelector(
+      "meta[property=csp-nonce]"
+    );
+    const cspNonce = (cspNonceMeta == null ? void 0 : cspNonceMeta.nonce) || (cspNonceMeta == null ? void 0 : cspNonceMeta.getAttribute("nonce"));
+    promise = Promise.all(
+      deps.map((dep) => {
+        dep = assetsURL(dep);
+        if (dep in seen) return;
+        seen[dep] = true;
+        const isCss = dep.endsWith(".css");
+        const cssSelector = isCss ? '[rel="stylesheet"]' : "";
+        if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) {
+          return;
+        }
+        const link = document.createElement("link");
+        link.rel = isCss ? "stylesheet" : scriptRel;
+        if (!isCss) {
+          link.as = "script";
+        }
+        link.crossOrigin = "";
+        link.href = dep;
+        if (cspNonce) {
+          link.setAttribute("nonce", cspNonce);
+        }
+        document.head.appendChild(link);
+        if (isCss) {
+          return new Promise((res, rej) => {
+            link.addEventListener("load", res);
+            link.addEventListener(
+              "error",
+              () => rej(new Error(`Unable to preload CSS for ${dep}`))
+            );
+          });
+        }
+      })
+    );
+  }
+  return promise.then(() => baseModule()).catch((err) => {
+    const e = new Event("vite:preloadError", {
+      cancelable: true
+    });
+    e.payload = err;
+    window.dispatchEvent(e);
+    if (!e.defaultPrevented) {
+      throw err;
+    }
+  });
+};
 var LocaleCode = /* @__PURE__ */ ((LocaleCode2) => {
   LocaleCode2["En"] = "en";
   LocaleCode2["Uk"] = "uk";
@@ -11890,284 +11857,11 @@ const i18n = createI18n({
   legacy: false,
   fallbackLocale: LocaleCode.En
 });
-const actionJSON = {
-  "action.try.it.out": {
-    en: "Try it out",
-    uk: "Спробувати"
-  },
-  "action.reset.filters": {
-    en: "Reset Filters",
-    uk: "Скинути фільтри"
-  },
-  "action.continue.shopping": {
-    en: "Continue Shopping",
-    uk: "Продовжити покупки"
-  },
-  "action.checkout": {
-    en: "Check Out",
-    uk: "Оформити замовлення"
-  },
-  "action.back": {
-    en: "Back",
-    uk: "Назад"
-  },
-  "action.complete.an.order": {
-    en: "Complete an Order",
-    uk: "Завершити замовлення"
-  },
-  "action.cancel": {
-    en: "Cancel",
-    uk: "Скасувати"
-  },
-  "action.confirm": {
-    en: "Confirm",
-    uk: "Підтвердити"
-  },
-  "action.edit": {
-    en: "Edit",
-    uk: "Редагувати"
-  },
-  "action.go.back.to.shopping": {
-    en: "Go Back to Shopping",
-    uk: "Повернутися до покупок"
-  },
-  "action.add.new.form": {
-    en: "Add New Form",
-    uk: "Додати нову форму"
-  },
-  "action.remove.form": {
-    en: "Remove Form",
-    uk: "Видалити форму"
-  },
-  "action.save.changes": {
-    en: "Save Changes",
-    uk: "Зберегти зміни"
-  },
-  "action.make.payment": {
-    en: "Make Payment",
-    uk: "Здійснити оплату"
-  },
-  "action.update.order.id": {
-    en: "Update Order ID",
-    uk: "Оновити ID замовлення"
-  }
-};
-const metaJSON = {
-  "meta.title": {
-    en: "UPC demo-shop",
-    uk: "UPC демо-магазин"
-  }
-};
-const textJSON = {
-  "text.payment.with.redirect": {
-    en: "Payment with redirect",
-    uk: "Оплата з перенаправленням"
-  },
-  "text.payment.with.redirect.description": {
-    en: "Redirect to payment page on checkout",
-    uk: "Перенаправлення на сторінку оплати при оформленні замовлення"
-  },
-  "text.payment.with.built.in.iframe": {
-    en: "Payment with built-in iframe",
-    uk: "Оплата з вбудованим iframe"
-  },
-  "text.payment.with.built.in.iframe.description": {
-    en: "Show built-in payment iframe on checkout page",
-    uk: "Показати вбудований iframe оплати на сторінці оформлення замовлення"
-  },
-  "text.payment.with.modal.iframe": {
-    en: "Payment with modal iframe",
-    uk: "Оплата з модальним iframe"
-  },
-  "text.payment.with.modal.iframe.description": {
-    en: "Show modal payment iframe on checkout page",
-    uk: "Показати модальний iframe оплати на сторінці оформлення замовлення"
-  },
-  "text.payment.with.manual.params": {
-    en: "Payment with manual params (developers purpose only)",
-    uk: "Оплата з ручними параметрами (тільки для розробників)"
-  },
-  "text.payment.with.manual.params.description": {
-    en: "Set all available payment parameters on checkout",
-    uk: "Встановити всі доступні параметри оплати при оформленні замовлення"
-  },
-  "text.payment.by.bank": {
-    en: "Pay by bank",
-    uk: "Оплата через банк"
-  },
-  "text.payment.by.bank.description": {
-    en: "Payment by 'Pay by bank' button",
-    uk: "Оплата платіжною кнопкою 'Оплатити через банк'"
-  },
-  "text.demo.shop": {
-    en: "Demo shop",
-    uk: "Демо магазин"
-  },
-  "text.transaction.code": {
-    en: "Transaction code",
-    uk: "Код транзакції"
-  },
-  "text.description": {
-    en: "Description",
-    uk: "Опис"
-  },
-  "text.card.number": {
-    en: "Card number",
-    uk: "Номер картки"
-  },
-  "text.menu": {
-    en: "Menu",
-    uk: "Меню"
-  },
-  "text.there.is.no.product": {
-    en: "There is no Product",
-    uk: "Товарів немає"
-  },
-  "text.there.is.no.product.description": {
-    en: "Try checking your spelling or use more general terms",
-    uk: "Спробуйте перевірити правопис або використовуйте більш загальні терміни"
-  },
-  "text.gender": {
-    en: "Gender",
-    uk: "Стать"
-  },
-  "text.categories": {
-    en: "Categories",
-    uk: "Категорії"
-  },
-  "text.colors": {
-    en: "Colors",
-    uk: "Кольори"
-  },
-  "text.price": {
-    en: "Price",
-    uk: "Ціна"
-  },
-  "text.rating": {
-    en: "Rating",
-    uk: "Рейтинг"
-  },
-  "text.item.cart": {
-    en: "Item Cart",
-    uk: "Кошик"
-  },
-  "text.product.summary": {
-    en: "Product Summary",
-    uk: "Опис товару"
-  },
-  "text.billing": {
-    en: "Billing",
-    uk: "Оплата"
-  },
-  "text.billing.information": {
-    en: "Billing Information",
-    uk: "Інформація про платника"
-  },
-  "text.billing.address": {
-    en: "Billing Address",
-    uk: "Адреса платника"
-  },
-  "text.product": {
-    en: "Product",
-    uk: "Товар"
-  },
-  "text.quantity": {
-    en: "Quantity",
-    uk: "Кількість"
-  },
-  "text.total": {
-    en: "Total",
-    uk: "Разом"
-  },
-  "text.cart.is.empty": {
-    en: "Cart is Empty",
-    uk: "Кошик порожній"
-  },
-  "text.order.summary": {
-    en: "Order Summary",
-    uk: "Огляд замовлення"
-  },
-  "text.sub.total": {
-    en: "Sub Total",
-    uk: "Підсумок"
-  },
-  "text.discount": {
-    en: "Discount",
-    uk: "Знижка"
-  },
-  "text.manual.request.params.form": {
-    en: "Manual request params form (developers purpose only)",
-    uk: "Форма ручного встановлення параметрів запиту (тільки для розробників)"
-  },
-  "text.form.params": {
-    en: "Form params",
-    uk: "Параметри форми"
-  },
-  "text.merchant": {
-    en: "Merchant",
-    uk: "Мерчант"
-  },
-  "text.currency": {
-    en: "Currency",
-    uk: "Валюта"
-  },
-  "text.fee": {
-    en: "Fee",
-    uk: "Комісія"
-  },
-  "text.total.amount": {
-    en: "Total Amount",
-    uk: "Загальна сума"
-  },
-  "text.customer.data": {
-    en: "Customer Data",
-    uk: "Дані покупця"
-  },
-  "text.other.params": {
-    en: "Other params",
-    uk: "Інші параметри"
-  }
-};
-const titleJSON = {
-  "title.test.cards": {
-    en: "Test cards",
-    uk: "Тестові картки"
-  },
-  "title.shopping.cart": {
-    en: "Shopping cart",
-    uk: "Кошик"
-  },
-  "title.copy": {
-    en: "Copy",
-    uk: "Копіювати"
-  },
-  "title.add.to.cart": {
-    en: "Add to Cart",
-    uk: "Додати в кошик"
-  },
-  "title.previous.form": {
-    en: "Previous Form",
-    uk: "Попередня форма"
-  },
-  "title.next.form": {
-    en: "Next Form",
-    uk: "Наступна форма"
-  }
-};
-const snackbarJSON = {
-  "snackbar.card.number.copied.to.clipboard": {
-    en: "Card number copied to clipboard",
-    uk: "Номер картки скопійовано в буфер обміну"
-  },
-  "snackbar.item.added.to.the.cart": {
-    en: "Item Added to The Cart",
-    uk: "Товар додано в кошик"
-  }
-};
 const LocalStorageKey = Object.freeze({
   Version: "version",
   Locale: "locale",
-  RequestBeans: "request-beans"
+  RequestBeans: "request-beans",
+  BillingAddress: "billing-address"
 });
 const Storage = {
   LocalStorageVersion: "0",
@@ -12203,144 +11897,54 @@ const Storage = {
     setValue(value) {
       localStorage.setItem(LocalStorageKey.RequestBeans, JSON.stringify(value));
     }
+  },
+  billingAddress: {
+    getValue() {
+      return localStorage.getItem(LocalStorageKey.BillingAddress) ? JSON.parse(localStorage.getItem(LocalStorageKey.BillingAddress)) : null;
+    },
+    setValue(value) {
+      localStorage.setItem(LocalStorageKey.BillingAddress, JSON.stringify(value));
+    }
   }
 };
-const labelJSON = {
-  "label.form.name": {
-    en: "Form Name",
-    uk: "Назва форми"
-  },
-  "label.request.url": {
-    en: "Request URL",
-    uk: "URL запиту"
-  },
-  "label.payment.with.redirect": {
-    en: "Payment with Redirect",
-    uk: "Оплата з перенаправленням"
-  },
-  "label.payment.with.modal.iframe": {
-    en: "Payment with Modal Iframe",
-    uk: "Оплата з модальним iframe"
-  },
-  "label.payment.with.built.in.iframe": {
-    en: "Payment with Built-in Iframe",
-    uk: "Оплата з вбудованим iframe"
-  },
-  "label.payment.mode": {
-    en: "Payment Mode",
-    uk: "Режим оплати"
-  },
-  "label.merchant.id": {
-    en: "Merchant ID",
-    uk: "ID торгівця"
-  },
-  "label.terminal.id": {
-    en: "Terminal ID",
-    uk: "ID терміналу"
-  },
-  "label.order.id": {
-    en: "Order ID",
-    uk: "ID замовлення"
-  },
-  "label.currency.numeric.code": {
-    en: "Currency Numeric Code",
-    uk: "Числовий код валюти"
-  },
-  "label.currency.numeric.code.alternative": {
-    en: "Currency Numeric Code (Alternative)",
-    uk: "Числовий код валюти (альтернативний)"
-  },
-  "label.alternative.fee.cents": {
-    en: "Alternative Fee (Cents)",
-    uk: "Альтернативна комісія (центи)"
-  },
-  "label.fee.cents": {
-    en: "Fee (Cents)",
-    uk: "Комісія (центи)"
-  },
-  "label.alternative.total.amount.cents": {
-    en: "Alternative Total Amount (Cents)",
-    uk: "Альтернативна загальна сума (центи)"
-  },
-  "label.total.amount.cents": {
-    en: "Total Amount (Cents)",
-    uk: "Загальна сума (центи)"
-  },
-  "label.locale": {
-    en: "Locale",
-    uk: "Локаль"
-  },
-  "label.purchase.time": {
-    en: "Purchase Time (YYMMDDHHmmss) or (YYMMDDHHmmss+HHMM)",
-    uk: "Час покупки (YYMMDDHHmmss) або (YYMMDDHHmmss+HHMM)"
-  },
-  "label.delay": {
-    en: "Delay",
-    uk: "Затримка"
-  },
-  "label.purchase.description": {
-    en: "Purchase Description",
-    uk: "Опис покупки"
-  },
-  "label.payment.token": {
-    en: "Payment Token",
-    uk: "Токен оплати"
-  },
-  "label.signature": {
-    en: "Signature",
-    uk: "Підпис"
-  },
-  "label.customer.phone.code": {
-    en: "Customer Phone Code (Example: 380)",
-    uk: "Код телефону клієнта (Приклад: 380)"
-  },
-  "label.customer.phone.number": {
-    en: "Customer Phone Number (Example:  123456789)",
-    uk: "Номер телефону клієнта (Приклад: 123456789)"
-  },
-  "label.customer.first.name": {
-    en: "Customer First Name",
-    uk: "Ім'я клієнта"
-  },
-  "label.customer.last.name": {
-    en: "Customer Last Name",
-    uk: "Прізвище клієнта"
-  },
-  "label.customer.email": {
-    en: "Customer Email",
-    uk: "Email клієнта"
-  }
-};
-const messagesDto = {
-  ...actionJSON,
-  ...metaJSON,
-  ...textJSON,
-  ...titleJSON,
-  ...snackbarJSON,
-  ...labelJSON
-};
-const loadAndSetLocaleMessages = () => {
-  const formattedMessages = [LocaleCode.En, LocaleCode.Uk].reduce((acc, locale2) => {
+const loadAndSetLocaleMessages = async () => {
+  const response = await Promise.all([
+    __vitePreload(() => import("./action-CkLctwqF.js"), true ? [] : void 0),
+    __vitePreload(() => import("./meta-DLAGXscK.js"), true ? [] : void 0),
+    __vitePreload(() => import("./text-BwCsXSU4.js"), true ? [] : void 0),
+    __vitePreload(() => import("./title-BDLqJj6d.js"), true ? [] : void 0),
+    __vitePreload(() => import("./snackbar-BLhYcoij.js"), true ? [] : void 0),
+    __vitePreload(() => import("./label-CRO0QDz2.js"), true ? [] : void 0)
+  ]);
+  const messagesDto = response.reduce((acc, item) => {
+    const locales = item.default;
+    acc = {
+      ...acc,
+      ...locales
+    };
+    return acc;
+  }, {});
+  const formattedMessages = [LocaleCode.En, LocaleCode.Uk].reduce((acc, locale) => {
     const translate2 = Object.keys(messagesDto).reduce((accumulator, key) => {
-      const foundTranslate = messagesDto[key][locale2];
+      const foundTranslate = messagesDto[key][locale];
       if (!accumulator[key]) {
         accumulator[key] = foundTranslate;
       }
       return accumulator;
     }, {});
-    acc[locale2] = translate2;
+    acc[locale] = translate2;
     return acc;
   }, {});
-  Object.keys(formattedMessages).forEach((locale2) => {
-    i18n.global.setLocaleMessage(locale2, formattedMessages[locale2]);
+  Object.keys(formattedMessages).forEach((locale) => {
+    i18n.global.setLocaleMessage(locale, formattedMessages[locale]);
   });
 };
-const setLocale = (locale2) => {
+const setLocale = (locale) => {
   var _a;
-  i18n.global.locale.value = locale2;
-  (_a = document.querySelector("html")) == null ? void 0 : _a.setAttribute("lang", locale2);
+  i18n.global.locale.value = locale;
+  (_a = document.querySelector("html")) == null ? void 0 : _a.setAttribute("lang", locale);
   document.title = i18n.global.t("meta.title");
-  Storage.locale.setValue(locale2);
+  Storage.locale.setValue(locale);
 };
 function propsFactory(props, source) {
   return (defaults) => {
@@ -12819,160 +12423,6 @@ function flipCorner(anchor) {
 function getAxis(anchor) {
   return includes(block, anchor.side) ? "y" : "x";
 }
-class Box {
-  constructor(_ref) {
-    let {
-      x,
-      y,
-      width,
-      height
-    } = _ref;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-  }
-  get top() {
-    return this.y;
-  }
-  get bottom() {
-    return this.y + this.height;
-  }
-  get left() {
-    return this.x;
-  }
-  get right() {
-    return this.x + this.width;
-  }
-}
-function getOverflow(a, b) {
-  return {
-    x: {
-      before: Math.max(0, b.left - a.left),
-      after: Math.max(0, a.right - b.right)
-    },
-    y: {
-      before: Math.max(0, b.top - a.top),
-      after: Math.max(0, a.bottom - b.bottom)
-    }
-  };
-}
-function getTargetBox(target) {
-  if (Array.isArray(target)) {
-    return new Box({
-      x: target[0],
-      y: target[1],
-      width: 0,
-      height: 0
-    });
-  } else {
-    return target.getBoundingClientRect();
-  }
-}
-function nullifyTransforms(el) {
-  const rect = el.getBoundingClientRect();
-  const style = getComputedStyle(el);
-  const tx = style.transform;
-  if (tx) {
-    let ta, sx, sy, dx, dy;
-    if (tx.startsWith("matrix3d(")) {
-      ta = tx.slice(9, -1).split(/, /);
-      sx = +ta[0];
-      sy = +ta[5];
-      dx = +ta[12];
-      dy = +ta[13];
-    } else if (tx.startsWith("matrix(")) {
-      ta = tx.slice(7, -1).split(/, /);
-      sx = +ta[0];
-      sy = +ta[3];
-      dx = +ta[4];
-      dy = +ta[5];
-    } else {
-      return new Box(rect);
-    }
-    const to = style.transformOrigin;
-    const x = rect.x - dx - (1 - sx) * parseFloat(to);
-    const y = rect.y - dy - (1 - sy) * parseFloat(to.slice(to.indexOf(" ") + 1));
-    const w = sx ? rect.width / sx : el.offsetWidth + 1;
-    const h2 = sy ? rect.height / sy : el.offsetHeight + 1;
-    return new Box({
-      x,
-      y,
-      width: w,
-      height: h2
-    });
-  } else {
-    return new Box(rect);
-  }
-}
-function animate(el, keyframes, options) {
-  if (typeof el.animate === "undefined") return {
-    finished: Promise.resolve()
-  };
-  let animation;
-  try {
-    animation = el.animate(keyframes, options);
-  } catch (err) {
-    return {
-      finished: Promise.resolve()
-    };
-  }
-  if (typeof animation.finished === "undefined") {
-    animation.finished = new Promise((resolve2) => {
-      animation.onfinish = () => {
-        resolve2(animation);
-      };
-    });
-  }
-  return animation;
-}
-const handlers = /* @__PURE__ */ new WeakMap();
-function bindProps(el, props) {
-  Object.keys(props).forEach((k) => {
-    var _a;
-    if (isOn(k)) {
-      const name = eventName(k);
-      const handler = handlers.get(el);
-      if (props[k] == null) {
-        handler == null ? void 0 : handler.forEach((v) => {
-          const [n, fn] = v;
-          if (n === name) {
-            el.removeEventListener(name, fn);
-            handler.delete(v);
-          }
-        });
-      } else if (!handler || !((_a = [...handler]) == null ? void 0 : _a.some((v) => v[0] === name && v[1] === props[k]))) {
-        el.addEventListener(name, props[k]);
-        const _handler = handler || /* @__PURE__ */ new Set();
-        _handler.add([name, props[k]]);
-        if (!handlers.has(el)) handlers.set(el, _handler);
-      }
-    } else {
-      if (props[k] == null) {
-        el.removeAttribute(k);
-      } else {
-        el.setAttribute(k, props[k]);
-      }
-    }
-  });
-}
-function unbindProps(el, props) {
-  Object.keys(props).forEach((k) => {
-    if (isOn(k)) {
-      const name = eventName(k);
-      const handler = handlers.get(el);
-      handler == null ? void 0 : handler.forEach((v) => {
-        const [n, fn] = v;
-        if (n === name) {
-          el.removeEventListener(name, fn);
-          handler.delete(v);
-        }
-      });
-    } else {
-      el.removeAttribute(k);
-    }
-  });
-}
 const mainTRC = 2.4;
 const Rco = 0.2126729;
 const Gco = 0.7151522;
@@ -13395,21 +12845,6 @@ function createSimpleFunctional(klass) {
     }
   });
 }
-function attachedRoot(node) {
-  if (typeof node.getRootNode !== "function") {
-    while (node.parentNode) node = node.parentNode;
-    if (node !== document) return null;
-    return document;
-  }
-  const root = node.getRootNode();
-  if (root !== document && root.getRootNode({
-    composed: true
-  }) !== document) return null;
-  return root;
-}
-const standardEasing = "cubic-bezier(0.4, 0, 0.2, 1)";
-const deceleratedEasing = "cubic-bezier(0.0, 0, 0.2, 1)";
-const acceleratedEasing = "cubic-bezier(0.4, 0, 1, 1)";
 function getCurrentInstance(name, message) {
   const vm = getCurrentInstance$1();
   if (!vm) {
@@ -13437,34 +12872,6 @@ getUid.reset = () => {
   _uid = 0;
   _map = /* @__PURE__ */ new WeakMap();
 };
-function getScrollParent(el) {
-  let includeHidden = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : false;
-  while (el) {
-    if (includeHidden ? isPotentiallyScrollable(el) : hasScrollbar(el)) return el;
-    el = el.parentElement;
-  }
-  return document.scrollingElement;
-}
-function getScrollParents(el, stopAt) {
-  const elements = [];
-  if (stopAt && el && !stopAt.contains(el)) return elements;
-  while (el) {
-    if (hasScrollbar(el)) elements.push(el);
-    if (el === stopAt) break;
-    el = el.parentElement;
-  }
-  return elements;
-}
-function hasScrollbar(el) {
-  if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
-  const style = window.getComputedStyle(el);
-  return style.overflowY === "scroll" || style.overflowY === "auto" && el.scrollHeight > el.clientHeight;
-}
-function isPotentiallyScrollable(el) {
-  if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
-  const style = window.getComputedStyle(el);
-  return ["scroll", "auto"].includes(style.overflowY);
-}
 function injectSelf(key) {
   let vm = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstance("injectSelf");
   const {
@@ -13474,15 +12881,6 @@ function injectSelf(key) {
     return provides[key];
   }
   return void 0;
-}
-function isFixedPosition(el) {
-  while (el) {
-    if (window.getComputedStyle(el).position === "fixed") {
-      return true;
-    }
-    el = el.offsetParent;
-  }
-  return false;
 }
 function useRender(render) {
   const vm = getCurrentInstance("useRender");
@@ -14053,9 +13451,9 @@ function createLocale(options) {
   };
 }
 function useLocale() {
-  const locale2 = inject$1(LocaleSymbol);
-  if (!locale2) throw new Error("[Vuetify] Could not find injected locale instance");
-  return locale2;
+  const locale = inject$1(LocaleSymbol);
+  if (!locale) throw new Error("[Vuetify] Could not find injected locale instance");
+  return locale;
 }
 function genDefaults$2() {
   return {
@@ -14113,11 +13511,11 @@ function createRtl(i18n2, options) {
   };
 }
 function useRtl() {
-  const locale2 = inject$1(LocaleSymbol);
-  if (!locale2) throw new Error("[Vuetify] Could not find injected rtl instance");
+  const locale = inject$1(LocaleSymbol);
+  if (!locale) throw new Error("[Vuetify] Could not find injected rtl instance");
   return {
-    isRtl: locale2.isRtl,
-    rtlClasses: locale2.rtlClasses
+    isRtl: locale.isRtl,
+    rtlClasses: locale.rtlClasses
   };
 }
 const ThemeSymbol = Symbol.for("vuetify:theme");
@@ -14316,7 +13714,7 @@ function createTheme(options) {
         }
       }
     } else {
-      let updateStyles2 = function() {
+      let updateStyles = function() {
         if (typeof document !== "undefined" && !styleEl) {
           const el = document.createElement("style");
           el.type = "text/css";
@@ -14327,14 +13725,13 @@ function createTheme(options) {
         }
         if (styleEl) styleEl.innerHTML = styles.value;
       };
-      var updateStyles = updateStyles2;
       let styleEl = IN_BROWSER ? document.getElementById("vuetify-theme-stylesheet") : null;
       if (IN_BROWSER) {
-        watch(styles, updateStyles2, {
+        watch(styles, updateStyles, {
           immediate: true
         });
       } else {
-        updateStyles2();
+        updateStyles();
       }
     }
   }
@@ -14643,141 +14040,6 @@ function ExpandTransitionGenerator() {
     delete el._initialStyle;
   }
 }
-const makeVDialogTransitionProps = propsFactory({
-  target: [Object, Array]
-}, "v-dialog-transition");
-const VDialogTransition = genericComponent()({
-  name: "VDialogTransition",
-  props: makeVDialogTransitionProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const functions = {
-      onBeforeEnter(el) {
-        el.style.pointerEvents = "none";
-        el.style.visibility = "hidden";
-      },
-      async onEnter(el, done) {
-        var _a;
-        await new Promise((resolve2) => requestAnimationFrame(resolve2));
-        await new Promise((resolve2) => requestAnimationFrame(resolve2));
-        el.style.visibility = "";
-        const {
-          x,
-          y,
-          sx,
-          sy,
-          speed
-        } = getDimensions(props.target, el);
-        const animation = animate(el, [{
-          transform: `translate(${x}px, ${y}px) scale(${sx}, ${sy})`,
-          opacity: 0
-        }, {}], {
-          duration: 225 * speed,
-          easing: deceleratedEasing
-        });
-        (_a = getChildren(el)) == null ? void 0 : _a.forEach((el2) => {
-          animate(el2, [{
-            opacity: 0
-          }, {
-            opacity: 0,
-            offset: 0.33
-          }, {}], {
-            duration: 225 * 2 * speed,
-            easing: standardEasing
-          });
-        });
-        animation.finished.then(() => done());
-      },
-      onAfterEnter(el) {
-        el.style.removeProperty("pointer-events");
-      },
-      onBeforeLeave(el) {
-        el.style.pointerEvents = "none";
-      },
-      async onLeave(el, done) {
-        var _a;
-        await new Promise((resolve2) => requestAnimationFrame(resolve2));
-        const {
-          x,
-          y,
-          sx,
-          sy,
-          speed
-        } = getDimensions(props.target, el);
-        const animation = animate(el, [{}, {
-          transform: `translate(${x}px, ${y}px) scale(${sx}, ${sy})`,
-          opacity: 0
-        }], {
-          duration: 125 * speed,
-          easing: acceleratedEasing
-        });
-        animation.finished.then(() => done());
-        (_a = getChildren(el)) == null ? void 0 : _a.forEach((el2) => {
-          animate(el2, [{}, {
-            opacity: 0,
-            offset: 0.2
-          }, {
-            opacity: 0
-          }], {
-            duration: 125 * 2 * speed,
-            easing: standardEasing
-          });
-        });
-      },
-      onAfterLeave(el) {
-        el.style.removeProperty("pointer-events");
-      }
-    };
-    return () => {
-      return props.target ? createVNode(Transition, mergeProps({
-        "name": "dialog-transition"
-      }, functions, {
-        "css": false
-      }), slots) : createVNode(Transition, {
-        "name": "dialog-transition"
-      }, slots);
-    };
-  }
-});
-function getChildren(el) {
-  var _a;
-  const els = (_a = el.querySelector(":scope > .v-card, :scope > .v-sheet, :scope > .v-list")) == null ? void 0 : _a.children;
-  return els && [...els];
-}
-function getDimensions(target, el) {
-  const targetBox = getTargetBox(target);
-  const elBox = nullifyTransforms(el);
-  const [originX, originY] = getComputedStyle(el).transformOrigin.split(" ").map((v) => parseFloat(v));
-  const [anchorSide, anchorOffset] = getComputedStyle(el).getPropertyValue("--v-overlay-anchor-origin").split(" ");
-  let offsetX = targetBox.left + targetBox.width / 2;
-  if (anchorSide === "left" || anchorOffset === "left") {
-    offsetX -= targetBox.width / 2;
-  } else if (anchorSide === "right" || anchorOffset === "right") {
-    offsetX += targetBox.width / 2;
-  }
-  let offsetY = targetBox.top + targetBox.height / 2;
-  if (anchorSide === "top" || anchorOffset === "top") {
-    offsetY -= targetBox.height / 2;
-  } else if (anchorSide === "bottom" || anchorOffset === "bottom") {
-    offsetY += targetBox.height / 2;
-  }
-  const tsx = targetBox.width / elBox.width;
-  const tsy = targetBox.height / elBox.height;
-  const maxs = Math.max(1, tsx, tsy);
-  const sx = tsx / maxs || 0;
-  const sy = tsy / maxs || 0;
-  const asa = elBox.width * elBox.height / (window.innerWidth * window.innerHeight);
-  const speed = asa > 0.12 ? Math.min(1.5, (asa - 0.12) * 10 + 1) : 1;
-  return {
-    x: offsetX - (originX + elBox.left),
-    y: offsetY - (originY + elBox.top),
-    sx,
-    sy,
-    speed
-  };
-}
 createCssTransition("fab-transition", "center center", "out-in");
 createCssTransition("dialog-bottom-transition");
 createCssTransition("dialog-top-transition");
@@ -15003,7 +14265,7 @@ const MaybeTransition = (props, _ref) => {
     disabled
   }), slots);
 };
-function mounted$2(el, binding) {
+function mounted$1(el, binding) {
   if (!SUPPORTS_INTERSECTION) return;
   const modifiers = binding.modifiers || {};
   const value = binding.value;
@@ -15024,7 +14286,7 @@ function mounted$2(el, binding) {
     if (handler && (!modifiers.quiet || _observe.init) && (!modifiers.once || isIntersecting || _observe.init)) {
       handler(isIntersecting, entries, observer2);
     }
-    if (isIntersecting && modifiers.once) unmounted$2(el, binding);
+    if (isIntersecting && modifiers.once) unmounted$1(el, binding);
     else _observe.init = true;
   }, options);
   el._observe = Object(el._observe);
@@ -15034,7 +14296,7 @@ function mounted$2(el, binding) {
   };
   observer.observe(el);
 }
-function unmounted$2(el, binding) {
+function unmounted$1(el, binding) {
   var _a;
   const observe = (_a = el._observe) == null ? void 0 : _a[binding.instance.$.uid];
   if (!observe) return;
@@ -15042,8 +14304,8 @@ function unmounted$2(el, binding) {
   delete el._observe[binding.instance.$.uid];
 }
 const Intersect = {
-  mounted: mounted$2,
-  unmounted: unmounted$2
+  mounted: mounted$1,
+  unmounted: unmounted$1
 };
 const makeVImgProps = propsFactory({
   alt: String,
@@ -15749,7 +15011,7 @@ function useDensity(props) {
     densityClasses
   };
 }
-const allowedVariants$2 = ["elevated", "flat", "tonal", "outlined", "text", "plain"];
+const allowedVariants = ["elevated", "flat", "tonal", "outlined", "text", "plain"];
 function genOverlays(isClickable, name) {
   return createVNode(Fragment, null, [isClickable && createVNode("span", {
     "key": "overlay",
@@ -15764,7 +15026,7 @@ const makeVariantProps = propsFactory({
   variant: {
     type: String,
     default: "elevated",
-    validator: (v) => allowedVariants$2.includes(v)
+    validator: (v) => allowedVariants.includes(v)
   }
 }, "variant");
 function useVariant(props) {
@@ -16521,16 +15783,16 @@ function useLocation(props) {
       side,
       align
     } = parseAnchor(props.location.split(" ").length > 1 ? props.location : `${props.location} center`, isRtl.value);
-    function getOffset2(side2) {
+    function getOffset(side2) {
       return offset ? offset(side2) : 0;
     }
     const styles = {};
     if (side !== "center") {
-      if (opposite) styles[oppositeMap[side]] = `calc(100% - ${getOffset2(side)}px)`;
+      if (opposite) styles[oppositeMap[side]] = `calc(100% - ${getOffset(side)}px)`;
       else styles[side] = 0;
     }
     if (align !== "center") {
-      if (opposite) styles[oppositeMap[align]] = `calc(100% - ${getOffset2(align)}px)`;
+      if (opposite) styles[oppositeMap[align]] = `calc(100% - ${getOffset(align)}px)`;
       else styles[align] = 0;
     } else {
       if (side === "center") styles.top = styles.left = "50%";
@@ -17117,10 +16379,10 @@ function removeListeners(el) {
   el.removeEventListener("dragstart", rippleHide);
   el.removeEventListener("blur", focusRippleHide);
 }
-function mounted$1(el, binding) {
+function mounted(el, binding) {
   updateRipple(el, binding, false);
 }
-function unmounted$1(el) {
+function unmounted(el) {
   delete el._ripple;
   removeListeners(el);
 }
@@ -17132,8 +16394,8 @@ function updated(el, binding) {
   updateRipple(el, binding, wasEnabled);
 }
 const Ripple = {
-  mounted: mounted$1,
-  unmounted: unmounted$1,
+  mounted,
+  unmounted,
   updated
 };
 const makeVBtnProps = propsFactory({
@@ -17613,231 +16875,6 @@ function useDisplay() {
     mobile
   };
 }
-const breakpointProps = (() => {
-  return breakpoints.reduce((props, val) => {
-    props[val] = {
-      type: [Boolean, String, Number],
-      default: false
-    };
-    return props;
-  }, {});
-})();
-const offsetProps = (() => {
-  return breakpoints.reduce((props, val) => {
-    const offsetKey = "offset" + capitalize$1(val);
-    props[offsetKey] = {
-      type: [String, Number],
-      default: null
-    };
-    return props;
-  }, {});
-})();
-const orderProps = (() => {
-  return breakpoints.reduce((props, val) => {
-    const orderKey = "order" + capitalize$1(val);
-    props[orderKey] = {
-      type: [String, Number],
-      default: null
-    };
-    return props;
-  }, {});
-})();
-const propMap$1 = {
-  col: Object.keys(breakpointProps),
-  offset: Object.keys(offsetProps),
-  order: Object.keys(orderProps)
-};
-function breakpointClass$1(type, prop, val) {
-  let className = type;
-  if (val == null || val === false) {
-    return void 0;
-  }
-  if (prop) {
-    const breakpoint = prop.replace(type, "");
-    className += `-${breakpoint}`;
-  }
-  if (type === "col") {
-    className = "v-" + className;
-  }
-  if (type === "col" && (val === "" || val === true)) {
-    return className.toLowerCase();
-  }
-  className += `-${val}`;
-  return className.toLowerCase();
-}
-const ALIGN_SELF_VALUES = ["auto", "start", "end", "center", "baseline", "stretch"];
-const makeVColProps = propsFactory({
-  cols: {
-    type: [Boolean, String, Number],
-    default: false
-  },
-  ...breakpointProps,
-  offset: {
-    type: [String, Number],
-    default: null
-  },
-  ...offsetProps,
-  order: {
-    type: [String, Number],
-    default: null
-  },
-  ...orderProps,
-  alignSelf: {
-    type: String,
-    default: null,
-    validator: (str) => ALIGN_SELF_VALUES.includes(str)
-  },
-  ...makeComponentProps(),
-  ...makeTagProps()
-}, "VCol");
-const VCol = genericComponent()({
-  name: "VCol",
-  props: makeVColProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const classes = computed(() => {
-      const classList = [];
-      let type;
-      for (type in propMap$1) {
-        propMap$1[type].forEach((prop) => {
-          const value = props[prop];
-          const className = breakpointClass$1(type, prop, value);
-          if (className) classList.push(className);
-        });
-      }
-      const hasColClasses = classList.some((className) => className.startsWith("v-col-"));
-      classList.push({
-        // Default to .v-col if no other col-{bp}-* classes generated nor `cols` specified.
-        "v-col": !hasColClasses || !props.cols,
-        [`v-col-${props.cols}`]: props.cols,
-        [`offset-${props.offset}`]: props.offset,
-        [`order-${props.order}`]: props.order,
-        [`align-self-${props.alignSelf}`]: props.alignSelf
-      });
-      return classList;
-    });
-    return () => {
-      var _a;
-      return h(props.tag, {
-        class: [classes.value, props.class],
-        style: props.style
-      }, (_a = slots.default) == null ? void 0 : _a.call(slots));
-    };
-  }
-});
-const ALIGNMENT = ["start", "end", "center"];
-const SPACE = ["space-between", "space-around", "space-evenly"];
-function makeRowProps(prefix, def2) {
-  return breakpoints.reduce((props, val) => {
-    const prefixKey = prefix + capitalize$1(val);
-    props[prefixKey] = def2();
-    return props;
-  }, {});
-}
-const ALIGN_VALUES = [...ALIGNMENT, "baseline", "stretch"];
-const alignValidator = (str) => ALIGN_VALUES.includes(str);
-const alignProps = makeRowProps("align", () => ({
-  type: String,
-  default: null,
-  validator: alignValidator
-}));
-const JUSTIFY_VALUES = [...ALIGNMENT, ...SPACE];
-const justifyValidator = (str) => JUSTIFY_VALUES.includes(str);
-const justifyProps = makeRowProps("justify", () => ({
-  type: String,
-  default: null,
-  validator: justifyValidator
-}));
-const ALIGN_CONTENT_VALUES = [...ALIGNMENT, ...SPACE, "stretch"];
-const alignContentValidator = (str) => ALIGN_CONTENT_VALUES.includes(str);
-const alignContentProps = makeRowProps("alignContent", () => ({
-  type: String,
-  default: null,
-  validator: alignContentValidator
-}));
-const propMap = {
-  align: Object.keys(alignProps),
-  justify: Object.keys(justifyProps),
-  alignContent: Object.keys(alignContentProps)
-};
-const classMap = {
-  align: "align",
-  justify: "justify",
-  alignContent: "align-content"
-};
-function breakpointClass(type, prop, val) {
-  let className = classMap[type];
-  if (val == null) {
-    return void 0;
-  }
-  if (prop) {
-    const breakpoint = prop.replace(type, "");
-    className += `-${breakpoint}`;
-  }
-  className += `-${val}`;
-  return className.toLowerCase();
-}
-const makeVRowProps = propsFactory({
-  dense: Boolean,
-  noGutters: Boolean,
-  align: {
-    type: String,
-    default: null,
-    validator: alignValidator
-  },
-  ...alignProps,
-  justify: {
-    type: String,
-    default: null,
-    validator: justifyValidator
-  },
-  ...justifyProps,
-  alignContent: {
-    type: String,
-    default: null,
-    validator: alignContentValidator
-  },
-  ...alignContentProps,
-  ...makeComponentProps(),
-  ...makeTagProps()
-}, "VRow");
-const VRow = genericComponent()({
-  name: "VRow",
-  props: makeVRowProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const classes = computed(() => {
-      const classList = [];
-      let type;
-      for (type in propMap) {
-        propMap[type].forEach((prop) => {
-          const value = props[prop];
-          const className = breakpointClass(type, prop, value);
-          if (className) classList.push(className);
-        });
-      }
-      classList.push({
-        "v-row--no-gutters": props.noGutters,
-        "v-row--dense": props.dense,
-        [`align-${props.align}`]: props.align,
-        [`justify-${props.justify}`]: props.justify,
-        [`align-content-${props.alignContent}`]: props.alignContent
-      });
-      return classList;
-    });
-    return () => {
-      var _a;
-      return h(props.tag, {
-        class: ["v-row", classes.value, props.class],
-        style: props.style
-      }, (_a = slots.default) == null ? void 0 : _a.call(slots));
-    };
-  }
-});
 const VSpacer = createSimpleFunctional("v-spacer", "div", "VSpacer");
 const makeVMainProps = propsFactory({
   scrollable: Boolean,
@@ -17875,26 +16912,26 @@ const VMain = genericComponent()({
     return {};
   }
 });
-const _hoisted_1$a = { class: "maxWidth v-toolbar__content px-lg-0 px-4" };
-const _hoisted_2$9 = { class: "d-sm-flex d-none" };
-const _hoisted_3$8 = { class: "logo" };
-const _hoisted_4$8 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_1 = { class: "maxWidth v-toolbar__content px-lg-0 px-4" };
+const _hoisted_2 = { class: "d-sm-flex d-none" };
+const _hoisted_3 = { class: "logo" };
+const _hoisted_4 = /* @__PURE__ */ createBaseVNode("img", {
   style: { "height": "100px" },
-  src: _imports_0$1,
+  src: _imports_0,
   alt: "upc"
 }, null, -1);
-const _hoisted_5$8 = /* @__PURE__ */ createBaseVNode("img", {
-  src: _imports_1$1,
+const _hoisted_5 = /* @__PURE__ */ createBaseVNode("img", {
+  src: _imports_1,
   class: "pl-3",
   alt: "upc"
 }, null, -1);
-const _hoisted_6$8 = { class: "d-sm-none d-flex mr-2" };
-const _hoisted_7$7 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_6 = { class: "d-sm-none d-flex mr-2" };
+const _hoisted_7 = /* @__PURE__ */ createBaseVNode("img", {
   style: { "height": "100px" },
-  src: _imports_0$1,
+  src: _imports_0,
   alt: "upc"
 }, null, -1);
-const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
+const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
   __name: "App",
   setup(__props) {
     const cartStore = useCartStore();
@@ -17928,28 +16965,28 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent$1({
             color: ""
           }, {
             default: withCtx(() => [
-              createBaseVNode("div", _hoisted_1$a, [
-                createBaseVNode("div", _hoisted_2$9, [
-                  createBaseVNode("div", _hoisted_3$8, [
+              createBaseVNode("div", _hoisted_1, [
+                createBaseVNode("div", _hoisted_2, [
+                  createBaseVNode("div", _hoisted_3, [
                     createVNode(_component_router_link, {
                       to: "/",
                       class: "d-flex"
                     }, {
                       default: withCtx(() => [
-                        _hoisted_4$8,
-                        _hoisted_5$8
+                        _hoisted_4,
+                        _hoisted_5
                       ]),
                       _: 1
                     })
                   ])
                 ]),
-                createBaseVNode("div", _hoisted_6$8, [
+                createBaseVNode("div", _hoisted_6, [
                   createVNode(_component_router_link, {
                     to: "/",
                     class: "d-flex"
                   }, {
                     default: withCtx(() => [
-                      _hoisted_7$7
+                      _hoisted_7
                     ]),
                     _: 1
                   })
@@ -18047,7 +17084,7 @@ const isBrowser = typeof window !== "undefined";
 function isESModule(obj) {
   return obj.__esModule || obj[Symbol.toStringTag] === "Module";
 }
-const assign$1 = Object.assign;
+const assign = Object.assign;
 function applyToParams(fn, params) {
   const newParams = {};
   for (const key in params) {
@@ -18276,7 +17313,7 @@ function useHistoryListeners(base, historyState, currentLocation, replace2) {
     const { history: history2 } = window;
     if (!history2.state)
       return;
-    history2.replaceState(assign$1({}, history2.state, { scroll: computeScrollPosition() }), "");
+    history2.replaceState(assign({}, history2.state, { scroll: computeScrollPosition() }), "");
   }
   function destroy() {
     for (const teardown of teardowns)
@@ -18338,7 +17375,7 @@ function useHistoryStateNavigation(base) {
     }
   }
   function replace2(to, data) {
-    const state = assign$1({}, history2.state, buildState(
+    const state = assign({}, history2.state, buildState(
       historyState.value.back,
       // keep back and forward entries but override current position
       to,
@@ -18349,7 +17386,7 @@ function useHistoryStateNavigation(base) {
     currentLocation.value = to;
   }
   function push(to, data) {
-    const currentState = assign$1(
+    const currentState = assign(
       {},
       // use current history state to gracefully handle a wrong call to
       // history.replaceState
@@ -18362,7 +17399,7 @@ function useHistoryStateNavigation(base) {
       }
     );
     changeLocation(currentState.current, currentState, true);
-    const state = assign$1({}, buildState(currentLocation.value, to, null), { position: currentState.position + 1 }, data);
+    const state = assign({}, buildState(currentLocation.value, to, null), { position: currentState.position + 1 }, data);
     changeLocation(to, state, false);
     currentLocation.value = to;
   }
@@ -18382,7 +17419,7 @@ function createWebHistory(base) {
       historyListeners.pauseListeners();
     history.go(delta2);
   }
-  const routerHistory = assign$1({
+  const routerHistory = assign({
     // it's overridden right after
     location: "",
     base,
@@ -18431,7 +17468,7 @@ var NavigationFailureType;
 })(NavigationFailureType || (NavigationFailureType = {}));
 function createRouterError(type, params) {
   {
-    return assign$1(new Error(), {
+    return assign(new Error(), {
       type,
       [NavigationFailureSymbol]: true
     }, params);
@@ -18449,7 +17486,7 @@ const BASE_PATH_PARSER_OPTIONS = {
 };
 const REGEX_CHARS_RE = /[.+*?^${}()[\]/\\]/g;
 function tokensToParser(segments, extraOptions) {
-  const options = assign$1({}, BASE_PATH_PARSER_OPTIONS, extraOptions);
+  const options = assign({}, BASE_PATH_PARSER_OPTIONS, extraOptions);
   const score = [];
   let pattern = options.start ? "^" : "";
   const keys2 = [];
@@ -18461,15 +17498,15 @@ function tokensToParser(segments, extraOptions) {
     if (options.strict && !segment.length)
       pattern += "/";
     for (let tokenIndex = 0; tokenIndex < segment.length; tokenIndex++) {
-      const token2 = segment[tokenIndex];
+      const token = segment[tokenIndex];
       let subSegmentScore = 40 + (options.sensitive ? 0.25 : 0);
-      if (token2.type === 0) {
+      if (token.type === 0) {
         if (!tokenIndex)
           pattern += "/";
-        pattern += token2.value.replace(REGEX_CHARS_RE, "\\$&");
+        pattern += token.value.replace(REGEX_CHARS_RE, "\\$&");
         subSegmentScore += 40;
-      } else if (token2.type === 1) {
-        const { value, repeatable, optional, regexp } = token2;
+      } else if (token.type === 1) {
+        const { value, repeatable, optional, regexp } = token;
         keys2.push({
           name: value,
           repeatable,
@@ -18534,11 +17571,11 @@ function tokensToParser(segments, extraOptions) {
       if (!avoidDuplicatedSlash || !path.endsWith("/"))
         path += "/";
       avoidDuplicatedSlash = false;
-      for (const token2 of segment) {
-        if (token2.type === 0) {
-          path += token2.value;
-        } else if (token2.type === 1) {
-          const { value, repeatable, optional } = token2;
+      for (const token of segment) {
+        if (token.type === 0) {
+          path += token.value;
+        } else if (token.type === 1) {
+          const { value, repeatable, optional } = token;
           const param = value in params ? params[value] : "";
           if (isArray(param) && !repeatable) {
             throw new Error(`Provided param "${value}" is an array but it is not repeatable (* or + modifiers)`);
@@ -18728,7 +17765,7 @@ function tokenizePath(path) {
 }
 function createRouteRecordMatcher(record, parent, options) {
   const parser = tokensToParser(tokenizePath(record.path), options);
-  const matcher = assign$1(parser, {
+  const matcher = assign(parser, {
     record,
     parent,
     // these needs to be populated by the parent
@@ -18759,7 +17796,7 @@ function createRouterMatcher(routes, globalOptions) {
     if ("alias" in record) {
       const aliases2 = typeof record.alias === "string" ? [record.alias] : record.alias;
       for (const alias of aliases2) {
-        normalizedRecords.push(assign$1({}, mainNormalizedRecord, {
+        normalizedRecords.push(assign({}, mainNormalizedRecord, {
           // this allows us to hold a copy of the `components` option
           // so that async components cache is hold on the original record
           components: originalRecord ? originalRecord.record.components : mainNormalizedRecord.components,
@@ -18850,7 +17887,7 @@ function createRouterMatcher(routes, globalOptions) {
           location: location2
         });
       name = matcher.record.name;
-      params = assign$1(
+      params = assign(
         // paramsFromLocation is a new object
         paramsFromLocation(
           currentLocation.params,
@@ -18878,7 +17915,7 @@ function createRouterMatcher(routes, globalOptions) {
           currentLocation
         });
       name = matcher.record.name;
-      params = assign$1({}, currentLocation.params, location2.params);
+      params = assign({}, currentLocation.params, location2.params);
       path = matcher.stringify(params);
     }
     const matched = [];
@@ -18943,7 +17980,7 @@ function isAliasRecord(record) {
   return false;
 }
 function mergeMetaFields(matched) {
-  return matched.reduce((meta, record) => assign$1(meta, record.meta), {});
+  return matched.reduce((meta, record) => assign(meta, record.meta), {});
 }
 function mergeOptions(defaults, partialOptions) {
   const options = {};
@@ -19055,21 +18092,21 @@ const routerKey = Symbol("");
 const routeLocationKey = Symbol("");
 const routerViewLocationKey = Symbol("");
 function useCallbacks() {
-  let handlers2 = [];
+  let handlers = [];
   function add2(handler) {
-    handlers2.push(handler);
+    handlers.push(handler);
     return () => {
-      const i = handlers2.indexOf(handler);
+      const i = handlers.indexOf(handler);
       if (i > -1)
-        handlers2.splice(i, 1);
+        handlers.splice(i, 1);
     };
   }
   function reset() {
-    handlers2 = [];
+    handlers = [];
   }
   return {
     add: add2,
-    list: () => handlers2.slice(),
+    list: () => handlers.slice(),
     reset
   };
 }
@@ -19322,7 +18359,7 @@ const RouterViewImpl = /* @__PURE__ */ defineComponent$1({
           matchedRoute.instances[currentName] = null;
         }
       };
-      const component = h(ViewComponent, assign$1({}, routeProps, attrs, {
+      const component = h(ViewComponent, assign({}, routeProps, attrs, {
         onVnodeUnmounted,
         ref: viewRef
       }));
@@ -19384,12 +18421,12 @@ function createRouter(options) {
     return !!matcher.getRecordMatcher(name);
   }
   function resolve2(rawLocation, currentLocation) {
-    currentLocation = assign$1({}, currentLocation || currentRoute.value);
+    currentLocation = assign({}, currentLocation || currentRoute.value);
     if (typeof rawLocation === "string") {
       const locationNormalized = parseURL(parseQuery$1, rawLocation, currentLocation.path);
       const matchedRoute2 = matcher.resolve({ path: locationNormalized.path }, currentLocation);
       const href2 = routerHistory.createHref(locationNormalized.fullPath);
-      return assign$1(locationNormalized, matchedRoute2, {
+      return assign(locationNormalized, matchedRoute2, {
         params: decodeParams(matchedRoute2.params),
         hash: decode(locationNormalized.hash),
         redirectedFrom: void 0,
@@ -19398,17 +18435,17 @@ function createRouter(options) {
     }
     let matcherLocation;
     if ("path" in rawLocation) {
-      matcherLocation = assign$1({}, rawLocation, {
+      matcherLocation = assign({}, rawLocation, {
         path: parseURL(parseQuery$1, rawLocation.path, currentLocation.path).path
       });
     } else {
-      const targetParams = assign$1({}, rawLocation.params);
+      const targetParams = assign({}, rawLocation.params);
       for (const key in targetParams) {
         if (targetParams[key] == null) {
           delete targetParams[key];
         }
       }
-      matcherLocation = assign$1({}, rawLocation, {
+      matcherLocation = assign({}, rawLocation, {
         params: encodeParams(targetParams)
       });
       currentLocation.params = encodeParams(currentLocation.params);
@@ -19416,12 +18453,12 @@ function createRouter(options) {
     const matchedRoute = matcher.resolve(matcherLocation, currentLocation);
     const hash = rawLocation.hash || "";
     matchedRoute.params = normalizeParams(decodeParams(matchedRoute.params));
-    const fullPath = stringifyURL(stringifyQuery$1, assign$1({}, rawLocation, {
+    const fullPath = stringifyURL(stringifyQuery$1, assign({}, rawLocation, {
       hash: encodeHash(hash),
       path: matchedRoute.path
     }));
     const href = routerHistory.createHref(fullPath);
-    return assign$1({
+    return assign({
       fullPath,
       // keep the hash encoded so fullPath is effectively path + encodedQuery +
       // hash
@@ -19440,7 +18477,7 @@ function createRouter(options) {
     });
   }
   function locationAsObject(to) {
-    return typeof to === "string" ? parseURL(parseQuery$1, to, currentRoute.value.path) : assign$1({}, to);
+    return typeof to === "string" ? parseURL(parseQuery$1, to, currentRoute.value.path) : assign({}, to);
   }
   function checkCanceledNavigation(to, from) {
     if (pendingLocation !== to) {
@@ -19454,7 +18491,7 @@ function createRouter(options) {
     return pushWithRedirect(to);
   }
   function replace2(to) {
-    return push(assign$1(locationAsObject(to), { replace: true }));
+    return push(assign(locationAsObject(to), { replace: true }));
   }
   function handleRedirectRecord(to) {
     const lastMatched = to.matched[to.matched.length - 1];
@@ -19468,7 +18505,7 @@ function createRouter(options) {
         );
         newTargetLocation.params = {};
       }
-      return assign$1({
+      return assign({
         query: to.query,
         hash: to.hash,
         // avoid transferring params if the redirect has a path
@@ -19485,8 +18522,8 @@ function createRouter(options) {
     const shouldRedirect = handleRedirectRecord(targetLocation);
     if (shouldRedirect)
       return pushWithRedirect(
-        assign$1(locationAsObject(shouldRedirect), {
-          state: typeof shouldRedirect === "object" ? assign$1({}, data, shouldRedirect.state) : data,
+        assign(locationAsObject(shouldRedirect), {
+          state: typeof shouldRedirect === "object" ? assign({}, data, shouldRedirect.state) : data,
           force,
           replace: replace22
         }),
@@ -19528,11 +18565,11 @@ function createRouter(options) {
         )) {
           return pushWithRedirect(
             // keep options
-            assign$1({
+            assign({
               // preserve an existing replacement but allow the redirect to override it
               replace: replace22
             }, locationAsObject(failure2.to), {
-              state: typeof failure2.to === "object" ? assign$1({}, data, failure2.to.state) : data,
+              state: typeof failure2.to === "object" ? assign({}, data, failure2.to.state) : data,
               force
             }),
             // preserve the original redirectedFrom if any
@@ -19624,7 +18661,7 @@ function createRouter(options) {
     const state = !isBrowser ? {} : history.state;
     if (isPush) {
       if (replace22 || isFirstNavigation)
-        routerHistory.replace(toLocation.fullPath, assign$1({
+        routerHistory.replace(toLocation.fullPath, assign({
           scroll: isFirstNavigation && state && state.scroll
         }, data));
       else
@@ -19644,7 +18681,7 @@ function createRouter(options) {
       const toLocation = resolve2(to);
       const shouldRedirect = handleRedirectRecord(toLocation);
       if (shouldRedirect) {
-        pushWithRedirect(assign$1(shouldRedirect, { replace: true }), toLocation).catch(noop);
+        pushWithRedirect(assign(shouldRedirect, { replace: true }), toLocation).catch(noop);
         return;
       }
       pendingLocation = toLocation;
@@ -19860,4279 +18897,62 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$a = {};
+const _sfc_main = {};
 function _sfc_render(_ctx, _cache) {
   const _component_router_view = resolveComponent("router-view");
   return openBlock(), createBlock(_component_router_view);
 }
-const ProxyComponent = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render]]);
-const VCardActions = genericComponent()({
-  name: "VCardActions",
-  props: makeComponentProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    provideDefaults({
-      VBtn: {
-        slim: true,
-        variant: "text"
-      }
-    });
-    useRender(() => {
-      var _a;
-      return createVNode("div", {
-        "class": ["v-card-actions", props.class],
-        "style": props.style
-      }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]);
-    });
-    return {};
-  }
-});
-const VCardSubtitle = createSimpleFunctional("v-card-subtitle");
-const VCardTitle = createSimpleFunctional("v-card-title");
-const makeVAvatarProps = propsFactory({
-  start: Boolean,
-  end: Boolean,
-  icon: IconValue,
-  image: String,
-  text: String,
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeRoundedProps(),
-  ...makeSizeProps(),
-  ...makeTagProps(),
-  ...makeThemeProps(),
-  ...makeVariantProps({
-    variant: "flat"
-  })
-}, "VAvatar");
-const VAvatar = genericComponent()({
-  name: "VAvatar",
-  props: makeVAvatarProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      colorClasses,
-      colorStyles,
-      variantClasses
-    } = useVariant(props);
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const {
-      sizeClasses,
-      sizeStyles
-    } = useSize(props);
-    useRender(() => createVNode(props.tag, {
-      "class": ["v-avatar", {
-        "v-avatar--start": props.start,
-        "v-avatar--end": props.end
-      }, themeClasses.value, colorClasses.value, densityClasses.value, roundedClasses.value, sizeClasses.value, variantClasses.value, props.class],
-      "style": [colorStyles.value, sizeStyles.value, props.style]
-    }, {
-      default: () => [!slots.default ? props.image ? createVNode(VImg, {
-        "key": "image",
-        "src": props.image,
-        "alt": "",
-        "cover": true
-      }, null) : props.icon ? createVNode(VIcon, {
-        "key": "icon",
-        "icon": props.icon
-      }, null) : props.text : createVNode(VDefaultsProvider, {
-        "key": "content-defaults",
-        "defaults": {
-          VAvatar: {
-            cover: true,
-            image: props.image
-          },
-          VIcon: {
-            icon: props.icon
-          }
-        }
-      }, {
-        default: () => {
-          var _a;
-          return [(_a = slots.default) == null ? void 0 : _a.call(slots)];
-        }
-      }), genOverlays(false, "v-avatar")]
-    }));
-    return {};
-  }
-});
-const makeCardItemProps = propsFactory({
-  appendAvatar: String,
-  appendIcon: IconValue,
-  prependAvatar: String,
-  prependIcon: IconValue,
-  subtitle: [String, Number],
-  title: [String, Number],
-  ...makeComponentProps(),
-  ...makeDensityProps()
-}, "VCardItem");
-const VCardItem = genericComponent()({
-  name: "VCardItem",
-  props: makeCardItemProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    useRender(() => {
-      var _a;
-      const hasPrependMedia = !!(props.prependAvatar || props.prependIcon);
-      const hasPrepend = !!(hasPrependMedia || slots.prepend);
-      const hasAppendMedia = !!(props.appendAvatar || props.appendIcon);
-      const hasAppend = !!(hasAppendMedia || slots.append);
-      const hasTitle = !!(props.title != null || slots.title);
-      const hasSubtitle = !!(props.subtitle != null || slots.subtitle);
-      return createVNode("div", {
-        "class": ["v-card-item", props.class],
-        "style": props.style
-      }, [hasPrepend && createVNode("div", {
-        "key": "prepend",
-        "class": "v-card-item__prepend"
-      }, [!slots.prepend ? createVNode(Fragment, null, [props.prependAvatar && createVNode(VAvatar, {
-        "key": "prepend-avatar",
-        "density": props.density,
-        "image": props.prependAvatar
-      }, null), props.prependIcon && createVNode(VIcon, {
-        "key": "prepend-icon",
-        "density": props.density,
-        "icon": props.prependIcon
-      }, null)]) : createVNode(VDefaultsProvider, {
-        "key": "prepend-defaults",
-        "disabled": !hasPrependMedia,
-        "defaults": {
-          VAvatar: {
-            density: props.density,
-            image: props.prependAvatar
-          },
-          VIcon: {
-            density: props.density,
-            icon: props.prependIcon
-          }
-        }
-      }, slots.prepend)]), createVNode("div", {
-        "class": "v-card-item__content"
-      }, [hasTitle && createVNode(VCardTitle, {
-        "key": "title"
-      }, {
-        default: () => {
-          var _a2;
-          return [((_a2 = slots.title) == null ? void 0 : _a2.call(slots)) ?? props.title];
-        }
-      }), hasSubtitle && createVNode(VCardSubtitle, {
-        "key": "subtitle"
-      }, {
-        default: () => {
-          var _a2;
-          return [((_a2 = slots.subtitle) == null ? void 0 : _a2.call(slots)) ?? props.subtitle];
-        }
-      }), (_a = slots.default) == null ? void 0 : _a.call(slots)]), hasAppend && createVNode("div", {
-        "key": "append",
-        "class": "v-card-item__append"
-      }, [!slots.append ? createVNode(Fragment, null, [props.appendIcon && createVNode(VIcon, {
-        "key": "append-icon",
-        "density": props.density,
-        "icon": props.appendIcon
-      }, null), props.appendAvatar && createVNode(VAvatar, {
-        "key": "append-avatar",
-        "density": props.density,
-        "image": props.appendAvatar
-      }, null)]) : createVNode(VDefaultsProvider, {
-        "key": "append-defaults",
-        "disabled": !hasAppendMedia,
-        "defaults": {
-          VAvatar: {
-            density: props.density,
-            image: props.appendAvatar
-          },
-          VIcon: {
-            density: props.density,
-            icon: props.appendIcon
-          }
-        }
-      }, slots.append)])]);
-    });
-    return {};
-  }
-});
-const VCardText = createSimpleFunctional("v-card-text");
-const makeVCardProps = propsFactory({
-  appendAvatar: String,
-  appendIcon: IconValue,
-  disabled: Boolean,
-  flat: Boolean,
-  hover: Boolean,
-  image: String,
-  link: {
-    type: Boolean,
-    default: void 0
-  },
-  prependAvatar: String,
-  prependIcon: IconValue,
-  ripple: {
-    type: [Boolean, Object],
-    default: true
-  },
-  subtitle: [String, Number],
-  text: [String, Number],
-  title: [String, Number],
-  ...makeBorderProps(),
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeDimensionProps(),
-  ...makeElevationProps(),
-  ...makeLoaderProps(),
-  ...makeLocationProps(),
-  ...makePositionProps(),
-  ...makeRoundedProps(),
-  ...makeRouterProps(),
-  ...makeTagProps(),
-  ...makeThemeProps(),
-  ...makeVariantProps({
-    variant: "elevated"
-  })
-}, "VCard");
-const VCard = genericComponent()({
-  name: "VCard",
-  directives: {
-    Ripple
-  },
-  props: makeVCardProps(),
-  setup(props, _ref) {
-    let {
-      attrs,
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      borderClasses
-    } = useBorder(props);
-    const {
-      colorClasses,
-      colorStyles,
-      variantClasses
-    } = useVariant(props);
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      dimensionStyles
-    } = useDimension(props);
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      loaderClasses
-    } = useLoader(props);
-    const {
-      locationStyles
-    } = useLocation(props);
-    const {
-      positionClasses
-    } = usePosition(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const link = useLink$1(props, attrs);
-    const isLink = computed(() => props.link !== false && link.isLink.value);
-    const isClickable = computed(() => !props.disabled && props.link !== false && (props.link || link.isClickable.value));
-    useRender(() => {
-      const Tag = isLink.value ? "a" : props.tag;
-      const hasTitle = !!(slots.title || props.title != null);
-      const hasSubtitle = !!(slots.subtitle || props.subtitle != null);
-      const hasHeader = hasTitle || hasSubtitle;
-      const hasAppend = !!(slots.append || props.appendAvatar || props.appendIcon);
-      const hasPrepend = !!(slots.prepend || props.prependAvatar || props.prependIcon);
-      const hasImage = !!(slots.image || props.image);
-      const hasCardItem = hasHeader || hasPrepend || hasAppend;
-      const hasText = !!(slots.text || props.text != null);
-      return withDirectives(createVNode(Tag, {
-        "class": ["v-card", {
-          "v-card--disabled": props.disabled,
-          "v-card--flat": props.flat,
-          "v-card--hover": props.hover && !(props.disabled || props.flat),
-          "v-card--link": isClickable.value
-        }, themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, loaderClasses.value, positionClasses.value, roundedClasses.value, variantClasses.value, props.class],
-        "style": [colorStyles.value, dimensionStyles.value, locationStyles.value, props.style],
-        "href": link.href.value,
-        "onClick": isClickable.value && link.navigate,
-        "tabindex": props.disabled ? -1 : void 0
-      }, {
-        default: () => {
-          var _a;
-          return [hasImage && createVNode("div", {
-            "key": "image",
-            "class": "v-card__image"
-          }, [!slots.image ? createVNode(VImg, {
-            "key": "image-img",
-            "cover": true,
-            "src": props.image
-          }, null) : createVNode(VDefaultsProvider, {
-            "key": "image-defaults",
-            "disabled": !props.image,
-            "defaults": {
-              VImg: {
-                cover: true,
-                src: props.image
-              }
-            }
-          }, slots.image)]), createVNode(LoaderSlot, {
-            "name": "v-card",
-            "active": !!props.loading,
-            "color": typeof props.loading === "boolean" ? void 0 : props.loading
-          }, {
-            default: slots.loader
-          }), hasCardItem && createVNode(VCardItem, {
-            "key": "item",
-            "prependAvatar": props.prependAvatar,
-            "prependIcon": props.prependIcon,
-            "title": props.title,
-            "subtitle": props.subtitle,
-            "appendAvatar": props.appendAvatar,
-            "appendIcon": props.appendIcon
-          }, {
-            default: slots.item,
-            prepend: slots.prepend,
-            title: slots.title,
-            subtitle: slots.subtitle,
-            append: slots.append
-          }), hasText && createVNode(VCardText, {
-            "key": "text"
-          }, {
-            default: () => {
-              var _a2;
-              return [((_a2 = slots.text) == null ? void 0 : _a2.call(slots)) ?? props.text];
-            }
-          }), (_a = slots.default) == null ? void 0 : _a.call(slots), slots.actions && createVNode(VCardActions, null, {
-            default: slots.actions
-          }), genOverlays(isClickable.value, "v-card")];
-        }
-      }), [[resolveDirective("ripple"), isClickable.value && props.ripple]]);
-    });
-    return {};
-  }
-});
-const _hoisted_1$9 = { class: "text-h6 d-flex align-center" };
-const _hoisted_2$8 = { class: "text-h6 title" };
-const _hoisted_3$7 = { class: "text-h6 d-flex align-center" };
-const _hoisted_4$7 = { class: "text-h6 title" };
-const _hoisted_5$7 = { class: "text-h6 d-flex align-center" };
-const _hoisted_6$7 = { class: "text-h6 title" };
-const _hoisted_7$6 = { class: "text-h6 d-flex align-center" };
-const _hoisted_8$4 = { class: "text-h6 title" };
-const _sfc_main$9 = /* @__PURE__ */ defineComponent$1({
-  __name: "index",
-  setup(__props) {
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(VRow, { class: "py-6" }, {
-        default: withCtx(() => [
-          createVNode(VCol, {
-            cols: "12",
-            lg: "6"
-          }, {
-            default: withCtx(() => [
-              createVNode(VCard, {
-                elevation: "10",
-                class: "overflow-hidden"
-              }, {
-                default: withCtx(() => [
-                  createVNode(VCardItem, {
-                    class: normalizeClass("py-4 px-6 text-white bg-primary")
-                  }, {
-                    default: withCtx(() => [
-                      createBaseVNode("h4", _hoisted_1$9, [
-                        createVNode(unref(IconCornerUpRightDouble), { class: "mr-4" }),
-                        createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.payment.with.redirect")), 1)
-                      ])
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VCardText, { class: "pa-6" }, {
-                    default: withCtx(() => [
-                      createBaseVNode("h5", _hoisted_2$8, toDisplayString$1(_ctx.$t("text.payment.with.redirect.description")), 1),
-                      createVNode(VBtn, {
-                        to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).Redirect } },
-                        variant: "flat",
-                        class: "mt-4 text-white",
-                        color: "primary"
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString$1(_ctx.$t("action.try.it.out")), 1)
-                        ]),
-                        _: 1
-                      }, 8, ["to"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          }),
-          createVNode(VCol, {
-            cols: "12",
-            lg: "6"
-          }, {
-            default: withCtx(() => [
-              createVNode(VCard, {
-                elevation: "10",
-                class: "overflow-hidden"
-              }, {
-                default: withCtx(() => [
-                  createVNode(VCardItem, {
-                    class: normalizeClass("py-4 px-6 text-white bg-primary")
-                  }, {
-                    default: withCtx(() => [
-                      createBaseVNode("h4", _hoisted_3$7, [
-                        createVNode(unref(IconWall), { class: "mr-4" }),
-                        createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.payment.with.built.in.iframe")), 1)
-                      ])
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VCardText, { class: "pa-6" }, {
-                    default: withCtx(() => [
-                      createBaseVNode("h5", _hoisted_4$7, toDisplayString$1(_ctx.$t("text.payment.with.built.in.iframe.description")), 1),
-                      createVNode(VBtn, {
-                        to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).BuiltInIframe } },
-                        variant: "flat",
-                        class: "mt-4 text-white",
-                        color: "primary"
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString$1(_ctx.$t("action.try.it.out")), 1)
-                        ]),
-                        _: 1
-                      }, 8, ["to"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          }),
-          createVNode(VCol, {
-            cols: "12",
-            lg: "6"
-          }, {
-            default: withCtx(() => [
-              createVNode(VCard, {
-                elevation: "10",
-                class: "overflow-hidden"
-              }, {
-                default: withCtx(() => [
-                  createVNode(VCardItem, {
-                    class: normalizeClass("py-4 px-6 text-white bg-primary")
-                  }, {
-                    default: withCtx(() => [
-                      createBaseVNode("h4", _hoisted_5$7, [
-                        createVNode(unref(IconAppWindow), { class: "mr-4" }),
-                        createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.payment.with.modal.iframe")), 1)
-                      ])
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VCardText, { class: "pa-6" }, {
-                    default: withCtx(() => [
-                      createBaseVNode("h5", _hoisted_6$7, toDisplayString$1(_ctx.$t("text.payment.with.modal.iframe.description")), 1),
-                      createVNode(VBtn, {
-                        to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).ModalIframe } },
-                        variant: "flat",
-                        class: "mt-4 text-white",
-                        color: "primary"
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString$1(_ctx.$t("action.try.it.out")), 1)
-                        ]),
-                        _: 1
-                      }, 8, ["to"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          }),
-          createVNode(VCol, {
-            cols: "12",
-            lg: "6"
-          }, {
-            default: withCtx(() => [
-              createVNode(VCard, {
-                elevation: "10",
-                class: "overflow-hidden"
-              }, {
-                default: withCtx(() => [
-                  createVNode(VCardItem, {
-                    class: normalizeClass("py-4 px-6 text-white bg-error")
-                  }, {
-                    default: withCtx(() => [
-                      createBaseVNode("h4", _hoisted_7$6, [
-                        createVNode(unref(IconWall), { class: "mr-4" }),
-                        createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.payment.with.manual.params")), 1)
-                      ])
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VCardText, { class: "pa-6" }, {
-                    default: withCtx(() => [
-                      createBaseVNode("h5", _hoisted_8$4, toDisplayString$1(_ctx.$t("text.payment.with.manual.params.description")), 1),
-                      createVNode(VBtn, {
-                        to: { name: unref(RouteName).Products, query: { mode: unref(PaymentMode).Manual } },
-                        variant: "flat",
-                        class: "mt-4 text-white",
-                        color: "error"
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(toDisplayString$1(_ctx.$t("action.try.it.out")), 1)
-                        ]),
-                        _: 1
-                      }, 8, ["to"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          })
-        ]),
-        _: 1
-      });
-    };
-  }
-});
-const asCurrency = (value) => {
-  try {
-    if (!value) {
-      return "0.00";
-    }
-    const price = value / 100;
-    if (isNaN(price)) {
-      throw new Error(`Invalid value: ${value}`);
-    }
-    return price.toFixed(2);
-  } catch (error) {
-    console.log(error);
-    return "0.00";
-  }
+const ProxyComponent = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+const getPaymentMode = (route) => {
+  const mode = route.query.mode;
+  const enumValue = getPaymentModeFromValue(mode);
+  return { mode: enumValue ?? PaymentMode.Redirect };
 };
-const makeVRatingProps = propsFactory({
-  name: String,
-  itemAriaLabel: {
-    type: String,
-    default: "$vuetify.rating.ariaLabel.item"
-  },
-  activeColor: String,
-  color: String,
-  clearable: Boolean,
-  disabled: Boolean,
-  emptyIcon: {
-    type: IconValue,
-    default: "$ratingEmpty"
-  },
-  fullIcon: {
-    type: IconValue,
-    default: "$ratingFull"
-  },
-  halfIncrements: Boolean,
-  hover: Boolean,
-  length: {
-    type: [Number, String],
-    default: 5
-  },
-  readonly: Boolean,
-  modelValue: {
-    type: [Number, String],
-    default: 0
-  },
-  itemLabels: Array,
-  itemLabelPosition: {
-    type: String,
-    default: "top",
-    validator: (v) => ["top", "bottom"].includes(v)
-  },
-  ripple: Boolean,
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeSizeProps(),
-  ...makeTagProps(),
-  ...makeThemeProps()
-}, "VRating");
-const VRating = genericComponent()({
-  name: "VRating",
-  props: makeVRatingProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      t
-    } = useLocale();
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const rating = useProxiedModel(props, "modelValue");
-    const normalizedValue = computed(() => clamp(parseFloat(rating.value), 0, +props.length));
-    const range = computed(() => createRange(Number(props.length), 1));
-    const increments = computed(() => range.value.flatMap((v) => props.halfIncrements ? [v - 0.5, v] : [v]));
-    const hoverIndex = shallowRef(-1);
-    const itemState = computed(() => increments.value.map((value) => {
-      const isHovering = props.hover && hoverIndex.value > -1;
-      const isFilled = normalizedValue.value >= value;
-      const isHovered = hoverIndex.value >= value;
-      const isFullIcon = isHovering ? isHovered : isFilled;
-      const icon = isFullIcon ? props.fullIcon : props.emptyIcon;
-      const activeColor = props.activeColor ?? props.color;
-      const color = isFilled || isHovered ? activeColor : props.color;
-      return {
-        isFilled,
-        isHovered,
-        icon,
-        color
-      };
-    }));
-    const eventState = computed(() => [0, ...increments.value].map((value) => {
-      function onMouseenter() {
-        hoverIndex.value = value;
-      }
-      function onMouseleave() {
-        hoverIndex.value = -1;
-      }
-      function onClick() {
-        if (props.disabled || props.readonly) return;
-        rating.value = normalizedValue.value === value && props.clearable ? 0 : value;
-      }
-      return {
-        onMouseenter: props.hover ? onMouseenter : void 0,
-        onMouseleave: props.hover ? onMouseleave : void 0,
-        onClick
-      };
-    }));
-    const name = computed(() => props.name ?? `v-rating-${getUid()}`);
-    function VRatingItem(_ref2) {
-      var _a, _b;
-      let {
-        value,
-        index,
-        showStar = true
-      } = _ref2;
-      const {
-        onMouseenter,
-        onMouseleave,
-        onClick
-      } = eventState.value[index + 1];
-      const id = `${name.value}-${String(value).replace(".", "-")}`;
-      const btnProps = {
-        color: (_a = itemState.value[index]) == null ? void 0 : _a.color,
-        density: props.density,
-        disabled: props.disabled,
-        icon: (_b = itemState.value[index]) == null ? void 0 : _b.icon,
-        ripple: props.ripple,
-        size: props.size,
-        variant: "plain"
-      };
-      return createVNode(Fragment, null, [createVNode("label", {
-        "for": id,
-        "class": {
-          "v-rating__item--half": props.halfIncrements && value % 1 > 0,
-          "v-rating__item--full": props.halfIncrements && value % 1 === 0
+const router = createRouter({
+  history: createWebHashHistory("/fake-shop"),
+  routes: [
+    {
+      path: "",
+      component: ProxyComponent,
+      redirect: { name: RouteName.Config },
+      children: [
+        {
+          path: "/config",
+          name: RouteName.Config,
+          component: () => __vitePreload(() => import("./index-DDOCiO4t.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0)
         },
-        "onMouseenter": onMouseenter,
-        "onMouseleave": onMouseleave,
-        "onClick": onClick
-      }, [createVNode("span", {
-        "class": "v-rating__hidden"
-      }, [t(props.itemAriaLabel, value, props.length)]), !showStar ? void 0 : slots.item ? slots.item({
-        ...itemState.value[index],
-        props: btnProps,
-        value,
-        index,
-        rating: normalizedValue.value
-      }) : createVNode(VBtn, mergeProps({
-        "aria-label": t(props.itemAriaLabel, value, props.length)
-      }, btnProps), null)]), createVNode("input", {
-        "class": "v-rating__hidden",
-        "name": name.value,
-        "id": id,
-        "type": "radio",
-        "value": value,
-        "checked": normalizedValue.value === value,
-        "tabindex": -1,
-        "readonly": props.readonly,
-        "disabled": props.disabled
-      }, null)]);
-    }
-    function createLabel(labelProps) {
-      if (slots["item-label"]) return slots["item-label"](labelProps);
-      if (labelProps.label) return createVNode("span", null, [labelProps.label]);
-      return createVNode("span", null, [createTextVNode(" ")]);
-    }
-    useRender(() => {
-      var _a;
-      const hasLabels = !!((_a = props.itemLabels) == null ? void 0 : _a.length) || slots["item-label"];
-      return createVNode(props.tag, {
-        "class": ["v-rating", {
-          "v-rating--hover": props.hover,
-          "v-rating--readonly": props.readonly
-        }, themeClasses.value, props.class],
-        "style": props.style
-      }, {
-        default: () => [createVNode(VRatingItem, {
-          "value": 0,
-          "index": -1,
-          "showStar": false
-        }, null), range.value.map((value, i) => {
-          var _a2, _b;
-          return createVNode("div", {
-            "class": "v-rating__wrapper"
-          }, [hasLabels && props.itemLabelPosition === "top" ? createLabel({
-            value,
-            index: i,
-            label: (_a2 = props.itemLabels) == null ? void 0 : _a2[i]
-          }) : void 0, createVNode("div", {
-            "class": "v-rating__item"
-          }, [props.halfIncrements ? createVNode(Fragment, null, [createVNode(VRatingItem, {
-            "value": value - 0.5,
-            "index": i * 2
-          }, null), createVNode(VRatingItem, {
-            "value": value,
-            "index": i * 2 + 1
-          }, null)]) : createVNode(VRatingItem, {
-            "value": value,
-            "index": i
-          }, null)]), hasLabels && props.itemLabelPosition === "bottom" ? createLabel({
-            value,
-            index: i,
-            label: (_b = props.itemLabels) == null ? void 0 : _b[i]
-          }) : void 0]);
-        })]
-      });
-    });
-    return {};
-  }
-});
-function elementToViewport(point, offset) {
-  return {
-    x: point.x + offset.x,
-    y: point.y + offset.y
-  };
-}
-function getOffset(a, b) {
-  return {
-    x: a.x - b.x,
-    y: a.y - b.y
-  };
-}
-function anchorToPoint(anchor, box) {
-  if (anchor.side === "top" || anchor.side === "bottom") {
-    const {
-      side,
-      align
-    } = anchor;
-    const x = align === "left" ? 0 : align === "center" ? box.width / 2 : align === "right" ? box.width : align;
-    const y = side === "top" ? 0 : side === "bottom" ? box.height : side;
-    return elementToViewport({
-      x,
-      y
-    }, box);
-  } else if (anchor.side === "left" || anchor.side === "right") {
-    const {
-      side,
-      align
-    } = anchor;
-    const x = side === "left" ? 0 : side === "right" ? box.width : side;
-    const y = align === "top" ? 0 : align === "center" ? box.height / 2 : align === "bottom" ? box.height : align;
-    return elementToViewport({
-      x,
-      y
-    }, box);
-  }
-  return elementToViewport({
-    x: box.width / 2,
-    y: box.height / 2
-  }, box);
-}
-const locationStrategies = {
-  static: staticLocationStrategy,
-  // specific viewport position, usually centered
-  connected: connectedLocationStrategy
-  // connected to a certain element
-};
-const makeLocationStrategyProps = propsFactory({
-  locationStrategy: {
-    type: [String, Function],
-    default: "static",
-    validator: (val) => typeof val === "function" || val in locationStrategies
-  },
-  location: {
-    type: String,
-    default: "bottom"
-  },
-  origin: {
-    type: String,
-    default: "auto"
-  },
-  offset: [Number, String, Array]
-}, "VOverlay-location-strategies");
-function useLocationStrategies(props, data) {
-  const contentStyles = ref({});
-  const updateLocation = ref();
-  if (IN_BROWSER) {
-    useToggleScope(() => !!(data.isActive.value && props.locationStrategy), (reset) => {
-      var _a, _b;
-      watch(() => props.locationStrategy, reset);
-      onScopeDispose(() => {
-        window.removeEventListener("resize", onResize);
-        updateLocation.value = void 0;
-      });
-      window.addEventListener("resize", onResize, {
-        passive: true
-      });
-      if (typeof props.locationStrategy === "function") {
-        updateLocation.value = (_a = props.locationStrategy(data, props, contentStyles)) == null ? void 0 : _a.updateLocation;
-      } else {
-        updateLocation.value = (_b = locationStrategies[props.locationStrategy](data, props, contentStyles)) == null ? void 0 : _b.updateLocation;
-      }
-    });
-  }
-  function onResize(e) {
-    var _a;
-    (_a = updateLocation.value) == null ? void 0 : _a.call(updateLocation, e);
-  }
-  return {
-    contentStyles,
-    updateLocation
-  };
-}
-function staticLocationStrategy() {
-}
-function getIntrinsicSize(el, isRtl) {
-  if (isRtl) {
-    el.style.removeProperty("left");
-  } else {
-    el.style.removeProperty("right");
-  }
-  const contentBox = nullifyTransforms(el);
-  if (isRtl) {
-    contentBox.x += parseFloat(el.style.right || 0);
-  } else {
-    contentBox.x -= parseFloat(el.style.left || 0);
-  }
-  contentBox.y -= parseFloat(el.style.top || 0);
-  return contentBox;
-}
-function connectedLocationStrategy(data, props, contentStyles) {
-  const activatorFixed = Array.isArray(data.target.value) || isFixedPosition(data.target.value);
-  if (activatorFixed) {
-    Object.assign(contentStyles.value, {
-      position: "fixed",
-      top: 0,
-      [data.isRtl.value ? "right" : "left"]: 0
-    });
-  }
-  const {
-    preferredAnchor,
-    preferredOrigin
-  } = destructComputed(() => {
-    const parsedAnchor = parseAnchor(props.location, data.isRtl.value);
-    const parsedOrigin = props.origin === "overlap" ? parsedAnchor : props.origin === "auto" ? flipSide(parsedAnchor) : parseAnchor(props.origin, data.isRtl.value);
-    if (parsedAnchor.side === parsedOrigin.side && parsedAnchor.align === flipAlign(parsedOrigin).align) {
-      return {
-        preferredAnchor: flipCorner(parsedAnchor),
-        preferredOrigin: flipCorner(parsedOrigin)
-      };
-    } else {
-      return {
-        preferredAnchor: parsedAnchor,
-        preferredOrigin: parsedOrigin
-      };
-    }
-  });
-  const [minWidth, minHeight, maxWidth, maxHeight] = ["minWidth", "minHeight", "maxWidth", "maxHeight"].map((key) => {
-    return computed(() => {
-      const val = parseFloat(props[key]);
-      return isNaN(val) ? Infinity : val;
-    });
-  });
-  const offset = computed(() => {
-    if (Array.isArray(props.offset)) {
-      return props.offset;
-    }
-    if (typeof props.offset === "string") {
-      const offset2 = props.offset.split(" ").map(parseFloat);
-      if (offset2.length < 2) offset2.push(0);
-      return offset2;
-    }
-    return typeof props.offset === "number" ? [props.offset, 0] : [0, 0];
-  });
-  let observe = false;
-  const observer = new ResizeObserver(() => {
-    if (observe) updateLocation();
-  });
-  watch([data.target, data.contentEl], (_ref, _ref2) => {
-    let [newTarget, newContentEl] = _ref;
-    let [oldTarget, oldContentEl] = _ref2;
-    if (oldTarget && !Array.isArray(oldTarget)) observer.unobserve(oldTarget);
-    if (newTarget && !Array.isArray(newTarget)) observer.observe(newTarget);
-    if (oldContentEl) observer.unobserve(oldContentEl);
-    if (newContentEl) observer.observe(newContentEl);
-  }, {
-    immediate: true
-  });
-  onScopeDispose(() => {
-    observer.disconnect();
-  });
-  function updateLocation() {
-    observe = false;
-    requestAnimationFrame(() => observe = true);
-    if (!data.target.value || !data.contentEl.value) return;
-    const targetBox = getTargetBox(data.target.value);
-    const contentBox = getIntrinsicSize(data.contentEl.value, data.isRtl.value);
-    const scrollParents = getScrollParents(data.contentEl.value);
-    const viewportMargin = 12;
-    if (!scrollParents.length) {
-      scrollParents.push(document.documentElement);
-      if (!(data.contentEl.value.style.top && data.contentEl.value.style.left)) {
-        contentBox.x -= parseFloat(document.documentElement.style.getPropertyValue("--v-body-scroll-x") || 0);
-        contentBox.y -= parseFloat(document.documentElement.style.getPropertyValue("--v-body-scroll-y") || 0);
-      }
-    }
-    const viewport = scrollParents.reduce((box, el) => {
-      const rect = el.getBoundingClientRect();
-      const scrollBox = new Box({
-        x: el === document.documentElement ? 0 : rect.x,
-        y: el === document.documentElement ? 0 : rect.y,
-        width: el.clientWidth,
-        height: el.clientHeight
-      });
-      if (box) {
-        return new Box({
-          x: Math.max(box.left, scrollBox.left),
-          y: Math.max(box.top, scrollBox.top),
-          width: Math.min(box.right, scrollBox.right) - Math.max(box.left, scrollBox.left),
-          height: Math.min(box.bottom, scrollBox.bottom) - Math.max(box.top, scrollBox.top)
-        });
-      }
-      return scrollBox;
-    }, void 0);
-    viewport.x += viewportMargin;
-    viewport.y += viewportMargin;
-    viewport.width -= viewportMargin * 2;
-    viewport.height -= viewportMargin * 2;
-    let placement = {
-      anchor: preferredAnchor.value,
-      origin: preferredOrigin.value
-    };
-    function checkOverflow(_placement) {
-      const box = new Box(contentBox);
-      const targetPoint = anchorToPoint(_placement.anchor, targetBox);
-      const contentPoint = anchorToPoint(_placement.origin, box);
-      let {
-        x: x2,
-        y: y2
-      } = getOffset(targetPoint, contentPoint);
-      switch (_placement.anchor.side) {
-        case "top":
-          y2 -= offset.value[0];
-          break;
-        case "bottom":
-          y2 += offset.value[0];
-          break;
-        case "left":
-          x2 -= offset.value[0];
-          break;
-        case "right":
-          x2 += offset.value[0];
-          break;
-      }
-      switch (_placement.anchor.align) {
-        case "top":
-          y2 -= offset.value[1];
-          break;
-        case "bottom":
-          y2 += offset.value[1];
-          break;
-        case "left":
-          x2 -= offset.value[1];
-          break;
-        case "right":
-          x2 += offset.value[1];
-          break;
-      }
-      box.x += x2;
-      box.y += y2;
-      box.width = Math.min(box.width, maxWidth.value);
-      box.height = Math.min(box.height, maxHeight.value);
-      const overflows = getOverflow(box, viewport);
-      return {
-        overflows,
-        x: x2,
-        y: y2
-      };
-    }
-    let x = 0;
-    let y = 0;
-    const available = {
-      x: 0,
-      y: 0
-    };
-    const flipped = {
-      x: false,
-      y: false
-    };
-    let resets = -1;
-    while (true) {
-      if (resets++ > 10) {
-        break;
-      }
-      const {
-        x: _x,
-        y: _y,
-        overflows
-      } = checkOverflow(placement);
-      x += _x;
-      y += _y;
-      contentBox.x += _x;
-      contentBox.y += _y;
-      {
-        const axis2 = getAxis(placement.anchor);
-        const hasOverflowX = overflows.x.before || overflows.x.after;
-        const hasOverflowY = overflows.y.before || overflows.y.after;
-        let reset = false;
-        ["x", "y"].forEach((key) => {
-          if (key === "x" && hasOverflowX && !flipped.x || key === "y" && hasOverflowY && !flipped.y) {
-            const newPlacement = {
-              anchor: {
-                ...placement.anchor
-              },
-              origin: {
-                ...placement.origin
-              }
-            };
-            const flip = key === "x" ? axis2 === "y" ? flipAlign : flipSide : axis2 === "y" ? flipSide : flipAlign;
-            newPlacement.anchor = flip(newPlacement.anchor);
-            newPlacement.origin = flip(newPlacement.origin);
-            const {
-              overflows: newOverflows
-            } = checkOverflow(newPlacement);
-            if (newOverflows[key].before <= overflows[key].before && newOverflows[key].after <= overflows[key].after || newOverflows[key].before + newOverflows[key].after < (overflows[key].before + overflows[key].after) / 2) {
-              placement = newPlacement;
-              reset = flipped[key] = true;
-            }
+        {
+          path: "/products",
+          name: RouteName.Products,
+          component: () => __vitePreload(() => import("./index-ZaagjZI9.js"), true ? __vite__mapDeps([4,5,6,7,8,1,2,9,10,3,11]) : void 0),
+          props: (route) => {
+            return getPaymentMode(route);
           }
-        });
-        if (reset) continue;
-      }
-      if (overflows.x.before) {
-        x += overflows.x.before;
-        contentBox.x += overflows.x.before;
-      }
-      if (overflows.x.after) {
-        x -= overflows.x.after;
-        contentBox.x -= overflows.x.after;
-      }
-      if (overflows.y.before) {
-        y += overflows.y.before;
-        contentBox.y += overflows.y.before;
-      }
-      if (overflows.y.after) {
-        y -= overflows.y.after;
-        contentBox.y -= overflows.y.after;
-      }
-      {
-        const overflows2 = getOverflow(contentBox, viewport);
-        available.x = viewport.width - overflows2.x.before - overflows2.x.after;
-        available.y = viewport.height - overflows2.y.before - overflows2.y.after;
-        x += overflows2.x.before;
-        contentBox.x += overflows2.x.before;
-        y += overflows2.y.before;
-        contentBox.y += overflows2.y.before;
-      }
-      break;
-    }
-    const axis = getAxis(placement.anchor);
-    Object.assign(contentStyles.value, {
-      "--v-overlay-anchor-origin": `${placement.anchor.side} ${placement.anchor.align}`,
-      transformOrigin: `${placement.origin.side} ${placement.origin.align}`,
-      // transform: `translate(${pixelRound(x)}px, ${pixelRound(y)}px)`,
-      top: convertToUnit(pixelRound(y)),
-      left: data.isRtl.value ? void 0 : convertToUnit(pixelRound(x)),
-      right: data.isRtl.value ? convertToUnit(pixelRound(-x)) : void 0,
-      minWidth: convertToUnit(axis === "y" ? Math.min(minWidth.value, targetBox.width) : minWidth.value),
-      maxWidth: convertToUnit(pixelCeil(clamp(available.x, minWidth.value === Infinity ? 0 : minWidth.value, maxWidth.value))),
-      maxHeight: convertToUnit(pixelCeil(clamp(available.y, minHeight.value === Infinity ? 0 : minHeight.value, maxHeight.value)))
-    });
-    return {
-      available,
-      contentBox
-    };
-  }
-  watch(() => [preferredAnchor.value, preferredOrigin.value, props.offset, props.minWidth, props.minHeight, props.maxWidth, props.maxHeight], () => updateLocation());
-  nextTick(() => {
-    const result = updateLocation();
-    if (!result) return;
-    const {
-      available,
-      contentBox
-    } = result;
-    if (contentBox.height > available.y) {
-      requestAnimationFrame(() => {
-        updateLocation();
-        requestAnimationFrame(() => {
-          updateLocation();
-        });
-      });
-    }
-  });
-  return {
-    updateLocation
-  };
-}
-function pixelRound(val) {
-  return Math.round(val * devicePixelRatio) / devicePixelRatio;
-}
-function pixelCeil(val) {
-  return Math.ceil(val * devicePixelRatio) / devicePixelRatio;
-}
-let clean = true;
-const frames = [];
-function requestNewFrame(cb) {
-  if (!clean || frames.length) {
-    frames.push(cb);
-    run();
-  } else {
-    clean = false;
-    cb();
-    run();
-  }
-}
-let raf = -1;
-function run() {
-  cancelAnimationFrame(raf);
-  raf = requestAnimationFrame(() => {
-    const frame = frames.shift();
-    if (frame) frame();
-    if (frames.length) run();
-    else clean = true;
-  });
-}
-const scrollStrategies = {
-  none: null,
-  close: closeScrollStrategy,
-  block: blockScrollStrategy,
-  reposition: repositionScrollStrategy
-};
-const makeScrollStrategyProps = propsFactory({
-  scrollStrategy: {
-    type: [String, Function],
-    default: "block",
-    validator: (val) => typeof val === "function" || val in scrollStrategies
-  }
-}, "VOverlay-scroll-strategies");
-function useScrollStrategies(props, data) {
-  if (!IN_BROWSER) return;
-  let scope;
-  watchEffect(async () => {
-    scope == null ? void 0 : scope.stop();
-    if (!(data.isActive.value && props.scrollStrategy)) return;
-    scope = effectScope();
-    await nextTick();
-    scope.active && scope.run(() => {
-      var _a;
-      if (typeof props.scrollStrategy === "function") {
-        props.scrollStrategy(data, props, scope);
-      } else {
-        (_a = scrollStrategies[props.scrollStrategy]) == null ? void 0 : _a.call(scrollStrategies, data, props, scope);
-      }
-    });
-  });
-  onScopeDispose(() => {
-    scope == null ? void 0 : scope.stop();
-  });
-}
-function closeScrollStrategy(data) {
-  function onScroll(e) {
-    data.isActive.value = false;
-  }
-  bindScroll(data.targetEl.value ?? data.contentEl.value, onScroll);
-}
-function blockScrollStrategy(data, props) {
-  var _a;
-  const offsetParent = (_a = data.root.value) == null ? void 0 : _a.offsetParent;
-  const scrollElements = [.../* @__PURE__ */ new Set([...getScrollParents(data.targetEl.value, props.contained ? offsetParent : void 0), ...getScrollParents(data.contentEl.value, props.contained ? offsetParent : void 0)])].filter((el) => !el.classList.contains("v-overlay-scroll-blocked"));
-  const scrollbarWidth = window.innerWidth - document.documentElement.offsetWidth;
-  const scrollableParent = ((el) => hasScrollbar(el) && el)(offsetParent || document.documentElement);
-  if (scrollableParent) {
-    data.root.value.classList.add("v-overlay--scroll-blocked");
-  }
-  scrollElements.forEach((el, i) => {
-    el.style.setProperty("--v-body-scroll-x", convertToUnit(-el.scrollLeft));
-    el.style.setProperty("--v-body-scroll-y", convertToUnit(-el.scrollTop));
-    if (el !== document.documentElement) {
-      el.style.setProperty("--v-scrollbar-offset", convertToUnit(scrollbarWidth));
-    }
-    el.classList.add("v-overlay-scroll-blocked");
-  });
-  onScopeDispose(() => {
-    scrollElements.forEach((el, i) => {
-      const x = parseFloat(el.style.getPropertyValue("--v-body-scroll-x"));
-      const y = parseFloat(el.style.getPropertyValue("--v-body-scroll-y"));
-      const scrollBehavior = el.style.scrollBehavior;
-      el.style.scrollBehavior = "auto";
-      el.style.removeProperty("--v-body-scroll-x");
-      el.style.removeProperty("--v-body-scroll-y");
-      el.style.removeProperty("--v-scrollbar-offset");
-      el.classList.remove("v-overlay-scroll-blocked");
-      el.scrollLeft = -x;
-      el.scrollTop = -y;
-      el.style.scrollBehavior = scrollBehavior;
-    });
-    if (scrollableParent) {
-      data.root.value.classList.remove("v-overlay--scroll-blocked");
-    }
-  });
-}
-function repositionScrollStrategy(data, props, scope) {
-  let slow = false;
-  let raf2 = -1;
-  let ric = -1;
-  function update(e) {
-    requestNewFrame(() => {
-      var _a, _b;
-      const start = performance.now();
-      (_b = (_a = data.updateLocation).value) == null ? void 0 : _b.call(_a, e);
-      const time = performance.now() - start;
-      slow = time / (1e3 / 60) > 2;
-    });
-  }
-  ric = (typeof requestIdleCallback === "undefined" ? (cb) => cb() : requestIdleCallback)(() => {
-    scope.run(() => {
-      bindScroll(data.targetEl.value ?? data.contentEl.value, (e) => {
-        if (slow) {
-          cancelAnimationFrame(raf2);
-          raf2 = requestAnimationFrame(() => {
-            raf2 = requestAnimationFrame(() => {
-              update(e);
-            });
-          });
-        } else {
-          update(e);
-        }
-      });
-    });
-  });
-  onScopeDispose(() => {
-    typeof cancelIdleCallback !== "undefined" && cancelIdleCallback(ric);
-    cancelAnimationFrame(raf2);
-  });
-}
-function bindScroll(el, onScroll) {
-  const scrollElements = [document, ...getScrollParents(el)];
-  scrollElements.forEach((el2) => {
-    el2.addEventListener("scroll", onScroll, {
-      passive: true
-    });
-  });
-  onScopeDispose(() => {
-    scrollElements.forEach((el2) => {
-      el2.removeEventListener("scroll", onScroll);
-    });
-  });
-}
-const VMenuSymbol = Symbol.for("vuetify:v-menu");
-const makeDelayProps = propsFactory({
-  closeDelay: [Number, String],
-  openDelay: [Number, String]
-}, "delay");
-function useDelay(props, cb) {
-  let clearDelay = () => {
-  };
-  function runDelay(isOpening) {
-    clearDelay == null ? void 0 : clearDelay();
-    const delay = Number(isOpening ? props.openDelay : props.closeDelay);
-    return new Promise((resolve2) => {
-      clearDelay = defer(delay, () => {
-        cb == null ? void 0 : cb(isOpening);
-        resolve2(isOpening);
-      });
-    });
-  }
-  function runOpenDelay() {
-    return runDelay(true);
-  }
-  function runCloseDelay() {
-    return runDelay(false);
-  }
-  return {
-    clearDelay,
-    runOpenDelay,
-    runCloseDelay
-  };
-}
-const makeActivatorProps = propsFactory({
-  target: [String, Object],
-  activator: [String, Object],
-  activatorProps: {
-    type: Object,
-    default: () => ({})
-  },
-  openOnClick: {
-    type: Boolean,
-    default: void 0
-  },
-  openOnHover: Boolean,
-  openOnFocus: {
-    type: Boolean,
-    default: void 0
-  },
-  closeOnContentClick: Boolean,
-  ...makeDelayProps()
-}, "VOverlay-activator");
-function useActivator(props, _ref) {
-  let {
-    isActive,
-    isTop
-  } = _ref;
-  const vm = getCurrentInstance("useActivator");
-  const activatorEl = ref();
-  let isHovered = false;
-  let isFocused = false;
-  let firstEnter = true;
-  const openOnFocus = computed(() => props.openOnFocus || props.openOnFocus == null && props.openOnHover);
-  const openOnClick = computed(() => props.openOnClick || props.openOnClick == null && !props.openOnHover && !openOnFocus.value);
-  const {
-    runOpenDelay,
-    runCloseDelay
-  } = useDelay(props, (value) => {
-    if (value === (props.openOnHover && isHovered || openOnFocus.value && isFocused) && !(props.openOnHover && isActive.value && !isTop.value)) {
-      if (isActive.value !== value) {
-        firstEnter = true;
-      }
-      isActive.value = value;
-    }
-  });
-  const cursorTarget = ref();
-  const availableEvents = {
-    onClick: (e) => {
-      e.stopPropagation();
-      activatorEl.value = e.currentTarget || e.target;
-      if (!isActive.value) {
-        cursorTarget.value = [e.clientX, e.clientY];
-      }
-      isActive.value = !isActive.value;
-    },
-    onMouseenter: (e) => {
-      var _a;
-      if ((_a = e.sourceCapabilities) == null ? void 0 : _a.firesTouchEvents) return;
-      isHovered = true;
-      activatorEl.value = e.currentTarget || e.target;
-      runOpenDelay();
-    },
-    onMouseleave: (e) => {
-      isHovered = false;
-      runCloseDelay();
-    },
-    onFocus: (e) => {
-      if (matchesSelector(e.target, ":focus-visible") === false) return;
-      isFocused = true;
-      e.stopPropagation();
-      activatorEl.value = e.currentTarget || e.target;
-      runOpenDelay();
-    },
-    onBlur: (e) => {
-      isFocused = false;
-      e.stopPropagation();
-      runCloseDelay();
-    }
-  };
-  const activatorEvents = computed(() => {
-    const events = {};
-    if (openOnClick.value) {
-      events.onClick = availableEvents.onClick;
-    }
-    if (props.openOnHover) {
-      events.onMouseenter = availableEvents.onMouseenter;
-      events.onMouseleave = availableEvents.onMouseleave;
-    }
-    if (openOnFocus.value) {
-      events.onFocus = availableEvents.onFocus;
-      events.onBlur = availableEvents.onBlur;
-    }
-    return events;
-  });
-  const contentEvents = computed(() => {
-    const events = {};
-    if (props.openOnHover) {
-      events.onMouseenter = () => {
-        isHovered = true;
-        runOpenDelay();
-      };
-      events.onMouseleave = () => {
-        isHovered = false;
-        runCloseDelay();
-      };
-    }
-    if (openOnFocus.value) {
-      events.onFocusin = () => {
-        isFocused = true;
-        runOpenDelay();
-      };
-      events.onFocusout = () => {
-        isFocused = false;
-        runCloseDelay();
-      };
-    }
-    if (props.closeOnContentClick) {
-      const menu = inject$1(VMenuSymbol, null);
-      events.onClick = () => {
-        isActive.value = false;
-        menu == null ? void 0 : menu.closeParents();
-      };
-    }
-    return events;
-  });
-  const scrimEvents = computed(() => {
-    const events = {};
-    if (props.openOnHover) {
-      events.onMouseenter = () => {
-        if (firstEnter) {
-          isHovered = true;
-          firstEnter = false;
-          runOpenDelay();
-        }
-      };
-      events.onMouseleave = () => {
-        isHovered = false;
-        runCloseDelay();
-      };
-    }
-    return events;
-  });
-  watch(isTop, (val) => {
-    if (val && (props.openOnHover && !isHovered && (!openOnFocus.value || !isFocused) || openOnFocus.value && !isFocused && (!props.openOnHover || !isHovered))) {
-      isActive.value = false;
-    }
-  });
-  watch(isActive, (val) => {
-    if (!val) {
-      setTimeout(() => {
-        cursorTarget.value = void 0;
-      });
-    }
-  }, {
-    flush: "post"
-  });
-  const activatorRef = ref();
-  watchEffect(() => {
-    if (!activatorRef.value) return;
-    nextTick(() => {
-      activatorEl.value = refElement(activatorRef.value);
-    });
-  });
-  const targetRef = ref();
-  const target = computed(() => {
-    if (props.target === "cursor" && cursorTarget.value) return cursorTarget.value;
-    if (targetRef.value) return refElement(targetRef.value);
-    return getTarget(props.target, vm) || activatorEl.value;
-  });
-  const targetEl = computed(() => {
-    return Array.isArray(target.value) ? void 0 : target.value;
-  });
-  let scope;
-  watch(() => !!props.activator, (val) => {
-    if (val && IN_BROWSER) {
-      scope = effectScope();
-      scope.run(() => {
-        _useActivator(props, vm, {
-          activatorEl,
-          activatorEvents
-        });
-      });
-    } else if (scope) {
-      scope.stop();
-    }
-  }, {
-    flush: "post",
-    immediate: true
-  });
-  onScopeDispose(() => {
-    scope == null ? void 0 : scope.stop();
-  });
-  return {
-    activatorEl,
-    activatorRef,
-    target,
-    targetEl,
-    targetRef,
-    activatorEvents,
-    contentEvents,
-    scrimEvents
-  };
-}
-function _useActivator(props, vm, _ref2) {
-  let {
-    activatorEl,
-    activatorEvents
-  } = _ref2;
-  watch(() => props.activator, (val, oldVal) => {
-    if (oldVal && val !== oldVal) {
-      const activator = getActivator(oldVal);
-      activator && unbindActivatorProps(activator);
-    }
-    if (val) {
-      nextTick(() => bindActivatorProps());
-    }
-  }, {
-    immediate: true
-  });
-  watch(() => props.activatorProps, () => {
-    bindActivatorProps();
-  });
-  onScopeDispose(() => {
-    unbindActivatorProps();
-  });
-  function bindActivatorProps() {
-    let el = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getActivator();
-    let _props = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : props.activatorProps;
-    if (!el) return;
-    bindProps(el, mergeProps(activatorEvents.value, _props));
-  }
-  function unbindActivatorProps() {
-    let el = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getActivator();
-    let _props = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : props.activatorProps;
-    if (!el) return;
-    unbindProps(el, mergeProps(activatorEvents.value, _props));
-  }
-  function getActivator() {
-    let selector = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : props.activator;
-    const activator = getTarget(selector, vm);
-    activatorEl.value = (activator == null ? void 0 : activator.nodeType) === Node.ELEMENT_NODE ? activator : void 0;
-    return activatorEl.value;
-  }
-}
-function getTarget(selector, vm) {
-  var _a, _b;
-  if (!selector) return;
-  let target;
-  if (selector === "parent") {
-    let el = (_b = (_a = vm == null ? void 0 : vm.proxy) == null ? void 0 : _a.$el) == null ? void 0 : _b.parentNode;
-    while (el == null ? void 0 : el.hasAttribute("data-no-activator")) {
-      el = el.parentNode;
-    }
-    target = el;
-  } else if (typeof selector === "string") {
-    target = document.querySelector(selector);
-  } else if ("$el" in selector) {
-    target = selector.$el;
-  } else {
-    target = selector;
-  }
-  return target;
-}
-function useHydration() {
-  if (!IN_BROWSER) return shallowRef(false);
-  const {
-    ssr
-  } = useDisplay();
-  if (ssr) {
-    const isMounted = shallowRef(false);
-    onMounted(() => {
-      isMounted.value = true;
-    });
-    return isMounted;
-  } else {
-    return shallowRef(true);
-  }
-}
-const makeLazyProps = propsFactory({
-  eager: Boolean
-}, "lazy");
-function useLazy(props, active) {
-  const isBooted = shallowRef(false);
-  const hasContent = computed(() => isBooted.value || props.eager || active.value);
-  watch(active, () => isBooted.value = true);
-  function onAfterLeave() {
-    if (!props.eager) isBooted.value = false;
-  }
-  return {
-    isBooted,
-    hasContent,
-    onAfterLeave
-  };
-}
-function useScopeId() {
-  const vm = getCurrentInstance("useScopeId");
-  const scopeId = vm.vnode.scopeId;
-  return {
-    scopeId: scopeId ? {
-      [scopeId]: ""
-    } : void 0
-  };
-}
-const StackSymbol = Symbol.for("vuetify:stack");
-const globalStack = reactive([]);
-function useStack(isActive, zIndex, disableGlobalStack) {
-  const vm = getCurrentInstance("useStack");
-  const createStackEntry = !disableGlobalStack;
-  const parent = inject$1(StackSymbol, void 0);
-  const stack2 = reactive({
-    activeChildren: /* @__PURE__ */ new Set()
-  });
-  provide(StackSymbol, stack2);
-  const _zIndex = shallowRef(+zIndex.value);
-  useToggleScope(isActive, () => {
-    var _a;
-    const lastZIndex = (_a = globalStack.at(-1)) == null ? void 0 : _a[1];
-    _zIndex.value = lastZIndex ? lastZIndex + 10 : +zIndex.value;
-    if (createStackEntry) {
-      globalStack.push([vm.uid, _zIndex.value]);
-    }
-    parent == null ? void 0 : parent.activeChildren.add(vm.uid);
-    onScopeDispose(() => {
-      if (createStackEntry) {
-        const idx = toRaw(globalStack).findIndex((v) => v[0] === vm.uid);
-        globalStack.splice(idx, 1);
-      }
-      parent == null ? void 0 : parent.activeChildren.delete(vm.uid);
-    });
-  });
-  const globalTop = shallowRef(true);
-  if (createStackEntry) {
-    watchEffect(() => {
-      var _a;
-      const _isTop = ((_a = globalStack.at(-1)) == null ? void 0 : _a[0]) === vm.uid;
-      setTimeout(() => globalTop.value = _isTop);
-    });
-  }
-  const localTop = computed(() => !stack2.activeChildren.size);
-  return {
-    globalTop: readonly(globalTop),
-    localTop,
-    stackStyles: computed(() => ({
-      zIndex: _zIndex.value
-    }))
-  };
-}
-function useTeleport(target) {
-  const teleportTarget = computed(() => {
-    const _target = target.value;
-    if (_target === true || !IN_BROWSER) return void 0;
-    const targetElement = _target === false ? document.body : typeof _target === "string" ? document.querySelector(_target) : _target;
-    if (targetElement == null) {
-      return void 0;
-    }
-    let container = targetElement.querySelector(":scope > .v-overlay-container");
-    if (!container) {
-      container = document.createElement("div");
-      container.className = "v-overlay-container";
-      targetElement.appendChild(container);
-    }
-    return container;
-  });
-  return {
-    teleportTarget
-  };
-}
-function defaultConditional() {
-  return true;
-}
-function checkEvent(e, el, binding) {
-  if (!e || checkIsActive(e, binding) === false) return false;
-  const root = attachedRoot(el);
-  if (typeof ShadowRoot !== "undefined" && root instanceof ShadowRoot && root.host === e.target) return false;
-  const elements = (typeof binding.value === "object" && binding.value.include || (() => []))();
-  elements.push(el);
-  return !elements.some((el2) => el2 == null ? void 0 : el2.contains(e.target));
-}
-function checkIsActive(e, binding) {
-  const isActive = typeof binding.value === "object" && binding.value.closeConditional || defaultConditional;
-  return isActive(e);
-}
-function directive(e, el, binding) {
-  const handler = typeof binding.value === "function" ? binding.value : binding.value.handler;
-  el._clickOutside.lastMousedownWasOutside && checkEvent(e, el, binding) && setTimeout(() => {
-    checkIsActive(e, binding) && handler && handler(e);
-  }, 0);
-}
-function handleShadow(el, callback) {
-  const root = attachedRoot(el);
-  callback(document);
-  if (typeof ShadowRoot !== "undefined" && root instanceof ShadowRoot) {
-    callback(root);
-  }
-}
-const ClickOutside = {
-  // [data-app] may not be found
-  // if using bind, inserted makes
-  // sure that the root element is
-  // available, iOS does not support
-  // clicks on body
-  mounted(el, binding) {
-    const onClick = (e) => directive(e, el, binding);
-    const onMousedown = (e) => {
-      el._clickOutside.lastMousedownWasOutside = checkEvent(e, el, binding);
-    };
-    handleShadow(el, (app) => {
-      app.addEventListener("click", onClick, true);
-      app.addEventListener("mousedown", onMousedown, true);
-    });
-    if (!el._clickOutside) {
-      el._clickOutside = {
-        lastMousedownWasOutside: false
-      };
-    }
-    el._clickOutside[binding.instance.$.uid] = {
-      onClick,
-      onMousedown
-    };
-  },
-  unmounted(el, binding) {
-    if (!el._clickOutside) return;
-    handleShadow(el, (app) => {
-      var _a;
-      if (!app || !((_a = el._clickOutside) == null ? void 0 : _a[binding.instance.$.uid])) return;
-      const {
-        onClick,
-        onMousedown
-      } = el._clickOutside[binding.instance.$.uid];
-      app.removeEventListener("click", onClick, true);
-      app.removeEventListener("mousedown", onMousedown, true);
-    });
-    delete el._clickOutside[binding.instance.$.uid];
-  }
-};
-function Scrim(props) {
-  const {
-    modelValue,
-    color,
-    ...rest
-  } = props;
-  return createVNode(Transition, {
-    "name": "fade-transition",
-    "appear": true
-  }, {
-    default: () => [props.modelValue && createVNode("div", mergeProps({
-      "class": ["v-overlay__scrim", props.color.backgroundColorClasses.value],
-      "style": props.color.backgroundColorStyles.value
-    }, rest), null)]
-  });
-}
-const makeVOverlayProps = propsFactory({
-  absolute: Boolean,
-  attach: [Boolean, String, Object],
-  closeOnBack: {
-    type: Boolean,
-    default: true
-  },
-  contained: Boolean,
-  contentClass: null,
-  contentProps: null,
-  disabled: Boolean,
-  opacity: [Number, String],
-  noClickAnimation: Boolean,
-  modelValue: Boolean,
-  persistent: Boolean,
-  scrim: {
-    type: [Boolean, String],
-    default: true
-  },
-  zIndex: {
-    type: [Number, String],
-    default: 2e3
-  },
-  ...makeActivatorProps(),
-  ...makeComponentProps(),
-  ...makeDimensionProps(),
-  ...makeLazyProps(),
-  ...makeLocationStrategyProps(),
-  ...makeScrollStrategyProps(),
-  ...makeThemeProps(),
-  ...makeTransitionProps()
-}, "VOverlay");
-const VOverlay = genericComponent()({
-  name: "VOverlay",
-  directives: {
-    ClickOutside
-  },
-  inheritAttrs: false,
-  props: {
-    _disableGlobalStack: Boolean,
-    ...makeVOverlayProps()
-  },
-  emits: {
-    "click:outside": (e) => true,
-    "update:modelValue": (value) => true,
-    afterLeave: () => true
-  },
-  setup(props, _ref) {
-    let {
-      slots,
-      attrs,
-      emit: emit2
-    } = _ref;
-    const model = useProxiedModel(props, "modelValue");
-    const isActive = computed({
-      get: () => model.value,
-      set: (v) => {
-        if (!(v && props.disabled)) model.value = v;
-      }
-    });
-    const {
-      teleportTarget
-    } = useTeleport(computed(() => props.attach || props.contained));
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      rtlClasses,
-      isRtl
-    } = useRtl();
-    const {
-      hasContent,
-      onAfterLeave: _onAfterLeave
-    } = useLazy(props, isActive);
-    const scrimColor = useBackgroundColor(computed(() => {
-      return typeof props.scrim === "string" ? props.scrim : null;
-    }));
-    const {
-      globalTop,
-      localTop,
-      stackStyles
-    } = useStack(isActive, toRef(props, "zIndex"), props._disableGlobalStack);
-    const {
-      activatorEl,
-      activatorRef,
-      target,
-      targetEl,
-      targetRef,
-      activatorEvents,
-      contentEvents,
-      scrimEvents
-    } = useActivator(props, {
-      isActive,
-      isTop: localTop
-    });
-    const {
-      dimensionStyles
-    } = useDimension(props);
-    const isMounted = useHydration();
-    const {
-      scopeId
-    } = useScopeId();
-    watch(() => props.disabled, (v) => {
-      if (v) isActive.value = false;
-    });
-    const root = ref();
-    const contentEl = ref();
-    const {
-      contentStyles,
-      updateLocation
-    } = useLocationStrategies(props, {
-      isRtl,
-      contentEl,
-      target,
-      isActive
-    });
-    useScrollStrategies(props, {
-      root,
-      contentEl,
-      targetEl,
-      isActive,
-      updateLocation
-    });
-    function onClickOutside(e) {
-      emit2("click:outside", e);
-      if (!props.persistent) isActive.value = false;
-      else animateClick();
-    }
-    function closeConditional() {
-      return isActive.value && globalTop.value;
-    }
-    IN_BROWSER && watch(isActive, (val) => {
-      if (val) {
-        window.addEventListener("keydown", onKeydown);
-      } else {
-        window.removeEventListener("keydown", onKeydown);
-      }
-    }, {
-      immediate: true
-    });
-    onBeforeUnmount(() => {
-      if (!IN_BROWSER) return;
-      window.removeEventListener("keydown", onKeydown);
-    });
-    function onKeydown(e) {
-      var _a, _b;
-      if (e.key === "Escape" && globalTop.value) {
-        if (!props.persistent) {
-          isActive.value = false;
-          if ((_a = contentEl.value) == null ? void 0 : _a.contains(document.activeElement)) {
-            (_b = activatorEl.value) == null ? void 0 : _b.focus();
-          }
-        } else animateClick();
-      }
-    }
-    const router2 = useRouter();
-    useToggleScope(() => props.closeOnBack, () => {
-      useBackButton(router2, (next) => {
-        if (globalTop.value && isActive.value) {
-          next(false);
-          if (!props.persistent) isActive.value = false;
-          else animateClick();
-        } else {
-          next();
-        }
-      });
-    });
-    const top = ref();
-    watch(() => isActive.value && (props.absolute || props.contained) && teleportTarget.value == null, (val) => {
-      if (val) {
-        const scrollParent = getScrollParent(root.value);
-        if (scrollParent && scrollParent !== document.scrollingElement) {
-          top.value = scrollParent.scrollTop;
-        }
-      }
-    });
-    function animateClick() {
-      if (props.noClickAnimation) return;
-      contentEl.value && animate(contentEl.value, [{
-        transformOrigin: "center"
-      }, {
-        transform: "scale(1.03)"
-      }, {
-        transformOrigin: "center"
-      }], {
-        duration: 150,
-        easing: standardEasing
-      });
-    }
-    function onAfterLeave() {
-      _onAfterLeave();
-      emit2("afterLeave");
-    }
-    useRender(() => {
-      var _a;
-      return createVNode(Fragment, null, [(_a = slots.activator) == null ? void 0 : _a.call(slots, {
-        isActive: isActive.value,
-        props: mergeProps({
-          ref: activatorRef,
-          targetRef
-        }, activatorEvents.value, props.activatorProps)
-      }), isMounted.value && hasContent.value && createVNode(Teleport, {
-        "disabled": !teleportTarget.value,
-        "to": teleportTarget.value
-      }, {
-        default: () => [createVNode("div", mergeProps({
-          "class": ["v-overlay", {
-            "v-overlay--absolute": props.absolute || props.contained,
-            "v-overlay--active": isActive.value,
-            "v-overlay--contained": props.contained
-          }, themeClasses.value, rtlClasses.value, props.class],
-          "style": [stackStyles.value, {
-            "--v-overlay-opacity": props.opacity,
-            top: convertToUnit(top.value)
-          }, props.style],
-          "ref": root
-        }, scopeId, attrs), [createVNode(Scrim, mergeProps({
-          "color": scrimColor,
-          "modelValue": isActive.value && !!props.scrim
-        }, scrimEvents.value), null), createVNode(MaybeTransition, {
-          "appear": true,
-          "persisted": true,
-          "transition": props.transition,
-          "target": target.value,
-          "onAfterLeave": onAfterLeave
-        }, {
-          default: () => {
-            var _a2;
-            return [withDirectives(createVNode("div", mergeProps({
-              "ref": contentEl,
-              "class": ["v-overlay__content", props.contentClass],
-              "style": [dimensionStyles.value, contentStyles.value]
-            }, contentEvents.value, props.contentProps), [(_a2 = slots.default) == null ? void 0 : _a2.call(slots, {
-              isActive
-            })]), [[vShow, isActive.value], [resolveDirective("click-outside"), {
-              handler: onClickOutside,
-              closeConditional,
-              include: () => [activatorEl.value]
-            }]])];
-          }
-        })])]
-      })]);
-    });
-    return {
-      activatorEl,
-      target,
-      animateClick,
-      contentEl,
-      globalTop,
-      localTop,
-      updateLocation
-    };
-  }
-});
-const Refs = Symbol("Forwarded refs");
-function getDescriptor(obj, key) {
-  let currentObj = obj;
-  while (currentObj) {
-    const descriptor = Reflect.getOwnPropertyDescriptor(currentObj, key);
-    if (descriptor) return descriptor;
-    currentObj = Object.getPrototypeOf(currentObj);
-  }
-  return void 0;
-}
-function forwardRefs(target) {
-  for (var _len = arguments.length, refs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    refs[_key - 1] = arguments[_key];
-  }
-  target[Refs] = refs;
-  return new Proxy(target, {
-    get(target2, key) {
-      if (Reflect.has(target2, key)) {
-        return Reflect.get(target2, key);
-      }
-      if (typeof key === "symbol" || key.startsWith("$") || key.startsWith("__")) return;
-      for (const ref2 of refs) {
-        if (ref2.value && Reflect.has(ref2.value, key)) {
-          const val = Reflect.get(ref2.value, key);
-          return typeof val === "function" ? val.bind(ref2.value) : val;
-        }
-      }
-    },
-    has(target2, key) {
-      if (Reflect.has(target2, key)) {
-        return true;
-      }
-      if (typeof key === "symbol" || key.startsWith("$") || key.startsWith("__")) return false;
-      for (const ref2 of refs) {
-        if (ref2.value && Reflect.has(ref2.value, key)) {
-          return true;
-        }
-      }
-      return false;
-    },
-    set(target2, key, value) {
-      if (Reflect.has(target2, key)) {
-        return Reflect.set(target2, key, value);
-      }
-      if (typeof key === "symbol" || key.startsWith("$") || key.startsWith("__")) return false;
-      for (const ref2 of refs) {
-        if (ref2.value && Reflect.has(ref2.value, key)) {
-          return Reflect.set(ref2.value, key, value);
-        }
-      }
-      return false;
-    },
-    getOwnPropertyDescriptor(target2, key) {
-      var _a;
-      const descriptor = Reflect.getOwnPropertyDescriptor(target2, key);
-      if (descriptor) return descriptor;
-      if (typeof key === "symbol" || key.startsWith("$") || key.startsWith("__")) return;
-      for (const ref2 of refs) {
-        if (!ref2.value) continue;
-        const descriptor2 = getDescriptor(ref2.value, key) ?? ("_" in ref2.value ? getDescriptor((_a = ref2.value._) == null ? void 0 : _a.setupState, key) : void 0);
-        if (descriptor2) return descriptor2;
-      }
-      for (const ref2 of refs) {
-        const childRefs = ref2.value && ref2.value[Refs];
-        if (!childRefs) continue;
-        const queue2 = childRefs.slice();
-        while (queue2.length) {
-          const ref3 = queue2.shift();
-          const descriptor2 = getDescriptor(ref3.value, key);
-          if (descriptor2) return descriptor2;
-          const childRefs2 = ref3.value && ref3.value[Refs];
-          if (childRefs2) queue2.push(...childRefs2);
-        }
-      }
-      return void 0;
-    }
-  });
-}
-function useCountdown(milliseconds) {
-  const time = shallowRef(milliseconds);
-  let timer = -1;
-  function clear2() {
-    clearInterval(timer);
-  }
-  function reset() {
-    clear2();
-    nextTick(() => time.value = milliseconds);
-  }
-  function start(el) {
-    const style = el ? getComputedStyle(el) : {
-      transitionDuration: 0.2
-    };
-    const interval = parseFloat(style.transitionDuration) * 1e3 || 200;
-    clear2();
-    if (time.value <= 0) return;
-    const startTime = performance.now();
-    timer = window.setInterval(() => {
-      const elapsed = performance.now() - startTime + interval;
-      time.value = Math.max(milliseconds - elapsed, 0);
-      if (time.value <= 0) clear2();
-    }, interval);
-  }
-  onScopeDispose(clear2);
-  return {
-    clear: clear2,
-    time,
-    start,
-    reset
-  };
-}
-const makeVSnackbarProps = propsFactory({
-  multiLine: Boolean,
-  text: String,
-  timer: [Boolean, String],
-  timeout: {
-    type: [Number, String],
-    default: 5e3
-  },
-  vertical: Boolean,
-  ...makeLocationProps({
-    location: "bottom"
-  }),
-  ...makePositionProps(),
-  ...makeRoundedProps(),
-  ...makeVariantProps(),
-  ...makeThemeProps(),
-  ...omit(makeVOverlayProps({
-    transition: "v-snackbar-transition"
-  }), ["persistent", "noClickAnimation", "scrim", "scrollStrategy"])
-}, "VSnackbar");
-const VSnackbar = genericComponent()({
-  name: "VSnackbar",
-  props: makeVSnackbarProps(),
-  emits: {
-    "update:modelValue": (v) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const isActive = useProxiedModel(props, "modelValue");
-    const {
-      locationStyles
-    } = useLocation(props);
-    const {
-      positionClasses
-    } = usePosition(props);
-    const {
-      scopeId
-    } = useScopeId();
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      colorClasses,
-      colorStyles,
-      variantClasses
-    } = useVariant(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const countdown = useCountdown(Number(props.timeout));
-    const overlay = ref();
-    const timerRef = ref();
-    const isHovering = shallowRef(false);
-    watch(isActive, startTimeout);
-    watch(() => props.timeout, startTimeout);
-    onMounted(() => {
-      if (isActive.value) startTimeout();
-    });
-    let activeTimeout = -1;
-    function startTimeout() {
-      countdown.reset();
-      window.clearTimeout(activeTimeout);
-      const timeout = Number(props.timeout);
-      if (!isActive.value || timeout === -1) return;
-      const element = refElement(timerRef.value);
-      countdown.start(element);
-      activeTimeout = window.setTimeout(() => {
-        isActive.value = false;
-      }, timeout);
-    }
-    function clearTimeout2() {
-      countdown.reset();
-      window.clearTimeout(activeTimeout);
-    }
-    function onPointerenter() {
-      isHovering.value = true;
-      clearTimeout2();
-    }
-    function onPointerleave() {
-      isHovering.value = false;
-      startTimeout();
-    }
-    useRender(() => {
-      const overlayProps = VOverlay.filterProps(props);
-      const hasContent = !!(slots.default || slots.text || props.text);
-      return createVNode(VOverlay, mergeProps({
-        "ref": overlay,
-        "class": ["v-snackbar", {
-          "v-snackbar--active": isActive.value,
-          "v-snackbar--multi-line": props.multiLine && !props.vertical,
-          "v-snackbar--timer": !!props.timer,
-          "v-snackbar--vertical": props.vertical
-        }, positionClasses.value, props.class],
-        "style": props.style
-      }, overlayProps, {
-        "modelValue": isActive.value,
-        "onUpdate:modelValue": ($event) => isActive.value = $event,
-        "contentProps": mergeProps({
-          class: ["v-snackbar__wrapper", themeClasses.value, colorClasses.value, roundedClasses.value, variantClasses.value],
-          style: [locationStyles.value, colorStyles.value],
-          onPointerenter,
-          onPointerleave
-        }, overlayProps.contentProps),
-        "persistent": true,
-        "noClickAnimation": true,
-        "scrim": false,
-        "scrollStrategy": "none",
-        "_disableGlobalStack": true
-      }, scopeId), {
-        default: () => {
-          var _a, _b;
-          return [genOverlays(false, "v-snackbar"), props.timer && createVNode("div", {
-            "key": "timer",
-            "class": "v-snackbar__timer"
-          }, [createVNode(VProgressLinear, {
-            "ref": timerRef,
-            "active": !isHovering.value,
-            "color": typeof props.timer === "string" ? props.timer : "info",
-            "max": props.timeout,
-            "model-value": countdown.time.value
-          }, null)]), hasContent && createVNode("div", {
-            "key": "content",
-            "class": "v-snackbar__content",
-            "role": "status",
-            "aria-live": "polite"
-          }, [((_a = slots.text) == null ? void 0 : _a.call(slots)) ?? props.text, (_b = slots.default) == null ? void 0 : _b.call(slots)]), slots.actions && createVNode(VDefaultsProvider, {
-            "defaults": {
-              VBtn: {
-                variant: "text",
-                ripple: false,
-                slim: true
-              }
-            }
-          }, {
-            default: () => [createVNode("div", {
-              "class": "v-snackbar__actions"
-            }, [slots.actions()])]
-          })];
         },
-        activator: slots.activator
-      });
-    });
-    return forwardRefs({}, overlay);
-  }
-});
-const makeVTooltipProps = propsFactory({
-  id: String,
-  text: String,
-  ...omit(makeVOverlayProps({
-    closeOnBack: false,
-    location: "end",
-    locationStrategy: "connected",
-    eager: true,
-    minWidth: 0,
-    offset: 10,
-    openOnClick: false,
-    openOnHover: true,
-    origin: "auto",
-    scrim: false,
-    scrollStrategy: "reposition",
-    transition: false
-  }), ["absolute", "persistent"])
-}, "VTooltip");
-const VTooltip = genericComponent()({
-  name: "VTooltip",
-  props: makeVTooltipProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const isActive = useProxiedModel(props, "modelValue");
-    const {
-      scopeId
-    } = useScopeId();
-    const uid2 = getUid();
-    const id = computed(() => props.id || `v-tooltip-${uid2}`);
-    const overlay = ref();
-    const location2 = computed(() => {
-      return props.location.split(" ").length > 1 ? props.location : props.location + " center";
-    });
-    const origin = computed(() => {
-      return props.origin === "auto" || props.origin === "overlap" || props.origin.split(" ").length > 1 || props.location.split(" ").length > 1 ? props.origin : props.origin + " center";
-    });
-    const transition = computed(() => {
-      if (props.transition) return props.transition;
-      return isActive.value ? "scale-transition" : "fade-transition";
-    });
-    const activatorProps = computed(() => mergeProps({
-      "aria-describedby": id.value
-    }, props.activatorProps));
-    useRender(() => {
-      const overlayProps = VOverlay.filterProps(props);
-      return createVNode(VOverlay, mergeProps({
-        "ref": overlay,
-        "class": ["v-tooltip", props.class],
-        "style": props.style,
-        "id": id.value
-      }, overlayProps, {
-        "modelValue": isActive.value,
-        "onUpdate:modelValue": ($event) => isActive.value = $event,
-        "transition": transition.value,
-        "absolute": true,
-        "location": location2.value,
-        "origin": origin.value,
-        "persistent": true,
-        "role": "tooltip",
-        "activatorProps": activatorProps.value,
-        "_disableGlobalStack": true
-      }, scopeId), {
-        activator: slots.activator,
-        default: function() {
-          var _a;
-          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
+        {
+          path: "/checkout",
+          name: RouteName.Checkout,
+          component: () => __vitePreload(() => import("./index-BbMPehs9.js"), true ? __vite__mapDeps([12,5,6,7,8,1,2,13,14,3,15]) : void 0),
+          props: (route) => {
+            return getPaymentMode(route);
           }
-          return ((_a = slots.default) == null ? void 0 : _a.call(slots, ...args)) ?? props.text;
+        },
+        {
+          path: "/test-cards",
+          name: RouteName.TestCards,
+          component: () => __vitePreload(() => import("./index-AQxfZAt2.js"), true ? __vite__mapDeps([16,9,6,7,10,1,2,13,14]) : void 0)
+        },
+        {
+          path: "/:pathMatch(.*)*",
+          redirect: { name: RouteName.Config }
         }
-      });
-    });
-    return forwardRefs({}, overlay);
-  }
-});
-const _hoisted_1$8 = ["src"];
-const _hoisted_2$7 = { class: "d-flex justify-end mr-3 mt-n6" };
-const _hoisted_3$6 = { class: "text-h6" };
-const _hoisted_4$6 = { class: "d-flex align-center justify-space-between mt-1" };
-const _hoisted_5$6 = { class: "d-flex align-center gap-2" };
-const _hoisted_6$6 = { class: "text-h6" };
-const _hoisted_7$5 = { class: "text-decoration-line-through text-medium-emphasis" };
-const _sfc_main$8 = /* @__PURE__ */ defineComponent$1({
-  __name: "ProductCard",
-  props: {
-    name: {
-      type: String,
-      required: true
+      ]
     },
-    image: {
-      type: String,
-      required: true
-    },
-    description: {
-      type: String,
-      required: true
-    },
-    rating: {
-      type: Number,
-      required: true
-    },
-    price: {
-      type: Number,
-      required: true
-    },
-    offerPrice: {
-      type: Number,
-      required: true
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: { name: RouteName.Config }
     }
-  },
-  emits: {
-    "select": () => true
-  },
-  setup(__props, { emit: __emit }) {
-    const props = __props;
-    const emit2 = __emit;
-    const successsnackbar = ref(false);
-    const rate = ref(props.rating);
-    const selectProduct = () => {
-      emit2("select");
-      successsnackbar.value = true;
-    };
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(VCard, {
-        variant: "outlined",
-        class: "rounded card-hover overflow-hidden bg-surface"
-      }, {
-        default: withCtx(() => [
-          createBaseVNode("img", {
-            alt: "product",
-            src: __props.image,
-            class: "w-100"
-          }, null, 8, _hoisted_1$8),
-          createBaseVNode("div", _hoisted_2$7, [
-            createVNode(VTooltip, {
-              text: _ctx.$t("title.add.to.cart"),
-              location: "bottom"
-            }, {
-              activator: withCtx(({ props: props2 }) => [
-                createVNode(VBtn, mergeProps({ icon: "" }, props2, {
-                  color: "primary",
-                  class: "ml-auto",
-                  size: "x-small",
-                  onClick: selectProduct
-                }), {
-                  default: withCtx(() => [
-                    createVNode(unref(IconBasket), { size: "18" })
-                  ]),
-                  _: 2
-                }, 1040)
-              ]),
-              _: 1
-            }, 8, ["text"])
-          ]),
-          createVNode(VCardItem, { class: "pt-1" }, {
-            default: withCtx(() => [
-              createBaseVNode("h6", _hoisted_3$6, toDisplayString$1(__props.name), 1),
-              createBaseVNode("div", _hoisted_4$6, [
-                createBaseVNode("div", _hoisted_5$6, [
-                  createBaseVNode("h6", _hoisted_6$6, toDisplayString$1(unref(asCurrency)(__props.price)) + " UAH", 1),
-                  createBaseVNode("p", _hoisted_7$5, toDisplayString$1(unref(asCurrency)(__props.offerPrice)) + " UAH", 1)
-                ]),
-                createVNode(VRating, {
-                  modelValue: rate.value,
-                  "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => rate.value = $event),
-                  color: "warning",
-                  "half-increments": "",
-                  size: "small",
-                  density: "compact"
-                }, null, 8, ["modelValue"])
-              ])
-            ]),
-            _: 1
-          }),
-          createVNode(VSnackbar, {
-            modelValue: successsnackbar.value,
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => successsnackbar.value = $event),
-            variant: "flat",
-            location: "bottom right",
-            color: "primary",
-            rounded: "md",
-            class: "text-white"
-          }, {
-            default: withCtx(() => [
-              createTextVNode(toDisplayString$1(_ctx.$t("snackbar.item.added.to.the.cart")), 1)
-            ]),
-            _: 1
-          }, 8, ["modelValue"])
-        ]),
-        _: 1
-      });
-    };
-  }
-});
-const useProductsFiltersStore = defineStore({
-  id: "products/filters",
-  state: () => ({
-    selectedCategory: "All",
-    selectedColor: null,
-    selectedGenders: [],
-    selectedPrice: null,
-    selectedRating: 0
-  })
-});
-const makeVLabelProps = propsFactory({
-  text: String,
-  onClick: EventProp(),
-  ...makeComponentProps(),
-  ...makeThemeProps()
-}, "VLabel");
-const VLabel = genericComponent()({
-  name: "VLabel",
-  props: makeVLabelProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    useRender(() => {
-      var _a;
-      return createVNode("label", {
-        "class": ["v-label", {
-          "v-label--clickable": !!props.onClick
-        }, props.class],
-        "style": props.style,
-        "onClick": props.onClick
-      }, [props.text, (_a = slots.default) == null ? void 0 : _a.call(slots)]);
-    });
-    return {};
-  }
-});
-const VSelectionControlGroupSymbol = Symbol.for("vuetify:selection-control-group");
-const makeSelectionControlGroupProps = propsFactory({
-  color: String,
-  disabled: {
-    type: Boolean,
-    default: null
-  },
-  defaultsTarget: String,
-  error: Boolean,
-  id: String,
-  inline: Boolean,
-  falseIcon: IconValue,
-  trueIcon: IconValue,
-  ripple: {
-    type: Boolean,
-    default: true
-  },
-  multiple: {
-    type: Boolean,
-    default: null
-  },
-  name: String,
-  readonly: {
-    type: Boolean,
-    default: null
-  },
-  modelValue: null,
-  type: String,
-  valueComparator: {
-    type: Function,
-    default: deepEqual
-  },
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeThemeProps()
-}, "SelectionControlGroup");
-const makeVSelectionControlGroupProps = propsFactory({
-  ...makeSelectionControlGroupProps({
-    defaultsTarget: "VSelectionControl"
-  })
-}, "VSelectionControlGroup");
-const VSelectionControlGroup = genericComponent()({
-  name: "VSelectionControlGroup",
-  props: makeVSelectionControlGroupProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const modelValue = useProxiedModel(props, "modelValue");
-    const uid2 = getUid();
-    const id = computed(() => props.id || `v-selection-control-group-${uid2}`);
-    const name = computed(() => props.name || id.value);
-    const updateHandlers = /* @__PURE__ */ new Set();
-    provide(VSelectionControlGroupSymbol, {
-      modelValue,
-      forceUpdate: () => {
-        updateHandlers.forEach((fn) => fn());
-      },
-      onForceUpdate: (cb) => {
-        updateHandlers.add(cb);
-        onScopeDispose(() => {
-          updateHandlers.delete(cb);
-        });
-      }
-    });
-    provideDefaults({
-      [props.defaultsTarget]: {
-        color: toRef(props, "color"),
-        disabled: toRef(props, "disabled"),
-        density: toRef(props, "density"),
-        error: toRef(props, "error"),
-        inline: toRef(props, "inline"),
-        modelValue,
-        multiple: computed(() => !!props.multiple || props.multiple == null && Array.isArray(modelValue.value)),
-        name,
-        falseIcon: toRef(props, "falseIcon"),
-        trueIcon: toRef(props, "trueIcon"),
-        readonly: toRef(props, "readonly"),
-        ripple: toRef(props, "ripple"),
-        type: toRef(props, "type"),
-        valueComparator: toRef(props, "valueComparator")
-      }
-    });
-    useRender(() => {
-      var _a;
-      return createVNode("div", {
-        "class": ["v-selection-control-group", {
-          "v-selection-control-group--inline": props.inline
-        }, props.class],
-        "style": props.style,
-        "role": props.type === "radio" ? "radiogroup" : void 0
-      }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]);
-    });
-    return {};
-  }
-});
-const makeVSelectionControlProps = propsFactory({
-  label: String,
-  baseColor: String,
-  trueValue: null,
-  falseValue: null,
-  value: null,
-  ...makeComponentProps(),
-  ...makeSelectionControlGroupProps()
-}, "VSelectionControl");
-function useSelectionControl(props) {
-  const group = inject$1(VSelectionControlGroupSymbol, void 0);
-  const {
-    densityClasses
-  } = useDensity(props);
-  const modelValue = useProxiedModel(props, "modelValue");
-  const trueValue = computed(() => props.trueValue !== void 0 ? props.trueValue : props.value !== void 0 ? props.value : true);
-  const falseValue = computed(() => props.falseValue !== void 0 ? props.falseValue : false);
-  const isMultiple = computed(() => !!props.multiple || props.multiple == null && Array.isArray(modelValue.value));
-  const model = computed({
-    get() {
-      const val = group ? group.modelValue.value : modelValue.value;
-      return isMultiple.value ? wrapInArray(val).some((v) => props.valueComparator(v, trueValue.value)) : props.valueComparator(val, trueValue.value);
-    },
-    set(val) {
-      if (props.readonly) return;
-      const currentValue = val ? trueValue.value : falseValue.value;
-      let newVal = currentValue;
-      if (isMultiple.value) {
-        newVal = val ? [...wrapInArray(modelValue.value), currentValue] : wrapInArray(modelValue.value).filter((item) => !props.valueComparator(item, trueValue.value));
-      }
-      if (group) {
-        group.modelValue.value = newVal;
-      } else {
-        modelValue.value = newVal;
-      }
-    }
-  });
-  const {
-    textColorClasses,
-    textColorStyles
-  } = useTextColor(computed(() => {
-    if (props.error || props.disabled) return void 0;
-    return model.value ? props.color : props.baseColor;
-  }));
-  const {
-    backgroundColorClasses,
-    backgroundColorStyles
-  } = useBackgroundColor(computed(() => {
-    return model.value && !props.error && !props.disabled ? props.color : void 0;
-  }));
-  const icon = computed(() => model.value ? props.trueIcon : props.falseIcon);
-  return {
-    group,
-    densityClasses,
-    trueValue,
-    falseValue,
-    model,
-    textColorClasses,
-    textColorStyles,
-    backgroundColorClasses,
-    backgroundColorStyles,
-    icon
-  };
-}
-const VSelectionControl = genericComponent()({
-  name: "VSelectionControl",
-  directives: {
-    Ripple
-  },
-  inheritAttrs: false,
-  props: makeVSelectionControlProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      slots
-    } = _ref;
-    const {
-      group,
-      densityClasses,
-      icon,
-      model,
-      textColorClasses,
-      textColorStyles,
-      backgroundColorClasses,
-      backgroundColorStyles,
-      trueValue
-    } = useSelectionControl(props);
-    const uid2 = getUid();
-    const isFocused = shallowRef(false);
-    const isFocusVisible = shallowRef(false);
-    const input = ref();
-    const id = computed(() => props.id || `input-${uid2}`);
-    const isInteractive = computed(() => !props.disabled && !props.readonly);
-    group == null ? void 0 : group.onForceUpdate(() => {
-      if (input.value) {
-        input.value.checked = model.value;
-      }
-    });
-    function onFocus(e) {
-      if (!isInteractive.value) return;
-      isFocused.value = true;
-      if (matchesSelector(e.target, ":focus-visible") !== false) {
-        isFocusVisible.value = true;
-      }
-    }
-    function onBlur() {
-      isFocused.value = false;
-      isFocusVisible.value = false;
-    }
-    function onClickLabel(e) {
-      e.stopPropagation();
-    }
-    function onInput(e) {
-      if (!isInteractive.value) return;
-      if (props.readonly && group) {
-        nextTick(() => group.forceUpdate());
-      }
-      model.value = e.target.checked;
-    }
-    useRender(() => {
-      var _a, _b;
-      const label = slots.label ? slots.label({
-        label: props.label,
-        props: {
-          for: id.value
-        }
-      }) : props.label;
-      const [rootAttrs, inputAttrs] = filterInputAttrs(attrs);
-      const inputNode = createVNode("input", mergeProps({
-        "ref": input,
-        "checked": model.value,
-        "disabled": !!props.disabled,
-        "id": id.value,
-        "onBlur": onBlur,
-        "onFocus": onFocus,
-        "onInput": onInput,
-        "aria-disabled": !!props.disabled,
-        "type": props.type,
-        "value": trueValue.value,
-        "name": props.name,
-        "aria-checked": props.type === "checkbox" ? model.value : void 0
-      }, inputAttrs), null);
-      return createVNode("div", mergeProps({
-        "class": ["v-selection-control", {
-          "v-selection-control--dirty": model.value,
-          "v-selection-control--disabled": props.disabled,
-          "v-selection-control--error": props.error,
-          "v-selection-control--focused": isFocused.value,
-          "v-selection-control--focus-visible": isFocusVisible.value,
-          "v-selection-control--inline": props.inline
-        }, densityClasses.value, props.class]
-      }, rootAttrs, {
-        "style": props.style
-      }), [createVNode("div", {
-        "class": ["v-selection-control__wrapper", textColorClasses.value],
-        "style": textColorStyles.value
-      }, [(_a = slots.default) == null ? void 0 : _a.call(slots, {
-        backgroundColorClasses,
-        backgroundColorStyles
-      }), withDirectives(createVNode("div", {
-        "class": ["v-selection-control__input"]
-      }, [((_b = slots.input) == null ? void 0 : _b.call(slots, {
-        model,
-        textColorClasses,
-        textColorStyles,
-        backgroundColorClasses,
-        backgroundColorStyles,
-        inputNode,
-        icon: icon.value,
-        props: {
-          onFocus,
-          onBlur,
-          id: id.value
-        }
-      })) ?? createVNode(Fragment, null, [icon.value && createVNode(VIcon, {
-        "key": "icon",
-        "icon": icon.value
-      }, null), inputNode])]), [[resolveDirective("ripple"), props.ripple && [!props.disabled && !props.readonly, null, ["center", "circle"]]]])]), label && createVNode(VLabel, {
-        "for": id.value,
-        "onClick": onClickLabel
-      }, {
-        default: () => [label]
-      })]);
-    });
-    return {
-      isFocused,
-      input
-    };
-  }
-});
-const makeVCheckboxBtnProps = propsFactory({
-  indeterminate: Boolean,
-  indeterminateIcon: {
-    type: IconValue,
-    default: "$checkboxIndeterminate"
-  },
-  ...makeVSelectionControlProps({
-    falseIcon: "$checkboxOff",
-    trueIcon: "$checkboxOn"
-  })
-}, "VCheckboxBtn");
-const VCheckboxBtn = genericComponent()({
-  name: "VCheckboxBtn",
-  props: makeVCheckboxBtnProps(),
-  emits: {
-    "update:modelValue": (value) => true,
-    "update:indeterminate": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const indeterminate = useProxiedModel(props, "indeterminate");
-    const model = useProxiedModel(props, "modelValue");
-    function onChange(v) {
-      if (indeterminate.value) {
-        indeterminate.value = false;
-      }
-    }
-    const falseIcon = computed(() => {
-      return indeterminate.value ? props.indeterminateIcon : props.falseIcon;
-    });
-    const trueIcon = computed(() => {
-      return indeterminate.value ? props.indeterminateIcon : props.trueIcon;
-    });
-    useRender(() => {
-      const controlProps = omit(VSelectionControl.filterProps(props), ["modelValue"]);
-      return createVNode(VSelectionControl, mergeProps(controlProps, {
-        "modelValue": model.value,
-        "onUpdate:modelValue": [($event) => model.value = $event, onChange],
-        "class": ["v-checkbox-btn", props.class],
-        "style": props.style,
-        "type": "checkbox",
-        "falseIcon": falseIcon.value,
-        "trueIcon": trueIcon.value,
-        "aria-checked": indeterminate.value ? "mixed" : void 0
-      }), slots);
-    });
-    return {};
-  }
-});
-function useInputIcon(props) {
-  const {
-    t
-  } = useLocale();
-  function InputIcon(_ref) {
-    let {
-      name
-    } = _ref;
-    const localeKey = {
-      prepend: "prependAction",
-      prependInner: "prependAction",
-      append: "appendAction",
-      appendInner: "appendAction",
-      clear: "clear"
-    }[name];
-    const listener = props[`onClick:${name}`];
-    const label = listener && localeKey ? t(`$vuetify.input.${localeKey}`, props.label ?? "") : void 0;
-    return createVNode(VIcon, {
-      "icon": props[`${name}Icon`],
-      "aria-label": label,
-      "onClick": listener
-    }, null);
-  }
-  return {
-    InputIcon
-  };
-}
-const makeVMessagesProps = propsFactory({
-  active: Boolean,
-  color: String,
-  messages: {
-    type: [Array, String],
-    default: () => []
-  },
-  ...makeComponentProps(),
-  ...makeTransitionProps({
-    transition: {
-      component: VSlideYTransition,
-      leaveAbsolute: true,
-      group: true
-    }
-  })
-}, "VMessages");
-const VMessages = genericComponent()({
-  name: "VMessages",
-  props: makeVMessagesProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const messages = computed(() => wrapInArray(props.messages));
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(computed(() => props.color));
-    useRender(() => createVNode(MaybeTransition, {
-      "transition": props.transition,
-      "tag": "div",
-      "class": ["v-messages", textColorClasses.value, props.class],
-      "style": [textColorStyles.value, props.style],
-      "role": "alert",
-      "aria-live": "polite"
-    }, {
-      default: () => [props.active && messages.value.map((message, i) => createVNode("div", {
-        "class": "v-messages__message",
-        "key": `${i}-${messages.value}`
-      }, [slots.message ? slots.message({
-        message
-      }) : message]))]
-    }));
-    return {};
-  }
-});
-const makeFocusProps = propsFactory({
-  focused: Boolean,
-  "onUpdate:focused": EventProp()
-}, "focus");
-function useFocus(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  const isFocused = useProxiedModel(props, "focused");
-  const focusClasses = computed(() => {
-    return {
-      [`${name}--focused`]: isFocused.value
-    };
-  });
-  function focus() {
-    isFocused.value = true;
-  }
-  function blur() {
-    isFocused.value = false;
-  }
-  return {
-    focusClasses,
-    isFocused,
-    focus,
-    blur
-  };
-}
-const FormKey = Symbol.for("vuetify:form");
-const makeFormProps = propsFactory({
-  disabled: Boolean,
-  fastFail: Boolean,
-  readonly: Boolean,
-  modelValue: {
-    type: Boolean,
-    default: null
-  },
-  validateOn: {
-    type: String,
-    default: "input"
-  }
-}, "form");
-function createForm(props) {
-  const model = useProxiedModel(props, "modelValue");
-  const isDisabled = computed(() => props.disabled);
-  const isReadonly2 = computed(() => props.readonly);
-  const isValidating = shallowRef(false);
-  const items = ref([]);
-  const errors = ref([]);
-  async function validate() {
-    const results = [];
-    let valid = true;
-    errors.value = [];
-    isValidating.value = true;
-    for (const item of items.value) {
-      const itemErrorMessages = await item.validate();
-      if (itemErrorMessages.length > 0) {
-        valid = false;
-        results.push({
-          id: item.id,
-          errorMessages: itemErrorMessages
-        });
-      }
-      if (!valid && props.fastFail) break;
-    }
-    errors.value = results;
-    isValidating.value = false;
-    return {
-      valid,
-      errors: errors.value
-    };
-  }
-  function reset() {
-    items.value.forEach((item) => item.reset());
-  }
-  function resetValidation() {
-    items.value.forEach((item) => item.resetValidation());
-  }
-  watch(items, () => {
-    let valid = 0;
-    let invalid = 0;
-    const results = [];
-    for (const item of items.value) {
-      if (item.isValid === false) {
-        invalid++;
-        results.push({
-          id: item.id,
-          errorMessages: item.errorMessages
-        });
-      } else if (item.isValid === true) valid++;
-    }
-    errors.value = results;
-    model.value = invalid > 0 ? false : valid === items.value.length ? true : null;
-  }, {
-    deep: true
-  });
-  provide(FormKey, {
-    register: (_ref) => {
-      let {
-        id,
-        validate: validate2,
-        reset: reset2,
-        resetValidation: resetValidation2
-      } = _ref;
-      if (items.value.some((item) => item.id === id)) ;
-      items.value.push({
-        id,
-        validate: validate2,
-        reset: reset2,
-        resetValidation: resetValidation2,
-        isValid: null,
-        errorMessages: []
-      });
-    },
-    unregister: (id) => {
-      items.value = items.value.filter((item) => {
-        return item.id !== id;
-      });
-    },
-    update: (id, isValid2, errorMessages) => {
-      const found = items.value.find((item) => item.id === id);
-      if (!found) return;
-      found.isValid = isValid2;
-      found.errorMessages = errorMessages;
-    },
-    isDisabled,
-    isReadonly: isReadonly2,
-    isValidating,
-    isValid: model,
-    items,
-    validateOn: toRef(props, "validateOn")
-  });
-  return {
-    errors,
-    isDisabled,
-    isReadonly: isReadonly2,
-    isValidating,
-    isValid: model,
-    items,
-    validate,
-    reset,
-    resetValidation
-  };
-}
-function useForm() {
-  return inject$1(FormKey, null);
-}
-const makeValidationProps = propsFactory({
-  disabled: {
-    type: Boolean,
-    default: null
-  },
-  error: Boolean,
-  errorMessages: {
-    type: [Array, String],
-    default: () => []
-  },
-  maxErrors: {
-    type: [Number, String],
-    default: 1
-  },
-  name: String,
-  label: String,
-  readonly: {
-    type: Boolean,
-    default: null
-  },
-  rules: {
-    type: Array,
-    default: () => []
-  },
-  modelValue: null,
-  validateOn: String,
-  validationValue: null,
-  ...makeFocusProps()
-}, "validation");
-function useValidation(props) {
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  let id = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : getUid();
-  const model = useProxiedModel(props, "modelValue");
-  const validationModel = computed(() => props.validationValue === void 0 ? model.value : props.validationValue);
-  const form = useForm();
-  const internalErrorMessages = ref([]);
-  const isPristine = shallowRef(true);
-  const isDirty = computed(() => !!(wrapInArray(model.value === "" ? null : model.value).length || wrapInArray(validationModel.value === "" ? null : validationModel.value).length));
-  const isDisabled = computed(() => !!(props.disabled ?? (form == null ? void 0 : form.isDisabled.value)));
-  const isReadonly2 = computed(() => !!(props.readonly ?? (form == null ? void 0 : form.isReadonly.value)));
-  const errorMessages = computed(() => {
-    var _a;
-    return ((_a = props.errorMessages) == null ? void 0 : _a.length) ? wrapInArray(props.errorMessages).concat(internalErrorMessages.value).slice(0, Math.max(0, +props.maxErrors)) : internalErrorMessages.value;
-  });
-  const validateOn = computed(() => {
-    let value = (props.validateOn ?? (form == null ? void 0 : form.validateOn.value)) || "input";
-    if (value === "lazy") value = "input lazy";
-    const set2 = new Set((value == null ? void 0 : value.split(" ")) ?? []);
-    return {
-      blur: set2.has("blur") || set2.has("input"),
-      input: set2.has("input"),
-      submit: set2.has("submit"),
-      lazy: set2.has("lazy")
-    };
-  });
-  const isValid2 = computed(() => {
-    var _a;
-    if (props.error || ((_a = props.errorMessages) == null ? void 0 : _a.length)) return false;
-    if (!props.rules.length) return true;
-    if (isPristine.value) {
-      return internalErrorMessages.value.length || validateOn.value.lazy ? null : true;
-    } else {
-      return !internalErrorMessages.value.length;
-    }
-  });
-  const isValidating = shallowRef(false);
-  const validationClasses = computed(() => {
-    return {
-      [`${name}--error`]: isValid2.value === false,
-      [`${name}--dirty`]: isDirty.value,
-      [`${name}--disabled`]: isDisabled.value,
-      [`${name}--readonly`]: isReadonly2.value
-    };
-  });
-  const uid2 = computed(() => props.name ?? unref(id));
-  onBeforeMount(() => {
-    form == null ? void 0 : form.register({
-      id: uid2.value,
-      validate,
-      reset,
-      resetValidation
-    });
-  });
-  onBeforeUnmount(() => {
-    form == null ? void 0 : form.unregister(uid2.value);
-  });
-  onMounted(async () => {
-    if (!validateOn.value.lazy) {
-      await validate(true);
-    }
-    form == null ? void 0 : form.update(uid2.value, isValid2.value, errorMessages.value);
-  });
-  useToggleScope(() => validateOn.value.input, () => {
-    watch(validationModel, () => {
-      if (validationModel.value != null) {
-        validate();
-      } else if (props.focused) {
-        const unwatch = watch(() => props.focused, (val) => {
-          if (!val) validate();
-          unwatch();
-        });
-      }
-    });
-  });
-  useToggleScope(() => validateOn.value.blur, () => {
-    watch(() => props.focused, (val) => {
-      if (!val) validate();
-    });
-  });
-  watch([isValid2, errorMessages], () => {
-    form == null ? void 0 : form.update(uid2.value, isValid2.value, errorMessages.value);
-  });
-  function reset() {
-    model.value = null;
-    nextTick(resetValidation);
-  }
-  function resetValidation() {
-    isPristine.value = true;
-    if (!validateOn.value.lazy) {
-      validate(true);
-    } else {
-      internalErrorMessages.value = [];
-    }
-  }
-  async function validate() {
-    let silent = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : false;
-    const results = [];
-    isValidating.value = true;
-    for (const rule of props.rules) {
-      if (results.length >= +(props.maxErrors ?? 1)) {
-        break;
-      }
-      const handler = typeof rule === "function" ? rule : () => rule;
-      const result = await handler(validationModel.value);
-      if (result === true) continue;
-      if (result !== false && typeof result !== "string") {
-        console.warn(`${result} is not a valid value. Rule functions must return boolean true or a string.`);
-        continue;
-      }
-      results.push(result || "");
-    }
-    internalErrorMessages.value = results;
-    isValidating.value = false;
-    isPristine.value = silent;
-    return internalErrorMessages.value;
-  }
-  return {
-    errorMessages,
-    isDirty,
-    isDisabled,
-    isReadonly: isReadonly2,
-    isPristine,
-    isValid: isValid2,
-    isValidating,
-    reset,
-    resetValidation,
-    validate,
-    validationClasses
-  };
-}
-const makeVInputProps = propsFactory({
-  id: String,
-  appendIcon: IconValue,
-  centerAffix: {
-    type: Boolean,
-    default: true
-  },
-  prependIcon: IconValue,
-  hideDetails: [Boolean, String],
-  hideSpinButtons: Boolean,
-  hint: String,
-  persistentHint: Boolean,
-  messages: {
-    type: [Array, String],
-    default: () => []
-  },
-  direction: {
-    type: String,
-    default: "horizontal",
-    validator: (v) => ["horizontal", "vertical"].includes(v)
-  },
-  "onClick:prepend": EventProp(),
-  "onClick:append": EventProp(),
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeValidationProps()
-}, "VInput");
-const VInput = genericComponent()({
-  name: "VInput",
-  props: {
-    ...makeVInputProps()
-  },
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      slots,
-      emit: emit2
-    } = _ref;
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      rtlClasses
-    } = useRtl();
-    const {
-      InputIcon
-    } = useInputIcon(props);
-    const uid2 = getUid();
-    const id = computed(() => props.id || `input-${uid2}`);
-    const messagesId = computed(() => `${id.value}-messages`);
-    const {
-      errorMessages,
-      isDirty,
-      isDisabled,
-      isReadonly: isReadonly2,
-      isPristine,
-      isValid: isValid2,
-      isValidating,
-      reset,
-      resetValidation,
-      validate,
-      validationClasses
-    } = useValidation(props, "v-input", id);
-    const slotProps = computed(() => ({
-      id,
-      messagesId,
-      isDirty,
-      isDisabled,
-      isReadonly: isReadonly2,
-      isPristine,
-      isValid: isValid2,
-      isValidating,
-      reset,
-      resetValidation,
-      validate
-    }));
-    const messages = computed(() => {
-      var _a;
-      if (((_a = props.errorMessages) == null ? void 0 : _a.length) || !isPristine.value && errorMessages.value.length) {
-        return errorMessages.value;
-      } else if (props.hint && (props.persistentHint || props.focused)) {
-        return props.hint;
-      } else {
-        return props.messages;
-      }
-    });
-    useRender(() => {
-      var _a, _b, _c, _d;
-      const hasPrepend = !!(slots.prepend || props.prependIcon);
-      const hasAppend = !!(slots.append || props.appendIcon);
-      const hasMessages = messages.value.length > 0;
-      const hasDetails = !props.hideDetails || props.hideDetails === "auto" && (hasMessages || !!slots.details);
-      return createVNode("div", {
-        "class": ["v-input", `v-input--${props.direction}`, {
-          "v-input--center-affix": props.centerAffix,
-          "v-input--hide-spin-buttons": props.hideSpinButtons
-        }, densityClasses.value, rtlClasses.value, validationClasses.value, props.class],
-        "style": props.style
-      }, [hasPrepend && createVNode("div", {
-        "key": "prepend",
-        "class": "v-input__prepend"
-      }, [(_a = slots.prepend) == null ? void 0 : _a.call(slots, slotProps.value), props.prependIcon && createVNode(InputIcon, {
-        "key": "prepend-icon",
-        "name": "prepend"
-      }, null)]), slots.default && createVNode("div", {
-        "class": "v-input__control"
-      }, [(_b = slots.default) == null ? void 0 : _b.call(slots, slotProps.value)]), hasAppend && createVNode("div", {
-        "key": "append",
-        "class": "v-input__append"
-      }, [props.appendIcon && createVNode(InputIcon, {
-        "key": "append-icon",
-        "name": "append"
-      }, null), (_c = slots.append) == null ? void 0 : _c.call(slots, slotProps.value)]), hasDetails && createVNode("div", {
-        "class": "v-input__details"
-      }, [createVNode(VMessages, {
-        "id": messagesId.value,
-        "active": hasMessages,
-        "messages": messages.value
-      }, {
-        message: slots.message
-      }), (_d = slots.details) == null ? void 0 : _d.call(slots, slotProps.value)])]);
-    });
-    return {
-      reset,
-      resetValidation,
-      validate,
-      isValid: isValid2,
-      errorMessages
-    };
-  }
-});
-const makeVCheckboxProps = propsFactory({
-  ...makeVInputProps(),
-  ...omit(makeVCheckboxBtnProps(), ["inline"])
-}, "VCheckbox");
-const VCheckbox = genericComponent()({
-  name: "VCheckbox",
-  inheritAttrs: false,
-  props: makeVCheckboxProps(),
-  emits: {
-    "update:modelValue": (value) => true,
-    "update:focused": (focused) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      slots
-    } = _ref;
-    const model = useProxiedModel(props, "modelValue");
-    const {
-      isFocused,
-      focus,
-      blur
-    } = useFocus(props);
-    const uid2 = getUid();
-    const id = computed(() => props.id || `checkbox-${uid2}`);
-    useRender(() => {
-      const [rootAttrs, controlAttrs] = filterInputAttrs(attrs);
-      const inputProps = VInput.filterProps(props);
-      const checkboxProps = VCheckboxBtn.filterProps(props);
-      return createVNode(VInput, mergeProps({
-        "class": ["v-checkbox", props.class]
-      }, rootAttrs, inputProps, {
-        "modelValue": model.value,
-        "onUpdate:modelValue": ($event) => model.value = $event,
-        "id": id.value,
-        "focused": isFocused.value,
-        "style": props.style
-      }), {
-        ...slots,
-        default: (_ref2) => {
-          let {
-            id: id2,
-            messagesId,
-            isDisabled,
-            isReadonly: isReadonly2
-          } = _ref2;
-          return createVNode(VCheckboxBtn, mergeProps(checkboxProps, {
-            "id": id2.value,
-            "aria-describedby": messagesId.value,
-            "disabled": isDisabled.value,
-            "readonly": isReadonly2.value
-          }, controlAttrs, {
-            "modelValue": model.value,
-            "onUpdate:modelValue": ($event) => model.value = $event,
-            "onFocus": focus,
-            "onBlur": blur
-          }), slots);
-        }
-      });
-    });
-    return {};
-  }
-});
-const makeVDividerProps = propsFactory({
-  color: String,
-  inset: Boolean,
-  length: [Number, String],
-  thickness: [Number, String],
-  vertical: Boolean,
-  ...makeComponentProps(),
-  ...makeThemeProps()
-}, "VDivider");
-const VDivider = genericComponent()({
-  name: "VDivider",
-  props: makeVDividerProps(),
-  setup(props, _ref) {
-    let {
-      attrs
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(toRef(props, "color"));
-    const dividerStyles = computed(() => {
-      const styles = {};
-      if (props.length) {
-        styles[props.vertical ? "maxHeight" : "maxWidth"] = convertToUnit(props.length);
-      }
-      if (props.thickness) {
-        styles[props.vertical ? "borderRightWidth" : "borderTopWidth"] = convertToUnit(props.thickness);
-      }
-      return styles;
-    });
-    useRender(() => createVNode("hr", {
-      "class": [{
-        "v-divider": true,
-        "v-divider--inset": props.inset,
-        "v-divider--vertical": props.vertical
-      }, themeClasses.value, textColorClasses.value, props.class],
-      "style": [dividerStyles.value, textColorStyles.value, props.style],
-      "aria-orientation": !attrs.role || attrs.role === "separator" ? props.vertical ? "vertical" : "horizontal" : void 0,
-      "role": `${attrs.role || "separator"}`
-    }, null));
-    return {};
-  }
-});
-const VExpansionPanelSymbol = Symbol.for("vuetify:v-expansion-panel");
-const allowedVariants$1 = ["default", "accordion", "inset", "popout"];
-const makeVExpansionPanelsProps = propsFactory({
-  color: String,
-  static: Boolean,
-  variant: {
-    type: String,
-    default: "default",
-    validator: (v) => allowedVariants$1.includes(v)
-  },
-  readonly: Boolean,
-  ...makeComponentProps(),
-  ...makeGroupProps(),
-  ...makeTagProps(),
-  ...makeThemeProps()
-}, "VExpansionPanels");
-const VExpansionPanels = genericComponent()({
-  name: "VExpansionPanels",
-  props: makeVExpansionPanelsProps(),
-  emits: {
-    "update:modelValue": (val) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    useGroup(props, VExpansionPanelSymbol);
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const variantClass = computed(() => props.variant && `v-expansion-panels--variant-${props.variant}`);
-    provideDefaults({
-      VExpansionPanel: {
-        color: toRef(props, "color"),
-        readonly: toRef(props, "readonly"),
-        static: toRef(props, "static")
-      }
-    });
-    useRender(() => createVNode(props.tag, {
-      "class": ["v-expansion-panels", themeClasses.value, variantClass.value, props.class],
-      "style": props.style
-    }, slots));
-    return {};
-  }
-});
-const makeVExpansionPanelTextProps = propsFactory({
-  ...makeComponentProps(),
-  ...makeLazyProps()
-}, "VExpansionPanelText");
-const VExpansionPanelText = genericComponent()({
-  name: "VExpansionPanelText",
-  props: makeVExpansionPanelTextProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const expansionPanel = inject$1(VExpansionPanelSymbol);
-    if (!expansionPanel) throw new Error("[Vuetify] v-expansion-panel-text needs to be placed inside v-expansion-panel");
-    const {
-      hasContent,
-      onAfterLeave
-    } = useLazy(props, expansionPanel.isSelected);
-    useRender(() => createVNode(VExpandTransition, {
-      "onAfterLeave": onAfterLeave
-    }, {
-      default: () => {
-        var _a;
-        return [withDirectives(createVNode("div", {
-          "class": ["v-expansion-panel-text", props.class],
-          "style": props.style
-        }, [slots.default && hasContent.value && createVNode("div", {
-          "class": "v-expansion-panel-text__wrapper"
-        }, [(_a = slots.default) == null ? void 0 : _a.call(slots)])]), [[vShow, expansionPanel.isSelected.value]])];
-      }
-    }));
-    return {};
-  }
-});
-const makeVExpansionPanelTitleProps = propsFactory({
-  color: String,
-  expandIcon: {
-    type: IconValue,
-    default: "$expand"
-  },
-  collapseIcon: {
-    type: IconValue,
-    default: "$collapse"
-  },
-  hideActions: Boolean,
-  static: Boolean,
-  ripple: {
-    type: [Boolean, Object],
-    default: false
-  },
-  readonly: Boolean,
-  ...makeComponentProps()
-}, "VExpansionPanelTitle");
-const VExpansionPanelTitle = genericComponent()({
-  name: "VExpansionPanelTitle",
-  directives: {
-    Ripple
-  },
-  props: makeVExpansionPanelTitleProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const expansionPanel = inject$1(VExpansionPanelSymbol);
-    if (!expansionPanel) throw new Error("[Vuetify] v-expansion-panel-title needs to be placed inside v-expansion-panel");
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(props, "color");
-    const slotProps = computed(() => ({
-      collapseIcon: props.collapseIcon,
-      disabled: expansionPanel.disabled.value,
-      expanded: expansionPanel.isSelected.value,
-      expandIcon: props.expandIcon,
-      readonly: props.readonly
-    }));
-    useRender(() => {
-      var _a;
-      return withDirectives(createVNode("button", {
-        "class": ["v-expansion-panel-title", {
-          "v-expansion-panel-title--active": expansionPanel.isSelected.value,
-          "v-expansion-panel-title--static": props.static
-        }, backgroundColorClasses.value, props.class],
-        "style": [backgroundColorStyles.value, props.style],
-        "type": "button",
-        "tabindex": expansionPanel.disabled.value ? -1 : void 0,
-        "disabled": expansionPanel.disabled.value,
-        "aria-expanded": expansionPanel.isSelected.value,
-        "onClick": !props.readonly ? expansionPanel.toggle : void 0
-      }, [createVNode("span", {
-        "class": "v-expansion-panel-title__overlay"
-      }, null), (_a = slots.default) == null ? void 0 : _a.call(slots, slotProps.value), !props.hideActions && createVNode("span", {
-        "class": "v-expansion-panel-title__icon"
-      }, [slots.actions ? slots.actions(slotProps.value) : createVNode(VIcon, {
-        "icon": expansionPanel.isSelected.value ? props.collapseIcon : props.expandIcon
-      }, null)])]), [[resolveDirective("ripple"), props.ripple]]);
-    });
-    return {};
-  }
-});
-const makeVExpansionPanelProps = propsFactory({
-  title: String,
-  text: String,
-  bgColor: String,
-  ...makeComponentProps(),
-  ...makeElevationProps(),
-  ...makeGroupItemProps(),
-  ...makeLazyProps(),
-  ...makeRoundedProps(),
-  ...makeTagProps(),
-  ...makeVExpansionPanelTitleProps()
-}, "VExpansionPanel");
-const VExpansionPanel = genericComponent()({
-  name: "VExpansionPanel",
-  props: makeVExpansionPanelProps(),
-  emits: {
-    "group:selected": (val) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const groupItem = useGroupItem(props, VExpansionPanelSymbol);
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(props, "bgColor");
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const isDisabled = computed(() => (groupItem == null ? void 0 : groupItem.disabled.value) || props.disabled);
-    const selectedIndices = computed(() => groupItem.group.items.value.reduce((arr, item, index) => {
-      if (groupItem.group.selected.value.includes(item.id)) arr.push(index);
-      return arr;
-    }, []));
-    const isBeforeSelected = computed(() => {
-      const index = groupItem.group.items.value.findIndex((item) => item.id === groupItem.id);
-      return !groupItem.isSelected.value && selectedIndices.value.some((selectedIndex) => selectedIndex - index === 1);
-    });
-    const isAfterSelected = computed(() => {
-      const index = groupItem.group.items.value.findIndex((item) => item.id === groupItem.id);
-      return !groupItem.isSelected.value && selectedIndices.value.some((selectedIndex) => selectedIndex - index === -1);
-    });
-    provide(VExpansionPanelSymbol, groupItem);
-    provideDefaults({
-      VExpansionPanelText: {
-        eager: toRef(props, "eager")
-      },
-      VExpansionPanelTitle: {
-        readonly: toRef(props, "readonly")
-      }
-    });
-    useRender(() => {
-      const hasText = !!(slots.text || props.text);
-      const hasTitle = !!(slots.title || props.title);
-      return createVNode(props.tag, {
-        "class": ["v-expansion-panel", {
-          "v-expansion-panel--active": groupItem.isSelected.value,
-          "v-expansion-panel--before-active": isBeforeSelected.value,
-          "v-expansion-panel--after-active": isAfterSelected.value,
-          "v-expansion-panel--disabled": isDisabled.value
-        }, roundedClasses.value, backgroundColorClasses.value, props.class],
-        "style": [backgroundColorStyles.value, props.style]
-      }, {
-        default: () => {
-          var _a;
-          return [createVNode("div", {
-            "class": ["v-expansion-panel__shadow", ...elevationClasses.value]
-          }, null), hasTitle && createVNode(VExpansionPanelTitle, {
-            "key": "title",
-            "collapseIcon": props.collapseIcon,
-            "color": props.color,
-            "expandIcon": props.expandIcon,
-            "hideActions": props.hideActions,
-            "ripple": props.ripple
-          }, {
-            default: () => [slots.title ? slots.title() : props.title]
-          }), hasText && createVNode(VExpansionPanelText, {
-            "key": "text"
-          }, {
-            default: () => [slots.text ? slots.text() : props.text]
-          }), (_a = slots.default) == null ? void 0 : _a.call(slots)];
-        }
-      });
-    });
-    return {};
-  }
-});
-const makeVRadioProps = propsFactory({
-  ...makeVSelectionControlProps({
-    falseIcon: "$radioOff",
-    trueIcon: "$radioOn"
-  })
-}, "VRadio");
-const VRadio = genericComponent()({
-  name: "VRadio",
-  props: makeVRadioProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    useRender(() => createVNode(VSelectionControl, mergeProps(props, {
-      "class": ["v-radio", props.class],
-      "style": props.style,
-      "type": "radio"
-    }), slots));
-    return {};
-  }
-});
-const makeVRadioGroupProps = propsFactory({
-  height: {
-    type: [Number, String],
-    default: "auto"
-  },
-  ...makeVInputProps(),
-  ...omit(makeSelectionControlGroupProps(), ["multiple"]),
-  trueIcon: {
-    type: IconValue,
-    default: "$radioOn"
-  },
-  falseIcon: {
-    type: IconValue,
-    default: "$radioOff"
-  },
-  type: {
-    type: String,
-    default: "radio"
-  }
-}, "VRadioGroup");
-const VRadioGroup = genericComponent()({
-  name: "VRadioGroup",
-  inheritAttrs: false,
-  props: makeVRadioGroupProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      slots
-    } = _ref;
-    const uid2 = getUid();
-    const id = computed(() => props.id || `radio-group-${uid2}`);
-    const model = useProxiedModel(props, "modelValue");
-    useRender(() => {
-      const [rootAttrs, controlAttrs] = filterInputAttrs(attrs);
-      const inputProps = VInput.filterProps(props);
-      const controlProps = VSelectionControl.filterProps(props);
-      const label = slots.label ? slots.label({
-        label: props.label,
-        props: {
-          for: id.value
-        }
-      }) : props.label;
-      return createVNode(VInput, mergeProps({
-        "class": ["v-radio-group", props.class],
-        "style": props.style
-      }, rootAttrs, inputProps, {
-        "modelValue": model.value,
-        "onUpdate:modelValue": ($event) => model.value = $event,
-        "id": id.value
-      }), {
-        ...slots,
-        default: (_ref2) => {
-          let {
-            id: id2,
-            messagesId,
-            isDisabled,
-            isReadonly: isReadonly2
-          } = _ref2;
-          return createVNode(Fragment, null, [label && createVNode(VLabel, {
-            "id": id2.value
-          }, {
-            default: () => [label]
-          }), createVNode(VSelectionControlGroup, mergeProps(controlProps, {
-            "id": id2.value,
-            "aria-describedby": messagesId.value,
-            "defaultsTarget": "VRadio",
-            "trueIcon": props.trueIcon,
-            "falseIcon": props.falseIcon,
-            "type": props.type,
-            "disabled": isDisabled.value,
-            "readonly": isReadonly2.value,
-            "aria-labelledby": label ? id2.value : void 0,
-            "multiple": false
-          }, controlAttrs, {
-            "modelValue": model.value,
-            "onUpdate:modelValue": ($event) => model.value = $event
-          }), slots)]);
-        }
-      });
-    });
-    return {};
-  }
-});
-const makeVSheetProps = propsFactory({
-  color: String,
-  ...makeBorderProps(),
-  ...makeComponentProps(),
-  ...makeDimensionProps(),
-  ...makeElevationProps(),
-  ...makeLocationProps(),
-  ...makePositionProps(),
-  ...makeRoundedProps(),
-  ...makeTagProps(),
-  ...makeThemeProps()
-}, "VSheet");
-const VSheet = genericComponent()({
-  name: "VSheet",
-  props: makeVSheetProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(toRef(props, "color"));
-    const {
-      borderClasses
-    } = useBorder(props);
-    const {
-      dimensionStyles
-    } = useDimension(props);
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      locationStyles
-    } = useLocation(props);
-    const {
-      positionClasses
-    } = usePosition(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    useRender(() => createVNode(props.tag, {
-      "class": ["v-sheet", themeClasses.value, backgroundColorClasses.value, borderClasses.value, elevationClasses.value, positionClasses.value, roundedClasses.value, props.class],
-      "style": [backgroundColorStyles.value, dimensionStyles.value, locationStyles.value, props.style]
-    }, slots));
-    return {};
-  }
-});
-const _hoisted_1$7 = {
-  key: 0,
-  class: "d-flex gap-2 flex-wrap v-col-11 px-0"
-};
-const _sfc_main$7 = /* @__PURE__ */ defineComponent$1({
-  __name: "ProductFilters",
-  setup(__props) {
-    const panel = ref([0, 1, 2, 3, 4]);
-    const priceOptions = [
-      {
-        id: 1,
-        label: "1 UAH - 3 UAH",
-        filter: {
-          min: 0,
-          max: 300
-        }
-      },
-      {
-        id: 2,
-        label: "3 UAH - 5 UAH",
-        filter: {
-          min: 300,
-          max: 500
-        }
-      },
-      {
-        id: 3,
-        label: "5 UAH - 8 UAH",
-        filter: {
-          min: 500,
-          max: 800
-        }
-      },
-      {
-        id: 4,
-        label: "8 UAH - 10 UAH",
-        filter: {
-          min: 800,
-          max: 1e3
-        }
-      },
-      {
-        id: 5,
-        label: "Over 10 UAH",
-        filter: {
-          min: 1e3,
-          max: null
-        }
-      }
-    ];
-    const productsListStore = useProductsListStore();
-    const { products: products2 } = storeToRefs(productsListStore);
-    const productsFiltersStore = useProductsFiltersStore();
-    const selectedGendersInternal = ref([]);
-    const selectedGendersComputed = computed({
-      get() {
-        return selectedGendersInternal.value;
-      },
-      set(values) {
-        selectedGendersInternal.value = values;
-        productsFiltersStore.$patch({
-          selectedGenders: values
-        });
-      }
-    });
-    const selectedColorInternal = ref(null);
-    const selectedColorComputed = computed({
-      get() {
-        return selectedColorInternal.value;
-      },
-      set(value) {
-        selectedColorInternal.value = value;
-        productsFiltersStore.$patch({
-          selectedColor: value
-        });
-      }
-    });
-    const selectedCategoryInternal = ref("All");
-    const selectedCategoryComputed = computed({
-      get() {
-        return selectedCategoryInternal.value;
-      },
-      set(value) {
-        selectedCategoryInternal.value = value;
-        productsFiltersStore.$patch({
-          selectedCategory: value
-        });
-      }
-    });
-    const selectedFilterPriceInternal = ref(null);
-    const selectedPriceComputed = computed({
-      get() {
-        return selectedFilterPriceInternal.value;
-      },
-      set(value) {
-        selectedFilterPriceInternal.value = value;
-        const priceOption = priceOptions.find((priceOption2) => priceOption2.id === value);
-        if (priceOption) {
-          productsFiltersStore.$patch({
-            selectedPrice: priceOption.filter
-          });
-        }
-      }
-    });
-    const selectedRatingInternal = ref(1);
-    const selectedRatingComputed = computed({
-      get() {
-        return selectedRatingInternal.value;
-      },
-      set(value) {
-        selectedRatingInternal.value = value;
-        productsFiltersStore.$patch({
-          selectedRating: value
-        });
-      }
-    });
-    const productColors = computed(() => {
-      const colors = products2.value.map((product) => {
-        return product.colors;
-      });
-      return Array.from(new Set(colors.flat()));
-    });
-    function resetFilters() {
-      selectedCategoryComputed.value = "All";
-      selectedColorComputed.value = null;
-      selectedGendersComputed.value = [];
-      selectedPriceComputed.value = null;
-      selectedRatingComputed.value = 1;
-    }
-    onMounted(() => {
-      selectedGendersInternal.value = productsFiltersStore.selectedGenders;
-      selectedColorInternal.value = productsFiltersStore.selectedColor;
-      selectedCategoryInternal.value = productsFiltersStore.selectedCategory;
-      selectedRatingInternal.value = productsFiltersStore.selectedRating;
-      const selectedPrice = productsFiltersStore.selectedPrice;
-      if (!selectedPrice) {
-        return;
-      }
-      const option = priceOptions.find((priceOption) => {
-        return priceOption.filter.min === selectedPrice.min && priceOption.filter.max === selectedPrice.max;
-      });
-      if (option) {
-        selectedFilterPriceInternal.value = option.id;
-      }
-    });
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(VSheet, { class: "pa-4 pt-1" }, {
-        default: withCtx(() => [
-          createVNode(VExpansionPanels, {
-            modelValue: panel.value,
-            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => panel.value = $event),
-            multiple: ""
-          }, {
-            default: withCtx(() => [
-              createVNode(VExpansionPanel, { elevation: "0" }, {
-                default: withCtx(() => [
-                  createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
-                    default: withCtx(() => [
-                      createTextVNode(toDisplayString$1(_ctx.$t("text.gender")), 1)
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VExpansionPanelText, { class: "acco-body" }, {
-                    default: withCtx(() => [
-                      createVNode(VRow, { "no-gutters": "" }, {
-                        default: withCtx(() => [
-                          createVNode(VCol, { cols: "12" }, {
-                            default: withCtx(() => [
-                              createVNode(VCheckbox, {
-                                modelValue: selectedGendersComputed.value,
-                                "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => selectedGendersComputed.value = $event),
-                                label: "Male",
-                                value: "male",
-                                color: "primary"
-                              }, null, 8, ["modelValue"])
-                            ]),
-                            _: 1
-                          }),
-                          createVNode(VCol, { cols: "12" }, {
-                            default: withCtx(() => [
-                              createVNode(VCheckbox, {
-                                modelValue: selectedGendersComputed.value,
-                                "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => selectedGendersComputed.value = $event),
-                                label: "Female",
-                                value: "female",
-                                color: "secondary"
-                              }, null, 8, ["modelValue"])
-                            ]),
-                            _: 1
-                          }),
-                          createVNode(VCol, { cols: "12" }, {
-                            default: withCtx(() => [
-                              createVNode(VCheckbox, {
-                                modelValue: selectedGendersComputed.value,
-                                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => selectedGendersComputed.value = $event),
-                                label: "Kids",
-                                value: "kids",
-                                color: "error"
-                              }, null, 8, ["modelValue"])
-                            ]),
-                            _: 1
-                          })
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              }),
-              createVNode(VDivider),
-              createVNode(VExpansionPanel, { elevation: "0" }, {
-                default: withCtx(() => [
-                  createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
-                    default: withCtx(() => [
-                      createTextVNode(toDisplayString$1(_ctx.$t("text.categories")), 1)
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VExpansionPanelText, { class: "acco-body" }, {
-                    default: withCtx(() => [
-                      createVNode(VRow, { "no-gutters": "" }, {
-                        default: withCtx(() => [
-                          createVNode(VCol, { cols: "12" }, {
-                            default: withCtx(() => [
-                              createVNode(VRadioGroup, {
-                                modelValue: selectedCategoryComputed.value,
-                                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => selectedCategoryComputed.value = $event)
-                              }, {
-                                default: withCtx(() => [
-                                  createVNode(VRadio, {
-                                    label: "All",
-                                    value: "All",
-                                    color: "primary"
-                                  }),
-                                  createVNode(VRadio, {
-                                    label: "Kitchen",
-                                    value: "kitchen",
-                                    color: "primary"
-                                  }),
-                                  createVNode(VRadio, {
-                                    label: "Electronics",
-                                    value: "electronics",
-                                    color: "primary"
-                                  }),
-                                  createVNode(VRadio, {
-                                    label: "Books",
-                                    value: "books",
-                                    color: "primary"
-                                  }),
-                                  createVNode(VRadio, {
-                                    label: "Fashion",
-                                    value: "fashion",
-                                    color: "primary"
-                                  }),
-                                  createVNode(VRadio, {
-                                    label: "Toys",
-                                    value: "toys",
-                                    color: "primary"
-                                  })
-                                ]),
-                                _: 1
-                              }, 8, ["modelValue"])
-                            ]),
-                            _: 1
-                          })
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              }),
-              createVNode(VDivider),
-              createVNode(VExpansionPanel, { elevation: "0" }, {
-                default: withCtx(() => [
-                  createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
-                    default: withCtx(() => [
-                      createTextVNode(toDisplayString$1(_ctx.$t("text.colors")), 1)
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VExpansionPanelText, { class: "acco-body" }, {
-                    default: withCtx(() => [
-                      productColors.value.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_1$7, [
-                        (openBlock(true), createElementBlock(Fragment, null, renderList(productColors.value, (color) => {
-                          return openBlock(), createBlock(VAvatar, {
-                            key: color,
-                            class: "cursor-pointer",
-                            color,
-                            variant: "flat",
-                            size: "small",
-                            onClick: () => selectedColorComputed.value = color
-                          }, {
-                            default: withCtx(() => [
-                              selectedColorComputed.value === color ? (openBlock(), createBlock(unref(IconCheck), {
-                                key: 0,
-                                size: "13"
-                              })) : createCommentVNode("", true)
-                            ]),
-                            _: 2
-                          }, 1032, ["color", "onClick"]);
-                        }), 128))
-                      ])) : createCommentVNode("", true)
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              }),
-              createVNode(VDivider),
-              createVNode(VExpansionPanel, { elevation: "0" }, {
-                default: withCtx(() => [
-                  createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
-                    default: withCtx(() => [
-                      createTextVNode(toDisplayString$1(_ctx.$t("text.price")), 1)
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VExpansionPanelText, { class: "acco-body" }, {
-                    default: withCtx(() => [
-                      createVNode(VRadioGroup, {
-                        modelValue: selectedPriceComputed.value,
-                        "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => selectedPriceComputed.value = $event),
-                        class: "custom-radio-box"
-                      }, {
-                        default: withCtx(() => [
-                          (openBlock(), createElementBlock(Fragment, null, renderList(priceOptions, (priceItem) => {
-                            return createVNode(VRadio, {
-                              key: priceItem.label,
-                              label: priceItem.label,
-                              color: "primary",
-                              value: priceItem.id,
-                              "hide-details": ""
-                            }, null, 8, ["label", "value"]);
-                          }), 64))
-                        ]),
-                        _: 1
-                      }, 8, ["modelValue"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              }),
-              createVNode(VDivider),
-              createVNode(VExpansionPanel, { elevation: "0" }, {
-                default: withCtx(() => [
-                  createVNode(VExpansionPanelTitle, { class: "font-weight-medium custom-accordion" }, {
-                    default: withCtx(() => [
-                      createTextVNode(toDisplayString$1(_ctx.$t("text.rating")), 1)
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VExpansionPanelText, { class: "acco-body" }, {
-                    default: withCtx(() => [
-                      createVNode(VRating, {
-                        hover: "",
-                        color: "warning",
-                        modelValue: selectedRatingComputed.value,
-                        "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => selectedRatingComputed.value = $event),
-                        class: "ma-2",
-                        density: "compact"
-                      }, null, 8, ["modelValue"])
-                    ]),
-                    _: 1
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          }, 8, ["modelValue"]),
-          createVNode(VBtn, {
-            color: "primary",
-            onClick: _cache[7] || (_cache[7] = ($event) => resetFilters()),
-            block: "",
-            class: "mt-5"
-          }, {
-            default: withCtx(() => [
-              createTextVNode(toDisplayString$1(_ctx.$t("action.reset.filters")), 1)
-            ]),
-            _: 1
-          })
-        ]),
-        _: 1
-      });
-    };
-  }
+  ]
 });
 const firstDay = {
   "001": 1,
@@ -24287,13 +19107,13 @@ const firstDay = {
   ZA: 0,
   ZW: 0
 };
-function getWeekArray(date2, locale2) {
+function getWeekArray(date2, locale) {
   const weeks = [];
   let currentWeek = [];
   const firstDayOfMonth = startOfMonth(date2);
   const lastDayOfMonth = endOfMonth(date2);
-  const firstDayWeekIndex = (firstDayOfMonth.getDay() - firstDay[locale2.slice(-2).toUpperCase()] + 7) % 7;
-  const lastDayWeekIndex = (lastDayOfMonth.getDay() - firstDay[locale2.slice(-2).toUpperCase()] + 7) % 7;
+  const firstDayWeekIndex = (firstDayOfMonth.getDay() - firstDay[locale.slice(-2).toUpperCase()] + 7) % 7;
+  const lastDayWeekIndex = (lastDayOfMonth.getDay() - firstDay[locale.slice(-2).toUpperCase()] + 7) % 7;
   for (let i = 0; i < firstDayWeekIndex; i++) {
     const adjacentDay = new Date(firstDayOfMonth);
     adjacentDay.setDate(adjacentDay.getDate() - (firstDayWeekIndex - i));
@@ -24357,21 +19177,21 @@ function date(value) {
   return null;
 }
 const sundayJanuarySecond2000 = new Date(2e3, 0, 2);
-function getWeekdays(locale2) {
-  const daysFromSunday = firstDay[locale2.slice(-2).toUpperCase()];
+function getWeekdays(locale) {
+  const daysFromSunday = firstDay[locale.slice(-2).toUpperCase()];
   return createRange(7).map((i) => {
     const weekday = new Date(sundayJanuarySecond2000);
     weekday.setDate(sundayJanuarySecond2000.getDate() + daysFromSunday + i);
-    return new Intl.DateTimeFormat(locale2, {
+    return new Intl.DateTimeFormat(locale, {
       weekday: "narrow"
     }).format(weekday);
   });
 }
-function format$1(value, formatString, locale2, formats) {
+function format(value, formatString, locale, formats) {
   const newDate = date(value) ?? /* @__PURE__ */ new Date();
   const customFormat = formats == null ? void 0 : formats[formatString];
   if (typeof customFormat === "function") {
-    return customFormat(newDate, formatString, locale2);
+    return customFormat(newDate, formatString, locale);
   }
   let options = {};
   switch (formatString) {
@@ -24426,7 +19246,7 @@ function format$1(value, formatString, locale2, formats) {
       };
       break;
     case "dayOfMonth":
-      return new Intl.NumberFormat(locale2).format(newDate.getDate());
+      return new Intl.NumberFormat(locale).format(newDate.getDate());
     case "shortDate":
       options = {
         year: "2-digit",
@@ -24450,7 +19270,7 @@ function format$1(value, formatString, locale2, formats) {
         timeZoneName: "short"
       };
   }
-  return new Intl.DateTimeFormat(locale2, options).format(newDate);
+  return new Intl.DateTimeFormat(locale, options).format(newDate);
 }
 function toISO(adapter, value) {
   const date2 = adapter.toJsDate(value);
@@ -24613,7 +19433,7 @@ class VuetifyDateAdapter {
     return endOfMonth(date2);
   }
   format(date2, formatString) {
-    return format$1(date2, formatString, this.locale, this.formats);
+    return format(date2, formatString, this.locale, this.formats);
   }
   isEqual(date2, comparing) {
     return isEqual(date2, comparing);
@@ -24684,7 +19504,7 @@ class VuetifyDateAdapter {
 }
 const DateOptionsSymbol = Symbol.for("vuetify:date-options");
 const DateAdapterSymbol = Symbol.for("vuetify:date-adapter");
-function createDate(options, locale2) {
+function createDate(options, locale) {
   const _options = mergeDeep({
     adapter: VuetifyDateAdapter,
     locale: {
@@ -24733,15 +19553,15 @@ function createDate(options, locale2) {
   }, options);
   return {
     options: _options,
-    instance: createInstance(_options, locale2)
+    instance: createInstance(_options, locale)
   };
 }
-function createInstance(options, locale2) {
+function createInstance(options, locale) {
   const instance = reactive(typeof options.adapter === "function" ? new options.adapter({
-    locale: options.locale[locale2.current.value] ?? locale2.current.value,
+    locale: options.locale[locale.current.value] ?? locale.current.value,
     formats: options.formats
   }) : options.adapter);
-  watch(locale2.current, (value) => {
+  watch(locale.current, (value) => {
     instance.locale = options.locale[value] ?? value ?? instance.locale;
   });
   return instance;
@@ -24771,9 +19591,9 @@ function genDefaults() {
     }
   };
 }
-function createGoTo(options, locale2) {
+function createGoTo(options, locale) {
   return {
-    rtl: locale2.isRtl,
+    rtl: locale.isRtl,
     options: mergeDeep(genDefaults(), options)
   };
 }
@@ -24793,9 +19613,9 @@ function createVuetify() {
   const display = createDisplay(options.display, options.ssr);
   const theme = createTheme(options.theme);
   const icons = createIcons(options.icons);
-  const locale2 = createLocale(options.locale);
-  const date2 = createDate(options.date, locale2);
-  const goTo = createGoTo(options.goTo, locale2);
+  const locale = createLocale(options.locale);
+  const date2 = createDate(options.date, locale);
+  const goTo = createGoTo(options.goTo, locale);
   const install = (app) => {
     for (const key in directives) {
       app.directive(key, directives[key]);
@@ -24815,7 +19635,7 @@ function createVuetify() {
     app.provide(DisplaySymbol, display);
     app.provide(ThemeSymbol, theme);
     app.provide(IconSymbol, icons);
-    app.provide(LocaleSymbol, locale2);
+    app.provide(LocaleSymbol, locale);
     app.provide(DateOptionsSymbol, date2.options);
     app.provide(DateAdapterSymbol, date2.instance);
     app.provide(GoToSymbol, goTo);
@@ -24860,7 +19680,7 @@ function createVuetify() {
     display,
     theme,
     icons,
-    locale: locale2,
+    locale,
     date: date2,
     goTo
   };
@@ -24875,7669 +19695,6 @@ function inject(key) {
     return provides[key];
   }
 }
-const imageEmpty = "/fake-shop/assets/empty-shopping-cart-C-a9p3Jc.svg";
-function useSticky(_ref) {
-  let {
-    rootEl,
-    isSticky,
-    layoutItemStyles
-  } = _ref;
-  const isStuck = shallowRef(false);
-  const stuckPosition = shallowRef(0);
-  const stickyStyles = computed(() => {
-    const side = typeof isStuck.value === "boolean" ? "top" : isStuck.value;
-    return [isSticky.value ? {
-      top: "auto",
-      bottom: "auto",
-      height: void 0
-    } : void 0, isStuck.value ? {
-      [side]: convertToUnit(stuckPosition.value)
-    } : {
-      top: layoutItemStyles.value.top
-    }];
-  });
-  onMounted(() => {
-    watch(isSticky, (val) => {
-      if (val) {
-        window.addEventListener("scroll", onScroll, {
-          passive: true
-        });
-      } else {
-        window.removeEventListener("scroll", onScroll);
-      }
-    }, {
-      immediate: true
-    });
-  });
-  onBeforeUnmount(() => {
-    window.removeEventListener("scroll", onScroll);
-  });
-  let lastScrollTop = 0;
-  function onScroll() {
-    const direction = lastScrollTop > window.scrollY ? "up" : "down";
-    const rect = rootEl.value.getBoundingClientRect();
-    const layoutTop = parseFloat(layoutItemStyles.value.top ?? 0);
-    const top = window.scrollY - Math.max(0, stuckPosition.value - layoutTop);
-    const bottom = rect.height + Math.max(stuckPosition.value, layoutTop) - window.scrollY - window.innerHeight;
-    const bodyScroll = parseFloat(getComputedStyle(rootEl.value).getPropertyValue("--v-body-scroll-y")) || 0;
-    if (rect.height < window.innerHeight - layoutTop) {
-      isStuck.value = "top";
-      stuckPosition.value = layoutTop;
-    } else if (direction === "up" && isStuck.value === "bottom" || direction === "down" && isStuck.value === "top") {
-      stuckPosition.value = window.scrollY + rect.top - bodyScroll;
-      isStuck.value = true;
-    } else if (direction === "down" && bottom <= 0) {
-      stuckPosition.value = 0;
-      isStuck.value = "bottom";
-    } else if (direction === "up" && top <= 0) {
-      if (!bodyScroll) {
-        stuckPosition.value = rect.top + top;
-        isStuck.value = "top";
-      } else if (isStuck.value !== "top") {
-        stuckPosition.value = -top + bodyScroll + layoutTop;
-        isStuck.value = "top";
-      }
-    }
-    lastScrollTop = window.scrollY;
-  }
-  return {
-    isStuck,
-    stickyStyles
-  };
-}
-const HORIZON = 100;
-const HISTORY = 20;
-function kineticEnergyToVelocity(work) {
-  const sqrt2 = 1.41421356237;
-  return (work < 0 ? -1 : 1) * Math.sqrt(Math.abs(work)) * sqrt2;
-}
-function calculateImpulseVelocity(samples) {
-  if (samples.length < 2) {
-    return 0;
-  }
-  if (samples.length === 2) {
-    if (samples[1].t === samples[0].t) {
-      return 0;
-    }
-    return (samples[1].d - samples[0].d) / (samples[1].t - samples[0].t);
-  }
-  let work = 0;
-  for (let i = samples.length - 1; i > 0; i--) {
-    if (samples[i].t === samples[i - 1].t) {
-      continue;
-    }
-    const vprev = kineticEnergyToVelocity(work);
-    const vcurr = (samples[i].d - samples[i - 1].d) / (samples[i].t - samples[i - 1].t);
-    work += (vcurr - vprev) * Math.abs(vcurr);
-    if (i === samples.length - 1) {
-      work *= 0.5;
-    }
-  }
-  return kineticEnergyToVelocity(work) * 1e3;
-}
-function useVelocity() {
-  const touches = {};
-  function addMovement(e) {
-    Array.from(e.changedTouches).forEach((touch) => {
-      const samples = touches[touch.identifier] ?? (touches[touch.identifier] = new CircularBuffer(HISTORY));
-      samples.push([e.timeStamp, touch]);
-    });
-  }
-  function endTouch(e) {
-    Array.from(e.changedTouches).forEach((touch) => {
-      delete touches[touch.identifier];
-    });
-  }
-  function getVelocity(id) {
-    var _a;
-    const samples = (_a = touches[id]) == null ? void 0 : _a.values().reverse();
-    if (!samples) {
-      throw new Error(`No samples for touch id ${id}`);
-    }
-    const newest = samples[0];
-    const x = [];
-    const y = [];
-    for (const val of samples) {
-      if (newest[0] - val[0] > HORIZON) break;
-      x.push({
-        t: val[0],
-        d: val[1].clientX
-      });
-      y.push({
-        t: val[0],
-        d: val[1].clientY
-      });
-    }
-    return {
-      x: calculateImpulseVelocity(x),
-      y: calculateImpulseVelocity(y),
-      get direction() {
-        const {
-          x: x2,
-          y: y2
-        } = this;
-        const [absX, absY] = [Math.abs(x2), Math.abs(y2)];
-        return absX > absY && x2 >= 0 ? "right" : absX > absY && x2 <= 0 ? "left" : absY > absX && y2 >= 0 ? "down" : absY > absX && y2 <= 0 ? "up" : oops$1();
-      }
-    };
-  }
-  return {
-    addMovement,
-    endTouch,
-    getVelocity
-  };
-}
-function oops$1() {
-  throw new Error();
-}
-function useTouch(_ref) {
-  let {
-    isActive,
-    isTemporary,
-    width,
-    touchless,
-    position
-  } = _ref;
-  onMounted(() => {
-    window.addEventListener("touchstart", onTouchstart, {
-      passive: true
-    });
-    window.addEventListener("touchmove", onTouchmove, {
-      passive: false
-    });
-    window.addEventListener("touchend", onTouchend, {
-      passive: true
-    });
-  });
-  onBeforeUnmount(() => {
-    window.removeEventListener("touchstart", onTouchstart);
-    window.removeEventListener("touchmove", onTouchmove);
-    window.removeEventListener("touchend", onTouchend);
-  });
-  const isHorizontal = computed(() => ["left", "right"].includes(position.value));
-  const {
-    addMovement,
-    endTouch,
-    getVelocity
-  } = useVelocity();
-  let maybeDragging = false;
-  const isDragging = shallowRef(false);
-  const dragProgress = shallowRef(0);
-  const offset = shallowRef(0);
-  let start;
-  function getOffset2(pos, active) {
-    return (position.value === "left" ? pos : position.value === "right" ? document.documentElement.clientWidth - pos : position.value === "top" ? pos : position.value === "bottom" ? document.documentElement.clientHeight - pos : oops()) - (active ? width.value : 0);
-  }
-  function getProgress(pos) {
-    let limit = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
-    const progress = position.value === "left" ? (pos - offset.value) / width.value : position.value === "right" ? (document.documentElement.clientWidth - pos - offset.value) / width.value : position.value === "top" ? (pos - offset.value) / width.value : position.value === "bottom" ? (document.documentElement.clientHeight - pos - offset.value) / width.value : oops();
-    return limit ? Math.max(0, Math.min(1, progress)) : progress;
-  }
-  function onTouchstart(e) {
-    if (touchless.value) return;
-    const touchX = e.changedTouches[0].clientX;
-    const touchY = e.changedTouches[0].clientY;
-    const touchZone = 25;
-    const inTouchZone = position.value === "left" ? touchX < touchZone : position.value === "right" ? touchX > document.documentElement.clientWidth - touchZone : position.value === "top" ? touchY < touchZone : position.value === "bottom" ? touchY > document.documentElement.clientHeight - touchZone : oops();
-    const inElement = isActive.value && (position.value === "left" ? touchX < width.value : position.value === "right" ? touchX > document.documentElement.clientWidth - width.value : position.value === "top" ? touchY < width.value : position.value === "bottom" ? touchY > document.documentElement.clientHeight - width.value : oops());
-    if (inTouchZone || inElement || isActive.value && isTemporary.value) {
-      maybeDragging = true;
-      start = [touchX, touchY];
-      offset.value = getOffset2(isHorizontal.value ? touchX : touchY, isActive.value);
-      dragProgress.value = getProgress(isHorizontal.value ? touchX : touchY);
-      endTouch(e);
-      addMovement(e);
-    }
-  }
-  function onTouchmove(e) {
-    const touchX = e.changedTouches[0].clientX;
-    const touchY = e.changedTouches[0].clientY;
-    if (maybeDragging) {
-      if (!e.cancelable) {
-        maybeDragging = false;
-        return;
-      }
-      const dx = Math.abs(touchX - start[0]);
-      const dy = Math.abs(touchY - start[1]);
-      const thresholdMet = isHorizontal.value ? dx > dy && dx > 3 : dy > dx && dy > 3;
-      if (thresholdMet) {
-        isDragging.value = true;
-        maybeDragging = false;
-      } else if ((isHorizontal.value ? dy : dx) > 3) {
-        maybeDragging = false;
-      }
-    }
-    if (!isDragging.value) return;
-    e.preventDefault();
-    addMovement(e);
-    const progress = getProgress(isHorizontal.value ? touchX : touchY, false);
-    dragProgress.value = Math.max(0, Math.min(1, progress));
-    if (progress > 1) {
-      offset.value = getOffset2(isHorizontal.value ? touchX : touchY, true);
-    } else if (progress < 0) {
-      offset.value = getOffset2(isHorizontal.value ? touchX : touchY, false);
-    }
-  }
-  function onTouchend(e) {
-    maybeDragging = false;
-    if (!isDragging.value) return;
-    addMovement(e);
-    isDragging.value = false;
-    const velocity = getVelocity(e.changedTouches[0].identifier);
-    const vx = Math.abs(velocity.x);
-    const vy = Math.abs(velocity.y);
-    const thresholdMet = isHorizontal.value ? vx > vy && vx > 400 : vy > vx && vy > 3;
-    if (thresholdMet) {
-      isActive.value = velocity.direction === ({
-        left: "right",
-        right: "left",
-        top: "down",
-        bottom: "up"
-      }[position.value] || oops());
-    } else {
-      isActive.value = dragProgress.value > 0.5;
-    }
-  }
-  const dragStyles = computed(() => {
-    return isDragging.value ? {
-      transform: position.value === "left" ? `translateX(calc(-100% + ${dragProgress.value * width.value}px))` : position.value === "right" ? `translateX(calc(100% - ${dragProgress.value * width.value}px))` : position.value === "top" ? `translateY(calc(-100% + ${dragProgress.value * width.value}px))` : position.value === "bottom" ? `translateY(calc(100% - ${dragProgress.value * width.value}px))` : oops(),
-      transition: "none"
-    } : void 0;
-  });
-  return {
-    isDragging,
-    dragProgress,
-    dragStyles
-  };
-}
-function oops() {
-  throw new Error();
-}
-const locations = ["start", "end", "left", "right", "top", "bottom"];
-const makeVNavigationDrawerProps = propsFactory({
-  color: String,
-  disableResizeWatcher: Boolean,
-  disableRouteWatcher: Boolean,
-  expandOnHover: Boolean,
-  floating: Boolean,
-  modelValue: {
-    type: Boolean,
-    default: null
-  },
-  permanent: Boolean,
-  rail: {
-    type: Boolean,
-    default: null
-  },
-  railWidth: {
-    type: [Number, String],
-    default: 56
-  },
-  scrim: {
-    type: [Boolean, String],
-    default: true
-  },
-  image: String,
-  temporary: Boolean,
-  touchless: Boolean,
-  width: {
-    type: [Number, String],
-    default: 256
-  },
-  location: {
-    type: String,
-    default: "start",
-    validator: (value) => locations.includes(value)
-  },
-  sticky: Boolean,
-  ...makeBorderProps(),
-  ...makeComponentProps(),
-  ...makeDisplayProps(),
-  ...makeElevationProps(),
-  ...makeLayoutItemProps(),
-  ...makeRoundedProps(),
-  ...makeTagProps({
-    tag: "nav"
-  }),
-  ...makeThemeProps()
-}, "VNavigationDrawer");
-const VNavigationDrawer = genericComponent()({
-  name: "VNavigationDrawer",
-  props: makeVNavigationDrawerProps(),
-  emits: {
-    "update:modelValue": (val) => true,
-    "update:rail": (val) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      emit: emit2,
-      slots
-    } = _ref;
-    const {
-      isRtl
-    } = useRtl();
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      borderClasses
-    } = useBorder(props);
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(toRef(props, "color"));
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      displayClasses,
-      mobile
-    } = useDisplay(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const router2 = useRouter();
-    const isActive = useProxiedModel(props, "modelValue", null, (v) => !!v);
-    const {
-      ssrBootStyles
-    } = useSsrBoot();
-    const {
-      scopeId
-    } = useScopeId();
-    const rootEl = ref();
-    const isHovering = shallowRef(false);
-    const width = computed(() => {
-      return props.rail && props.expandOnHover && isHovering.value ? Number(props.width) : Number(props.rail ? props.railWidth : props.width);
-    });
-    const location2 = computed(() => {
-      return toPhysical(props.location, isRtl.value);
-    });
-    const isTemporary = computed(() => !props.permanent && (mobile.value || props.temporary));
-    const isSticky = computed(() => props.sticky && !isTemporary.value && location2.value !== "bottom");
-    useToggleScope(() => props.expandOnHover && props.rail != null, () => {
-      watch(isHovering, (val) => emit2("update:rail", !val));
-    });
-    useToggleScope(() => !props.disableResizeWatcher, () => {
-      watch(isTemporary, (val) => !props.permanent && nextTick(() => isActive.value = !val));
-    });
-    useToggleScope(() => !props.disableRouteWatcher && !!router2, () => {
-      watch(router2.currentRoute, () => isTemporary.value && (isActive.value = false));
-    });
-    watch(() => props.permanent, (val) => {
-      if (val) isActive.value = true;
-    });
-    onBeforeMount(() => {
-      if (props.modelValue != null || isTemporary.value) return;
-      isActive.value = props.permanent || !mobile.value;
-    });
-    const {
-      isDragging,
-      dragProgress,
-      dragStyles
-    } = useTouch({
-      isActive,
-      isTemporary,
-      width,
-      touchless: toRef(props, "touchless"),
-      position: location2
-    });
-    const layoutSize = computed(() => {
-      const size2 = isTemporary.value ? 0 : props.rail && props.expandOnHover ? Number(props.railWidth) : width.value;
-      return isDragging.value ? size2 * dragProgress.value : size2;
-    });
-    const {
-      layoutItemStyles,
-      layoutItemScrimStyles
-    } = useLayoutItem({
-      id: props.name,
-      order: computed(() => parseInt(props.order, 10)),
-      position: location2,
-      layoutSize,
-      elementSize: width,
-      active: computed(() => isActive.value || isDragging.value),
-      disableTransitions: computed(() => isDragging.value),
-      absolute: computed(() => (
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        props.absolute || isSticky.value && typeof isStuck.value !== "string"
-      ))
-    });
-    const {
-      isStuck,
-      stickyStyles
-    } = useSticky({
-      rootEl,
-      isSticky,
-      layoutItemStyles
-    });
-    const scrimColor = useBackgroundColor(computed(() => {
-      return typeof props.scrim === "string" ? props.scrim : null;
-    }));
-    const scrimStyles = computed(() => ({
-      ...isDragging.value ? {
-        opacity: dragProgress.value * 0.2,
-        transition: "none"
-      } : void 0,
-      ...layoutItemScrimStyles.value
-    }));
-    provideDefaults({
-      VList: {
-        bgColor: "transparent"
-      }
-    });
-    function onMouseenter() {
-      isHovering.value = true;
-    }
-    function onMouseleave() {
-      isHovering.value = false;
-    }
-    useRender(() => {
-      const hasImage = slots.image || props.image;
-      return createVNode(Fragment, null, [createVNode(props.tag, mergeProps({
-        "ref": rootEl,
-        "onMouseenter": onMouseenter,
-        "onMouseleave": onMouseleave,
-        "class": ["v-navigation-drawer", `v-navigation-drawer--${location2.value}`, {
-          "v-navigation-drawer--expand-on-hover": props.expandOnHover,
-          "v-navigation-drawer--floating": props.floating,
-          "v-navigation-drawer--is-hovering": isHovering.value,
-          "v-navigation-drawer--rail": props.rail,
-          "v-navigation-drawer--temporary": isTemporary.value,
-          "v-navigation-drawer--active": isActive.value,
-          "v-navigation-drawer--sticky": isSticky.value
-        }, themeClasses.value, backgroundColorClasses.value, borderClasses.value, displayClasses.value, elevationClasses.value, roundedClasses.value, props.class],
-        "style": [backgroundColorStyles.value, layoutItemStyles.value, dragStyles.value, ssrBootStyles.value, stickyStyles.value, props.style]
-      }, scopeId, attrs), {
-        default: () => {
-          var _a, _b, _c, _d;
-          return [hasImage && createVNode("div", {
-            "key": "image",
-            "class": "v-navigation-drawer__img"
-          }, [slots.image ? (_a = slots.image) == null ? void 0 : _a.call(slots, {
-            image: props.image
-          }) : createVNode("img", {
-            "src": props.image,
-            "alt": ""
-          }, null)]), slots.prepend && createVNode("div", {
-            "class": "v-navigation-drawer__prepend"
-          }, [(_b = slots.prepend) == null ? void 0 : _b.call(slots)]), createVNode("div", {
-            "class": "v-navigation-drawer__content"
-          }, [(_c = slots.default) == null ? void 0 : _c.call(slots)]), slots.append && createVNode("div", {
-            "class": "v-navigation-drawer__append"
-          }, [(_d = slots.append) == null ? void 0 : _d.call(slots)])];
-        }
-      }), createVNode(Transition, {
-        "name": "fade-transition"
-      }, {
-        default: () => [isTemporary.value && (isDragging.value || isActive.value) && !!props.scrim && createVNode("div", mergeProps({
-          "class": ["v-navigation-drawer__scrim", scrimColor.backgroundColorClasses.value],
-          "style": [scrimStyles.value, scrimColor.backgroundColorStyles.value],
-          "onClick": () => isActive.value = false
-        }, scopeId), null)]
-      })]);
-    });
-    return {
-      isStuck
-    };
-  }
-});
-const makeVCounterProps = propsFactory({
-  active: Boolean,
-  max: [Number, String],
-  value: {
-    type: [Number, String],
-    default: 0
-  },
-  ...makeComponentProps(),
-  ...makeTransitionProps({
-    transition: {
-      component: VSlideYTransition
-    }
-  })
-}, "VCounter");
-const VCounter = genericComponent()({
-  name: "VCounter",
-  functional: true,
-  props: makeVCounterProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const counter = computed(() => {
-      return props.max ? `${props.value} / ${props.max}` : String(props.value);
-    });
-    useRender(() => createVNode(MaybeTransition, {
-      "transition": props.transition
-    }, {
-      default: () => [withDirectives(createVNode("div", {
-        "class": ["v-counter", props.class],
-        "style": props.style
-      }, [slots.default ? slots.default({
-        counter: counter.value,
-        max: props.max,
-        value: props.value
-      }) : counter.value]), [[vShow, props.active]])]
-    }));
-    return {};
-  }
-});
-const makeVFieldLabelProps = propsFactory({
-  floating: Boolean,
-  ...makeComponentProps()
-}, "VFieldLabel");
-const VFieldLabel = genericComponent()({
-  name: "VFieldLabel",
-  props: makeVFieldLabelProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    useRender(() => createVNode(VLabel, {
-      "class": ["v-field-label", {
-        "v-field-label--floating": props.floating
-      }, props.class],
-      "style": props.style,
-      "aria-hidden": props.floating || void 0
-    }, slots));
-    return {};
-  }
-});
-const allowedVariants = ["underlined", "outlined", "filled", "solo", "solo-inverted", "solo-filled", "plain"];
-const makeVFieldProps = propsFactory({
-  appendInnerIcon: IconValue,
-  bgColor: String,
-  clearable: Boolean,
-  clearIcon: {
-    type: IconValue,
-    default: "$clear"
-  },
-  active: Boolean,
-  centerAffix: {
-    type: Boolean,
-    default: void 0
-  },
-  color: String,
-  baseColor: String,
-  dirty: Boolean,
-  disabled: {
-    type: Boolean,
-    default: null
-  },
-  error: Boolean,
-  flat: Boolean,
-  label: String,
-  persistentClear: Boolean,
-  prependInnerIcon: IconValue,
-  reverse: Boolean,
-  singleLine: Boolean,
-  variant: {
-    type: String,
-    default: "filled",
-    validator: (v) => allowedVariants.includes(v)
-  },
-  "onClick:clear": EventProp(),
-  "onClick:appendInner": EventProp(),
-  "onClick:prependInner": EventProp(),
-  ...makeComponentProps(),
-  ...makeLoaderProps(),
-  ...makeRoundedProps(),
-  ...makeThemeProps()
-}, "VField");
-const VField = genericComponent()({
-  name: "VField",
-  inheritAttrs: false,
-  props: {
-    id: String,
-    ...makeFocusProps(),
-    ...makeVFieldProps()
-  },
-  emits: {
-    "update:focused": (focused) => true,
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      emit: emit2,
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      loaderClasses
-    } = useLoader(props);
-    const {
-      focusClasses,
-      isFocused,
-      focus,
-      blur
-    } = useFocus(props);
-    const {
-      InputIcon
-    } = useInputIcon(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const {
-      rtlClasses
-    } = useRtl();
-    const isActive = computed(() => props.dirty || props.active);
-    const hasLabel = computed(() => !props.singleLine && !!(props.label || slots.label));
-    const uid2 = getUid();
-    const id = computed(() => props.id || `input-${uid2}`);
-    const messagesId = computed(() => `${id.value}-messages`);
-    const labelRef = ref();
-    const floatingLabelRef = ref();
-    const controlRef = ref();
-    const isPlainOrUnderlined = computed(() => ["plain", "underlined"].includes(props.variant));
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(toRef(props, "bgColor"));
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(computed(() => {
-      return props.error || props.disabled ? void 0 : isActive.value && isFocused.value ? props.color : props.baseColor;
-    }));
-    watch(isActive, (val) => {
-      if (hasLabel.value) {
-        const el = labelRef.value.$el;
-        const targetEl = floatingLabelRef.value.$el;
-        requestAnimationFrame(() => {
-          const rect = nullifyTransforms(el);
-          const targetRect = targetEl.getBoundingClientRect();
-          const x = targetRect.x - rect.x;
-          const y = targetRect.y - rect.y - (rect.height / 2 - targetRect.height / 2);
-          const targetWidth = targetRect.width / 0.75;
-          const width = Math.abs(targetWidth - rect.width) > 1 ? {
-            maxWidth: convertToUnit(targetWidth)
-          } : void 0;
-          const style = getComputedStyle(el);
-          const targetStyle = getComputedStyle(targetEl);
-          const duration = parseFloat(style.transitionDuration) * 1e3 || 150;
-          const scale = parseFloat(targetStyle.getPropertyValue("--v-field-label-scale"));
-          const color = targetStyle.getPropertyValue("color");
-          el.style.visibility = "visible";
-          targetEl.style.visibility = "hidden";
-          animate(el, {
-            transform: `translate(${x}px, ${y}px) scale(${scale})`,
-            color,
-            ...width
-          }, {
-            duration,
-            easing: standardEasing,
-            direction: val ? "normal" : "reverse"
-          }).finished.then(() => {
-            el.style.removeProperty("visibility");
-            targetEl.style.removeProperty("visibility");
-          });
-        });
-      }
-    }, {
-      flush: "post"
-    });
-    const slotProps = computed(() => ({
-      isActive,
-      isFocused,
-      controlRef,
-      blur,
-      focus
-    }));
-    function onClick(e) {
-      if (e.target !== document.activeElement) {
-        e.preventDefault();
-      }
-    }
-    useRender(() => {
-      var _a, _b, _c;
-      const isOutlined = props.variant === "outlined";
-      const hasPrepend = slots["prepend-inner"] || props.prependInnerIcon;
-      const hasClear = !!(props.clearable || slots.clear);
-      const hasAppend = !!(slots["append-inner"] || props.appendInnerIcon || hasClear);
-      const label = () => slots.label ? slots.label({
-        ...slotProps.value,
-        label: props.label,
-        props: {
-          for: id.value
-        }
-      }) : props.label;
-      return createVNode("div", mergeProps({
-        "class": ["v-field", {
-          "v-field--active": isActive.value,
-          "v-field--appended": hasAppend,
-          "v-field--center-affix": props.centerAffix ?? !isPlainOrUnderlined.value,
-          "v-field--disabled": props.disabled,
-          "v-field--dirty": props.dirty,
-          "v-field--error": props.error,
-          "v-field--flat": props.flat,
-          "v-field--has-background": !!props.bgColor,
-          "v-field--persistent-clear": props.persistentClear,
-          "v-field--prepended": hasPrepend,
-          "v-field--reverse": props.reverse,
-          "v-field--single-line": props.singleLine,
-          "v-field--no-label": !label(),
-          [`v-field--variant-${props.variant}`]: true
-        }, themeClasses.value, backgroundColorClasses.value, focusClasses.value, loaderClasses.value, roundedClasses.value, rtlClasses.value, props.class],
-        "style": [backgroundColorStyles.value, props.style],
-        "onClick": onClick
-      }, attrs), [createVNode("div", {
-        "class": "v-field__overlay"
-      }, null), createVNode(LoaderSlot, {
-        "name": "v-field",
-        "active": !!props.loading,
-        "color": props.error ? "error" : typeof props.loading === "string" ? props.loading : props.color
-      }, {
-        default: slots.loader
-      }), hasPrepend && createVNode("div", {
-        "key": "prepend",
-        "class": "v-field__prepend-inner"
-      }, [props.prependInnerIcon && createVNode(InputIcon, {
-        "key": "prepend-icon",
-        "name": "prependInner"
-      }, null), (_a = slots["prepend-inner"]) == null ? void 0 : _a.call(slots, slotProps.value)]), createVNode("div", {
-        "class": "v-field__field",
-        "data-no-activator": ""
-      }, [["filled", "solo", "solo-inverted", "solo-filled"].includes(props.variant) && hasLabel.value && createVNode(VFieldLabel, {
-        "key": "floating-label",
-        "ref": floatingLabelRef,
-        "class": [textColorClasses.value],
-        "floating": true,
-        "for": id.value,
-        "style": textColorStyles.value
-      }, {
-        default: () => [label()]
-      }), createVNode(VFieldLabel, {
-        "ref": labelRef,
-        "for": id.value
-      }, {
-        default: () => [label()]
-      }), (_b = slots.default) == null ? void 0 : _b.call(slots, {
-        ...slotProps.value,
-        props: {
-          id: id.value,
-          class: "v-field__input",
-          "aria-describedby": messagesId.value
-        },
-        focus,
-        blur
-      })]), hasClear && createVNode(VExpandXTransition, {
-        "key": "clear"
-      }, {
-        default: () => [withDirectives(createVNode("div", {
-          "class": "v-field__clearable",
-          "onMousedown": (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-        }, [slots.clear ? slots.clear() : createVNode(InputIcon, {
-          "name": "clear"
-        }, null)]), [[vShow, props.dirty]])]
-      }), hasAppend && createVNode("div", {
-        "key": "append",
-        "class": "v-field__append-inner"
-      }, [(_c = slots["append-inner"]) == null ? void 0 : _c.call(slots, slotProps.value), props.appendInnerIcon && createVNode(InputIcon, {
-        "key": "append-icon",
-        "name": "appendInner"
-      }, null)]), createVNode("div", {
-        "class": ["v-field__outline", textColorClasses.value],
-        "style": textColorStyles.value
-      }, [isOutlined && createVNode(Fragment, null, [createVNode("div", {
-        "class": "v-field__outline__start"
-      }, null), hasLabel.value && createVNode("div", {
-        "class": "v-field__outline__notch"
-      }, [createVNode(VFieldLabel, {
-        "ref": floatingLabelRef,
-        "floating": true,
-        "for": id.value
-      }, {
-        default: () => [label()]
-      })]), createVNode("div", {
-        "class": "v-field__outline__end"
-      }, null)]), isPlainOrUnderlined.value && hasLabel.value && createVNode(VFieldLabel, {
-        "ref": floatingLabelRef,
-        "floating": true,
-        "for": id.value
-      }, {
-        default: () => [label()]
-      })])]);
-    });
-    return {
-      controlRef
-    };
-  }
-});
-function filterFieldProps(attrs) {
-  const keys2 = Object.keys(VField.props).filter((k) => !isOn(k) && k !== "class" && k !== "style");
-  return pick(attrs, keys2);
-}
-const activeTypes = ["color", "file", "time", "date", "datetime-local", "week", "month"];
-const makeVTextFieldProps = propsFactory({
-  autofocus: Boolean,
-  counter: [Boolean, Number, String],
-  counterValue: [Number, Function],
-  prefix: String,
-  placeholder: String,
-  persistentPlaceholder: Boolean,
-  persistentCounter: Boolean,
-  suffix: String,
-  role: String,
-  type: {
-    type: String,
-    default: "text"
-  },
-  modelModifiers: Object,
-  ...makeVInputProps(),
-  ...makeVFieldProps()
-}, "VTextField");
-const VTextField = genericComponent()({
-  name: "VTextField",
-  directives: {
-    Intersect
-  },
-  inheritAttrs: false,
-  props: makeVTextFieldProps(),
-  emits: {
-    "click:control": (e) => true,
-    "mousedown:control": (e) => true,
-    "update:focused": (focused) => true,
-    "update:modelValue": (val) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      emit: emit2,
-      slots
-    } = _ref;
-    const model = useProxiedModel(props, "modelValue");
-    const {
-      isFocused,
-      focus,
-      blur
-    } = useFocus(props);
-    const counterValue = computed(() => {
-      return typeof props.counterValue === "function" ? props.counterValue(model.value) : typeof props.counterValue === "number" ? props.counterValue : (model.value ?? "").toString().length;
-    });
-    const max = computed(() => {
-      if (attrs.maxlength) return attrs.maxlength;
-      if (!props.counter || typeof props.counter !== "number" && typeof props.counter !== "string") return void 0;
-      return props.counter;
-    });
-    const isPlainOrUnderlined = computed(() => ["plain", "underlined"].includes(props.variant));
-    function onIntersect(isIntersecting, entries) {
-      var _a, _b;
-      if (!props.autofocus || !isIntersecting) return;
-      (_b = (_a = entries[0].target) == null ? void 0 : _a.focus) == null ? void 0 : _b.call(_a);
-    }
-    const vInputRef = ref();
-    const vFieldRef = ref();
-    const inputRef = ref();
-    const isActive = computed(() => activeTypes.includes(props.type) || props.persistentPlaceholder || isFocused.value || props.active);
-    function onFocus() {
-      var _a;
-      if (inputRef.value !== document.activeElement) {
-        (_a = inputRef.value) == null ? void 0 : _a.focus();
-      }
-      if (!isFocused.value) focus();
-    }
-    function onControlMousedown(e) {
-      emit2("mousedown:control", e);
-      if (e.target === inputRef.value) return;
-      onFocus();
-      e.preventDefault();
-    }
-    function onControlClick(e) {
-      onFocus();
-      emit2("click:control", e);
-    }
-    function onClear(e) {
-      e.stopPropagation();
-      onFocus();
-      nextTick(() => {
-        model.value = null;
-        callEvent(props["onClick:clear"], e);
-      });
-    }
-    function onInput(e) {
-      var _a;
-      const el = e.target;
-      model.value = el.value;
-      if (((_a = props.modelModifiers) == null ? void 0 : _a.trim) && ["text", "search", "password", "tel", "url"].includes(props.type)) {
-        const caretPosition = [el.selectionStart, el.selectionEnd];
-        nextTick(() => {
-          el.selectionStart = caretPosition[0];
-          el.selectionEnd = caretPosition[1];
-        });
-      }
-    }
-    useRender(() => {
-      const hasCounter = !!(slots.counter || props.counter !== false && props.counter != null);
-      const hasDetails = !!(hasCounter || slots.details);
-      const [rootAttrs, inputAttrs] = filterInputAttrs(attrs);
-      const {
-        modelValue: _,
-        ...inputProps
-      } = VInput.filterProps(props);
-      const fieldProps = filterFieldProps(props);
-      return createVNode(VInput, mergeProps({
-        "ref": vInputRef,
-        "modelValue": model.value,
-        "onUpdate:modelValue": ($event) => model.value = $event,
-        "class": ["v-text-field", {
-          "v-text-field--prefixed": props.prefix,
-          "v-text-field--suffixed": props.suffix,
-          "v-input--plain-underlined": isPlainOrUnderlined.value
-        }, props.class],
-        "style": props.style
-      }, rootAttrs, inputProps, {
-        "centerAffix": !isPlainOrUnderlined.value,
-        "focused": isFocused.value
-      }), {
-        ...slots,
-        default: (_ref2) => {
-          let {
-            id,
-            isDisabled,
-            isDirty,
-            isReadonly: isReadonly2,
-            isValid: isValid2
-          } = _ref2;
-          return createVNode(VField, mergeProps({
-            "ref": vFieldRef,
-            "onMousedown": onControlMousedown,
-            "onClick": onControlClick,
-            "onClick:clear": onClear,
-            "onClick:prependInner": props["onClick:prependInner"],
-            "onClick:appendInner": props["onClick:appendInner"],
-            "role": props.role
-          }, fieldProps, {
-            "id": id.value,
-            "active": isActive.value || isDirty.value,
-            "dirty": isDirty.value || props.dirty,
-            "disabled": isDisabled.value,
-            "focused": isFocused.value,
-            "error": isValid2.value === false
-          }), {
-            ...slots,
-            default: (_ref3) => {
-              let {
-                props: {
-                  class: fieldClass,
-                  ...slotProps
-                }
-              } = _ref3;
-              const inputNode = withDirectives(createVNode("input", mergeProps({
-                "ref": inputRef,
-                "value": model.value,
-                "onInput": onInput,
-                "autofocus": props.autofocus,
-                "readonly": isReadonly2.value,
-                "disabled": isDisabled.value,
-                "name": props.name,
-                "placeholder": props.placeholder,
-                "size": 1,
-                "type": props.type,
-                "onFocus": onFocus,
-                "onBlur": blur
-              }, slotProps, inputAttrs), null), [[resolveDirective("intersect"), {
-                handler: onIntersect
-              }, null, {
-                once: true
-              }]]);
-              return createVNode(Fragment, null, [props.prefix && createVNode("span", {
-                "class": "v-text-field__prefix"
-              }, [createVNode("span", {
-                "class": "v-text-field__prefix__text"
-              }, [props.prefix])]), slots.default ? createVNode("div", {
-                "class": fieldClass,
-                "data-no-activator": ""
-              }, [slots.default(), inputNode]) : cloneVNode(inputNode, {
-                class: fieldClass
-              }), props.suffix && createVNode("span", {
-                "class": "v-text-field__suffix"
-              }, [createVNode("span", {
-                "class": "v-text-field__suffix__text"
-              }, [props.suffix])])]);
-            }
-          });
-        },
-        details: hasDetails ? (slotProps) => {
-          var _a;
-          return createVNode(Fragment, null, [(_a = slots.details) == null ? void 0 : _a.call(slots, slotProps), hasCounter && createVNode(Fragment, null, [createVNode("span", null, null), createVNode(VCounter, {
-            "active": props.persistentCounter || isFocused.value,
-            "value": counterValue.value,
-            "max": max.value
-          }, slots.counter)])]);
-        } : void 0
-      });
-    });
-    return forwardRefs({}, vInputRef, vFieldRef, inputRef);
-  }
-});
-const _withScopeId = (n) => (pushScopeId("data-v-d29abd00"), n = n(), popScopeId(), n);
-const _hoisted_1$6 = { class: "d-flex mainbox" };
-const _hoisted_2$6 = {
-  key: 0,
-  class: "left-part"
-};
-const _hoisted_3$5 = { class: "right-part" };
-const _hoisted_4$5 = { class: "d-flex gap-2 align-center mb-4 justify-space-between" };
-const _hoisted_5$5 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createBaseVNode("h5", { class: "text-h5 d-none d-lg-flex font-weight-semibold" }, "Products", -1));
-const _hoisted_6$5 = { class: "text-h1 mt-6" };
-const _sfc_main$6 = /* @__PURE__ */ defineComponent$1({
-  __name: "index",
-  setup(__props) {
-    const { lgAndUp } = useDisplay();
-    const sDrawer = ref(false);
-    const productsListStore = useProductsListStore();
-    const { products: products2 } = storeToRefs(productsListStore);
-    const cartStore = useCartStore();
-    const userSearchValue = ref("");
-    const productsFiltersStore = useProductsFiltersStore();
-    const { selectedGenders, selectedColor, selectedPrice, selectedCategory, selectedRating } = storeToRefs(productsFiltersStore);
-    const filteredProducts = computed(() => {
-      let productsList = [...products2.value].sort((item1, item2) => {
-        const price1 = item1.price;
-        const price2 = item2.price;
-        return price1 - price2;
-      });
-      if (userSearchValue.value) {
-        productsList = productsList.filter((product) => {
-          return product.name.toLowerCase().includes(userSearchValue.value.toLowerCase());
-        });
-      }
-      if (selectedGenders.value.length) {
-        productsList = productsList.filter((product) => {
-          return selectedGenders.value.includes(product.gender);
-        });
-      }
-      if (selectedCategory.value !== "All") {
-        productsList = productsList.filter((product) => {
-          return product.categories.includes(selectedCategory.value);
-        });
-      }
-      if (selectedColor.value && selectedColor.value !== "All") {
-        productsList = productsList.filter((product) => product.colors.includes(selectedColor.value ?? ""));
-      }
-      if (selectedPrice.value) {
-        const minPrice = selectedPrice.value.min;
-        const maxPrice = selectedPrice.value.max;
-        productsList = productsList.filter((product) => {
-          return product.price > minPrice && (maxPrice ? product.price < maxPrice : true);
-        });
-      }
-      if (selectedRating.value) {
-        productsList = productsList.filter((product) => {
-          return product.rating >= selectedRating.value;
-        });
-      }
-      return productsList;
-    });
-    const addToCart = (productId) => {
-      cartStore.addProductToCart(productId);
-    };
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(VCard, {
-        elevation: "10",
-        class: "inside-left-sidebar overflow-hidden"
-      }, {
-        default: withCtx(() => [
-          createBaseVNode("div", _hoisted_1$6, [
-            unref(lgAndUp) ? (openBlock(), createElementBlock("div", _hoisted_2$6, [
-              createVNode(_sfc_main$7)
-            ])) : createCommentVNode("", true),
-            createBaseVNode("div", _hoisted_3$5, [
-              createVNode(VBtn, {
-                block: "",
-                onClick: _cache[0] || (_cache[0] = ($event) => sDrawer.value = !sDrawer.value),
-                variant: "text",
-                class: "d-lg-none d-md-flex d-sm-flex"
-              }, {
-                default: withCtx(() => [
-                  createVNode(unref(IconMenu2), {
-                    size: "20",
-                    class: "mr-2"
-                  }),
-                  createBaseVNode("span", null, toDisplayString$1(_ctx.$t("text.menu")), 1)
-                ]),
-                _: 1
-              }),
-              createVNode(VDivider, { class: "d-lg-none d-block" }),
-              createVNode(VSheet, { class: "pa-4" }, {
-                default: withCtx(() => [
-                  createBaseVNode("div", _hoisted_4$5, [
-                    _hoisted_5$5,
-                    createVNode(VSheet, { width: "300" }, {
-                      default: withCtx(() => [
-                        createVNode(VTextField, {
-                          variant: "outlined",
-                          modelValue: userSearchValue.value,
-                          "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => userSearchValue.value = $event),
-                          "prepend-inner-icon": "mdi-magnify",
-                          placeholder: "Search Product",
-                          "hide-details": "",
-                          density: "compact",
-                          color: "primary"
-                        }, null, 8, ["modelValue"])
-                      ]),
-                      _: 1
-                    })
-                  ]),
-                  filteredProducts.value.length >= 1 ? (openBlock(), createBlock(VRow, { key: 0 }, {
-                    default: withCtx(() => [
-                      (openBlock(true), createElementBlock(Fragment, null, renderList(filteredProducts.value, (product) => {
-                        return openBlock(), createBlock(VCol, {
-                          cols: "12",
-                          lg: "4",
-                          sm: "6",
-                          key: product.id
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(_sfc_main$8, {
-                              name: product.name,
-                              image: product.image,
-                              description: product.description,
-                              price: product.price,
-                              offerPrice: product.offerPrice,
-                              rating: product.rating,
-                              onSelect: ($event) => addToCart(product.id)
-                            }, null, 8, ["name", "image", "description", "price", "offerPrice", "rating", "onSelect"])
-                          ]),
-                          _: 2
-                        }, 1024);
-                      }), 128))
-                    ]),
-                    _: 1
-                  })) : (openBlock(), createBlock(VRow, {
-                    key: 1,
-                    class: "justify-center mt-10"
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        class: "text-center",
-                        lg: "7"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VImg, {
-                            src: unref(imageEmpty),
-                            alt: "cover"
-                          }, null, 8, ["src"]),
-                          createBaseVNode("h1", _hoisted_6$5, toDisplayString$1(_ctx.$t("text.there.is.no.product")), 1),
-                          createBaseVNode("p", null, toDisplayString$1(_ctx.$t("text.there.is.no.product.description")), 1)
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }))
-                ]),
-                _: 1
-              })
-            ])
-          ]),
-          !unref(lgAndUp) ? (openBlock(), createBlock(VNavigationDrawer, {
-            key: 0,
-            temporary: "",
-            modelValue: sDrawer.value,
-            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => sDrawer.value = $event),
-            width: "320",
-            top: ""
-          }, {
-            default: withCtx(() => [
-              createVNode(VCardText, { class: "pa-0" }, {
-                default: withCtx(() => [
-                  createVNode(_sfc_main$7)
-                ]),
-                _: 1
-              })
-            ]),
-            _: 1
-          }, 8, ["modelValue"])) : createCommentVNode("", true)
-        ]),
-        _: 1
-      });
-    };
-  }
-});
-const ProductsPage = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-d29abd00"]]);
-const _hoisted_1$5 = { class: "text-h5 mb-6" };
-const _hoisted_2$5 = { class: "d-flex align-center justify-space-between my-5" };
-const _hoisted_3$4 = { class: "text-h6 font-weight-regular" };
-const _hoisted_4$4 = { class: "font-weight-semibold text-h6" };
-const _hoisted_5$4 = { class: "d-flex align-center justify-space-between my-5" };
-const _hoisted_6$4 = { class: "text-h6 font-weight-regular" };
-const _hoisted_7$4 = { class: "font-weight-semibold text-h6 text-error" };
-const _hoisted_8$3 = { class: "d-flex align-center justify-space-between my-5" };
-const _hoisted_9$2 = { class: "text-h6" };
-const _hoisted_10$2 = { class: "font-weight-semibold text-h5" };
-const _sfc_main$5 = /* @__PURE__ */ defineComponent$1({
-  __name: "OrderSummary",
-  setup(__props) {
-    const cartStore = useCartStore();
-    const { total, subTotal, discount } = storeToRefs(cartStore);
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(VCard, {
-        variant: "outlined",
-        class: "my-3"
-      }, {
-        default: withCtx(() => [
-          createVNode(VCardItem, null, {
-            default: withCtx(() => [
-              createBaseVNode("h5", _hoisted_1$5, toDisplayString$1(_ctx.$t("text.order.summary")), 1),
-              createBaseVNode("div", _hoisted_2$5, [
-                createBaseVNode("h6", _hoisted_3$4, toDisplayString$1(_ctx.$t("text.sub.total")), 1),
-                createBaseVNode("h6", _hoisted_4$4, toDisplayString$1(unref(asCurrency)(unref(subTotal))) + " UAH", 1)
-              ]),
-              createBaseVNode("div", _hoisted_5$4, [
-                createBaseVNode("h6", _hoisted_6$4, toDisplayString$1(_ctx.$t("text.discount")) + " 5%", 1),
-                createBaseVNode("h6", _hoisted_7$4, "- " + toDisplayString$1(unref(asCurrency)(unref(discount))) + " UAH", 1)
-              ]),
-              createBaseVNode("div", _hoisted_8$3, [
-                createBaseVNode("h6", _hoisted_9$2, toDisplayString$1(_ctx.$t("text.total")), 1),
-                createBaseVNode("h6", _hoisted_10$2, toDisplayString$1(unref(asCurrency)(unref(total))) + " UAH", 1)
-              ])
-            ]),
-            _: 1
-          })
-        ]),
-        _: 1
-      });
-    };
-  }
-});
-const makeVTableProps = propsFactory({
-  fixedHeader: Boolean,
-  fixedFooter: Boolean,
-  height: [Number, String],
-  hover: Boolean,
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeTagProps(),
-  ...makeThemeProps()
-}, "VTable");
-const VTable = genericComponent()({
-  name: "VTable",
-  props: makeVTableProps(),
-  setup(props, _ref) {
-    let {
-      slots,
-      emit: emit2
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      densityClasses
-    } = useDensity(props);
-    useRender(() => createVNode(props.tag, {
-      "class": ["v-table", {
-        "v-table--fixed-height": !!props.height,
-        "v-table--fixed-header": props.fixedHeader,
-        "v-table--fixed-footer": props.fixedFooter,
-        "v-table--has-top": !!slots.top,
-        "v-table--has-bottom": !!slots.bottom,
-        "v-table--hover": props.hover
-      }, themeClasses.value, densityClasses.value, props.class],
-      "style": props.style
-    }, {
-      default: () => {
-        var _a, _b, _c;
-        return [(_a = slots.top) == null ? void 0 : _a.call(slots), slots.default ? createVNode("div", {
-          "class": "v-table__wrapper",
-          "style": {
-            height: convertToUnit(props.height)
-          }
-        }, [createVNode("table", null, [slots.default()])]) : (_b = slots.wrapper) == null ? void 0 : _b.call(slots), (_c = slots.bottom) == null ? void 0 : _c.call(slots)];
-      }
-    }));
-    return {};
-  }
-});
-const _hoisted_1$4 = { key: 0 };
-const _hoisted_2$4 = { class: "text-h5 my-8" };
-const _hoisted_3$3 = { class: "text-left text-subtitle-1 font-weight-semibold" };
-const _hoisted_4$3 = { class: "text-left text-subtitle-1 font-weight-semibold" };
-const _hoisted_5$3 = { class: "text-left text-subtitle-1 font-weight-semibold" };
-const _hoisted_6$3 = { class: "text-left text-subtitle-1 font-weight-semibold" };
-const _hoisted_7$3 = /* @__PURE__ */ createBaseVNode("th", {
-  class: "text-right",
-  "aria-hidden": "true"
-}, null, -1);
-const _hoisted_8$2 = { class: "d-flex flex-wrap align-center my-3 gap-2" };
-const _hoisted_9$1 = ["src"];
-const _hoisted_10$1 = { class: "ma-2" };
-const _hoisted_11 = { class: "text-h6" };
-const _hoisted_12 = { class: "text-subtitle-2" };
-const _hoisted_13 = { class: "text-h5" };
-const _hoisted_14 = { class: "text-decoration-line-through text-medium-emphasis" };
-const _hoisted_15 = { class: "text-h5" };
-const _hoisted_16 = { class: "text-right" };
-const _hoisted_17 = {
-  key: 1,
-  class: "d-flex justify-center"
-};
-const _hoisted_18 = { class: "text-h5" };
-const _sfc_main$4 = /* @__PURE__ */ defineComponent$1({
-  __name: "StepFirst",
-  props: {
-    mode: {
-      type: String,
-      required: false,
-      default: PaymentMode.Redirect
-    }
-  },
-  setup(__props) {
-    const cartStore = useCartStore();
-    const { selectedProducts, paymentDescription } = storeToRefs(cartStore);
-    const productsComputed = computed(() => {
-      return Array.from(selectedProducts.value.values());
-    });
-    const removeItemFromCart = (id) => {
-      cartStore.removeProductFromCart(id);
-    };
-    const paymentDescriptionComputed = computed({
-      get() {
-        return paymentDescription.value;
-      },
-      set(value) {
-        cartStore.$patch({
-          paymentDescription: value
-        });
-      }
-    });
-    onMounted(() => {
-      const titles = productsComputed.value.map((product) => product.name);
-      paymentDescriptionComputed.value = `Payment for: ${titles.join(", ")}`;
-    });
-    return (_ctx, _cache) => {
-      return unref(selectedProducts).size > 0 ? (openBlock(), createElementBlock("div", _hoisted_1$4, [
-        createBaseVNode("h5", _hoisted_2$4, toDisplayString$1(_ctx.$t("text.item.cart")) + " (" + toDisplayString$1(unref(selectedProducts).size) + ")", 1),
-        createVNode(VDivider),
-        createVNode(VTable, null, {
-          default: withCtx(() => [
-            createBaseVNode("thead", null, [
-              createBaseVNode("tr", null, [
-                createBaseVNode("th", _hoisted_3$3, toDisplayString$1(_ctx.$t("text.product")), 1),
-                createBaseVNode("th", _hoisted_4$3, toDisplayString$1(_ctx.$t("text.price")), 1),
-                createBaseVNode("th", _hoisted_5$3, toDisplayString$1(_ctx.$t("text.quantity")), 1),
-                createBaseVNode("th", _hoisted_6$3, toDisplayString$1(_ctx.$t("text.total")), 1),
-                _hoisted_7$3
-              ])
-            ]),
-            createBaseVNode("tbody", null, [
-              (openBlock(true), createElementBlock(Fragment, null, renderList(productsComputed.value, (item) => {
-                return openBlock(), createElementBlock("tr", {
-                  key: item.id
-                }, [
-                  createBaseVNode("td", null, [
-                    createBaseVNode("div", _hoisted_8$2, [
-                      createBaseVNode("img", {
-                        alt: "product",
-                        class: "rounded-md custom-img-box",
-                        src: item.image
-                      }, null, 8, _hoisted_9$1),
-                      createBaseVNode("div", _hoisted_10$1, [
-                        createBaseVNode("h6", _hoisted_11, toDisplayString$1(item.name), 1),
-                        createBaseVNode("span", _hoisted_12, toDisplayString$1(item.description), 1)
-                      ])
-                    ])
-                  ]),
-                  createBaseVNode("td", null, [
-                    createBaseVNode("h4", _hoisted_13, toDisplayString$1(unref(asCurrency)(item.offerPrice)), 1),
-                    createBaseVNode("p", _hoisted_14, "$" + toDisplayString$1(unref(asCurrency)(item.price)), 1)
-                  ]),
-                  createBaseVNode("td", null, [
-                    createVNode(VBtnToggle, {
-                      variant: "outlined",
-                      divided: "",
-                      color: "success"
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(VBtn, {
-                          size: "x-small",
-                          onClick: ($event) => unref(cartStore).decrementQuantity(item.id),
-                          disabled: item.quantity < 2
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(unref(IconMinus), { size: "18" })
-                          ]),
-                          _: 2
-                        }, 1032, ["onClick", "disabled"]),
-                        createVNode(VBtn, { size: "x-small" }, {
-                          default: withCtx(() => [
-                            createTextVNode(toDisplayString$1(item.quantity), 1)
-                          ]),
-                          _: 2
-                        }, 1024),
-                        createVNode(VBtn, {
-                          size: "x-small",
-                          onClick: ($event) => unref(cartStore).incrementQuantity(item.id)
-                        }, {
-                          default: withCtx(() => [
-                            createVNode(unref(IconPlus), { size: "18" })
-                          ]),
-                          _: 2
-                        }, 1032, ["onClick"])
-                      ]),
-                      _: 2
-                    }, 1024)
-                  ]),
-                  createBaseVNode("td", _hoisted_15, toDisplayString$1(unref(asCurrency)(item.offerPrice * item.quantity)) + " UAH", 1),
-                  createBaseVNode("td", _hoisted_16, [
-                    createVNode(VBtn, {
-                      small: "",
-                      icon: "",
-                      flat: "",
-                      elevation: "0",
-                      onClick: ($event) => removeItemFromCart(item.id)
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(unref(IconTrash), {
-                          size: "18",
-                          class: "text-error"
-                        })
-                      ]),
-                      _: 2
-                    }, 1032, ["onClick"])
-                  ])
-                ]);
-              }), 128))
-            ])
-          ]),
-          _: 1
-        }),
-        __props.mode !== unref(PaymentMode).Manual ? (openBlock(), createBlock(VTextField, {
-          key: 0,
-          modelValue: paymentDescriptionComputed.value,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => paymentDescriptionComputed.value = $event),
-          "hide-details": "auto",
-          label: "Payment Description",
-          variant: "outlined"
-        }, null, 8, ["modelValue"])) : createCommentVNode("", true),
-        createVNode(_sfc_main$5)
-      ])) : (openBlock(), createElementBlock("div", _hoisted_17, [
-        createVNode(VRow, { class: "justify-center" }, {
-          default: withCtx(() => [
-            createVNode(VCol, {
-              class: "text-center",
-              lg: "6"
-            }, {
-              default: withCtx(() => [
-                createVNode(VImg, {
-                  src: unref(imageEmpty),
-                  alt: "cover",
-                  width: "300px",
-                  class: "mx-auto mt-5"
-                }, null, 8, ["src"]),
-                createBaseVNode("h5", _hoisted_18, toDisplayString$1(_ctx.$t("text.cart.is.empty")), 1),
-                createVNode(VBtn, {
-                  class: "mt-3",
-                  to: { name: unref(RouteName).Products, query: { ..._ctx.$route.query } },
-                  variant: "flat",
-                  color: "primary"
-                }, {
-                  default: withCtx(() => [
-                    createTextVNode(toDisplayString$1(_ctx.$t("action.go.back.to.shopping")), 1)
-                  ]),
-                  _: 1
-                }, 8, ["to"])
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
-        })
-      ]));
-    };
-  }
-});
-const rules = {
-  minLength: (minLength) => (value) => value.length > minLength || "Value is too short",
-  required: (value) => !!value || "Required"
-};
-class p {
-  constructor(e) {
-    const r = ["PaymentIframe", "PaymentModalIframe", "PaymentPage"];
-    e.mode && r.includes(e.mode) ? this.mode = e.mode : this.mode = "PaymentPage", this.validateMerchantData(e.merchant), this.merchant = e.merchant, this.validateCustomerData(e.customer), this.customer = e.customer, this.validateIframeProps(e.iframeProps), this.iframeProps = e.iframeProps;
-  }
-  pay(e) {
-    var s, a, l, d;
-    const r = this.getPaymentForm(e);
-    if (this.validatePaymentData(e), this.mode === "PaymentPage") {
-      document.body.appendChild(r), r.submit();
-      return;
-    }
-    const t = document.querySelector(((s = this.iframeProps) == null ? void 0 : s.wrapperSelector) || "body");
-    if (!t)
-      throw new Error("Iframe wrapper element not found");
-    const n = document.querySelector(".upc-payment-iframe-wrapper");
-    n && n.remove();
-    const o = document.querySelector("#upc-payment-iframe");
-    o && o.remove();
-    const i = document.createElement("iframe");
-    if (this.setMessageListener(), i.setAttribute("frameborder", "0"), i.style.width = "100%", i.style.height = "100%", i.style.minHeight = "500px", i.id = "upc-payment-iframe", this.mode === "PaymentIframe")
-      t.appendChild(i);
-    else {
-      const m = this.getIframeWrapper();
-      (a = m.querySelector("button")) == null || a.addEventListener("click", () => {
-        m.remove();
-      }), (l = m.querySelector("main")) == null || l.appendChild(i), document.body.appendChild(m);
-    }
-    (d = i.contentWindow) == null || d.document.body.appendChild(r), r.submit();
-  }
-  validateMerchantData(e) {
-    if (typeof e.id != "string" || !e.id)
-      throw new Error('Field "merchant.id" is required');
-    if (typeof e.terminalId != "string" || !e.terminalId)
-      throw new Error('Field "merchant.terminalId" is required');
-    if (typeof e.signature != "string" || !e.signature)
-      throw new Error('Field "merchant.signature" is required');
-  }
-  validateCustomerData(e) {
-    if (e) {
-      if (e.email && typeof e.email != "string")
-        throw new Error('Field "customer.email" is invalid');
-      if (e.phoneCountryCode && typeof e.phoneCountryCode != "string")
-        throw new Error('Field "customer.phoneCountryCode" is invalid');
-      if (e.phoneNumber && typeof e.phoneNumber != "string")
-        throw new Error('Field "customer.phoneNumber" is invalid');
-      if (e.firstName && typeof e.firstName != "string")
-        throw new Error('Field "customer.firstName" is invalid');
-      if (e.lastName && typeof e.lastName != "string")
-        throw new Error('Field "customer.lastName" is invalid');
-    }
-  }
-  validateIframeProps(e) {
-    if (e) {
-      if (e.wrapperSelector) {
-        if (typeof e.wrapperSelector != "string")
-          throw new Error('Field "iframeProps.wrapperSelector" is invalid');
-        if (!document.querySelector(e.wrapperSelector))
-          throw new Error("Wrapper element not found");
-      }
-      if (e.callback && typeof e.callback != "function")
-        throw new Error('Field "iframeProps.callback" is invalid');
-    }
-  }
-  validatePaymentData(e) {
-    if (e.altTotalAmountCents) {
-      if (typeof e.altTotalAmountCents != "number")
-        throw new Error('Field "payment.altTotalAmountCents" is invalid');
-      if (Number.isNaN(e.altTotalAmountCents))
-        throw new Error('Field "payment.altTotalAmountCents" is invalid');
-    }
-    if (e.altCurrencyNumericCode && typeof e.altCurrencyNumericCode != "string")
-      throw new Error('Field "payment.altCurrencyNumericCode" is invalid');
-    if (e.altFeeCents && typeof e.altFeeCents != "number")
-      throw new Error('Field "payment.altFeeCents" is invalid');
-    if (typeof e.currencyNumericCode != "string" || !e.currencyNumericCode)
-      throw new Error('Field "payment.currencyNumericCode" is invalid');
-    if (e.delay) {
-      if (typeof e.delay != "number")
-        throw new Error('Field "payment.delay" is invalid');
-      if (Number.isNaN(e.delay))
-        throw new Error('Field "payment.delay" is invalid');
-    }
-    if (typeof e.description != "string" || !e.description)
-      throw new Error('Field "payment.description" is invalid');
-    if (e.feeCents && typeof e.feeCents != "number")
-      throw new Error('Field "payment.feeCents" is invalid');
-    if (e.locale && typeof e.locale != "string")
-      throw new Error('Field "payment.locale" is invalid');
-    if (typeof e.orderId != "string" || !e.orderId)
-      throw new Error('Field "payment.orderId" is invalid');
-    if (!e.purchaseTime)
-      throw new Error('Field "payment.purchaseTime" is invalid');
-    if (e.token && typeof e.token != "string")
-      throw new Error('Field "payment.token" is invalid');
-    if (typeof e.totalAmountCents != "number" || !e.totalAmountCents)
-      throw new Error("Payment totalAmountCents is invalid");
-    if (e.url && typeof e.url != "string")
-      throw new Error("Payment locale is invalid");
-  }
-  getInputEl(e, r) {
-    const t = document.createElement("input");
-    return t.setAttribute("type", "hidden"), t.setAttribute("name", e), t.setAttribute("value", r), t;
-  }
-  getPaymentForm(e) {
-    var o, i, s, a, l;
-    const r = e.url || "https://ecg.test.upc.ua/go/pay", t = document.createElement("form");
-    t.setAttribute("action", r), t.setAttribute("method", "POST"), t.style.visibility = "hidden", this.mode === "PaymentPage" && t.setAttribute("target", "_blank");
-    const n = document.createElement("meta");
-    return n.setAttribute("http-equiv", "Content-Type"), n.setAttribute("content", "text/html; charset=utf-8"), t.appendChild(n), t.appendChild(this.getInputEl("MerchantID", this.merchant.id)), t.appendChild(this.getInputEl("TerminalID", this.merchant.terminalId)), t.appendChild(this.getInputEl("Signature", this.merchant.signature)), e.altTotalAmountCents && t.appendChild(this.getInputEl("AltTotalAmount", e.altTotalAmountCents.toString())), e.altCurrencyNumericCode && t.appendChild(this.getInputEl("AltCurrency", e.altCurrencyNumericCode)), e.altFeeCents && t.appendChild(this.getInputEl("AltFee", e.altFeeCents.toString())), t.appendChild(this.getInputEl("Currency", e.currencyNumericCode)), e.delay && t.appendChild(this.getInputEl("delay", e.delay.toString())), t.appendChild(this.getInputEl("PurchaseDesc", e.description)), e.feeCents && t.appendChild(this.getInputEl("Fee", e.feeCents.toString())), e.locale && t.appendChild(this.getInputEl("locale", e.locale)), t.appendChild(this.getInputEl("OrderID", e.orderId)), t.appendChild(this.getInputEl("PurchaseTime", String(e.purchaseTime))), e.token && t.appendChild(this.getInputEl("UPCToken", e.token)), t.appendChild(this.getInputEl("TotalAmount", e.totalAmountCents.toString())), (o = this.customer) != null && o.email && t.appendChild(this.getInputEl("email", this.customer.email)), (i = this.customer) != null && i.phoneCountryCode && t.appendChild(this.getInputEl("phoneCountryCode", this.customer.phoneCountryCode)), (s = this.customer) != null && s.phoneNumber && t.appendChild(this.getInputEl("phoneNumber", this.customer.phoneNumber)), (a = this.customer) != null && a.firstName && t.appendChild(this.getInputEl("consumerFirstName", this.customer.firstName)), (l = this.customer) != null && l.lastName && t.appendChild(this.getInputEl("consumerLastName", this.customer.lastName)), t;
-  }
-  setMessageListener() {
-    const e = (r) => {
-      var i;
-      if (r.data.from !== "UpcPaymentIframe")
-        return;
-      let n = () => {
-      };
-      typeof ((i = this.iframeProps) == null ? void 0 : i.callback) == "function" && (n = this.iframeProps.callback);
-      const o = r.data.message;
-      switch (o) {
-        case "AppLoaded":
-          n({
-            event: "loaded",
-            data: {
-              height: r.data.height,
-              width: r.data.width
-            }
-          });
-          break;
-        case "Failure":
-          n({
-            event: "failure",
-            data: {
-              height: r.data.height,
-              width: r.data.width
-            }
-          });
-          break;
-        case "Success":
-          n({
-            event: "success",
-            data: {
-              height: r.data.height,
-              width: r.data.width
-            }
-          });
-          break;
-        case "GoBackToSite":
-          n({
-            event: "go-back",
-            data: {
-              height: r.data.height,
-              width: r.data.width
-            }
-          });
-          break;
-        case "TryAgain":
-          n({
-            event: "try-again",
-            data: {
-              height: r.data.height,
-              width: r.data.width
-            }
-          });
-          break;
-        default:
-          console.error(`Unknown message from iframe ${o}`);
-          break;
-      }
-    };
-    window.removeEventListener("message", e), window.addEventListener("message", e);
-  }
-  getIframeWrapper() {
-    const e = document.createElement("div");
-    return e.classList.add("upc-payment-iframe-wrapper"), e.style.cssText = `
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-    `, e.innerHTML = `
-      <main
-        style="
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-          position: relative;
-          width: 80%;
-          max-width: 500px;
-        "
-      >
-        <button
-          style="
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-          "
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="#312F2F"
-          >
-            <path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" />
-          </svg>
-        </button>
-      </main>
-    `, e;
-  }
-}
-const currencyNumericCode = "980";
-var token = /d{1,4}|M{1,4}|YY(?:YY)?|S{1,3}|Do|ZZ|Z|([HhMsDm])\1?|[aA]|"[^"]*"|'[^']*'/g;
-var literal = /\[([^]*?)\]/gm;
-function shorten(arr, sLen) {
-  var newArr = [];
-  for (var i = 0, len = arr.length; i < len; i++) {
-    newArr.push(arr[i].substr(0, sLen));
-  }
-  return newArr;
-}
-function assign(origObj) {
-  var args = [];
-  for (var _i = 1; _i < arguments.length; _i++) {
-    args[_i - 1] = arguments[_i];
-  }
-  for (var _a = 0, args_1 = args; _a < args_1.length; _a++) {
-    var obj = args_1[_a];
-    for (var key in obj) {
-      origObj[key] = obj[key];
-    }
-  }
-  return origObj;
-}
-var dayNames = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday"
-];
-var monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-];
-var monthNamesShort = shorten(monthNames, 3);
-var dayNamesShort = shorten(dayNames, 3);
-var defaultI18n = {
-  dayNamesShort,
-  dayNames,
-  monthNamesShort,
-  monthNames,
-  amPm: ["am", "pm"],
-  DoFn: function(dayOfMonth) {
-    return dayOfMonth + ["th", "st", "nd", "rd"][dayOfMonth % 10 > 3 ? 0 : (dayOfMonth - dayOfMonth % 10 !== 10 ? 1 : 0) * dayOfMonth % 10];
-  }
-};
-var globalI18n = assign({}, defaultI18n);
-var pad = function(val, len) {
-  if (len === void 0) {
-    len = 2;
-  }
-  val = String(val);
-  while (val.length < len) {
-    val = "0" + val;
-  }
-  return val;
-};
-var formatFlags = {
-  D: function(dateObj) {
-    return String(dateObj.getDate());
-  },
-  DD: function(dateObj) {
-    return pad(dateObj.getDate());
-  },
-  Do: function(dateObj, i18n2) {
-    return i18n2.DoFn(dateObj.getDate());
-  },
-  d: function(dateObj) {
-    return String(dateObj.getDay());
-  },
-  dd: function(dateObj) {
-    return pad(dateObj.getDay());
-  },
-  ddd: function(dateObj, i18n2) {
-    return i18n2.dayNamesShort[dateObj.getDay()];
-  },
-  dddd: function(dateObj, i18n2) {
-    return i18n2.dayNames[dateObj.getDay()];
-  },
-  M: function(dateObj) {
-    return String(dateObj.getMonth() + 1);
-  },
-  MM: function(dateObj) {
-    return pad(dateObj.getMonth() + 1);
-  },
-  MMM: function(dateObj, i18n2) {
-    return i18n2.monthNamesShort[dateObj.getMonth()];
-  },
-  MMMM: function(dateObj, i18n2) {
-    return i18n2.monthNames[dateObj.getMonth()];
-  },
-  YY: function(dateObj) {
-    return pad(String(dateObj.getFullYear()), 4).substr(2);
-  },
-  YYYY: function(dateObj) {
-    return pad(dateObj.getFullYear(), 4);
-  },
-  h: function(dateObj) {
-    return String(dateObj.getHours() % 12 || 12);
-  },
-  hh: function(dateObj) {
-    return pad(dateObj.getHours() % 12 || 12);
-  },
-  H: function(dateObj) {
-    return String(dateObj.getHours());
-  },
-  HH: function(dateObj) {
-    return pad(dateObj.getHours());
-  },
-  m: function(dateObj) {
-    return String(dateObj.getMinutes());
-  },
-  mm: function(dateObj) {
-    return pad(dateObj.getMinutes());
-  },
-  s: function(dateObj) {
-    return String(dateObj.getSeconds());
-  },
-  ss: function(dateObj) {
-    return pad(dateObj.getSeconds());
-  },
-  S: function(dateObj) {
-    return String(Math.round(dateObj.getMilliseconds() / 100));
-  },
-  SS: function(dateObj) {
-    return pad(Math.round(dateObj.getMilliseconds() / 10), 2);
-  },
-  SSS: function(dateObj) {
-    return pad(dateObj.getMilliseconds(), 3);
-  },
-  a: function(dateObj, i18n2) {
-    return dateObj.getHours() < 12 ? i18n2.amPm[0] : i18n2.amPm[1];
-  },
-  A: function(dateObj, i18n2) {
-    return dateObj.getHours() < 12 ? i18n2.amPm[0].toUpperCase() : i18n2.amPm[1].toUpperCase();
-  },
-  ZZ: function(dateObj) {
-    var offset = dateObj.getTimezoneOffset();
-    return (offset > 0 ? "-" : "+") + pad(Math.floor(Math.abs(offset) / 60) * 100 + Math.abs(offset) % 60, 4);
-  },
-  Z: function(dateObj) {
-    var offset = dateObj.getTimezoneOffset();
-    return (offset > 0 ? "-" : "+") + pad(Math.floor(Math.abs(offset) / 60), 2) + ":" + pad(Math.abs(offset) % 60, 2);
-  }
-};
-var globalMasks = {
-  default: "ddd MMM DD YYYY HH:mm:ss",
-  shortDate: "M/D/YY",
-  mediumDate: "MMM D, YYYY",
-  longDate: "MMMM D, YYYY",
-  fullDate: "dddd, MMMM D, YYYY",
-  isoDate: "YYYY-MM-DD",
-  isoDateTime: "YYYY-MM-DDTHH:mm:ssZ",
-  shortTime: "HH:mm",
-  mediumTime: "HH:mm:ss",
-  longTime: "HH:mm:ss.SSS"
-};
-var format = function(dateObj, mask, i18n2) {
-  if (mask === void 0) {
-    mask = globalMasks["default"];
-  }
-  if (i18n2 === void 0) {
-    i18n2 = {};
-  }
-  if (typeof dateObj === "number") {
-    dateObj = new Date(dateObj);
-  }
-  if (Object.prototype.toString.call(dateObj) !== "[object Date]" || isNaN(dateObj.getTime())) {
-    throw new Error("Invalid Date pass to format");
-  }
-  mask = globalMasks[mask] || mask;
-  var literals = [];
-  mask = mask.replace(literal, function($0, $1) {
-    literals.push($1);
-    return "@@@";
-  });
-  var combinedI18nSettings = assign(assign({}, globalI18n), i18n2);
-  mask = mask.replace(token, function($0) {
-    return formatFlags[$0](dateObj, combinedI18nSettings);
-  });
-  return mask.replace(/@@@/g, function() {
-    return literals.shift();
-  });
-};
-const getPurchaseTime = () => {
-  return format(/* @__PURE__ */ new Date(), "YYMMDDHHmmss");
-};
-const merchantData = {
-  id: "1753545",
-  terminalId: "E7881545",
-  signature: "Signature"
-};
-const getNumberOrUndefined = (value) => {
-  try {
-    if (typeof value === "string") {
-      const numberValue = parseFloat(value);
-      if (isNaN(numberValue)) {
-        return void 0;
-      }
-      return numberValue;
-    }
-    return value;
-  } catch (error) {
-    return void 0;
-  }
-};
-const iframeCallback$2 = (callbackData, mode) => {
-  const { data: { height } } = callbackData;
-  if (mode === PaymentMode.BuiltInIframe) {
-    const wrapper = document.querySelector("#payment-wrapper");
-    if (wrapper) {
-      wrapper.style.height = `${height + 40}px`;
-    }
-    return;
-  }
-  if (mode === PaymentMode.ModalIframe) {
-    const wrapper = document.querySelector("#payment-wrapper");
-    if (wrapper) {
-      wrapper.style.height = "auto";
-    }
-    const iframe = document.querySelector("#upc-payment-iframe");
-    if (iframe) {
-      iframe.style.height = `${height + 40}px`;
-    }
-  }
-};
-const getUPCPaymentModeFromRequestBean = (requestBean) => {
-  switch (requestBean.mode) {
-    case PaymentMode.BuiltInIframe:
-      return "PaymentIframe";
-    case PaymentMode.ModalIframe:
-      return "PaymentModalIframe";
-    default:
-      return "PaymentPage";
-  }
-};
-const submitPaymentManual = (requestBean) => {
-  const cartStore = useCartStore();
-  const { total } = storeToRefs(cartStore);
-  const mode = getUPCPaymentModeFromRequestBean(requestBean);
-  const payment = new p({
-    mode,
-    merchant: {
-      id: requestBean.merchantId || merchantData.id,
-      terminalId: requestBean.merchantTerminalId || merchantData.terminalId,
-      signature: requestBean.merchantSignature || merchantData.signature
-    },
-    customer: {
-      email: requestBean.customerEmail || void 0,
-      firstName: requestBean.customerFirstName || void 0,
-      lastName: requestBean.customerLastName || void 0,
-      phoneCountryCode: requestBean.customerPhoneCode || void 0,
-      phoneNumber: requestBean.customerPhone || void 0
-    },
-    iframeProps: {
-      wrapperSelector: "#payment-wrapper",
-      callback: (data) => iframeCallback$2(data, mode === "PaymentIframe" ? PaymentMode.BuiltInIframe : PaymentMode.ModalIframe)
-    }
-  });
-  payment.pay({
-    altCurrencyNumericCode: requestBean.altCurrencyNumericCode || void 0,
-    altFeeCents: getNumberOrUndefined(requestBean.altFeeCents) || void 0,
-    altTotalAmountCents: getNumberOrUndefined(requestBean.altTotalAmountCents) || void 0,
-    currencyNumericCode: requestBean.currencyNumericCode || currencyNumericCode,
-    delay: getNumberOrUndefined(requestBean.delay) || void 0,
-    description: requestBean.description || "Payment description",
-    feeCents: getNumberOrUndefined(requestBean.feeCents) || void 0,
-    locale: requestBean.locale || "en",
-    orderId: requestBean.orderId || Date.now().toString(),
-    purchaseTime: requestBean.purchaseTime || getPurchaseTime(),
-    token: requestBean.token || "",
-    totalAmountCents: getNumberOrUndefined(requestBean.totalAmountCents) || total.value,
-    url: requestBean.url || ""
-  });
-};
-const getUniqueId = () => {
-  return Date.now() + Math.floor(Math.random() * 9e3) + 1e3;
-};
-const getRequestBeansDefault = () => {
-  const testData1 = {
-    altCurrencyNumericCode: "840",
-    altFeeCents: 11,
-    altTotalAmountCents: 101,
-    currencyNumericCode: "980",
-    customerEmail: "",
-    customerFirstName: "",
-    customerLastName: "",
-    customerPhone: "",
-    customerPhoneCode: "",
-    delay: 0,
-    description: "",
-    feeCents: 10,
-    id: getUniqueId(),
-    label: "TEST FORM #1",
-    locale: "en",
-    merchantId: "1753545",
-    merchantSignature: "Signature",
-    merchantTerminalId: "E7881545",
-    mode: PaymentMode.Redirect,
-    orderId: Date.now().toString(),
-    purchaseTime: "20241210125959",
-    token: "",
-    totalAmountCents: 100,
-    url: "https://ecg.test.upc.ua/go/pay"
-  };
-  const testData2 = {
-    altCurrencyNumericCode: "840",
-    altFeeCents: 100,
-    altTotalAmountCents: 100,
-    currencyNumericCode: "980",
-    customerEmail: "",
-    customerFirstName: "",
-    customerLastName: "",
-    customerPhone: "",
-    customerPhoneCode: "",
-    delay: 0,
-    description: "Description",
-    feeCents: 10,
-    id: getUniqueId(),
-    label: "Custom form №2",
-    locale: "en",
-    merchantId: "1753545",
-    merchantSignature: "merchantSignature",
-    merchantTerminalId: "E7881545",
-    mode: PaymentMode.ModalIframe,
-    orderId: Date.now().toString(),
-    purchaseTime: "20241210125959",
-    token: "",
-    totalAmountCents: 100,
-    url: "https://ecg.test.upc.ua/go/pay"
-  };
-  return [testData1, testData2];
-};
-const fetchRequestBeans = () => {
-  const values = Storage.requestBeans.getValue();
-  if (values.length) {
-    return values;
-  }
-  const valuesDefault = getRequestBeansDefault();
-  Storage.requestBeans.setValue(valuesDefault);
-  return valuesDefault;
-};
-const deleteRequestBean = (id) => {
-  const requestBeans = fetchRequestBeans().filter((item) => item.id !== id);
-  Storage.requestBeans.setValue(requestBeans);
-  return requestBeans;
-};
-const createRequestBean = () => {
-  const requestBean = {
-    altCurrencyNumericCode: "",
-    altFeeCents: 0,
-    altTotalAmountCents: 0,
-    currencyNumericCode: "",
-    customerEmail: "",
-    customerFirstName: "",
-    customerLastName: "",
-    customerPhone: "",
-    customerPhoneCode: "",
-    delay: 0,
-    description: "",
-    feeCents: 10,
-    id: NaN,
-    label: "",
-    locale: "",
-    merchantId: "",
-    merchantSignature: "",
-    merchantTerminalId: "",
-    mode: PaymentMode.Redirect,
-    orderId: Date.now().toString(),
-    purchaseTime: "",
-    token: "",
-    totalAmountCents: 100,
-    url: "https://ecg.test.upc.ua/go/pay"
-  };
-  return requestBean;
-};
-const updateRequestBean = (value) => {
-  const itemToSave = {
-    altCurrencyNumericCode: value.altCurrencyNumericCode || "",
-    altFeeCents: value.altFeeCents || 0,
-    altTotalAmountCents: value.altTotalAmountCents || 0,
-    currencyNumericCode: value.currencyNumericCode || "",
-    customerEmail: "",
-    customerFirstName: "",
-    customerLastName: "",
-    customerPhone: "",
-    customerPhoneCode: "",
-    delay: value.delay || 0,
-    description: value.description || "",
-    feeCents: value.feeCents || 0,
-    id: value.id || getUniqueId(),
-    label: value.label || "",
-    locale: value.locale || "",
-    merchantId: value.merchantId || "",
-    merchantSignature: value.merchantSignature || "",
-    merchantTerminalId: value.merchantTerminalId || "",
-    mode: value.mode || "PaymentPage",
-    orderId: value.orderId || Date.now().toString(),
-    purchaseTime: value.purchaseTime || "",
-    token: value.token || "",
-    totalAmountCents: value.totalAmountCents || 0,
-    url: value.url || "https://ecg.test.upc.ua/go/pay"
-  };
-  let beans = fetchRequestBeans();
-  const itemIndex = beans.findIndex((item) => item.id === itemToSave.id);
-  if (itemIndex === -1) {
-    beans = [...beans, itemToSave];
-  } else {
-    beans = beans.map((item) => item.id === itemToSave.id ? itemToSave : item);
-  }
-  Storage.requestBeans.setValue(beans);
-  return beans;
-};
-const makeVFormProps = propsFactory({
-  ...makeComponentProps(),
-  ...makeFormProps()
-}, "VForm");
-const VForm = genericComponent()({
-  name: "VForm",
-  props: makeVFormProps(),
-  emits: {
-    "update:modelValue": (val) => true,
-    submit: (e) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots,
-      emit: emit2
-    } = _ref;
-    const form = createForm(props);
-    const formRef = ref();
-    function onReset(e) {
-      e.preventDefault();
-      form.reset();
-    }
-    function onSubmit(_e) {
-      const e = _e;
-      const ready = form.validate();
-      e.then = ready.then.bind(ready);
-      e.catch = ready.catch.bind(ready);
-      e.finally = ready.finally.bind(ready);
-      emit2("submit", e);
-      if (!e.defaultPrevented) {
-        ready.then((_ref2) => {
-          var _a;
-          let {
-            valid
-          } = _ref2;
-          if (valid) {
-            (_a = formRef.value) == null ? void 0 : _a.submit();
-          }
-        });
-      }
-      e.preventDefault();
-    }
-    useRender(() => {
-      var _a;
-      return createVNode("form", {
-        "ref": formRef,
-        "class": ["v-form", props.class],
-        "style": props.style,
-        "novalidate": true,
-        "onReset": onReset,
-        "onSubmit": onSubmit
-      }, [(_a = slots.default) == null ? void 0 : _a.call(slots, form)]);
-    });
-    return forwardRefs(form, formRef);
-  }
-});
-function bias(val) {
-  const c = 0.501;
-  const x = Math.abs(val);
-  return Math.sign(val) * (x / ((1 / c - 2) * (1 - x) + 1));
-}
-function calculateUpdatedOffset(_ref) {
-  let {
-    selectedElement,
-    containerSize,
-    contentSize,
-    isRtl,
-    currentScrollOffset,
-    isHorizontal
-  } = _ref;
-  const clientSize = isHorizontal ? selectedElement.clientWidth : selectedElement.clientHeight;
-  const offsetStart = isHorizontal ? selectedElement.offsetLeft : selectedElement.offsetTop;
-  const adjustedOffsetStart = isRtl && isHorizontal ? contentSize - offsetStart - clientSize : offsetStart;
-  const totalSize = containerSize + currentScrollOffset;
-  const itemOffset = clientSize + adjustedOffsetStart;
-  const additionalOffset = clientSize * 0.4;
-  if (adjustedOffsetStart <= currentScrollOffset) {
-    currentScrollOffset = Math.max(adjustedOffsetStart - additionalOffset, 0);
-  } else if (totalSize <= itemOffset) {
-    currentScrollOffset = Math.min(currentScrollOffset - (totalSize - itemOffset - additionalOffset), contentSize - containerSize);
-  }
-  return currentScrollOffset;
-}
-function calculateCenteredOffset(_ref2) {
-  let {
-    selectedElement,
-    containerSize,
-    contentSize,
-    isRtl,
-    isHorizontal
-  } = _ref2;
-  const clientSize = isHorizontal ? selectedElement.clientWidth : selectedElement.clientHeight;
-  const offsetStart = isHorizontal ? selectedElement.offsetLeft : selectedElement.offsetTop;
-  const offsetCentered = isRtl && isHorizontal ? contentSize - offsetStart - clientSize / 2 - containerSize / 2 : offsetStart + clientSize / 2 - containerSize / 2;
-  return Math.min(contentSize - containerSize, Math.max(0, offsetCentered));
-}
-const VSlideGroupSymbol = Symbol.for("vuetify:v-slide-group");
-const makeVSlideGroupProps = propsFactory({
-  centerActive: Boolean,
-  direction: {
-    type: String,
-    default: "horizontal"
-  },
-  symbol: {
-    type: null,
-    default: VSlideGroupSymbol
-  },
-  nextIcon: {
-    type: IconValue,
-    default: "$next"
-  },
-  prevIcon: {
-    type: IconValue,
-    default: "$prev"
-  },
-  showArrows: {
-    type: [Boolean, String],
-    validator: (v) => typeof v === "boolean" || ["always", "desktop", "mobile"].includes(v)
-  },
-  ...makeComponentProps(),
-  ...makeDisplayProps(),
-  ...makeTagProps(),
-  ...makeGroupProps({
-    selectedClass: "v-slide-group-item--active"
-  })
-}, "VSlideGroup");
-const VSlideGroup = genericComponent()({
-  name: "VSlideGroup",
-  props: makeVSlideGroupProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      isRtl
-    } = useRtl();
-    const {
-      displayClasses,
-      mobile
-    } = useDisplay(props);
-    const group = useGroup(props, props.symbol);
-    const isOverflowing = shallowRef(false);
-    const scrollOffset = shallowRef(0);
-    const containerSize = shallowRef(0);
-    const contentSize = shallowRef(0);
-    const isHorizontal = computed(() => props.direction === "horizontal");
-    const {
-      resizeRef: containerRef,
-      contentRect: containerRect
-    } = useResizeObserver();
-    const {
-      resizeRef: contentRef,
-      contentRect
-    } = useResizeObserver();
-    const firstSelectedIndex = computed(() => {
-      if (!group.selected.value.length) return -1;
-      return group.items.value.findIndex((item) => item.id === group.selected.value[0]);
-    });
-    const lastSelectedIndex = computed(() => {
-      if (!group.selected.value.length) return -1;
-      return group.items.value.findIndex((item) => item.id === group.selected.value[group.selected.value.length - 1]);
-    });
-    if (IN_BROWSER) {
-      let frame = -1;
-      watch(() => [group.selected.value, containerRect.value, contentRect.value, isHorizontal.value], () => {
-        cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(() => {
-          if (containerRect.value && contentRect.value) {
-            const sizeProperty = isHorizontal.value ? "width" : "height";
-            containerSize.value = containerRect.value[sizeProperty];
-            contentSize.value = contentRect.value[sizeProperty];
-            isOverflowing.value = containerSize.value + 1 < contentSize.value;
-          }
-          if (firstSelectedIndex.value >= 0 && contentRef.value) {
-            const selectedElement = contentRef.value.children[lastSelectedIndex.value];
-            if (firstSelectedIndex.value === 0 || !isOverflowing.value) {
-              scrollOffset.value = 0;
-            } else if (props.centerActive) {
-              scrollOffset.value = calculateCenteredOffset({
-                selectedElement,
-                containerSize: containerSize.value,
-                contentSize: contentSize.value,
-                isRtl: isRtl.value,
-                isHorizontal: isHorizontal.value
-              });
-            } else if (isOverflowing.value) {
-              scrollOffset.value = calculateUpdatedOffset({
-                selectedElement,
-                containerSize: containerSize.value,
-                contentSize: contentSize.value,
-                isRtl: isRtl.value,
-                currentScrollOffset: scrollOffset.value,
-                isHorizontal: isHorizontal.value
-              });
-            }
-          }
-        });
-      });
-    }
-    const disableTransition = shallowRef(false);
-    let startTouch = 0;
-    let startOffset = 0;
-    function onTouchstart(e) {
-      const sizeProperty = isHorizontal.value ? "clientX" : "clientY";
-      const sign = isRtl.value && isHorizontal.value ? -1 : 1;
-      startOffset = sign * scrollOffset.value;
-      startTouch = e.touches[0][sizeProperty];
-      disableTransition.value = true;
-    }
-    function onTouchmove(e) {
-      if (!isOverflowing.value) return;
-      const sizeProperty = isHorizontal.value ? "clientX" : "clientY";
-      const sign = isRtl.value && isHorizontal.value ? -1 : 1;
-      scrollOffset.value = sign * (startOffset + startTouch - e.touches[0][sizeProperty]);
-    }
-    function onTouchend(e) {
-      const maxScrollOffset = contentSize.value - containerSize.value;
-      if (scrollOffset.value < 0 || !isOverflowing.value) {
-        scrollOffset.value = 0;
-      } else if (scrollOffset.value >= maxScrollOffset) {
-        scrollOffset.value = maxScrollOffset;
-      }
-      disableTransition.value = false;
-    }
-    function onScroll() {
-      if (!containerRef.value) return;
-      containerRef.value[isHorizontal.value ? "scrollLeft" : "scrollTop"] = 0;
-    }
-    const isFocused = shallowRef(false);
-    function onFocusin(e) {
-      isFocused.value = true;
-      if (!isOverflowing.value || !contentRef.value) return;
-      for (const el of e.composedPath()) {
-        for (const item of contentRef.value.children) {
-          if (item === el) {
-            scrollOffset.value = calculateUpdatedOffset({
-              selectedElement: item,
-              containerSize: containerSize.value,
-              contentSize: contentSize.value,
-              isRtl: isRtl.value,
-              currentScrollOffset: scrollOffset.value,
-              isHorizontal: isHorizontal.value
-            });
-            return;
-          }
-        }
-      }
-    }
-    function onFocusout(e) {
-      isFocused.value = false;
-    }
-    function onFocus(e) {
-      var _a;
-      if (!isFocused.value && !(e.relatedTarget && ((_a = contentRef.value) == null ? void 0 : _a.contains(e.relatedTarget)))) focus();
-    }
-    function onKeydown(e) {
-      if (!contentRef.value) return;
-      if (isHorizontal.value) {
-        if (e.key === "ArrowRight") {
-          focus(isRtl.value ? "prev" : "next");
-        } else if (e.key === "ArrowLeft") {
-          focus(isRtl.value ? "next" : "prev");
-        }
-      } else {
-        if (e.key === "ArrowDown") {
-          focus("next");
-        } else if (e.key === "ArrowUp") {
-          focus("prev");
-        }
-      }
-      if (e.key === "Home") {
-        focus("first");
-      } else if (e.key === "End") {
-        focus("last");
-      }
-    }
-    function focus(location2) {
-      var _a, _b, _c, _d, _e;
-      if (!contentRef.value) return;
-      if (!location2) {
-        const focusable = focusableChildren(contentRef.value);
-        (_a = focusable[0]) == null ? void 0 : _a.focus();
-      } else if (location2 === "next") {
-        const el = (_b = contentRef.value.querySelector(":focus")) == null ? void 0 : _b.nextElementSibling;
-        if (el) el.focus();
-        else focus("first");
-      } else if (location2 === "prev") {
-        const el = (_c = contentRef.value.querySelector(":focus")) == null ? void 0 : _c.previousElementSibling;
-        if (el) el.focus();
-        else focus("last");
-      } else if (location2 === "first") {
-        (_d = contentRef.value.firstElementChild) == null ? void 0 : _d.focus();
-      } else if (location2 === "last") {
-        (_e = contentRef.value.lastElementChild) == null ? void 0 : _e.focus();
-      }
-    }
-    function scrollTo(location2) {
-      const newAbsoluteOffset = scrollOffset.value + (location2 === "prev" ? -1 : 1) * containerSize.value;
-      scrollOffset.value = clamp(newAbsoluteOffset, 0, contentSize.value - containerSize.value);
-    }
-    const contentStyles = computed(() => {
-      let scrollAmount = scrollOffset.value > contentSize.value - containerSize.value ? -(contentSize.value - containerSize.value) + bias(contentSize.value - containerSize.value - scrollOffset.value) : -scrollOffset.value;
-      if (scrollOffset.value <= 0) {
-        scrollAmount = bias(-scrollOffset.value);
-      }
-      const sign = isRtl.value && isHorizontal.value ? -1 : 1;
-      return {
-        transform: `translate${isHorizontal.value ? "X" : "Y"}(${sign * scrollAmount}px)`,
-        transition: disableTransition.value ? "none" : "",
-        willChange: disableTransition.value ? "transform" : ""
-      };
-    });
-    const slotProps = computed(() => ({
-      next: group.next,
-      prev: group.prev,
-      select: group.select,
-      isSelected: group.isSelected
-    }));
-    const hasAffixes = computed(() => {
-      switch (props.showArrows) {
-        case "always":
-          return true;
-        case "desktop":
-          return !mobile.value;
-        case true:
-          return isOverflowing.value || Math.abs(scrollOffset.value) > 0;
-        case "mobile":
-          return mobile.value || isOverflowing.value || Math.abs(scrollOffset.value) > 0;
-        default:
-          return !mobile.value && (isOverflowing.value || Math.abs(scrollOffset.value) > 0);
-      }
-    });
-    const hasPrev = computed(() => {
-      return Math.abs(scrollOffset.value) > 0;
-    });
-    const hasNext = computed(() => {
-      return contentSize.value > Math.abs(scrollOffset.value) + containerSize.value;
-    });
-    useRender(() => createVNode(props.tag, {
-      "class": ["v-slide-group", {
-        "v-slide-group--vertical": !isHorizontal.value,
-        "v-slide-group--has-affixes": hasAffixes.value,
-        "v-slide-group--is-overflowing": isOverflowing.value
-      }, displayClasses.value, props.class],
-      "style": props.style,
-      "tabindex": isFocused.value || group.selected.value.length ? -1 : 0,
-      "onFocus": onFocus
-    }, {
-      default: () => {
-        var _a, _b, _c;
-        return [hasAffixes.value && createVNode("div", {
-          "key": "prev",
-          "class": ["v-slide-group__prev", {
-            "v-slide-group__prev--disabled": !hasPrev.value
-          }],
-          "onClick": () => hasPrev.value && scrollTo("prev")
-        }, [((_a = slots.prev) == null ? void 0 : _a.call(slots, slotProps.value)) ?? createVNode(VFadeTransition, null, {
-          default: () => [createVNode(VIcon, {
-            "icon": isRtl.value ? props.nextIcon : props.prevIcon
-          }, null)]
-        })]), createVNode("div", {
-          "key": "container",
-          "ref": containerRef,
-          "class": "v-slide-group__container",
-          "onScroll": onScroll
-        }, [createVNode("div", {
-          "ref": contentRef,
-          "class": "v-slide-group__content",
-          "style": contentStyles.value,
-          "onTouchstartPassive": onTouchstart,
-          "onTouchmovePassive": onTouchmove,
-          "onTouchendPassive": onTouchend,
-          "onFocusin": onFocusin,
-          "onFocusout": onFocusout,
-          "onKeydown": onKeydown
-        }, [(_b = slots.default) == null ? void 0 : _b.call(slots, slotProps.value)])]), hasAffixes.value && createVNode("div", {
-          "key": "next",
-          "class": ["v-slide-group__next", {
-            "v-slide-group__next--disabled": !hasNext.value
-          }],
-          "onClick": () => hasNext.value && scrollTo("next")
-        }, [((_c = slots.next) == null ? void 0 : _c.call(slots, slotProps.value)) ?? createVNode(VFadeTransition, null, {
-          default: () => [createVNode(VIcon, {
-            "icon": isRtl.value ? props.prevIcon : props.nextIcon
-          }, null)]
-        })])];
-      }
-    }));
-    return {
-      selected: group.selected,
-      scrollTo,
-      scrollOffset,
-      focus
-    };
-  }
-});
-const VChipGroupSymbol = Symbol.for("vuetify:v-chip-group");
-const makeVChipGroupProps = propsFactory({
-  column: Boolean,
-  filter: Boolean,
-  valueComparator: {
-    type: Function,
-    default: deepEqual
-  },
-  ...makeVSlideGroupProps(),
-  ...makeComponentProps(),
-  ...makeGroupProps({
-    selectedClass: "v-chip--selected"
-  }),
-  ...makeTagProps(),
-  ...makeThemeProps(),
-  ...makeVariantProps({
-    variant: "tonal"
-  })
-}, "VChipGroup");
-genericComponent()({
-  name: "VChipGroup",
-  props: makeVChipGroupProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      isSelected,
-      select,
-      next,
-      prev,
-      selected
-    } = useGroup(props, VChipGroupSymbol);
-    provideDefaults({
-      VChip: {
-        color: toRef(props, "color"),
-        disabled: toRef(props, "disabled"),
-        filter: toRef(props, "filter"),
-        variant: toRef(props, "variant")
-      }
-    });
-    useRender(() => {
-      const slideGroupProps = VSlideGroup.filterProps(props);
-      return createVNode(VSlideGroup, mergeProps(slideGroupProps, {
-        "class": ["v-chip-group", {
-          "v-chip-group--column": props.column
-        }, themeClasses.value, props.class],
-        "style": props.style
-      }), {
-        default: () => {
-          var _a;
-          return [(_a = slots.default) == null ? void 0 : _a.call(slots, {
-            isSelected,
-            select,
-            next,
-            prev,
-            selected: selected.value
-          })];
-        }
-      });
-    });
-    return {};
-  }
-});
-const makeVChipProps = propsFactory({
-  activeClass: String,
-  appendAvatar: String,
-  appendIcon: IconValue,
-  closable: Boolean,
-  closeIcon: {
-    type: IconValue,
-    default: "$delete"
-  },
-  closeLabel: {
-    type: String,
-    default: "$vuetify.close"
-  },
-  draggable: Boolean,
-  filter: Boolean,
-  filterIcon: {
-    type: String,
-    default: "$complete"
-  },
-  label: Boolean,
-  link: {
-    type: Boolean,
-    default: void 0
-  },
-  pill: Boolean,
-  prependAvatar: String,
-  prependIcon: IconValue,
-  ripple: {
-    type: [Boolean, Object],
-    default: true
-  },
-  text: String,
-  modelValue: {
-    type: Boolean,
-    default: true
-  },
-  onClick: EventProp(),
-  onClickOnce: EventProp(),
-  ...makeBorderProps(),
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeElevationProps(),
-  ...makeGroupItemProps(),
-  ...makeRoundedProps(),
-  ...makeRouterProps(),
-  ...makeSizeProps(),
-  ...makeTagProps({
-    tag: "span"
-  }),
-  ...makeThemeProps(),
-  ...makeVariantProps({
-    variant: "tonal"
-  })
-}, "VChip");
-const VChip = genericComponent()({
-  name: "VChip",
-  directives: {
-    Ripple
-  },
-  props: makeVChipProps(),
-  emits: {
-    "click:close": (e) => true,
-    "update:modelValue": (value) => true,
-    "group:selected": (val) => true,
-    click: (e) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      emit: emit2,
-      slots
-    } = _ref;
-    const {
-      t
-    } = useLocale();
-    const {
-      borderClasses
-    } = useBorder(props);
-    const {
-      colorClasses,
-      colorStyles,
-      variantClasses
-    } = useVariant(props);
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const {
-      sizeClasses
-    } = useSize(props);
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const isActive = useProxiedModel(props, "modelValue");
-    const group = useGroupItem(props, VChipGroupSymbol, false);
-    const link = useLink$1(props, attrs);
-    const isLink = computed(() => props.link !== false && link.isLink.value);
-    const isClickable = computed(() => !props.disabled && props.link !== false && (!!group || props.link || link.isClickable.value));
-    const closeProps = computed(() => ({
-      "aria-label": t(props.closeLabel),
-      onClick(e) {
-        e.stopPropagation();
-        isActive.value = false;
-        emit2("click:close", e);
-      }
-    }));
-    function onClick(e) {
-      var _a;
-      emit2("click", e);
-      if (!isClickable.value) return;
-      (_a = link.navigate) == null ? void 0 : _a.call(link, e);
-      group == null ? void 0 : group.toggle();
-    }
-    function onKeyDown(e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        onClick(e);
-      }
-    }
-    return () => {
-      const Tag = link.isLink.value ? "a" : props.tag;
-      const hasAppendMedia = !!(props.appendIcon || props.appendAvatar);
-      const hasAppend = !!(hasAppendMedia || slots.append);
-      const hasClose = !!(slots.close || props.closable);
-      const hasFilter = !!(slots.filter || props.filter) && group;
-      const hasPrependMedia = !!(props.prependIcon || props.prependAvatar);
-      const hasPrepend = !!(hasPrependMedia || slots.prepend);
-      const hasColor = !group || group.isSelected.value;
-      return isActive.value && withDirectives(createVNode(Tag, {
-        "class": ["v-chip", {
-          "v-chip--disabled": props.disabled,
-          "v-chip--label": props.label,
-          "v-chip--link": isClickable.value,
-          "v-chip--filter": hasFilter,
-          "v-chip--pill": props.pill
-        }, themeClasses.value, borderClasses.value, hasColor ? colorClasses.value : void 0, densityClasses.value, elevationClasses.value, roundedClasses.value, sizeClasses.value, variantClasses.value, group == null ? void 0 : group.selectedClass.value, props.class],
-        "style": [hasColor ? colorStyles.value : void 0, props.style],
-        "disabled": props.disabled || void 0,
-        "draggable": props.draggable,
-        "href": link.href.value,
-        "tabindex": isClickable.value ? 0 : void 0,
-        "onClick": onClick,
-        "onKeydown": isClickable.value && !isLink.value && onKeyDown
-      }, {
-        default: () => {
-          var _a;
-          return [genOverlays(isClickable.value, "v-chip"), hasFilter && createVNode(VExpandXTransition, {
-            "key": "filter"
-          }, {
-            default: () => [withDirectives(createVNode("div", {
-              "class": "v-chip__filter"
-            }, [!slots.filter ? createVNode(VIcon, {
-              "key": "filter-icon",
-              "icon": props.filterIcon
-            }, null) : createVNode(VDefaultsProvider, {
-              "key": "filter-defaults",
-              "disabled": !props.filterIcon,
-              "defaults": {
-                VIcon: {
-                  icon: props.filterIcon
-                }
-              }
-            }, slots.filter)]), [[vShow, group.isSelected.value]])]
-          }), hasPrepend && createVNode("div", {
-            "key": "prepend",
-            "class": "v-chip__prepend"
-          }, [!slots.prepend ? createVNode(Fragment, null, [props.prependIcon && createVNode(VIcon, {
-            "key": "prepend-icon",
-            "icon": props.prependIcon,
-            "start": true
-          }, null), props.prependAvatar && createVNode(VAvatar, {
-            "key": "prepend-avatar",
-            "image": props.prependAvatar,
-            "start": true
-          }, null)]) : createVNode(VDefaultsProvider, {
-            "key": "prepend-defaults",
-            "disabled": !hasPrependMedia,
-            "defaults": {
-              VAvatar: {
-                image: props.prependAvatar,
-                start: true
-              },
-              VIcon: {
-                icon: props.prependIcon,
-                start: true
-              }
-            }
-          }, slots.prepend)]), createVNode("div", {
-            "class": "v-chip__content",
-            "data-no-activator": ""
-          }, [((_a = slots.default) == null ? void 0 : _a.call(slots, {
-            isSelected: group == null ? void 0 : group.isSelected.value,
-            selectedClass: group == null ? void 0 : group.selectedClass.value,
-            select: group == null ? void 0 : group.select,
-            toggle: group == null ? void 0 : group.toggle,
-            value: group == null ? void 0 : group.value.value,
-            disabled: props.disabled
-          })) ?? props.text]), hasAppend && createVNode("div", {
-            "key": "append",
-            "class": "v-chip__append"
-          }, [!slots.append ? createVNode(Fragment, null, [props.appendIcon && createVNode(VIcon, {
-            "key": "append-icon",
-            "end": true,
-            "icon": props.appendIcon
-          }, null), props.appendAvatar && createVNode(VAvatar, {
-            "key": "append-avatar",
-            "end": true,
-            "image": props.appendAvatar
-          }, null)]) : createVNode(VDefaultsProvider, {
-            "key": "append-defaults",
-            "disabled": !hasAppendMedia,
-            "defaults": {
-              VAvatar: {
-                end: true,
-                image: props.appendAvatar
-              },
-              VIcon: {
-                end: true,
-                icon: props.appendIcon
-              }
-            }
-          }, slots.append)]), hasClose && createVNode("button", mergeProps({
-            "key": "close",
-            "class": "v-chip__close",
-            "type": "button"
-          }, closeProps.value), [!slots.close ? createVNode(VIcon, {
-            "key": "close-icon",
-            "icon": props.closeIcon,
-            "size": "x-small"
-          }, null) : createVNode(VDefaultsProvider, {
-            "key": "close-defaults",
-            "defaults": {
-              VIcon: {
-                icon: props.closeIcon,
-                size: "x-small"
-              }
-            }
-          }, slots.close)])];
-        }
-      }), [[resolveDirective("ripple"), isClickable.value && props.ripple, null]]);
-    };
-  }
-});
-const ListKey = Symbol.for("vuetify:list");
-function createList() {
-  const parent = inject$1(ListKey, {
-    hasPrepend: shallowRef(false),
-    updateHasPrepend: () => null
-  });
-  const data = {
-    hasPrepend: shallowRef(false),
-    updateHasPrepend: (value) => {
-      if (value) data.hasPrepend.value = value;
-    }
-  };
-  provide(ListKey, data);
-  return parent;
-}
-function useList() {
-  return inject$1(ListKey, null);
-}
-const singleOpenStrategy = {
-  open: (_ref) => {
-    let {
-      id,
-      value,
-      opened,
-      parents
-    } = _ref;
-    if (value) {
-      const newOpened = /* @__PURE__ */ new Set();
-      newOpened.add(id);
-      let parent = parents.get(id);
-      while (parent != null) {
-        newOpened.add(parent);
-        parent = parents.get(parent);
-      }
-      return newOpened;
-    } else {
-      opened.delete(id);
-      return opened;
-    }
-  },
-  select: () => null
-};
-const multipleOpenStrategy = {
-  open: (_ref2) => {
-    let {
-      id,
-      value,
-      opened,
-      parents
-    } = _ref2;
-    if (value) {
-      let parent = parents.get(id);
-      opened.add(id);
-      while (parent != null && parent !== id) {
-        opened.add(parent);
-        parent = parents.get(parent);
-      }
-      return opened;
-    } else {
-      opened.delete(id);
-    }
-    return opened;
-  },
-  select: () => null
-};
-const listOpenStrategy = {
-  open: multipleOpenStrategy.open,
-  select: (_ref3) => {
-    let {
-      id,
-      value,
-      opened,
-      parents
-    } = _ref3;
-    if (!value) return opened;
-    const path = [];
-    let parent = parents.get(id);
-    while (parent != null) {
-      path.push(parent);
-      parent = parents.get(parent);
-    }
-    return new Set(path);
-  }
-};
-const independentSelectStrategy = (mandatory) => {
-  const strategy = {
-    select: (_ref) => {
-      let {
-        id,
-        value,
-        selected
-      } = _ref;
-      id = toRaw(id);
-      if (mandatory && !value) {
-        const on = Array.from(selected.entries()).reduce((arr, _ref2) => {
-          let [key, value2] = _ref2;
-          return value2 === "on" ? [...arr, key] : arr;
-        }, []);
-        if (on.length === 1 && on[0] === id) return selected;
-      }
-      selected.set(id, value ? "on" : "off");
-      return selected;
-    },
-    in: (v, children, parents) => {
-      let map = /* @__PURE__ */ new Map();
-      for (const id of v || []) {
-        map = strategy.select({
-          id,
-          value: true,
-          selected: new Map(map),
-          children,
-          parents
-        });
-      }
-      return map;
-    },
-    out: (v) => {
-      const arr = [];
-      for (const [key, value] of v.entries()) {
-        if (value === "on") arr.push(key);
-      }
-      return arr;
-    }
-  };
-  return strategy;
-};
-const independentSingleSelectStrategy = (mandatory) => {
-  const parentStrategy = independentSelectStrategy(mandatory);
-  const strategy = {
-    select: (_ref3) => {
-      let {
-        selected,
-        id,
-        ...rest
-      } = _ref3;
-      id = toRaw(id);
-      const singleSelected = selected.has(id) ? /* @__PURE__ */ new Map([[id, selected.get(id)]]) : /* @__PURE__ */ new Map();
-      return parentStrategy.select({
-        ...rest,
-        id,
-        selected: singleSelected
-      });
-    },
-    in: (v, children, parents) => {
-      let map = /* @__PURE__ */ new Map();
-      if (v == null ? void 0 : v.length) {
-        map = parentStrategy.in(v.slice(0, 1), children, parents);
-      }
-      return map;
-    },
-    out: (v, children, parents) => {
-      return parentStrategy.out(v, children, parents);
-    }
-  };
-  return strategy;
-};
-const leafSelectStrategy = (mandatory) => {
-  const parentStrategy = independentSelectStrategy(mandatory);
-  const strategy = {
-    select: (_ref4) => {
-      let {
-        id,
-        selected,
-        children,
-        ...rest
-      } = _ref4;
-      id = toRaw(id);
-      if (children.has(id)) return selected;
-      return parentStrategy.select({
-        id,
-        selected,
-        children,
-        ...rest
-      });
-    },
-    in: parentStrategy.in,
-    out: parentStrategy.out
-  };
-  return strategy;
-};
-const leafSingleSelectStrategy = (mandatory) => {
-  const parentStrategy = independentSingleSelectStrategy(mandatory);
-  const strategy = {
-    select: (_ref5) => {
-      let {
-        id,
-        selected,
-        children,
-        ...rest
-      } = _ref5;
-      id = toRaw(id);
-      if (children.has(id)) return selected;
-      return parentStrategy.select({
-        id,
-        selected,
-        children,
-        ...rest
-      });
-    },
-    in: parentStrategy.in,
-    out: parentStrategy.out
-  };
-  return strategy;
-};
-const classicSelectStrategy = (mandatory) => {
-  const strategy = {
-    select: (_ref6) => {
-      let {
-        id,
-        value,
-        selected,
-        children,
-        parents
-      } = _ref6;
-      id = toRaw(id);
-      const original = new Map(selected);
-      const items = [id];
-      while (items.length) {
-        const item = items.shift();
-        selected.set(item, value ? "on" : "off");
-        if (children.has(item)) {
-          items.push(...children.get(item));
-        }
-      }
-      let parent = parents.get(id);
-      while (parent) {
-        const childrenIds = children.get(parent);
-        const everySelected = childrenIds.every((cid) => selected.get(cid) === "on");
-        const noneSelected = childrenIds.every((cid) => !selected.has(cid) || selected.get(cid) === "off");
-        selected.set(parent, everySelected ? "on" : noneSelected ? "off" : "indeterminate");
-        parent = parents.get(parent);
-      }
-      if (mandatory && !value) {
-        const on = Array.from(selected.entries()).reduce((arr, _ref7) => {
-          let [key, value2] = _ref7;
-          return value2 === "on" ? [...arr, key] : arr;
-        }, []);
-        if (on.length === 0) return original;
-      }
-      return selected;
-    },
-    in: (v, children, parents) => {
-      let map = /* @__PURE__ */ new Map();
-      for (const id of v || []) {
-        map = strategy.select({
-          id,
-          value: true,
-          selected: new Map(map),
-          children,
-          parents
-        });
-      }
-      return map;
-    },
-    out: (v, children) => {
-      const arr = [];
-      for (const [key, value] of v.entries()) {
-        if (value === "on" && !children.has(key)) arr.push(key);
-      }
-      return arr;
-    }
-  };
-  return strategy;
-};
-const VNestedSymbol = Symbol.for("vuetify:nested");
-const emptyNested = {
-  id: shallowRef(),
-  root: {
-    register: () => null,
-    unregister: () => null,
-    parents: ref(/* @__PURE__ */ new Map()),
-    children: ref(/* @__PURE__ */ new Map()),
-    open: () => null,
-    openOnSelect: () => null,
-    select: () => null,
-    opened: ref(/* @__PURE__ */ new Set()),
-    selected: ref(/* @__PURE__ */ new Map()),
-    selectedValues: ref([])
-  }
-};
-const makeNestedProps = propsFactory({
-  selectStrategy: [String, Function],
-  openStrategy: [String, Object],
-  opened: Array,
-  selected: Array,
-  mandatory: Boolean
-}, "nested");
-const useNested = (props) => {
-  let isUnmounted = false;
-  const children = ref(/* @__PURE__ */ new Map());
-  const parents = ref(/* @__PURE__ */ new Map());
-  const opened = useProxiedModel(props, "opened", props.opened, (v) => new Set(v), (v) => [...v.values()]);
-  const selectStrategy = computed(() => {
-    if (typeof props.selectStrategy === "object") return props.selectStrategy;
-    switch (props.selectStrategy) {
-      case "single-leaf":
-        return leafSingleSelectStrategy(props.mandatory);
-      case "leaf":
-        return leafSelectStrategy(props.mandatory);
-      case "independent":
-        return independentSelectStrategy(props.mandatory);
-      case "single-independent":
-        return independentSingleSelectStrategy(props.mandatory);
-      case "classic":
-      default:
-        return classicSelectStrategy(props.mandatory);
-    }
-  });
-  const openStrategy = computed(() => {
-    if (typeof props.openStrategy === "object") return props.openStrategy;
-    switch (props.openStrategy) {
-      case "list":
-        return listOpenStrategy;
-      case "single":
-        return singleOpenStrategy;
-      case "multiple":
-      default:
-        return multipleOpenStrategy;
-    }
-  });
-  const selected = useProxiedModel(props, "selected", props.selected, (v) => selectStrategy.value.in(v, children.value, parents.value), (v) => selectStrategy.value.out(v, children.value, parents.value));
-  onBeforeUnmount(() => {
-    isUnmounted = true;
-  });
-  function getPath(id) {
-    const path = [];
-    let parent = id;
-    while (parent != null) {
-      path.unshift(parent);
-      parent = parents.value.get(parent);
-    }
-    return path;
-  }
-  const vm = getCurrentInstance("nested");
-  const nested = {
-    id: shallowRef(),
-    root: {
-      opened,
-      selected,
-      selectedValues: computed(() => {
-        const arr = [];
-        for (const [key, value] of selected.value.entries()) {
-          if (value === "on") arr.push(key);
-        }
-        return arr;
-      }),
-      register: (id, parentId, isGroup) => {
-        parentId && id !== parentId && parents.value.set(id, parentId);
-        isGroup && children.value.set(id, []);
-        if (parentId != null) {
-          children.value.set(parentId, [...children.value.get(parentId) || [], id]);
-        }
-      },
-      unregister: (id) => {
-        if (isUnmounted) return;
-        children.value.delete(id);
-        const parent = parents.value.get(id);
-        if (parent) {
-          const list = children.value.get(parent) ?? [];
-          children.value.set(parent, list.filter((child) => child !== id));
-        }
-        parents.value.delete(id);
-        opened.value.delete(id);
-      },
-      open: (id, value, event) => {
-        vm.emit("click:open", {
-          id,
-          value,
-          path: getPath(id),
-          event
-        });
-        const newOpened = openStrategy.value.open({
-          id,
-          value,
-          opened: new Set(opened.value),
-          children: children.value,
-          parents: parents.value,
-          event
-        });
-        newOpened && (opened.value = newOpened);
-      },
-      openOnSelect: (id, value, event) => {
-        const newOpened = openStrategy.value.select({
-          id,
-          value,
-          selected: new Map(selected.value),
-          opened: new Set(opened.value),
-          children: children.value,
-          parents: parents.value,
-          event
-        });
-        newOpened && (opened.value = newOpened);
-      },
-      select: (id, value, event) => {
-        vm.emit("click:select", {
-          id,
-          value,
-          path: getPath(id),
-          event
-        });
-        const newSelected = selectStrategy.value.select({
-          id,
-          value,
-          selected: new Map(selected.value),
-          children: children.value,
-          parents: parents.value,
-          event
-        });
-        newSelected && (selected.value = newSelected);
-        nested.root.openOnSelect(id, value, event);
-      },
-      children,
-      parents
-    }
-  };
-  provide(VNestedSymbol, nested);
-  return nested.root;
-};
-const useNestedItem = (id, isGroup) => {
-  const parent = inject$1(VNestedSymbol, emptyNested);
-  const uidSymbol = Symbol(getUid());
-  const computedId = computed(() => id.value !== void 0 ? id.value : uidSymbol);
-  const item = {
-    ...parent,
-    id: computedId,
-    open: (open, e) => parent.root.open(computedId.value, open, e),
-    openOnSelect: (open, e) => parent.root.openOnSelect(computedId.value, open, e),
-    isOpen: computed(() => parent.root.opened.value.has(computedId.value)),
-    parent: computed(() => parent.root.parents.value.get(computedId.value)),
-    select: (selected, e) => parent.root.select(computedId.value, selected, e),
-    isSelected: computed(() => parent.root.selected.value.get(toRaw(computedId.value)) === "on"),
-    isIndeterminate: computed(() => parent.root.selected.value.get(computedId.value) === "indeterminate"),
-    isLeaf: computed(() => !parent.root.children.value.get(computedId.value)),
-    isGroupActivator: parent.isGroupActivator
-  };
-  !parent.isGroupActivator && parent.root.register(computedId.value, parent.id.value, isGroup);
-  onBeforeUnmount(() => {
-    !parent.isGroupActivator && parent.root.unregister(computedId.value);
-  });
-  isGroup && provide(VNestedSymbol, item);
-  return item;
-};
-const useNestedGroupActivator = () => {
-  const parent = inject$1(VNestedSymbol, emptyNested);
-  provide(VNestedSymbol, {
-    ...parent,
-    isGroupActivator: true
-  });
-};
-const VListGroupActivator = defineComponent({
-  name: "VListGroupActivator",
-  setup(_, _ref) {
-    let {
-      slots
-    } = _ref;
-    useNestedGroupActivator();
-    return () => {
-      var _a;
-      return (_a = slots.default) == null ? void 0 : _a.call(slots);
-    };
-  }
-});
-const makeVListGroupProps = propsFactory({
-  /* @deprecated */
-  activeColor: String,
-  baseColor: String,
-  color: String,
-  collapseIcon: {
-    type: IconValue,
-    default: "$collapse"
-  },
-  expandIcon: {
-    type: IconValue,
-    default: "$expand"
-  },
-  prependIcon: IconValue,
-  appendIcon: IconValue,
-  fluid: Boolean,
-  subgroup: Boolean,
-  title: String,
-  value: null,
-  ...makeComponentProps(),
-  ...makeTagProps()
-}, "VListGroup");
-const VListGroup = genericComponent()({
-  name: "VListGroup",
-  props: makeVListGroupProps(),
-  setup(props, _ref2) {
-    let {
-      slots
-    } = _ref2;
-    const {
-      isOpen,
-      open,
-      id: _id
-    } = useNestedItem(toRef(props, "value"), true);
-    const id = computed(() => `v-list-group--id-${String(_id.value)}`);
-    const list = useList();
-    const {
-      isBooted
-    } = useSsrBoot();
-    function onClick(e) {
-      open(!isOpen.value, e);
-    }
-    const activatorProps = computed(() => ({
-      onClick,
-      class: "v-list-group__header",
-      id: id.value
-    }));
-    const toggleIcon = computed(() => isOpen.value ? props.collapseIcon : props.expandIcon);
-    const activatorDefaults = computed(() => ({
-      VListItem: {
-        active: isOpen.value,
-        activeColor: props.activeColor,
-        baseColor: props.baseColor,
-        color: props.color,
-        prependIcon: props.prependIcon || props.subgroup && toggleIcon.value,
-        appendIcon: props.appendIcon || !props.subgroup && toggleIcon.value,
-        title: props.title,
-        value: props.value
-      }
-    }));
-    useRender(() => createVNode(props.tag, {
-      "class": ["v-list-group", {
-        "v-list-group--prepend": list == null ? void 0 : list.hasPrepend.value,
-        "v-list-group--fluid": props.fluid,
-        "v-list-group--subgroup": props.subgroup,
-        "v-list-group--open": isOpen.value
-      }, props.class],
-      "style": props.style
-    }, {
-      default: () => [slots.activator && createVNode(VDefaultsProvider, {
-        "defaults": activatorDefaults.value
-      }, {
-        default: () => [createVNode(VListGroupActivator, null, {
-          default: () => [slots.activator({
-            props: activatorProps.value,
-            isOpen: isOpen.value
-          })]
-        })]
-      }), createVNode(MaybeTransition, {
-        "transition": {
-          component: VExpandTransition
-        },
-        "disabled": !isBooted.value
-      }, {
-        default: () => {
-          var _a;
-          return [withDirectives(createVNode("div", {
-            "class": "v-list-group__items",
-            "role": "group",
-            "aria-labelledby": id.value
-          }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]), [[vShow, isOpen.value]])];
-        }
-      })]
-    }));
-    return {};
-  }
-});
-const VListItemSubtitle = createSimpleFunctional("v-list-item-subtitle");
-const VListItemTitle = createSimpleFunctional("v-list-item-title");
-const makeVListItemProps = propsFactory({
-  active: {
-    type: Boolean,
-    default: void 0
-  },
-  activeClass: String,
-  /* @deprecated */
-  activeColor: String,
-  appendAvatar: String,
-  appendIcon: IconValue,
-  baseColor: String,
-  disabled: Boolean,
-  lines: String,
-  link: {
-    type: Boolean,
-    default: void 0
-  },
-  nav: Boolean,
-  prependAvatar: String,
-  prependIcon: IconValue,
-  ripple: {
-    type: [Boolean, Object],
-    default: true
-  },
-  slim: Boolean,
-  subtitle: [String, Number],
-  title: [String, Number],
-  value: null,
-  onClick: EventProp(),
-  onClickOnce: EventProp(),
-  ...makeBorderProps(),
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeDimensionProps(),
-  ...makeElevationProps(),
-  ...makeRoundedProps(),
-  ...makeRouterProps(),
-  ...makeTagProps(),
-  ...makeThemeProps(),
-  ...makeVariantProps({
-    variant: "text"
-  })
-}, "VListItem");
-const VListItem = genericComponent()({
-  name: "VListItem",
-  directives: {
-    Ripple
-  },
-  props: makeVListItemProps(),
-  emits: {
-    click: (e) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      slots,
-      emit: emit2
-    } = _ref;
-    const link = useLink$1(props, attrs);
-    const id = computed(() => props.value === void 0 ? link.href.value : props.value);
-    const {
-      select,
-      isSelected,
-      isIndeterminate,
-      isGroupActivator,
-      root,
-      parent,
-      openOnSelect
-    } = useNestedItem(id, false);
-    const list = useList();
-    const isActive = computed(() => {
-      var _a;
-      return props.active !== false && (props.active || ((_a = link.isActive) == null ? void 0 : _a.value) || isSelected.value);
-    });
-    const isLink = computed(() => props.link !== false && link.isLink.value);
-    const isClickable = computed(() => !props.disabled && props.link !== false && (props.link || link.isClickable.value || props.value != null && !!list));
-    const roundedProps = computed(() => props.rounded || props.nav);
-    const color = computed(() => props.color ?? props.activeColor);
-    const variantProps = computed(() => ({
-      color: isActive.value ? color.value ?? props.baseColor : props.baseColor,
-      variant: props.variant
-    }));
-    watch(() => {
-      var _a;
-      return (_a = link.isActive) == null ? void 0 : _a.value;
-    }, (val) => {
-      if (val && parent.value != null) {
-        root.open(parent.value, true);
-      }
-      if (val) {
-        openOnSelect(val);
-      }
-    }, {
-      immediate: true
-    });
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      borderClasses
-    } = useBorder(props);
-    const {
-      colorClasses,
-      colorStyles,
-      variantClasses
-    } = useVariant(variantProps);
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      dimensionStyles
-    } = useDimension(props);
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      roundedClasses
-    } = useRounded(roundedProps);
-    const lineClasses = computed(() => props.lines ? `v-list-item--${props.lines}-line` : void 0);
-    const slotProps = computed(() => ({
-      isActive: isActive.value,
-      select,
-      isSelected: isSelected.value,
-      isIndeterminate: isIndeterminate.value
-    }));
-    function onClick(e) {
-      var _a;
-      emit2("click", e);
-      if (isGroupActivator || !isClickable.value) return;
-      (_a = link.navigate) == null ? void 0 : _a.call(link, e);
-      props.value != null && select(!isSelected.value, e);
-    }
-    function onKeyDown(e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        onClick(e);
-      }
-    }
-    useRender(() => {
-      const Tag = isLink.value ? "a" : props.tag;
-      const hasTitle = slots.title || props.title != null;
-      const hasSubtitle = slots.subtitle || props.subtitle != null;
-      const hasAppendMedia = !!(props.appendAvatar || props.appendIcon);
-      const hasAppend = !!(hasAppendMedia || slots.append);
-      const hasPrependMedia = !!(props.prependAvatar || props.prependIcon);
-      const hasPrepend = !!(hasPrependMedia || slots.prepend);
-      list == null ? void 0 : list.updateHasPrepend(hasPrepend);
-      if (props.activeColor) {
-        deprecate("active-color", ["color", "base-color"]);
-      }
-      return withDirectives(createVNode(Tag, {
-        "class": ["v-list-item", {
-          "v-list-item--active": isActive.value,
-          "v-list-item--disabled": props.disabled,
-          "v-list-item--link": isClickable.value,
-          "v-list-item--nav": props.nav,
-          "v-list-item--prepend": !hasPrepend && (list == null ? void 0 : list.hasPrepend.value),
-          "v-list-item--slim": props.slim,
-          [`${props.activeClass}`]: props.activeClass && isActive.value
-        }, themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, lineClasses.value, roundedClasses.value, variantClasses.value, props.class],
-        "style": [colorStyles.value, dimensionStyles.value, props.style],
-        "href": link.href.value,
-        "tabindex": isClickable.value ? list ? -2 : 0 : void 0,
-        "onClick": onClick,
-        "onKeydown": isClickable.value && !isLink.value && onKeyDown
-      }, {
-        default: () => {
-          var _a;
-          return [genOverlays(isClickable.value || isActive.value, "v-list-item"), hasPrepend && createVNode("div", {
-            "key": "prepend",
-            "class": "v-list-item__prepend"
-          }, [!slots.prepend ? createVNode(Fragment, null, [props.prependAvatar && createVNode(VAvatar, {
-            "key": "prepend-avatar",
-            "density": props.density,
-            "image": props.prependAvatar
-          }, null), props.prependIcon && createVNode(VIcon, {
-            "key": "prepend-icon",
-            "density": props.density,
-            "icon": props.prependIcon
-          }, null)]) : createVNode(VDefaultsProvider, {
-            "key": "prepend-defaults",
-            "disabled": !hasPrependMedia,
-            "defaults": {
-              VAvatar: {
-                density: props.density,
-                image: props.prependAvatar
-              },
-              VIcon: {
-                density: props.density,
-                icon: props.prependIcon
-              },
-              VListItemAction: {
-                start: true
-              }
-            }
-          }, {
-            default: () => {
-              var _a2;
-              return [(_a2 = slots.prepend) == null ? void 0 : _a2.call(slots, slotProps.value)];
-            }
-          }), createVNode("div", {
-            "class": "v-list-item__spacer"
-          }, null)]), createVNode("div", {
-            "class": "v-list-item__content",
-            "data-no-activator": ""
-          }, [hasTitle && createVNode(VListItemTitle, {
-            "key": "title"
-          }, {
-            default: () => {
-              var _a2;
-              return [((_a2 = slots.title) == null ? void 0 : _a2.call(slots, {
-                title: props.title
-              })) ?? props.title];
-            }
-          }), hasSubtitle && createVNode(VListItemSubtitle, {
-            "key": "subtitle"
-          }, {
-            default: () => {
-              var _a2;
-              return [((_a2 = slots.subtitle) == null ? void 0 : _a2.call(slots, {
-                subtitle: props.subtitle
-              })) ?? props.subtitle];
-            }
-          }), (_a = slots.default) == null ? void 0 : _a.call(slots, slotProps.value)]), hasAppend && createVNode("div", {
-            "key": "append",
-            "class": "v-list-item__append"
-          }, [!slots.append ? createVNode(Fragment, null, [props.appendIcon && createVNode(VIcon, {
-            "key": "append-icon",
-            "density": props.density,
-            "icon": props.appendIcon
-          }, null), props.appendAvatar && createVNode(VAvatar, {
-            "key": "append-avatar",
-            "density": props.density,
-            "image": props.appendAvatar
-          }, null)]) : createVNode(VDefaultsProvider, {
-            "key": "append-defaults",
-            "disabled": !hasAppendMedia,
-            "defaults": {
-              VAvatar: {
-                density: props.density,
-                image: props.appendAvatar
-              },
-              VIcon: {
-                density: props.density,
-                icon: props.appendIcon
-              },
-              VListItemAction: {
-                end: true
-              }
-            }
-          }, {
-            default: () => {
-              var _a2;
-              return [(_a2 = slots.append) == null ? void 0 : _a2.call(slots, slotProps.value)];
-            }
-          }), createVNode("div", {
-            "class": "v-list-item__spacer"
-          }, null)])];
-        }
-      }), [[resolveDirective("ripple"), isClickable.value && props.ripple]]);
-    });
-    return {};
-  }
-});
-const makeVListSubheaderProps = propsFactory({
-  color: String,
-  inset: Boolean,
-  sticky: Boolean,
-  title: String,
-  ...makeComponentProps(),
-  ...makeTagProps()
-}, "VListSubheader");
-const VListSubheader = genericComponent()({
-  name: "VListSubheader",
-  props: makeVListSubheaderProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(toRef(props, "color"));
-    useRender(() => {
-      const hasText = !!(slots.default || props.title);
-      return createVNode(props.tag, {
-        "class": ["v-list-subheader", {
-          "v-list-subheader--inset": props.inset,
-          "v-list-subheader--sticky": props.sticky
-        }, textColorClasses.value, props.class],
-        "style": [{
-          textColorStyles
-        }, props.style]
-      }, {
-        default: () => {
-          var _a;
-          return [hasText && createVNode("div", {
-            "class": "v-list-subheader__text"
-          }, [((_a = slots.default) == null ? void 0 : _a.call(slots)) ?? props.title])];
-        }
-      });
-    });
-    return {};
-  }
-});
-const makeVListChildrenProps = propsFactory({
-  items: Array,
-  returnObject: Boolean
-}, "VListChildren");
-const VListChildren = genericComponent()({
-  name: "VListChildren",
-  props: makeVListChildrenProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    createList();
-    return () => {
-      var _a, _b;
-      return ((_a = slots.default) == null ? void 0 : _a.call(slots)) ?? ((_b = props.items) == null ? void 0 : _b.map((_ref2) => {
-        var _a2, _b2;
-        let {
-          children,
-          props: itemProps,
-          type,
-          raw: item
-        } = _ref2;
-        if (type === "divider") {
-          return ((_a2 = slots.divider) == null ? void 0 : _a2.call(slots, {
-            props: itemProps
-          })) ?? createVNode(VDivider, itemProps, null);
-        }
-        if (type === "subheader") {
-          return ((_b2 = slots.subheader) == null ? void 0 : _b2.call(slots, {
-            props: itemProps
-          })) ?? createVNode(VListSubheader, itemProps, null);
-        }
-        const slotsWithItem = {
-          subtitle: slots.subtitle ? (slotProps) => {
-            var _a3;
-            return (_a3 = slots.subtitle) == null ? void 0 : _a3.call(slots, {
-              ...slotProps,
-              item
-            });
-          } : void 0,
-          prepend: slots.prepend ? (slotProps) => {
-            var _a3;
-            return (_a3 = slots.prepend) == null ? void 0 : _a3.call(slots, {
-              ...slotProps,
-              item
-            });
-          } : void 0,
-          append: slots.append ? (slotProps) => {
-            var _a3;
-            return (_a3 = slots.append) == null ? void 0 : _a3.call(slots, {
-              ...slotProps,
-              item
-            });
-          } : void 0,
-          title: slots.title ? (slotProps) => {
-            var _a3;
-            return (_a3 = slots.title) == null ? void 0 : _a3.call(slots, {
-              ...slotProps,
-              item
-            });
-          } : void 0
-        };
-        const listGroupProps = VListGroup.filterProps(itemProps);
-        return children ? createVNode(VListGroup, mergeProps({
-          "value": itemProps == null ? void 0 : itemProps.value
-        }, listGroupProps), {
-          activator: (_ref3) => {
-            let {
-              props: activatorProps
-            } = _ref3;
-            const listItemProps = {
-              ...itemProps,
-              ...activatorProps,
-              value: props.returnObject ? item : itemProps.value
-            };
-            return slots.header ? slots.header({
-              props: listItemProps
-            }) : createVNode(VListItem, listItemProps, slotsWithItem);
-          },
-          default: () => createVNode(VListChildren, {
-            "items": children
-          }, slots)
-        }) : slots.item ? slots.item({
-          props: itemProps
-        }) : createVNode(VListItem, mergeProps(itemProps, {
-          "value": props.returnObject ? item : itemProps.value
-        }), slotsWithItem);
-      }));
-    };
-  }
-});
-const makeItemsProps = propsFactory({
-  items: {
-    type: Array,
-    default: () => []
-  },
-  itemTitle: {
-    type: [String, Array, Function],
-    default: "title"
-  },
-  itemValue: {
-    type: [String, Array, Function],
-    default: "value"
-  },
-  itemChildren: {
-    type: [Boolean, String, Array, Function],
-    default: "children"
-  },
-  itemProps: {
-    type: [Boolean, String, Array, Function],
-    default: "props"
-  },
-  returnObject: Boolean,
-  valueComparator: {
-    type: Function,
-    default: deepEqual
-  }
-}, "list-items");
-function transformItem$1(props, item) {
-  const title = getPropertyFromItem(item, props.itemTitle, item);
-  const value = getPropertyFromItem(item, props.itemValue, title);
-  const children = getPropertyFromItem(item, props.itemChildren);
-  const itemProps = props.itemProps === true ? typeof item === "object" && item != null && !Array.isArray(item) ? "children" in item ? omit(item, ["children"]) : item : void 0 : getPropertyFromItem(item, props.itemProps);
-  const _props = {
-    title,
-    value,
-    ...itemProps
-  };
-  return {
-    title: String(_props.title ?? ""),
-    value: _props.value,
-    props: _props,
-    children: Array.isArray(children) ? transformItems$1(props, children) : void 0,
-    raw: item
-  };
-}
-function transformItems$1(props, items) {
-  const array = [];
-  for (const item of items) {
-    array.push(transformItem$1(props, item));
-  }
-  return array;
-}
-function useItems(props) {
-  const items = computed(() => transformItems$1(props, props.items));
-  const hasNullItem = computed(() => items.value.some((item) => item.value === null));
-  function transformIn(value) {
-    if (!hasNullItem.value) {
-      value = value.filter((v) => v !== null);
-    }
-    return value.map((v) => {
-      if (props.returnObject && typeof v === "string") {
-        return transformItem$1(props, v);
-      }
-      return items.value.find((item) => props.valueComparator(v, item.value)) || transformItem$1(props, v);
-    });
-  }
-  function transformOut(value) {
-    return props.returnObject ? value.map((_ref) => {
-      let {
-        raw
-      } = _ref;
-      return raw;
-    }) : value.map((_ref2) => {
-      let {
-        value: value2
-      } = _ref2;
-      return value2;
-    });
-  }
-  return {
-    items,
-    transformIn,
-    transformOut
-  };
-}
-function isPrimitive(value) {
-  return typeof value === "string" || typeof value === "number" || typeof value === "boolean";
-}
-function transformItem(props, item) {
-  const type = getPropertyFromItem(item, props.itemType, "item");
-  const title = isPrimitive(item) ? item : getPropertyFromItem(item, props.itemTitle);
-  const value = getPropertyFromItem(item, props.itemValue, void 0);
-  const children = getPropertyFromItem(item, props.itemChildren);
-  const itemProps = props.itemProps === true ? omit(item, ["children"]) : getPropertyFromItem(item, props.itemProps);
-  const _props = {
-    title,
-    value,
-    ...itemProps
-  };
-  return {
-    type,
-    title: _props.title,
-    value: _props.value,
-    props: _props,
-    children: type === "item" && children ? transformItems(props, children) : void 0,
-    raw: item
-  };
-}
-function transformItems(props, items) {
-  const array = [];
-  for (const item of items) {
-    array.push(transformItem(props, item));
-  }
-  return array;
-}
-function useListItems(props) {
-  const items = computed(() => transformItems(props, props.items));
-  return {
-    items
-  };
-}
-const makeVListProps = propsFactory({
-  baseColor: String,
-  /* @deprecated */
-  activeColor: String,
-  activeClass: String,
-  bgColor: String,
-  disabled: Boolean,
-  expandIcon: String,
-  collapseIcon: String,
-  lines: {
-    type: [Boolean, String],
-    default: "one"
-  },
-  slim: Boolean,
-  nav: Boolean,
-  ...makeNestedProps({
-    selectStrategy: "single-leaf",
-    openStrategy: "list"
-  }),
-  ...makeBorderProps(),
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeDimensionProps(),
-  ...makeElevationProps(),
-  itemType: {
-    type: String,
-    default: "type"
-  },
-  ...makeItemsProps(),
-  ...makeRoundedProps(),
-  ...makeTagProps(),
-  ...makeThemeProps(),
-  ...makeVariantProps({
-    variant: "text"
-  })
-}, "VList");
-const VList = genericComponent()({
-  name: "VList",
-  props: makeVListProps(),
-  emits: {
-    "update:selected": (value) => true,
-    "update:opened": (value) => true,
-    "click:open": (value) => true,
-    "click:select": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      items
-    } = useListItems(props);
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(toRef(props, "bgColor"));
-    const {
-      borderClasses
-    } = useBorder(props);
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      dimensionStyles
-    } = useDimension(props);
-    const {
-      elevationClasses
-    } = useElevation(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const {
-      open,
-      select
-    } = useNested(props);
-    const lineClasses = computed(() => props.lines ? `v-list--${props.lines}-line` : void 0);
-    const activeColor = toRef(props, "activeColor");
-    const baseColor = toRef(props, "baseColor");
-    const color = toRef(props, "color");
-    createList();
-    provideDefaults({
-      VListGroup: {
-        activeColor,
-        baseColor,
-        color,
-        expandIcon: toRef(props, "expandIcon"),
-        collapseIcon: toRef(props, "collapseIcon")
-      },
-      VListItem: {
-        activeClass: toRef(props, "activeClass"),
-        activeColor,
-        baseColor,
-        color,
-        density: toRef(props, "density"),
-        disabled: toRef(props, "disabled"),
-        lines: toRef(props, "lines"),
-        nav: toRef(props, "nav"),
-        slim: toRef(props, "slim"),
-        variant: toRef(props, "variant")
-      }
-    });
-    const isFocused = shallowRef(false);
-    const contentRef = ref();
-    function onFocusin(e) {
-      isFocused.value = true;
-    }
-    function onFocusout(e) {
-      isFocused.value = false;
-    }
-    function onFocus(e) {
-      var _a;
-      if (!isFocused.value && !(e.relatedTarget && ((_a = contentRef.value) == null ? void 0 : _a.contains(e.relatedTarget)))) focus();
-    }
-    function onKeydown(e) {
-      if (!contentRef.value) return;
-      if (e.key === "ArrowDown") {
-        focus("next");
-      } else if (e.key === "ArrowUp") {
-        focus("prev");
-      } else if (e.key === "Home") {
-        focus("first");
-      } else if (e.key === "End") {
-        focus("last");
-      } else {
-        return;
-      }
-      e.preventDefault();
-    }
-    function onMousedown(e) {
-      isFocused.value = true;
-    }
-    function focus(location2) {
-      if (contentRef.value) {
-        return focusChild(contentRef.value, location2);
-      }
-    }
-    useRender(() => {
-      return createVNode(props.tag, {
-        "ref": contentRef,
-        "class": ["v-list", {
-          "v-list--disabled": props.disabled,
-          "v-list--nav": props.nav,
-          "v-list--slim": props.slim
-        }, themeClasses.value, backgroundColorClasses.value, borderClasses.value, densityClasses.value, elevationClasses.value, lineClasses.value, roundedClasses.value, props.class],
-        "style": [backgroundColorStyles.value, dimensionStyles.value, props.style],
-        "tabindex": props.disabled || isFocused.value ? -1 : 0,
-        "role": "listbox",
-        "aria-activedescendant": void 0,
-        "onFocusin": onFocusin,
-        "onFocusout": onFocusout,
-        "onFocus": onFocus,
-        "onKeydown": onKeydown,
-        "onMousedown": onMousedown
-      }, {
-        default: () => [createVNode(VListChildren, {
-          "items": items.value,
-          "returnObject": props.returnObject
-        }, slots)]
-      });
-    });
-    return {
-      open,
-      select,
-      focus
-    };
-  }
-});
-const makeVMenuProps = propsFactory({
-  // TODO
-  // disableKeys: Boolean,
-  id: String,
-  ...omit(makeVOverlayProps({
-    closeDelay: 250,
-    closeOnContentClick: true,
-    locationStrategy: "connected",
-    openDelay: 300,
-    scrim: false,
-    scrollStrategy: "reposition",
-    transition: {
-      component: VDialogTransition
-    }
-  }), ["absolute"])
-}, "VMenu");
-const VMenu = genericComponent()({
-  name: "VMenu",
-  props: makeVMenuProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const isActive = useProxiedModel(props, "modelValue");
-    const {
-      scopeId
-    } = useScopeId();
-    const uid2 = getUid();
-    const id = computed(() => props.id || `v-menu-${uid2}`);
-    const overlay = ref();
-    const parent = inject$1(VMenuSymbol, null);
-    const openChildren = shallowRef(0);
-    provide(VMenuSymbol, {
-      register() {
-        ++openChildren.value;
-      },
-      unregister() {
-        --openChildren.value;
-      },
-      closeParents() {
-        setTimeout(() => {
-          if (!openChildren.value) {
-            isActive.value = false;
-            parent == null ? void 0 : parent.closeParents();
-          }
-        }, 40);
-      }
-    });
-    async function onFocusIn(e) {
-      var _a, _b, _c;
-      const before = e.relatedTarget;
-      const after = e.target;
-      await nextTick();
-      if (isActive.value && before !== after && ((_a = overlay.value) == null ? void 0 : _a.contentEl) && // We're the topmost menu
-      ((_b = overlay.value) == null ? void 0 : _b.globalTop) && // It isn't the document or the menu body
-      ![document, overlay.value.contentEl].includes(after) && // It isn't inside the menu body
-      !overlay.value.contentEl.contains(after)) {
-        const focusable = focusableChildren(overlay.value.contentEl);
-        (_c = focusable[0]) == null ? void 0 : _c.focus();
-      }
-    }
-    watch(isActive, (val) => {
-      if (val) {
-        parent == null ? void 0 : parent.register();
-        document.addEventListener("focusin", onFocusIn, {
-          once: true
-        });
-      } else {
-        parent == null ? void 0 : parent.unregister();
-        document.removeEventListener("focusin", onFocusIn);
-      }
-    });
-    function onClickOutside() {
-      parent == null ? void 0 : parent.closeParents();
-    }
-    function onKeydown(e) {
-      var _a, _b, _c;
-      if (props.disabled) return;
-      if (e.key === "Tab") {
-        const nextElement = getNextElement(focusableChildren((_a = overlay.value) == null ? void 0 : _a.contentEl, false), e.shiftKey ? "prev" : "next", (el) => el.tabIndex >= 0);
-        if (!nextElement) {
-          isActive.value = false;
-          (_c = (_b = overlay.value) == null ? void 0 : _b.activatorEl) == null ? void 0 : _c.focus();
-        }
-      }
-    }
-    function onActivatorKeydown(e) {
-      var _a;
-      if (props.disabled) return;
-      const el = (_a = overlay.value) == null ? void 0 : _a.contentEl;
-      if (el && isActive.value) {
-        if (e.key === "ArrowDown") {
-          e.preventDefault();
-          focusChild(el, "next");
-        } else if (e.key === "ArrowUp") {
-          e.preventDefault();
-          focusChild(el, "prev");
-        }
-      } else if (["ArrowDown", "ArrowUp"].includes(e.key)) {
-        isActive.value = true;
-        e.preventDefault();
-        setTimeout(() => setTimeout(() => onActivatorKeydown(e)));
-      }
-    }
-    const activatorProps = computed(() => mergeProps({
-      "aria-haspopup": "menu",
-      "aria-expanded": String(isActive.value),
-      "aria-owns": id.value,
-      onKeydown: onActivatorKeydown
-    }, props.activatorProps));
-    useRender(() => {
-      const overlayProps = VOverlay.filterProps(props);
-      return createVNode(VOverlay, mergeProps({
-        "ref": overlay,
-        "id": id.value,
-        "class": ["v-menu", props.class],
-        "style": props.style
-      }, overlayProps, {
-        "modelValue": isActive.value,
-        "onUpdate:modelValue": ($event) => isActive.value = $event,
-        "absolute": true,
-        "activatorProps": activatorProps.value,
-        "onClick:outside": onClickOutside,
-        "onKeydown": onKeydown
-      }, scopeId), {
-        activator: slots.activator,
-        default: function() {
-          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-          }
-          return createVNode(VDefaultsProvider, {
-            "root": "VMenu"
-          }, {
-            default: () => {
-              var _a;
-              return [(_a = slots.default) == null ? void 0 : _a.call(slots, ...args)];
-            }
-          });
-        }
-      });
-    });
-    return forwardRefs({
-      id,
-      ΨopenChildren: openChildren
-    }, overlay);
-  }
-});
-const makeVVirtualScrollItemProps = propsFactory({
-  renderless: Boolean,
-  ...makeComponentProps()
-}, "VVirtualScrollItem");
-const VVirtualScrollItem = genericComponent()({
-  name: "VVirtualScrollItem",
-  inheritAttrs: false,
-  props: makeVVirtualScrollItemProps(),
-  emits: {
-    "update:height": (height) => true
-  },
-  setup(props, _ref) {
-    let {
-      attrs,
-      emit: emit2,
-      slots
-    } = _ref;
-    const {
-      resizeRef,
-      contentRect
-    } = useResizeObserver(void 0, "border");
-    watch(() => {
-      var _a;
-      return (_a = contentRect.value) == null ? void 0 : _a.height;
-    }, (height) => {
-      if (height != null) emit2("update:height", height);
-    });
-    useRender(() => {
-      var _a, _b;
-      return props.renderless ? createVNode(Fragment, null, [(_a = slots.default) == null ? void 0 : _a.call(slots, {
-        itemRef: resizeRef
-      })]) : createVNode("div", mergeProps({
-        "ref": resizeRef,
-        "class": ["v-virtual-scroll__item", props.class],
-        "style": props.style
-      }, attrs), [(_b = slots.default) == null ? void 0 : _b.call(slots)]);
-    });
-  }
-});
-const UP = -1;
-const DOWN = 1;
-const BUFFER_PX = 100;
-const makeVirtualProps = propsFactory({
-  itemHeight: {
-    type: [Number, String],
-    default: null
-  },
-  height: [Number, String]
-}, "virtual");
-function useVirtual(props, items) {
-  const display = useDisplay();
-  const itemHeight = shallowRef(0);
-  watchEffect(() => {
-    itemHeight.value = parseFloat(props.itemHeight || 0);
-  });
-  const first = shallowRef(0);
-  const last = shallowRef(Math.ceil(
-    // Assume 16px items filling the entire screen height if
-    // not provided. This is probably incorrect but it minimises
-    // the chance of ending up with empty space at the bottom.
-    // The default value is set here to avoid poisoning getSize()
-    (parseInt(props.height) || display.height.value) / (itemHeight.value || 16)
-  ) || 1);
-  const paddingTop = shallowRef(0);
-  const paddingBottom = shallowRef(0);
-  const containerRef = ref();
-  const markerRef = ref();
-  let markerOffset = 0;
-  const {
-    resizeRef,
-    contentRect
-  } = useResizeObserver();
-  watchEffect(() => {
-    resizeRef.value = containerRef.value;
-  });
-  const viewportHeight = computed(() => {
-    var _a;
-    return containerRef.value === document.documentElement ? display.height.value : ((_a = contentRect.value) == null ? void 0 : _a.height) || parseInt(props.height) || 0;
-  });
-  const hasInitialRender = computed(() => {
-    return !!(containerRef.value && markerRef.value && viewportHeight.value && itemHeight.value);
-  });
-  let sizes = Array.from({
-    length: items.value.length
-  });
-  let offsets = Array.from({
-    length: items.value.length
-  });
-  const updateTime = shallowRef(0);
-  let targetScrollIndex = -1;
-  function getSize(index) {
-    return sizes[index] || itemHeight.value;
-  }
-  const updateOffsets = debounce(() => {
-    const start = performance.now();
-    offsets[0] = 0;
-    const length = items.value.length;
-    for (let i = 1; i <= length - 1; i++) {
-      offsets[i] = (offsets[i - 1] || 0) + getSize(i - 1);
-    }
-    updateTime.value = Math.max(updateTime.value, performance.now() - start);
-  }, updateTime);
-  const unwatch = watch(hasInitialRender, (v) => {
-    if (!v) return;
-    unwatch();
-    markerOffset = markerRef.value.offsetTop;
-    updateOffsets.immediate();
-    calculateVisibleItems();
-    if (!~targetScrollIndex) return;
-    nextTick(() => {
-      IN_BROWSER && window.requestAnimationFrame(() => {
-        scrollToIndex(targetScrollIndex);
-        targetScrollIndex = -1;
-      });
-    });
-  });
-  watch(viewportHeight, (val, oldVal) => {
-    oldVal && calculateVisibleItems();
-  });
-  onScopeDispose(() => {
-    updateOffsets.clear();
-  });
-  function handleItemResize(index, height) {
-    const prevHeight = sizes[index];
-    const prevMinHeight = itemHeight.value;
-    itemHeight.value = prevMinHeight ? Math.min(itemHeight.value, height) : height;
-    if (prevHeight !== height || prevMinHeight !== itemHeight.value) {
-      sizes[index] = height;
-      updateOffsets();
-    }
-  }
-  function calculateOffset(index) {
-    index = clamp(index, 0, items.value.length - 1);
-    return offsets[index] || 0;
-  }
-  function calculateIndex(scrollTop) {
-    return binaryClosest(offsets, scrollTop);
-  }
-  let lastScrollTop = 0;
-  let scrollVelocity = 0;
-  let lastScrollTime = 0;
-  function handleScroll() {
-    if (!containerRef.value || !markerRef.value) return;
-    const scrollTop = containerRef.value.scrollTop;
-    const scrollTime = performance.now();
-    const scrollDeltaT = scrollTime - lastScrollTime;
-    if (scrollDeltaT > 500) {
-      scrollVelocity = Math.sign(scrollTop - lastScrollTop);
-      markerOffset = markerRef.value.offsetTop;
-    } else {
-      scrollVelocity = scrollTop - lastScrollTop;
-    }
-    lastScrollTop = scrollTop;
-    lastScrollTime = scrollTime;
-    calculateVisibleItems();
-  }
-  function handleScrollend() {
-    if (!containerRef.value || !markerRef.value) return;
-    scrollVelocity = 0;
-    lastScrollTime = 0;
-    calculateVisibleItems();
-  }
-  let raf2 = -1;
-  function calculateVisibleItems() {
-    cancelAnimationFrame(raf2);
-    raf2 = requestAnimationFrame(_calculateVisibleItems);
-  }
-  function _calculateVisibleItems() {
-    if (!containerRef.value || !viewportHeight.value) return;
-    const scrollTop = lastScrollTop - markerOffset;
-    const direction = Math.sign(scrollVelocity);
-    const startPx = Math.max(0, scrollTop - BUFFER_PX);
-    const start = clamp(calculateIndex(startPx), 0, items.value.length);
-    const endPx = scrollTop + viewportHeight.value + BUFFER_PX;
-    const end = clamp(calculateIndex(endPx) + 1, start + 1, items.value.length);
-    if (
-      // Only update the side we're scrolling towards,
-      // the other side will be updated incidentally
-      (direction !== UP || start < first.value) && (direction !== DOWN || end > last.value)
-    ) {
-      const topOverflow = calculateOffset(first.value) - calculateOffset(start);
-      const bottomOverflow = calculateOffset(end) - calculateOffset(last.value);
-      const bufferOverflow = Math.max(topOverflow, bottomOverflow);
-      if (bufferOverflow > BUFFER_PX) {
-        first.value = start;
-        last.value = end;
-      } else {
-        if (start <= 0) first.value = start;
-        if (end >= items.value.length) last.value = end;
-      }
-    }
-    paddingTop.value = calculateOffset(first.value);
-    paddingBottom.value = calculateOffset(items.value.length) - calculateOffset(last.value);
-  }
-  function scrollToIndex(index) {
-    const offset = calculateOffset(index);
-    if (!containerRef.value || index && !offset) {
-      targetScrollIndex = index;
-    } else {
-      containerRef.value.scrollTop = offset;
-    }
-  }
-  const computedItems = computed(() => {
-    return items.value.slice(first.value, last.value).map((item, index) => ({
-      raw: item,
-      index: index + first.value
-    }));
-  });
-  watch(items, () => {
-    sizes = Array.from({
-      length: items.value.length
-    });
-    offsets = Array.from({
-      length: items.value.length
-    });
-    updateOffsets.immediate();
-    calculateVisibleItems();
-  }, {
-    deep: true
-  });
-  return {
-    containerRef,
-    markerRef,
-    computedItems,
-    paddingTop,
-    paddingBottom,
-    scrollToIndex,
-    handleScroll,
-    handleScrollend,
-    handleItemResize
-  };
-}
-function binaryClosest(arr, val) {
-  let high = arr.length - 1;
-  let low = 0;
-  let mid = 0;
-  let item = null;
-  let target = -1;
-  if (arr[high] < val) {
-    return high;
-  }
-  while (low <= high) {
-    mid = low + high >> 1;
-    item = arr[mid];
-    if (item > val) {
-      high = mid - 1;
-    } else if (item < val) {
-      target = mid;
-      low = mid + 1;
-    } else if (item === val) {
-      return mid;
-    } else {
-      return low;
-    }
-  }
-  return target;
-}
-const makeVVirtualScrollProps = propsFactory({
-  items: {
-    type: Array,
-    default: () => []
-  },
-  renderless: Boolean,
-  ...makeVirtualProps(),
-  ...makeComponentProps(),
-  ...makeDimensionProps()
-}, "VVirtualScroll");
-const VVirtualScroll = genericComponent()({
-  name: "VVirtualScroll",
-  props: makeVVirtualScrollProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const vm = getCurrentInstance("VVirtualScroll");
-    const {
-      dimensionStyles
-    } = useDimension(props);
-    const {
-      containerRef,
-      markerRef,
-      handleScroll,
-      handleScrollend,
-      handleItemResize,
-      scrollToIndex,
-      paddingTop,
-      paddingBottom,
-      computedItems
-    } = useVirtual(props, toRef(props, "items"));
-    useToggleScope(() => props.renderless, () => {
-      function handleListeners() {
-        var _a, _b;
-        let add2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : false;
-        const method = add2 ? "addEventListener" : "removeEventListener";
-        if (containerRef.value === document.documentElement) {
-          document[method]("scroll", handleScroll, {
-            passive: true
-          });
-          document[method]("scrollend", handleScrollend);
-        } else {
-          (_a = containerRef.value) == null ? void 0 : _a[method]("scroll", handleScroll, {
-            passive: true
-          });
-          (_b = containerRef.value) == null ? void 0 : _b[method]("scrollend", handleScrollend);
-        }
-      }
-      onMounted(() => {
-        containerRef.value = getScrollParent(vm.vnode.el, true);
-        handleListeners(true);
-      });
-      onScopeDispose(handleListeners);
-    });
-    useRender(() => {
-      const children = computedItems.value.map((item) => createVNode(VVirtualScrollItem, {
-        "key": item.index,
-        "renderless": props.renderless,
-        "onUpdate:height": (height) => handleItemResize(item.index, height)
-      }, {
-        default: (slotProps) => {
-          var _a;
-          return (_a = slots.default) == null ? void 0 : _a.call(slots, {
-            item: item.raw,
-            index: item.index,
-            ...slotProps
-          });
-        }
-      }));
-      return props.renderless ? createVNode(Fragment, null, [createVNode("div", {
-        "ref": markerRef,
-        "class": "v-virtual-scroll__spacer",
-        "style": {
-          paddingTop: convertToUnit(paddingTop.value)
-        }
-      }, null), children, createVNode("div", {
-        "class": "v-virtual-scroll__spacer",
-        "style": {
-          paddingBottom: convertToUnit(paddingBottom.value)
-        }
-      }, null)]) : createVNode("div", {
-        "ref": containerRef,
-        "class": ["v-virtual-scroll", props.class],
-        "onScrollPassive": handleScroll,
-        "onScrollend": handleScrollend,
-        "style": [dimensionStyles.value, props.style]
-      }, [createVNode("div", {
-        "ref": markerRef,
-        "class": "v-virtual-scroll__container",
-        "style": {
-          paddingTop: convertToUnit(paddingTop.value),
-          paddingBottom: convertToUnit(paddingBottom.value)
-        }
-      }, [children])]);
-    });
-    return {
-      scrollToIndex
-    };
-  }
-});
-function useScrolling(listRef, textFieldRef) {
-  const isScrolling = shallowRef(false);
-  let scrollTimeout;
-  function onListScroll(e) {
-    cancelAnimationFrame(scrollTimeout);
-    isScrolling.value = true;
-    scrollTimeout = requestAnimationFrame(() => {
-      scrollTimeout = requestAnimationFrame(() => {
-        isScrolling.value = false;
-      });
-    });
-  }
-  async function finishScrolling() {
-    await new Promise((resolve2) => requestAnimationFrame(resolve2));
-    await new Promise((resolve2) => requestAnimationFrame(resolve2));
-    await new Promise((resolve2) => requestAnimationFrame(resolve2));
-    await new Promise((resolve2) => {
-      if (isScrolling.value) {
-        const stop = watch(isScrolling, () => {
-          stop();
-          resolve2();
-        });
-      } else resolve2();
-    });
-  }
-  async function onListKeydown(e) {
-    var _a, _b;
-    if (e.key === "Tab") {
-      (_a = textFieldRef.value) == null ? void 0 : _a.focus();
-    }
-    if (!["PageDown", "PageUp", "Home", "End"].includes(e.key)) return;
-    const el = (_b = listRef.value) == null ? void 0 : _b.$el;
-    if (!el) return;
-    if (e.key === "Home" || e.key === "End") {
-      el.scrollTo({
-        top: e.key === "Home" ? 0 : el.scrollHeight,
-        behavior: "smooth"
-      });
-    }
-    await finishScrolling();
-    const children = el.querySelectorAll(":scope > :not(.v-virtual-scroll__spacer)");
-    if (e.key === "PageDown" || e.key === "Home") {
-      const top = el.getBoundingClientRect().top;
-      for (const child of children) {
-        if (child.getBoundingClientRect().top >= top) {
-          child.focus();
-          break;
-        }
-      }
-    } else {
-      const bottom = el.getBoundingClientRect().bottom;
-      for (const child of [...children].reverse()) {
-        if (child.getBoundingClientRect().bottom <= bottom) {
-          child.focus();
-          break;
-        }
-      }
-    }
-  }
-  return {
-    onListScroll,
-    onListKeydown
-  };
-}
-const makeSelectProps = propsFactory({
-  chips: Boolean,
-  closableChips: Boolean,
-  closeText: {
-    type: String,
-    default: "$vuetify.close"
-  },
-  openText: {
-    type: String,
-    default: "$vuetify.open"
-  },
-  eager: Boolean,
-  hideNoData: Boolean,
-  hideSelected: Boolean,
-  listProps: {
-    type: Object
-  },
-  menu: Boolean,
-  menuIcon: {
-    type: IconValue,
-    default: "$dropdown"
-  },
-  menuProps: {
-    type: Object
-  },
-  multiple: Boolean,
-  noDataText: {
-    type: String,
-    default: "$vuetify.noDataText"
-  },
-  openOnClear: Boolean,
-  itemColor: String,
-  ...makeItemsProps({
-    itemChildren: false
-  })
-}, "Select");
-const makeVSelectProps = propsFactory({
-  ...makeSelectProps(),
-  ...omit(makeVTextFieldProps({
-    modelValue: null,
-    role: "combobox"
-  }), ["validationValue", "dirty", "appendInnerIcon"]),
-  ...makeTransitionProps({
-    transition: {
-      component: VDialogTransition
-    }
-  })
-}, "VSelect");
-const VSelect = genericComponent()({
-  name: "VSelect",
-  props: makeVSelectProps(),
-  emits: {
-    "update:focused": (focused) => true,
-    "update:modelValue": (value) => true,
-    "update:menu": (ue) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      t
-    } = useLocale();
-    const vTextFieldRef = ref();
-    const vMenuRef = ref();
-    const vVirtualScrollRef = ref();
-    const _menu = useProxiedModel(props, "menu");
-    const menu = computed({
-      get: () => _menu.value,
-      set: (v) => {
-        var _a;
-        if (_menu.value && !v && ((_a = vMenuRef.value) == null ? void 0 : _a.ΨopenChildren)) return;
-        _menu.value = v;
-      }
-    });
-    const {
-      items,
-      transformIn,
-      transformOut
-    } = useItems(props);
-    const model = useProxiedModel(props, "modelValue", [], (v) => transformIn(v === null ? [null] : wrapInArray(v)), (v) => {
-      const transformed = transformOut(v);
-      return props.multiple ? transformed : transformed[0] ?? null;
-    });
-    const counterValue = computed(() => {
-      return typeof props.counterValue === "function" ? props.counterValue(model.value) : typeof props.counterValue === "number" ? props.counterValue : model.value.length;
-    });
-    const form = useForm();
-    const selectedValues = computed(() => model.value.map((selection) => selection.value));
-    const isFocused = shallowRef(false);
-    const label = computed(() => menu.value ? props.closeText : props.openText);
-    let keyboardLookupPrefix = "";
-    let keyboardLookupLastTime;
-    const displayItems = computed(() => {
-      if (props.hideSelected) {
-        return items.value.filter((item) => !model.value.some((s) => s === item));
-      }
-      return items.value;
-    });
-    const menuDisabled = computed(() => props.hideNoData && !displayItems.value.length || props.readonly || (form == null ? void 0 : form.isReadonly.value));
-    const computedMenuProps = computed(() => {
-      var _a;
-      return {
-        ...props.menuProps,
-        activatorProps: {
-          ...((_a = props.menuProps) == null ? void 0 : _a.activatorProps) || {},
-          "aria-haspopup": "listbox"
-          // Set aria-haspopup to 'listbox'
-        }
-      };
-    });
-    const listRef = ref();
-    const {
-      onListScroll,
-      onListKeydown
-    } = useScrolling(listRef, vTextFieldRef);
-    function onClear(e) {
-      if (props.openOnClear) {
-        menu.value = true;
-      }
-    }
-    function onMousedownControl() {
-      if (menuDisabled.value) return;
-      menu.value = !menu.value;
-    }
-    function onKeydown(e) {
-      var _a, _b;
-      if (!e.key || props.readonly || (form == null ? void 0 : form.isReadonly.value)) return;
-      if (["Enter", " ", "ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) {
-        e.preventDefault();
-      }
-      if (["Enter", "ArrowDown", " "].includes(e.key)) {
-        menu.value = true;
-      }
-      if (["Escape", "Tab"].includes(e.key)) {
-        menu.value = false;
-      }
-      if (e.key === "Home") {
-        (_a = listRef.value) == null ? void 0 : _a.focus("first");
-      } else if (e.key === "End") {
-        (_b = listRef.value) == null ? void 0 : _b.focus("last");
-      }
-      const KEYBOARD_LOOKUP_THRESHOLD = 1e3;
-      function checkPrintable(e2) {
-        const isPrintableChar = e2.key.length === 1;
-        const noModifier = !e2.ctrlKey && !e2.metaKey && !e2.altKey;
-        return isPrintableChar && noModifier;
-      }
-      if (props.multiple || !checkPrintable(e)) return;
-      const now = performance.now();
-      if (now - keyboardLookupLastTime > KEYBOARD_LOOKUP_THRESHOLD) {
-        keyboardLookupPrefix = "";
-      }
-      keyboardLookupPrefix += e.key.toLowerCase();
-      keyboardLookupLastTime = now;
-      const item = items.value.find((item2) => item2.title.toLowerCase().startsWith(keyboardLookupPrefix));
-      if (item !== void 0) {
-        model.value = [item];
-      }
-    }
-    function select(item) {
-      if (props.multiple) {
-        const index = model.value.findIndex((selection) => props.valueComparator(selection.value, item.value));
-        if (index === -1) {
-          model.value = [...model.value, item];
-        } else {
-          const value = [...model.value];
-          value.splice(index, 1);
-          model.value = value;
-        }
-      } else {
-        model.value = [item];
-        menu.value = false;
-      }
-    }
-    function onBlur(e) {
-      var _a;
-      if (!((_a = listRef.value) == null ? void 0 : _a.$el.contains(e.relatedTarget))) {
-        menu.value = false;
-      }
-    }
-    function onAfterLeave() {
-      var _a;
-      if (isFocused.value) {
-        (_a = vTextFieldRef.value) == null ? void 0 : _a.focus();
-      }
-    }
-    function onFocusin(e) {
-      isFocused.value = true;
-    }
-    function onModelUpdate(v) {
-      if (v == null) model.value = [];
-      else if (matchesSelector(vTextFieldRef.value, ":autofill") || matchesSelector(vTextFieldRef.value, ":-webkit-autofill")) {
-        const item = items.value.find((item2) => item2.title === v);
-        if (item) {
-          select(item);
-        }
-      } else if (vTextFieldRef.value) {
-        vTextFieldRef.value.value = "";
-      }
-    }
-    watch(menu, () => {
-      if (!props.hideSelected && menu.value && model.value.length) {
-        const index = displayItems.value.findIndex((item) => model.value.some((s) => props.valueComparator(s.value, item.value)));
-        IN_BROWSER && window.requestAnimationFrame(() => {
-          var _a;
-          index >= 0 && ((_a = vVirtualScrollRef.value) == null ? void 0 : _a.scrollToIndex(index));
-        });
-      }
-    });
-    watch(displayItems, (val, oldVal) => {
-      if (!isFocused.value) return;
-      if (!val.length && props.hideNoData) {
-        menu.value = false;
-      }
-      if (!oldVal.length && val.length) {
-        menu.value = true;
-      }
-    });
-    useRender(() => {
-      const hasChips = !!(props.chips || slots.chip);
-      const hasList = !!(!props.hideNoData || displayItems.value.length || slots["prepend-item"] || slots["append-item"] || slots["no-data"]);
-      const isDirty = model.value.length > 0;
-      const textFieldProps = VTextField.filterProps(props);
-      const placeholder = isDirty || !isFocused.value && props.label && !props.persistentPlaceholder ? void 0 : props.placeholder;
-      return createVNode(VTextField, mergeProps({
-        "ref": vTextFieldRef
-      }, textFieldProps, {
-        "modelValue": model.value.map((v) => v.props.value).join(", "),
-        "onUpdate:modelValue": onModelUpdate,
-        "focused": isFocused.value,
-        "onUpdate:focused": ($event) => isFocused.value = $event,
-        "validationValue": model.externalValue,
-        "counterValue": counterValue.value,
-        "dirty": isDirty,
-        "class": ["v-select", {
-          "v-select--active-menu": menu.value,
-          "v-select--chips": !!props.chips,
-          [`v-select--${props.multiple ? "multiple" : "single"}`]: true,
-          "v-select--selected": model.value.length,
-          "v-select--selection-slot": !!slots.selection
-        }, props.class],
-        "style": props.style,
-        "inputmode": "none",
-        "placeholder": placeholder,
-        "onClick:clear": onClear,
-        "onMousedown:control": onMousedownControl,
-        "onBlur": onBlur,
-        "onKeydown": onKeydown,
-        "aria-label": t(label.value),
-        "title": t(label.value)
-      }), {
-        ...slots,
-        default: () => createVNode(Fragment, null, [createVNode(VMenu, mergeProps({
-          "ref": vMenuRef,
-          "modelValue": menu.value,
-          "onUpdate:modelValue": ($event) => menu.value = $event,
-          "activator": "parent",
-          "contentClass": "v-select__content",
-          "disabled": menuDisabled.value,
-          "eager": props.eager,
-          "maxHeight": 310,
-          "openOnClick": false,
-          "closeOnContentClick": false,
-          "transition": props.transition,
-          "onAfterLeave": onAfterLeave
-        }, computedMenuProps.value), {
-          default: () => [hasList && createVNode(VList, mergeProps({
-            "ref": listRef,
-            "selected": selectedValues.value,
-            "selectStrategy": props.multiple ? "independent" : "single-independent",
-            "onMousedown": (e) => e.preventDefault(),
-            "onKeydown": onListKeydown,
-            "onFocusin": onFocusin,
-            "onScrollPassive": onListScroll,
-            "tabindex": "-1",
-            "aria-live": "polite",
-            "color": props.itemColor ?? props.color
-          }, props.listProps), {
-            default: () => {
-              var _a, _b, _c;
-              return [(_a = slots["prepend-item"]) == null ? void 0 : _a.call(slots), !displayItems.value.length && !props.hideNoData && (((_b = slots["no-data"]) == null ? void 0 : _b.call(slots)) ?? createVNode(VListItem, {
-                "title": t(props.noDataText)
-              }, null)), createVNode(VVirtualScroll, {
-                "ref": vVirtualScrollRef,
-                "renderless": true,
-                "items": displayItems.value
-              }, {
-                default: (_ref2) => {
-                  var _a2;
-                  let {
-                    item,
-                    index,
-                    itemRef
-                  } = _ref2;
-                  const itemProps = mergeProps(item.props, {
-                    ref: itemRef,
-                    key: index,
-                    onClick: () => select(item)
-                  });
-                  return ((_a2 = slots.item) == null ? void 0 : _a2.call(slots, {
-                    item,
-                    index,
-                    props: itemProps
-                  })) ?? createVNode(VListItem, mergeProps(itemProps, {
-                    "role": "option"
-                  }), {
-                    prepend: (_ref3) => {
-                      let {
-                        isSelected
-                      } = _ref3;
-                      return createVNode(Fragment, null, [props.multiple && !props.hideSelected ? createVNode(VCheckboxBtn, {
-                        "key": item.value,
-                        "modelValue": isSelected,
-                        "ripple": false,
-                        "tabindex": "-1"
-                      }, null) : void 0, item.props.prependAvatar && createVNode(VAvatar, {
-                        "image": item.props.prependAvatar
-                      }, null), item.props.prependIcon && createVNode(VIcon, {
-                        "icon": item.props.prependIcon
-                      }, null)]);
-                    }
-                  });
-                }
-              }), (_c = slots["append-item"]) == null ? void 0 : _c.call(slots)];
-            }
-          })]
-        }), model.value.map((item, index) => {
-          function onChipClose(e) {
-            e.stopPropagation();
-            e.preventDefault();
-            select(item);
-          }
-          const slotProps = {
-            "onClick:close": onChipClose,
-            onMousedown(e) {
-              e.preventDefault();
-              e.stopPropagation();
-            },
-            modelValue: true,
-            "onUpdate:modelValue": void 0
-          };
-          const hasSlot = hasChips ? !!slots.chip : !!slots.selection;
-          const slotContent = hasSlot ? ensureValidVNode(hasChips ? slots.chip({
-            item,
-            index,
-            props: slotProps
-          }) : slots.selection({
-            item,
-            index
-          })) : void 0;
-          if (hasSlot && !slotContent) return void 0;
-          return createVNode("div", {
-            "key": item.value,
-            "class": "v-select__selection"
-          }, [hasChips ? !slots.chip ? createVNode(VChip, mergeProps({
-            "key": "chip",
-            "closable": props.closableChips,
-            "size": "small",
-            "text": item.title,
-            "disabled": item.props.disabled
-          }, slotProps), null) : createVNode(VDefaultsProvider, {
-            "key": "chip-defaults",
-            "defaults": {
-              VChip: {
-                closable: props.closableChips,
-                size: "small",
-                text: item.title
-              }
-            }
-          }, {
-            default: () => [slotContent]
-          }) : slotContent ?? createVNode("span", {
-            "class": "v-select__selection-text"
-          }, [item.title, props.multiple && index < model.value.length - 1 && createVNode("span", {
-            "class": "v-select__selection-comma"
-          }, [createTextVNode(",")])])]);
-        })]),
-        "append-inner": function() {
-          var _a;
-          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-          }
-          return createVNode(Fragment, null, [(_a = slots["append-inner"]) == null ? void 0 : _a.call(slots, ...args), props.menuIcon ? createVNode(VIcon, {
-            "class": "v-select__menu-icon",
-            "icon": props.menuIcon
-          }, null) : void 0]);
-        }
-      });
-    });
-    return forwardRefs({
-      isFocused,
-      menu,
-      select
-    }, vTextFieldRef);
-  }
-});
-const _hoisted_1$3 = { class: "text-h5 text-center" };
-const _hoisted_2$3 = { class: "text-h5 my-3 text-left" };
-const _hoisted_3$2 = { class: "text-h5 my-3 text-left" };
-const _hoisted_4$2 = { class: "d-flex align-center" };
-const _hoisted_5$2 = { class: "text-h5 my-3 text-left" };
-const _hoisted_6$2 = { class: "text-h5 my-3 text-left" };
-const _hoisted_7$2 = { class: "text-h5 my-3 text-left" };
-const _hoisted_8$1 = { class: "text-h5 my-3 text-left" };
-const _hoisted_9 = { class: "text-h5 my-3 text-left" };
-const _hoisted_10 = { class: "d-flex justify-center" };
-const _sfc_main$3 = /* @__PURE__ */ defineComponent$1({
-  __name: "ManualRequest",
-  setup(__props) {
-    const { smAndDown } = useDisplay();
-    const paramsFormElement = ref(null);
-    const isEditing = ref(false);
-    const { t } = useI18n();
-    const items = ref([]);
-    const currentRequestBean = ref(null);
-    const paymentModes = computed(() => {
-      return [
-        {
-          title: t("label.payment.with.redirect"),
-          value: PaymentMode.Redirect
-        },
-        {
-          title: t("label.payment.with.modal.iframe"),
-          value: PaymentMode.ModalIframe
-        },
-        {
-          title: t("label.payment.with.built.in.iframe"),
-          value: PaymentMode.BuiltInIframe
-        }
-      ];
-    });
-    const switchRequestBean = (next = true) => {
-      const currentIndex = items.value.findIndex((item) => {
-        var _a;
-        return item.id === ((_a = currentRequestBean.value) == null ? void 0 : _a.id);
-      });
-      if (next) {
-        if (currentIndex === items.value.length - 1) {
-          currentRequestBean.value = { ...items.value[0] };
-        } else {
-          currentRequestBean.value = { ...items.value[currentIndex + 1] };
-        }
-      } else {
-        if (currentIndex === 0) {
-          currentRequestBean.value = { ...items.value[items.value.length - 1] };
-        } else {
-          currentRequestBean.value = { ...items.value[currentIndex - 1] };
-        }
-      }
-    };
-    const onCancel = () => {
-      isEditing.value = false;
-      const itemIndex = items.value.findIndex((item) => {
-        var _a;
-        return item.id === ((_a = currentRequestBean.value) == null ? void 0 : _a.id);
-      });
-      if (itemIndex === -1) {
-        currentRequestBean.value = { ...items.value[0] };
-        return;
-      }
-      currentRequestBean.value = { ...items.value[itemIndex] };
-    };
-    const addNewItem = () => {
-      currentRequestBean.value = createRequestBean();
-      isEditing.value = true;
-    };
-    const removeItem = () => {
-      if (!currentRequestBean.value) {
-        return;
-      }
-      const itemIndex = items.value.findIndex((item) => {
-        var _a;
-        return item.id === ((_a = currentRequestBean.value) == null ? void 0 : _a.id);
-      });
-      if (itemIndex === -1) {
-        return;
-      }
-      const requestBeans = deleteRequestBean(currentRequestBean.value.id);
-      if (requestBeans.length === 0) {
-        currentRequestBean.value = null;
-        return;
-      }
-      currentRequestBean.value = { ...requestBeans[0] };
-    };
-    const onSaveRequestItem = async () => {
-      const vForm = paramsFormElement.value;
-      const { valid } = await vForm.validate();
-      if (!valid) {
-        return;
-      }
-      isEditing.value = false;
-      const value = currentRequestBean.value;
-      if (!value) {
-        return;
-      }
-      items.value = updateRequestBean(value);
-    };
-    const submitPaymentWithManualParams = () => {
-      if (isEditing.value) {
-        return;
-      }
-      if (!currentRequestBean.value) {
-        return;
-      }
-      submitPaymentManual(currentRequestBean.value);
-    };
-    const isSwitchBackDisabled = computed(() => {
-      return items.value.length === 1 || isEditing.value || !currentRequestBean.value || currentRequestBean.value.id === items.value[0].id;
-    });
-    const isSwitchForwardDisabled = computed(() => {
-      return items.value.length === 1 || isEditing.value || !currentRequestBean.value || currentRequestBean.value.id === items.value[items.value.length - 1].id;
-    });
-    const updateOrderId = () => {
-      if (!currentRequestBean.value) {
-        return;
-      }
-      currentRequestBean.value = {
-        ...currentRequestBean.value,
-        orderId: Date.now().toString()
-      };
-    };
-    onMounted(() => {
-      items.value = fetchRequestBeans();
-      currentRequestBean.value = { ...items.value[0] };
-    });
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(VRow, null, {
-        default: withCtx(() => [
-          createVNode(VCol, { cols: "12" }, {
-            default: withCtx(() => [
-              createBaseVNode("div", {
-                class: normalizeClass(["d-flex align-center justify-space-between mb-5", { "flex-column": unref(smAndDown), "text-center": unref(smAndDown) }])
-              }, [
-                createBaseVNode("div", {
-                  class: normalizeClass({ "mb-5": unref(smAndDown) })
-                }, [
-                  createVNode(VBtn, {
-                    size: "small",
-                    color: "primary",
-                    type: "button",
-                    variant: "outlined",
-                    icon: "",
-                    title: _ctx.$t("title.previous.form"),
-                    class: "mr-5",
-                    disabled: isSwitchBackDisabled.value,
-                    onClick: _cache[0] || (_cache[0] = ($event) => switchRequestBean(false))
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(IconChevronLeft), { size: "24" })
-                    ]),
-                    _: 1
-                  }, 8, ["title", "disabled"]),
-                  createVNode(VBtn, {
-                    size: "small",
-                    color: "primary",
-                    type: "button",
-                    variant: "outlined",
-                    icon: "",
-                    title: _ctx.$t("title.next.form"),
-                    disabled: isSwitchForwardDisabled.value,
-                    onClick: switchRequestBean
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(IconChevronRight), { size: "24" })
-                    ]),
-                    _: 1
-                  }, 8, ["title", "disabled"])
-                ], 2),
-                createBaseVNode("h4", _hoisted_1$3, toDisplayString$1(_ctx.$t("text.manual.request.params.form")), 1),
-                createBaseVNode("div", null, [
-                  createVNode(VBtn, {
-                    class: "mr-4",
-                    color: "primary",
-                    type: "button",
-                    variant: "outlined",
-                    disabled: isEditing.value,
-                    onClick: addNewItem
-                  }, {
-                    default: withCtx(() => [
-                      createTextVNode(toDisplayString$1(_ctx.$t("action.add.new.form")), 1)
-                    ]),
-                    _: 1
-                  }, 8, ["disabled"]),
-                  createVNode(VBtn, {
-                    color: "error",
-                    type: "button",
-                    variant: "outlined",
-                    disabled: isEditing.value || items.value.length === 1,
-                    onClick: removeItem
-                  }, {
-                    default: withCtx(() => [
-                      createTextVNode(toDisplayString$1(_ctx.$t("action.remove.form")), 1)
-                    ]),
-                    _: 1
-                  }, 8, ["disabled"])
-                ])
-              ], 2),
-              currentRequestBean.value ? (openBlock(), createBlock(VForm, {
-                key: 0,
-                ref_key: "paramsFormElement",
-                ref: paramsFormElement,
-                onSubmit: withModifiers(onSaveRequestItem, ["prevent"])
-              }, {
-                default: withCtx(() => [
-                  createBaseVNode("h3", _hoisted_2$3, toDisplayString$1(_ctx.$t("text.form.params")), 1),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "4"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.label,
-                            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => currentRequestBean.value.label = $event),
-                            readonly: !isEditing.value,
-                            rules: [unref(rules).required],
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.form.name"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "rules", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "4"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.url,
-                            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => currentRequestBean.value.url = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.request.url"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "4"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VSelect, {
-                            modelValue: currentRequestBean.value.mode,
-                            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => currentRequestBean.value.mode = $event),
-                            readonly: !isEditing.value,
-                            rules: [unref(rules).required],
-                            "hide-details": "auto",
-                            items: paymentModes.value,
-                            label: _ctx.$t("label.payment.mode"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "rules", "items", "label"])
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createBaseVNode("h3", _hoisted_3$2, toDisplayString$1(_ctx.$t("text.merchant")), 1),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "4"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.merchantId,
-                            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => currentRequestBean.value.merchantId = $event),
-                            readonly: !isEditing.value,
-                            rules: [unref(rules).required],
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.merchant.id"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "rules", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "4"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.merchantTerminalId,
-                            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => currentRequestBean.value.merchantTerminalId = $event),
-                            readonly: !isEditing.value,
-                            rules: [unref(rules).required],
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.terminal.id"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "rules", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "4"
-                      }, {
-                        default: withCtx(() => [
-                          createBaseVNode("div", _hoisted_4$2, [
-                            createVNode(VTextField, {
-                              modelValue: currentRequestBean.value.orderId,
-                              "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => currentRequestBean.value.orderId = $event),
-                              readonly: !isEditing.value,
-                              "hide-details": "auto",
-                              label: _ctx.$t("label.order.id"),
-                              variant: "outlined",
-                              class: "mr-2"
-                            }, null, 8, ["modelValue", "readonly", "label"]),
-                            createVNode(VBtn, {
-                              color: "primary",
-                              type: "button",
-                              variant: "outlined",
-                              onClick: updateOrderId
-                            }, {
-                              default: withCtx(() => [
-                                createTextVNode(toDisplayString$1(_ctx.$t("action.update.order.id")), 1)
-                              ]),
-                              _: 1
-                            })
-                          ])
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createBaseVNode("h3", _hoisted_5$2, toDisplayString$1(_ctx.$t("text.currency")), 1),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "6"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.currencyNumericCode,
-                            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => currentRequestBean.value.currencyNumericCode = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.currency.numeric.code"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "6"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.altCurrencyNumericCode,
-                            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => currentRequestBean.value.altCurrencyNumericCode = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.currency.numeric.code.alternative"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createBaseVNode("h3", _hoisted_6$2, toDisplayString$1(_ctx.$t("text.fee")), 1),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "6"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.feeCents,
-                            "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => currentRequestBean.value.feeCents = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.fee.cents"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "6"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.altFeeCents,
-                            "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => currentRequestBean.value.altFeeCents = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.alternative.fee.cents"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createBaseVNode("h3", _hoisted_7$2, toDisplayString$1(_ctx.$t("text.total.amount")), 1),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "6"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.totalAmountCents,
-                            "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => currentRequestBean.value.totalAmountCents = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.total.amount.cents"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "6"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.altTotalAmountCents,
-                            "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => currentRequestBean.value.altTotalAmountCents = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.alternative.total.amount.cents"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createBaseVNode("h3", _hoisted_8$1, toDisplayString$1(_ctx.$t("text.customer.data")), 1),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.customerPhoneCode,
-                            "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => currentRequestBean.value.customerPhoneCode = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.customer.phone.code"),
-                            variant: "outlined",
-                            placeholder: "380"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.customerPhone,
-                            "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => currentRequestBean.value.customerPhone = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.customer.phone.number"),
-                            variant: "outlined",
-                            placeholder: "000000000"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.customerFirstName,
-                            "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => currentRequestBean.value.customerFirstName = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.customer.first.name"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.customerLastName,
-                            "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => currentRequestBean.value.customerLastName = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.customer.last.name"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.customerEmail,
-                            "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => currentRequestBean.value.customerEmail = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.customer.email"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createBaseVNode("h3", _hoisted_9, toDisplayString$1(_ctx.$t("text.other.params")), 1),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.locale,
-                            "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => currentRequestBean.value.locale = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.locale"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.purchaseTime,
-                            "onUpdate:modelValue": _cache[19] || (_cache[19] = ($event) => currentRequestBean.value.purchaseTime = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.purchase.time"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.delay,
-                            "onUpdate:modelValue": _cache[20] || (_cache[20] = ($event) => currentRequestBean.value.delay = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.delay"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.description,
-                            "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => currentRequestBean.value.description = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.purchase.description"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.token,
-                            "onUpdate:modelValue": _cache[22] || (_cache[22] = ($event) => currentRequestBean.value.token = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.payment.token"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "3"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VTextField, {
-                            modelValue: currentRequestBean.value.merchantSignature,
-                            "onUpdate:modelValue": _cache[23] || (_cache[23] = ($event) => currentRequestBean.value.merchantSignature = $event),
-                            readonly: !isEditing.value,
-                            "hide-details": "auto",
-                            label: _ctx.$t("label.signature"),
-                            variant: "outlined"
-                          }, null, 8, ["modelValue", "readonly", "label"])
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      isEditing.value ? (openBlock(), createBlock(VCol, {
-                        key: 0,
-                        cols: "12",
-                        lg: "12",
-                        class: "text-center"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VBtn, {
-                            class: "mr-4",
-                            color: "error",
-                            type: "button",
-                            variant: "outlined",
-                            onClick: onCancel
-                          }, {
-                            default: withCtx(() => [
-                              createTextVNode(toDisplayString$1(_ctx.$t("action.cancel")), 1)
-                            ]),
-                            _: 1
-                          }),
-                          createVNode(VBtn, {
-                            color: "primary",
-                            type: "submit",
-                            variant: "outlined"
-                          }, {
-                            default: withCtx(() => [
-                              createTextVNode(toDisplayString$1(_ctx.$t("action.save.changes")), 1)
-                            ]),
-                            _: 1
-                          })
-                        ]),
-                        _: 1
-                      })) : (openBlock(), createBlock(VCol, {
-                        key: 1,
-                        cols: "12",
-                        lg: "12"
-                      }, {
-                        default: withCtx(() => [
-                          createBaseVNode("div", _hoisted_10, [
-                            createVNode(VBtn, {
-                              color: "primary",
-                              type: "button",
-                              variant: "outlined",
-                              onClick: _cache[24] || (_cache[24] = ($event) => isEditing.value = true)
-                            }, {
-                              default: withCtx(() => [
-                                createTextVNode(toDisplayString$1(_ctx.$t("action.edit")), 1)
-                              ]),
-                              _: 1
-                            })
-                          ])
-                        ]),
-                        _: 1
-                      }))
-                    ]),
-                    _: 1
-                  }),
-                  !isEditing.value ? (openBlock(), createBlock(VBtn, {
-                    key: 0,
-                    color: "primary",
-                    type: "button",
-                    class: "d-block ml-auto mt-5",
-                    onClick: submitPaymentWithManualParams
-                  }, {
-                    default: withCtx(() => [
-                      createTextVNode(toDisplayString$1(_ctx.$t("action.make.payment")), 1)
-                    ]),
-                    _: 1
-                  })) : createCommentVNode("", true)
-                ]),
-                _: 1
-              }, 512)) : createCommentVNode("", true)
-            ]),
-            _: 1
-          })
-        ]),
-        _: 1
-      });
-    };
-  }
-});
-const _hoisted_1$2 = { class: "d-flex align-center my-5" };
-const _hoisted_2$2 = { class: "text-h5" };
-const _sfc_main$2 = /* @__PURE__ */ defineComponent$1({
-  __name: "StepSecond",
-  props: {
-    mode: {
-      type: String,
-      required: false,
-      default: PaymentMode.Redirect
-    }
-  },
-  setup(__props) {
-    const getSavedBillingAddress = () => {
-      const defaultAddress = {
-        building: "B-11",
-        city: "Kyiv",
-        country: "Ukraine",
-        destination: "Office",
-        email: "",
-        firstName: "John",
-        id: 1,
-        label: "Home",
-        lastName: "Doe",
-        phone: "",
-        phoneCode: "",
-        street: "Gareth Jones 8"
-      };
-      const savedBillingAddress = localStorage.getItem("billingAddress");
-      if (savedBillingAddress) {
-        try {
-          return JSON.parse(savedBillingAddress);
-        } catch (e) {
-          return defaultAddress;
-        }
-      }
-      return defaultAddress;
-    };
-    const form = ref(null);
-    const cartStore = useCartStore();
-    cartStore.$patch({
-      billingAddress: getSavedBillingAddress()
-    });
-    const billingAddress = ref(getSavedBillingAddress());
-    const isEditing = ref(false);
-    const onEdit = () => {
-      isEditing.value = true;
-      cartStore.$patch({
-        billingAddress: null
-      });
-    };
-    const onCancel = () => {
-      isEditing.value = false;
-      billingAddress.value = getSavedBillingAddress();
-      cartStore.$patch({
-        billingAddress: getSavedBillingAddress()
-      });
-    };
-    const onSubmit = async () => {
-      const vForm = form.value;
-      const { valid } = await vForm.validate();
-      if (!valid) {
-        return;
-      }
-      isEditing.value = false;
-      try {
-        localStorage.setItem("billingAddress", JSON.stringify(billingAddress.value));
-      } catch (e) {
-        console.error(e);
-        localStorage.setItem("billingAddress", JSON.stringify(getSavedBillingAddress()));
-      }
-      cartStore.$patch({
-        billingAddress: billingAddress.value
-      });
-    };
-    return (_ctx, _cache) => {
-      return openBlock(), createElementBlock(Fragment, null, [
-        createVNode(VRow, null, {
-          default: withCtx(() => [
-            createVNode(VCol, {
-              cols: "12",
-              md: "6",
-              id: "payment-wrapper"
-            })
-          ]),
-          _: 1
-        }),
-        createVNode(VRow, null, {
-          default: withCtx(() => [
-            createVNode(VCol, { cols: "12" }, {
-              default: withCtx(() => [
-                __props.mode === unref(PaymentMode).Manual ? (openBlock(), createBlock(_sfc_main$3, { key: 0 })) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
-                  createBaseVNode("div", _hoisted_1$2, [
-                    createBaseVNode("h4", _hoisted_2$2, toDisplayString$1(_ctx.$t("text.billing.address")), 1)
-                  ]),
-                  createVNode(VRow, null, {
-                    default: withCtx(() => [
-                      createVNode(VCol, {
-                        cols: "12",
-                        md: "6"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(VForm, {
-                            ref_key: "form",
-                            ref: form,
-                            class: "py-3",
-                            onSubmit: withModifiers(onSubmit, ["prevent"])
-                          }, {
-                            default: withCtx(() => [
-                              createVNode(VRow, null, {
-                                default: withCtx(() => [
-                                  createVNode(VCol, {
-                                    cols: "12",
-                                    lg: "6"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.firstName,
-                                        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => billingAddress.value.firstName = $event),
-                                        color: billingAddress.value.label.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        rules: [unref(rules).required, unref(rules).minLength(2)],
-                                        "hide-details": "auto",
-                                        label: "First Name",
-                                        variant: "outlined"
-                                      }, null, 8, ["modelValue", "color", "readonly", "rules"])
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VCol, {
-                                    cols: "12",
-                                    lg: "6"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.lastName,
-                                        "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => billingAddress.value.lastName = $event),
-                                        color: billingAddress.value.lastName.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        rules: [unref(rules).required, unref(rules).minLength(2)],
-                                        "hide-details": "auto",
-                                        label: "Last Name",
-                                        variant: "outlined"
-                                      }, null, 8, ["modelValue", "color", "readonly", "rules"])
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VCol, {
-                                    cols: "12",
-                                    lg: "6"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.country,
-                                        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => billingAddress.value.country = $event),
-                                        label: "State",
-                                        variant: "outlined",
-                                        color: billingAddress.value.country.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        rules: [unref(rules).required, unref(rules).minLength(2)],
-                                        "hide-details": "auto"
-                                      }, null, 8, ["modelValue", "color", "readonly", "rules"])
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VCol, {
-                                    cols: "12",
-                                    lg: "6"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.city,
-                                        "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => billingAddress.value.city = $event),
-                                        label: "City",
-                                        variant: "outlined",
-                                        color: billingAddress.value.city.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        rules: [unref(rules).required, unref(rules).minLength(2)],
-                                        "hide-details": "auto"
-                                      }, null, 8, ["modelValue", "color", "readonly", "rules"])
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VCol, {
-                                    cols: "12",
-                                    lg: "12"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.street,
-                                        "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => billingAddress.value.street = $event),
-                                        label: "Street",
-                                        variant: "outlined",
-                                        color: billingAddress.value.street.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        rules: [unref(rules).required, unref(rules).minLength(2)],
-                                        "hide-details": "auto"
-                                      }, null, 8, ["modelValue", "color", "readonly", "rules"])
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VCol, {
-                                    cols: "12",
-                                    lg: "12"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.building,
-                                        "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => billingAddress.value.building = $event),
-                                        color: billingAddress.value.building.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        rules: [unref(rules).required, unref(rules).minLength(2)],
-                                        label: "Building No",
-                                        "hide-details": "auto",
-                                        variant: "outlined"
-                                      }, null, 8, ["modelValue", "color", "readonly", "rules"])
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VCol, {
-                                    cols: "12",
-                                    lg: "6"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.phoneCode,
-                                        "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => billingAddress.value.phoneCode = $event),
-                                        color: billingAddress.value.phoneCode.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        "hide-details": "auto",
-                                        label: "Phone code",
-                                        placeholder: "380",
-                                        variant: "outlined"
-                                      }, null, 8, ["modelValue", "color", "readonly"])
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VCol, {
-                                    cols: "12",
-                                    lg: "6"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.phone,
-                                        "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => billingAddress.value.phone = $event),
-                                        color: billingAddress.value.phone.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        "hide-details": "auto",
-                                        label: "Phone number",
-                                        placeholder: "000000000",
-                                        variant: "outlined"
-                                      }, null, 8, ["modelValue", "color", "readonly"])
-                                    ]),
-                                    _: 1
-                                  }),
-                                  createVNode(VCol, { cols: "12" }, {
-                                    default: withCtx(() => [
-                                      createVNode(VTextField, {
-                                        modelValue: billingAddress.value.email,
-                                        "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => billingAddress.value.email = $event),
-                                        color: billingAddress.value.email.length > 2 ? "success" : "primary",
-                                        readonly: !isEditing.value,
-                                        "hide-details": "auto",
-                                        label: "Email address",
-                                        variant: "outlined"
-                                      }, null, 8, ["modelValue", "color", "readonly"])
-                                    ]),
-                                    _: 1
-                                  })
-                                ]),
-                                _: 1
-                              }),
-                              createVNode(VRow, null, {
-                                default: withCtx(() => [
-                                  isEditing.value ? (openBlock(), createBlock(VCol, {
-                                    key: 0,
-                                    cols: "12",
-                                    lg: "12",
-                                    class: "text-right"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VBtn, {
-                                        class: "mr-4",
-                                        color: "error",
-                                        type: "button",
-                                        variant: "outlined",
-                                        onClick: onCancel
-                                      }, {
-                                        default: withCtx(() => [
-                                          createTextVNode(toDisplayString$1(_ctx.$t("action.cancel")), 1)
-                                        ]),
-                                        _: 1
-                                      }),
-                                      createVNode(VBtn, {
-                                        color: "primary",
-                                        type: "submit",
-                                        variant: "outlined"
-                                      }, {
-                                        default: withCtx(() => [
-                                          createTextVNode(toDisplayString$1(_ctx.$t("action.confirm")), 1)
-                                        ]),
-                                        _: 1
-                                      })
-                                    ]),
-                                    _: 1
-                                  })) : (openBlock(), createBlock(VCol, {
-                                    key: 1,
-                                    cols: "12",
-                                    lg: "12",
-                                    class: "text-right"
-                                  }, {
-                                    default: withCtx(() => [
-                                      createVNode(VBtn, {
-                                        color: "primary",
-                                        type: "button",
-                                        variant: "outlined",
-                                        onClick: onEdit
-                                      }, {
-                                        default: withCtx(() => [
-                                          createTextVNode(toDisplayString$1(_ctx.$t("action.edit")), 1)
-                                        ]),
-                                        _: 1
-                                      })
-                                    ]),
-                                    _: 1
-                                  }))
-                                ]),
-                                _: 1
-                              })
-                            ]),
-                            _: 1
-                          }, 512)
-                        ]),
-                        _: 1
-                      }),
-                      createVNode(VCol, {
-                        cols: "12",
-                        lg: "6"
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(_sfc_main$5)
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    _: 1
-                  })
-                ], 64))
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
-        })
-      ], 64);
-    };
-  }
-});
-const submitPaymentRedirect = () => {
-  var _a, _b, _c, _d, _e;
-  const cartStore = useCartStore();
-  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
-  const payment = new p({
-    merchant: merchantData,
-    customer: {
-      email: ((_a = billingAddress.value) == null ? void 0 : _a.email) ?? "",
-      firstName: ((_b = billingAddress.value) == null ? void 0 : _b.firstName) ?? "",
-      lastName: ((_c = billingAddress.value) == null ? void 0 : _c.lastName) ?? "",
-      phoneCountryCode: ((_d = billingAddress.value) == null ? void 0 : _d.phoneCode) ?? "",
-      phoneNumber: ((_e = billingAddress.value) == null ? void 0 : _e.phone) ?? ""
-    }
-  });
-  payment.pay({
-    currencyNumericCode,
-    description: paymentDescription.value,
-    orderId: Date.now().toString(),
-    purchaseTime: getPurchaseTime(),
-    totalAmountCents: total.value
-  });
-};
-const iframeCallback$1 = (callbackData, mode) => {
-  const { data: { height } } = callbackData;
-  if (mode === PaymentMode.BuiltInIframe) {
-    const wrapper = document.querySelector("#payment-wrapper");
-    if (wrapper) {
-      wrapper.style.height = `${height + 40}px`;
-    }
-    return;
-  }
-  if (mode === PaymentMode.ModalIframe) {
-    const wrapper = document.querySelector("#payment-wrapper");
-    if (wrapper) {
-      wrapper.style.height = "auto";
-    }
-    const iframe = document.querySelector("#upc-payment-iframe");
-    if (iframe) {
-      iframe.style.height = `${height + 40}px`;
-    }
-  }
-};
-const submitPaymentBuiltIn = () => {
-  var _a, _b, _c, _d, _e;
-  const cartStore = useCartStore();
-  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
-  const payment = new p({
-    mode: "PaymentIframe",
-    merchant: merchantData,
-    customer: {
-      email: ((_a = billingAddress.value) == null ? void 0 : _a.email) ?? "",
-      firstName: ((_b = billingAddress.value) == null ? void 0 : _b.firstName) ?? "",
-      lastName: ((_c = billingAddress.value) == null ? void 0 : _c.lastName) ?? "",
-      phoneCountryCode: ((_d = billingAddress.value) == null ? void 0 : _d.phoneCode) ?? "",
-      phoneNumber: ((_e = billingAddress.value) == null ? void 0 : _e.phone) ?? ""
-    },
-    iframeProps: {
-      wrapperSelector: "#payment-wrapper",
-      callback: (data) => iframeCallback$1(data, PaymentMode.BuiltInIframe)
-    }
-  });
-  payment.pay({
-    currencyNumericCode,
-    description: paymentDescription.value,
-    orderId: Date.now().toString(),
-    purchaseTime: getPurchaseTime(),
-    totalAmountCents: total.value
-  });
-};
-const iframeCallback = (callbackData, mode) => {
-  const { data: { height } } = callbackData;
-  if (mode === PaymentMode.BuiltInIframe) {
-    const wrapper = document.querySelector("#payment-wrapper");
-    if (wrapper) {
-      wrapper.style.height = `${height + 40}px`;
-    }
-    return;
-  }
-  if (mode === PaymentMode.ModalIframe) {
-    const wrapper = document.querySelector("#payment-wrapper");
-    if (wrapper) {
-      wrapper.style.height = "auto";
-    }
-    const iframe = document.querySelector("#upc-payment-iframe");
-    if (iframe) {
-      iframe.style.height = `${height + 40}px`;
-    }
-  }
-};
-const submitPaymentModal = () => {
-  var _a, _b, _c, _d, _e;
-  const cartStore = useCartStore();
-  const { billingAddress, total, paymentDescription } = storeToRefs(cartStore);
-  const payment = new p({
-    mode: "PaymentModalIframe",
-    merchant: merchantData,
-    customer: {
-      email: ((_a = billingAddress.value) == null ? void 0 : _a.email) ?? "",
-      firstName: ((_b = billingAddress.value) == null ? void 0 : _b.firstName) ?? "",
-      lastName: ((_c = billingAddress.value) == null ? void 0 : _c.lastName) ?? "",
-      phoneCountryCode: ((_d = billingAddress.value) == null ? void 0 : _d.phoneCode) ?? "",
-      phoneNumber: ((_e = billingAddress.value) == null ? void 0 : _e.phone) ?? ""
-    },
-    iframeProps: {
-      wrapperSelector: "#payment-wrapper",
-      callback: (data) => iframeCallback(data, PaymentMode.ModalIframe)
-    }
-  });
-  payment.pay({
-    currencyNumericCode,
-    description: paymentDescription.value,
-    orderId: Date.now().toString(),
-    purchaseTime: getPurchaseTime(),
-    totalAmountCents: total.value
-  });
-};
-const makeVBreadcrumbsDividerProps = propsFactory({
-  divider: [Number, String],
-  ...makeComponentProps()
-}, "VBreadcrumbsDivider");
-const VBreadcrumbsDivider = genericComponent()({
-  name: "VBreadcrumbsDivider",
-  props: makeVBreadcrumbsDividerProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    useRender(() => {
-      var _a;
-      return createVNode("li", {
-        "class": ["v-breadcrumbs-divider", props.class],
-        "style": props.style
-      }, [((_a = slots == null ? void 0 : slots.default) == null ? void 0 : _a.call(slots)) ?? props.divider]);
-    });
-    return {};
-  }
-});
-const makeVBreadcrumbsItemProps = propsFactory({
-  active: Boolean,
-  activeClass: String,
-  activeColor: String,
-  color: String,
-  disabled: Boolean,
-  title: String,
-  ...makeComponentProps(),
-  ...makeRouterProps(),
-  ...makeTagProps({
-    tag: "li"
-  })
-}, "VBreadcrumbsItem");
-const VBreadcrumbsItem = genericComponent()({
-  name: "VBreadcrumbsItem",
-  props: makeVBreadcrumbsItemProps(),
-  setup(props, _ref) {
-    let {
-      slots,
-      attrs
-    } = _ref;
-    const link = useLink$1(props, attrs);
-    const isActive = computed(() => {
-      var _a;
-      return props.active || ((_a = link.isActive) == null ? void 0 : _a.value);
-    });
-    const color = computed(() => isActive.value ? props.activeColor : props.color);
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(color);
-    useRender(() => {
-      return createVNode(props.tag, {
-        "class": ["v-breadcrumbs-item", {
-          "v-breadcrumbs-item--active": isActive.value,
-          "v-breadcrumbs-item--disabled": props.disabled,
-          [`${props.activeClass}`]: isActive.value && props.activeClass
-        }, textColorClasses.value, props.class],
-        "style": [textColorStyles.value, props.style],
-        "aria-current": isActive.value ? "page" : void 0
-      }, {
-        default: () => {
-          var _a, _b;
-          return [!link.isLink.value ? ((_a = slots.default) == null ? void 0 : _a.call(slots)) ?? props.title : createVNode("a", {
-            "class": "v-breadcrumbs-item--link",
-            "href": link.href.value,
-            "aria-current": isActive.value ? "page" : void 0,
-            "onClick": link.navigate
-          }, [((_b = slots.default) == null ? void 0 : _b.call(slots)) ?? props.title])];
-        }
-      });
-    });
-    return {};
-  }
-});
-const makeVBreadcrumbsProps = propsFactory({
-  activeClass: String,
-  activeColor: String,
-  bgColor: String,
-  color: String,
-  disabled: Boolean,
-  divider: {
-    type: String,
-    default: "/"
-  },
-  icon: IconValue,
-  items: {
-    type: Array,
-    default: () => []
-  },
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeRoundedProps(),
-  ...makeTagProps({
-    tag: "ul"
-  })
-}, "VBreadcrumbs");
-const VBreadcrumbs = genericComponent()({
-  name: "VBreadcrumbs",
-  props: makeVBreadcrumbsProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(toRef(props, "bgColor"));
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    provideDefaults({
-      VBreadcrumbsDivider: {
-        divider: toRef(props, "divider")
-      },
-      VBreadcrumbsItem: {
-        activeClass: toRef(props, "activeClass"),
-        activeColor: toRef(props, "activeColor"),
-        color: toRef(props, "color"),
-        disabled: toRef(props, "disabled")
-      }
-    });
-    const items = computed(() => props.items.map((item) => {
-      return typeof item === "string" ? {
-        item: {
-          title: item
-        },
-        raw: item
-      } : {
-        item,
-        raw: item
-      };
-    }));
-    useRender(() => {
-      const hasPrepend = !!(slots.prepend || props.icon);
-      return createVNode(props.tag, {
-        "class": ["v-breadcrumbs", backgroundColorClasses.value, densityClasses.value, roundedClasses.value, props.class],
-        "style": [backgroundColorStyles.value, props.style]
-      }, {
-        default: () => {
-          var _a;
-          return [hasPrepend && createVNode("li", {
-            "key": "prepend",
-            "class": "v-breadcrumbs__prepend"
-          }, [!slots.prepend ? createVNode(VIcon, {
-            "key": "prepend-icon",
-            "start": true,
-            "icon": props.icon
-          }, null) : createVNode(VDefaultsProvider, {
-            "key": "prepend-defaults",
-            "disabled": !props.icon,
-            "defaults": {
-              VIcon: {
-                icon: props.icon,
-                start: true
-              }
-            }
-          }, slots.prepend)]), items.value.map((_ref2, index, array) => {
-            var _a2;
-            let {
-              item,
-              raw
-            } = _ref2;
-            return createVNode(Fragment, null, [((_a2 = slots.item) == null ? void 0 : _a2.call(slots, {
-              item,
-              index
-            })) ?? createVNode(VBreadcrumbsItem, mergeProps({
-              "key": index,
-              "disabled": index >= array.length - 1
-            }, typeof item === "string" ? {
-              title: item
-            } : item), {
-              default: slots.title ? () => {
-                var _a3;
-                return (_a3 = slots.title) == null ? void 0 : _a3.call(slots, {
-                  item,
-                  index
-                });
-              } : void 0
-            }), index < array.length - 1 && createVNode(VBreadcrumbsDivider, null, {
-              default: slots.divider ? () => {
-                var _a3;
-                return (_a3 = slots.divider) == null ? void 0 : _a3.call(slots, {
-                  item: raw,
-                  index
-                });
-              } : void 0
-            })]);
-          }), (_a = slots.default) == null ? void 0 : _a.call(slots)];
-        }
-      });
-    });
-    return {};
-  }
-});
-const VTabsSymbol = Symbol.for("vuetify:v-tabs");
-const makeVTabProps = propsFactory({
-  fixed: Boolean,
-  sliderColor: String,
-  hideSlider: Boolean,
-  direction: {
-    type: String,
-    default: "horizontal"
-  },
-  ...omit(makeVBtnProps({
-    selectedClass: "v-tab--selected",
-    variant: "text"
-  }), ["active", "block", "flat", "location", "position", "symbol"])
-}, "VTab");
-const VTab = genericComponent()({
-  name: "VTab",
-  props: makeVTabProps(),
-  setup(props, _ref) {
-    let {
-      slots,
-      attrs
-    } = _ref;
-    const {
-      textColorClasses: sliderColorClasses,
-      textColorStyles: sliderColorStyles
-    } = useTextColor(props, "sliderColor");
-    const rootEl = ref();
-    const sliderEl = ref();
-    const isHorizontal = computed(() => props.direction === "horizontal");
-    const isSelected = computed(() => {
-      var _a, _b;
-      return ((_b = (_a = rootEl.value) == null ? void 0 : _a.group) == null ? void 0 : _b.isSelected.value) ?? false;
-    });
-    function updateSlider(_ref2) {
-      var _a, _b;
-      let {
-        value
-      } = _ref2;
-      if (value) {
-        const prevEl = (_b = (_a = rootEl.value) == null ? void 0 : _a.$el.parentElement) == null ? void 0 : _b.querySelector(".v-tab--selected .v-tab__slider");
-        const nextEl = sliderEl.value;
-        if (!prevEl || !nextEl) return;
-        const color = getComputedStyle(prevEl).color;
-        const prevBox = prevEl.getBoundingClientRect();
-        const nextBox = nextEl.getBoundingClientRect();
-        const xy = isHorizontal.value ? "x" : "y";
-        const XY = isHorizontal.value ? "X" : "Y";
-        const rightBottom = isHorizontal.value ? "right" : "bottom";
-        const widthHeight = isHorizontal.value ? "width" : "height";
-        const prevPos = prevBox[xy];
-        const nextPos = nextBox[xy];
-        const delta2 = prevPos > nextPos ? prevBox[rightBottom] - nextBox[rightBottom] : prevBox[xy] - nextBox[xy];
-        const origin = Math.sign(delta2) > 0 ? isHorizontal.value ? "right" : "bottom" : Math.sign(delta2) < 0 ? isHorizontal.value ? "left" : "top" : "center";
-        const size2 = Math.abs(delta2) + (Math.sign(delta2) < 0 ? prevBox[widthHeight] : nextBox[widthHeight]);
-        const scale = size2 / Math.max(prevBox[widthHeight], nextBox[widthHeight]) || 0;
-        const initialScale = prevBox[widthHeight] / nextBox[widthHeight] || 0;
-        const sigma = 1.5;
-        animate(nextEl, {
-          backgroundColor: [color, "currentcolor"],
-          transform: [`translate${XY}(${delta2}px) scale${XY}(${initialScale})`, `translate${XY}(${delta2 / sigma}px) scale${XY}(${(scale - 1) / sigma + 1})`, "none"],
-          transformOrigin: Array(3).fill(origin)
-        }, {
-          duration: 225,
-          easing: standardEasing
-        });
-      }
-    }
-    useRender(() => {
-      const btnProps = VBtn.filterProps(props);
-      return createVNode(VBtn, mergeProps({
-        "symbol": VTabsSymbol,
-        "ref": rootEl,
-        "class": ["v-tab", props.class],
-        "style": props.style,
-        "tabindex": isSelected.value ? 0 : -1,
-        "role": "tab",
-        "aria-selected": String(isSelected.value),
-        "active": false
-      }, btnProps, attrs, {
-        "block": props.fixed,
-        "maxWidth": props.fixed ? 300 : void 0,
-        "onGroup:selected": updateSlider
-      }), {
-        ...slots,
-        default: () => {
-          var _a;
-          return createVNode(Fragment, null, [((_a = slots.default) == null ? void 0 : _a.call(slots)) ?? props.text, !props.hideSlider && createVNode("div", {
-            "ref": sliderEl,
-            "class": ["v-tab__slider", sliderColorClasses.value],
-            "style": sliderColorStyles.value
-          }, null)]);
-        }
-      });
-    });
-    return forwardRefs({}, rootEl);
-  }
-});
-function parseItems(items) {
-  if (!items) return [];
-  return items.map((item) => {
-    if (!isObject(item)) return {
-      text: item,
-      value: item
-    };
-    return item;
-  });
-}
-const makeVTabsProps = propsFactory({
-  alignTabs: {
-    type: String,
-    default: "start"
-  },
-  color: String,
-  fixedTabs: Boolean,
-  items: {
-    type: Array,
-    default: () => []
-  },
-  stacked: Boolean,
-  bgColor: String,
-  grow: Boolean,
-  height: {
-    type: [Number, String],
-    default: void 0
-  },
-  hideSlider: Boolean,
-  sliderColor: String,
-  ...makeVSlideGroupProps({
-    mandatory: "force"
-  }),
-  ...makeDensityProps(),
-  ...makeTagProps()
-}, "VTabs");
-const VTabs = genericComponent()({
-  name: "VTabs",
-  props: makeVTabsProps(),
-  emits: {
-    "update:modelValue": (v) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const model = useProxiedModel(props, "modelValue");
-    const parsedItems = computed(() => parseItems(props.items));
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      backgroundColorClasses,
-      backgroundColorStyles
-    } = useBackgroundColor(toRef(props, "bgColor"));
-    provideDefaults({
-      VTab: {
-        color: toRef(props, "color"),
-        direction: toRef(props, "direction"),
-        stacked: toRef(props, "stacked"),
-        fixed: toRef(props, "fixedTabs"),
-        sliderColor: toRef(props, "sliderColor"),
-        hideSlider: toRef(props, "hideSlider")
-      }
-    });
-    useRender(() => {
-      const slideGroupProps = VSlideGroup.filterProps(props);
-      return createVNode(VSlideGroup, mergeProps(slideGroupProps, {
-        "modelValue": model.value,
-        "onUpdate:modelValue": ($event) => model.value = $event,
-        "class": ["v-tabs", `v-tabs--${props.direction}`, `v-tabs--align-tabs-${props.alignTabs}`, {
-          "v-tabs--fixed-tabs": props.fixedTabs,
-          "v-tabs--grow": props.grow,
-          "v-tabs--stacked": props.stacked
-        }, densityClasses.value, backgroundColorClasses.value, props.class],
-        "style": [{
-          "--v-tabs-height": convertToUnit(props.height)
-        }, backgroundColorStyles.value, props.style],
-        "role": "tablist",
-        "symbol": VTabsSymbol
-      }), {
-        default: () => [slots.default ? slots.default() : parsedItems.value.map((item) => createVNode(VTab, mergeProps(item, {
-          "key": item.text
-        }), null))]
-      });
-    });
-    return {};
-  }
-});
-const handleGesture = (wrapper) => {
-  const {
-    touchstartX,
-    touchendX,
-    touchstartY,
-    touchendY
-  } = wrapper;
-  const dirRatio = 0.5;
-  const minDistance = 16;
-  wrapper.offsetX = touchendX - touchstartX;
-  wrapper.offsetY = touchendY - touchstartY;
-  if (Math.abs(wrapper.offsetY) < dirRatio * Math.abs(wrapper.offsetX)) {
-    wrapper.left && touchendX < touchstartX - minDistance && wrapper.left(wrapper);
-    wrapper.right && touchendX > touchstartX + minDistance && wrapper.right(wrapper);
-  }
-  if (Math.abs(wrapper.offsetX) < dirRatio * Math.abs(wrapper.offsetY)) {
-    wrapper.up && touchendY < touchstartY - minDistance && wrapper.up(wrapper);
-    wrapper.down && touchendY > touchstartY + minDistance && wrapper.down(wrapper);
-  }
-};
-function touchstart(event, wrapper) {
-  var _a;
-  const touch = event.changedTouches[0];
-  wrapper.touchstartX = touch.clientX;
-  wrapper.touchstartY = touch.clientY;
-  (_a = wrapper.start) == null ? void 0 : _a.call(wrapper, {
-    originalEvent: event,
-    ...wrapper
-  });
-}
-function touchend(event, wrapper) {
-  var _a;
-  const touch = event.changedTouches[0];
-  wrapper.touchendX = touch.clientX;
-  wrapper.touchendY = touch.clientY;
-  (_a = wrapper.end) == null ? void 0 : _a.call(wrapper, {
-    originalEvent: event,
-    ...wrapper
-  });
-  handleGesture(wrapper);
-}
-function touchmove(event, wrapper) {
-  var _a;
-  const touch = event.changedTouches[0];
-  wrapper.touchmoveX = touch.clientX;
-  wrapper.touchmoveY = touch.clientY;
-  (_a = wrapper.move) == null ? void 0 : _a.call(wrapper, {
-    originalEvent: event,
-    ...wrapper
-  });
-}
-function createHandlers() {
-  let value = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-  const wrapper = {
-    touchstartX: 0,
-    touchstartY: 0,
-    touchendX: 0,
-    touchendY: 0,
-    touchmoveX: 0,
-    touchmoveY: 0,
-    offsetX: 0,
-    offsetY: 0,
-    left: value.left,
-    right: value.right,
-    up: value.up,
-    down: value.down,
-    start: value.start,
-    move: value.move,
-    end: value.end
-  };
-  return {
-    touchstart: (e) => touchstart(e, wrapper),
-    touchend: (e) => touchend(e, wrapper),
-    touchmove: (e) => touchmove(e, wrapper)
-  };
-}
-function mounted(el, binding) {
-  var _a;
-  const value = binding.value;
-  const target = (value == null ? void 0 : value.parent) ? el.parentElement : el;
-  const options = (value == null ? void 0 : value.options) ?? {
-    passive: true
-  };
-  const uid2 = (_a = binding.instance) == null ? void 0 : _a.$.uid;
-  if (!target || !uid2) return;
-  const handlers2 = createHandlers(binding.value);
-  target._touchHandlers = target._touchHandlers ?? /* @__PURE__ */ Object.create(null);
-  target._touchHandlers[uid2] = handlers2;
-  keys(handlers2).forEach((eventName2) => {
-    target.addEventListener(eventName2, handlers2[eventName2], options);
-  });
-}
-function unmounted(el, binding) {
-  var _a, _b;
-  const target = ((_a = binding.value) == null ? void 0 : _a.parent) ? el.parentElement : el;
-  const uid2 = (_b = binding.instance) == null ? void 0 : _b.$.uid;
-  if (!(target == null ? void 0 : target._touchHandlers) || !uid2) return;
-  const handlers2 = target._touchHandlers[uid2];
-  keys(handlers2).forEach((eventName2) => {
-    target.removeEventListener(eventName2, handlers2[eventName2]);
-  });
-  delete target._touchHandlers[uid2];
-}
-const Touch = {
-  mounted,
-  unmounted
-};
-const Touch$1 = Touch;
-const VWindowSymbol = Symbol.for("vuetify:v-window");
-const VWindowGroupSymbol = Symbol.for("vuetify:v-window-group");
-const makeVWindowProps = propsFactory({
-  continuous: Boolean,
-  nextIcon: {
-    type: [Boolean, String, Function, Object],
-    default: "$next"
-  },
-  prevIcon: {
-    type: [Boolean, String, Function, Object],
-    default: "$prev"
-  },
-  reverse: Boolean,
-  showArrows: {
-    type: [Boolean, String],
-    validator: (v) => typeof v === "boolean" || v === "hover"
-  },
-  touch: {
-    type: [Object, Boolean],
-    default: void 0
-  },
-  direction: {
-    type: String,
-    default: "horizontal"
-  },
-  modelValue: null,
-  disabled: Boolean,
-  selectedClass: {
-    type: String,
-    default: "v-window-item--active"
-  },
-  // TODO: mandatory should probably not be exposed but do this for now
-  mandatory: {
-    type: [Boolean, String],
-    default: "force"
-  },
-  ...makeComponentProps(),
-  ...makeTagProps(),
-  ...makeThemeProps()
-}, "VWindow");
-const VWindow = genericComponent()({
-  name: "VWindow",
-  directives: {
-    Touch
-  },
-  props: makeVWindowProps(),
-  emits: {
-    "update:modelValue": (value) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      isRtl
-    } = useRtl();
-    const {
-      t
-    } = useLocale();
-    const group = useGroup(props, VWindowGroupSymbol);
-    const rootRef = ref();
-    const isRtlReverse = computed(() => isRtl.value ? !props.reverse : props.reverse);
-    const isReversed = shallowRef(false);
-    const transition = computed(() => {
-      const axis = props.direction === "vertical" ? "y" : "x";
-      const reverse = isRtlReverse.value ? !isReversed.value : isReversed.value;
-      const direction = reverse ? "-reverse" : "";
-      return `v-window-${axis}${direction}-transition`;
-    });
-    const transitionCount = shallowRef(0);
-    const transitionHeight = ref(void 0);
-    const activeIndex = computed(() => {
-      return group.items.value.findIndex((item) => group.selected.value.includes(item.id));
-    });
-    watch(activeIndex, (newVal, oldVal) => {
-      const itemsLength = group.items.value.length;
-      const lastIndex = itemsLength - 1;
-      if (itemsLength <= 2) {
-        isReversed.value = newVal < oldVal;
-      } else if (newVal === lastIndex && oldVal === 0) {
-        isReversed.value = true;
-      } else if (newVal === 0 && oldVal === lastIndex) {
-        isReversed.value = false;
-      } else {
-        isReversed.value = newVal < oldVal;
-      }
-    });
-    provide(VWindowSymbol, {
-      transition,
-      isReversed,
-      transitionCount,
-      transitionHeight,
-      rootRef
-    });
-    const canMoveBack = computed(() => props.continuous || activeIndex.value !== 0);
-    const canMoveForward = computed(() => props.continuous || activeIndex.value !== group.items.value.length - 1);
-    function prev() {
-      canMoveBack.value && group.prev();
-    }
-    function next() {
-      canMoveForward.value && group.next();
-    }
-    const arrows = computed(() => {
-      const arrows2 = [];
-      const prevProps = {
-        icon: isRtl.value ? props.nextIcon : props.prevIcon,
-        class: `v-window__${isRtlReverse.value ? "right" : "left"}`,
-        onClick: group.prev,
-        "aria-label": t("$vuetify.carousel.prev")
-      };
-      arrows2.push(canMoveBack.value ? slots.prev ? slots.prev({
-        props: prevProps
-      }) : createVNode(VBtn, prevProps, null) : createVNode("div", null, null));
-      const nextProps = {
-        icon: isRtl.value ? props.prevIcon : props.nextIcon,
-        class: `v-window__${isRtlReverse.value ? "left" : "right"}`,
-        onClick: group.next,
-        "aria-label": t("$vuetify.carousel.next")
-      };
-      arrows2.push(canMoveForward.value ? slots.next ? slots.next({
-        props: nextProps
-      }) : createVNode(VBtn, nextProps, null) : createVNode("div", null, null));
-      return arrows2;
-    });
-    const touchOptions = computed(() => {
-      if (props.touch === false) return props.touch;
-      const options = {
-        left: () => {
-          isRtlReverse.value ? prev() : next();
-        },
-        right: () => {
-          isRtlReverse.value ? next() : prev();
-        },
-        start: (_ref2) => {
-          let {
-            originalEvent
-          } = _ref2;
-          originalEvent.stopPropagation();
-        }
-      };
-      return {
-        ...options,
-        ...props.touch === true ? {} : props.touch
-      };
-    });
-    useRender(() => withDirectives(createVNode(props.tag, {
-      "ref": rootRef,
-      "class": ["v-window", {
-        "v-window--show-arrows-on-hover": props.showArrows === "hover"
-      }, themeClasses.value, props.class],
-      "style": props.style
-    }, {
-      default: () => {
-        var _a, _b;
-        return [createVNode("div", {
-          "class": "v-window__container",
-          "style": {
-            height: transitionHeight.value
-          }
-        }, [(_a = slots.default) == null ? void 0 : _a.call(slots, {
-          group
-        }), props.showArrows !== false && createVNode("div", {
-          "class": "v-window__controls"
-        }, [arrows.value])]), (_b = slots.additional) == null ? void 0 : _b.call(slots, {
-          group
-        })];
-      }
-    }), [[resolveDirective("touch"), touchOptions.value]]));
-    return {
-      group
-    };
-  }
-});
-const makeVWindowItemProps = propsFactory({
-  reverseTransition: {
-    type: [Boolean, String],
-    default: void 0
-  },
-  transition: {
-    type: [Boolean, String],
-    default: void 0
-  },
-  ...makeComponentProps(),
-  ...makeGroupItemProps(),
-  ...makeLazyProps()
-}, "VWindowItem");
-const VWindowItem = genericComponent()({
-  name: "VWindowItem",
-  directives: {
-    Touch: Touch$1
-  },
-  props: makeVWindowItemProps(),
-  emits: {
-    "group:selected": (val) => true
-  },
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const window2 = inject$1(VWindowSymbol);
-    const groupItem = useGroupItem(props, VWindowGroupSymbol);
-    const {
-      isBooted
-    } = useSsrBoot();
-    if (!window2 || !groupItem) throw new Error("[Vuetify] VWindowItem must be used inside VWindow");
-    const isTransitioning = shallowRef(false);
-    const hasTransition = computed(() => isBooted.value && (window2.isReversed.value ? props.reverseTransition !== false : props.transition !== false));
-    function onAfterTransition() {
-      if (!isTransitioning.value || !window2) {
-        return;
-      }
-      isTransitioning.value = false;
-      if (window2.transitionCount.value > 0) {
-        window2.transitionCount.value -= 1;
-        if (window2.transitionCount.value === 0) {
-          window2.transitionHeight.value = void 0;
-        }
-      }
-    }
-    function onBeforeTransition() {
-      var _a;
-      if (isTransitioning.value || !window2) {
-        return;
-      }
-      isTransitioning.value = true;
-      if (window2.transitionCount.value === 0) {
-        window2.transitionHeight.value = convertToUnit((_a = window2.rootRef.value) == null ? void 0 : _a.clientHeight);
-      }
-      window2.transitionCount.value += 1;
-    }
-    function onTransitionCancelled() {
-      onAfterTransition();
-    }
-    function onEnterTransition(el) {
-      if (!isTransitioning.value) {
-        return;
-      }
-      nextTick(() => {
-        if (!hasTransition.value || !isTransitioning.value || !window2) {
-          return;
-        }
-        window2.transitionHeight.value = convertToUnit(el.clientHeight);
-      });
-    }
-    const transition = computed(() => {
-      const name = window2.isReversed.value ? props.reverseTransition : props.transition;
-      return !hasTransition.value ? false : {
-        name: typeof name !== "string" ? window2.transition.value : name,
-        onBeforeEnter: onBeforeTransition,
-        onAfterEnter: onAfterTransition,
-        onEnterCancelled: onTransitionCancelled,
-        onBeforeLeave: onBeforeTransition,
-        onAfterLeave: onAfterTransition,
-        onLeaveCancelled: onTransitionCancelled,
-        onEnter: onEnterTransition
-      };
-    });
-    const {
-      hasContent
-    } = useLazy(props, groupItem.isSelected);
-    useRender(() => createVNode(MaybeTransition, {
-      "transition": transition.value,
-      "disabled": !isBooted.value
-    }, {
-      default: () => {
-        var _a;
-        return [withDirectives(createVNode("div", {
-          "class": ["v-window-item", groupItem.selectedClass.value, props.class],
-          "style": props.style
-        }, [hasContent.value && ((_a = slots.default) == null ? void 0 : _a.call(slots))]), [[vShow, groupItem.isSelected.value]])];
-      }
-    }));
-    return {
-      groupItem
-    };
-  }
-});
-const _hoisted_1$1 = { class: "mt-3 mb-6" };
-const _hoisted_2$1 = { class: "d-flex justify-space-between" };
-const _hoisted_3$1 = { class: "d-flex py-0 align-center" };
-const _hoisted_4$1 = { class: "text-h3 mb-2" };
-const _hoisted_5$1 = { class: "text-h6 font-weight-regular" };
-const _hoisted_6$1 = { class: "text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block" };
-const _hoisted_7$1 = { class: "text-subtitle-2 text-lightText text-medium-emphasis font-weight-medium d-block" };
-const _hoisted_8 = { key: 1 };
-const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
-  __name: "index",
-  props: {
-    mode: {
-      type: String,
-      required: false,
-      default: PaymentMode.Redirect
-    }
-  },
-  setup(__props) {
-    const props = __props;
-    const page = ref({ title: "Checkout" });
-    const breadcrumbs = ref([
-      {
-        text: "UPC demo-shop",
-        disabled: false,
-        href: "#"
-      },
-      {
-        text: "Checkout Page",
-        disabled: true,
-        href: "#"
-      }
-    ]);
-    const cartStore = useCartStore();
-    const { selectedProducts, billingAddress } = storeToRefs(cartStore);
-    const tab = ref("tab-1");
-    const isInitPaymentButtonClickable = computed(() => {
-      return billingAddress.value !== null;
-    });
-    const changeTab = (e) => {
-      tab.value = e;
-    };
-    const initPayment = () => {
-      if (props.mode === PaymentMode.Redirect) {
-        submitPaymentRedirect();
-        return;
-      }
-      if (props.mode === PaymentMode.BuiltInIframe) {
-        submitPaymentBuiltIn();
-        return;
-      }
-      if (props.mode === PaymentMode.ModalIframe) {
-        submitPaymentModal();
-        return;
-      }
-    };
-    return (_ctx, _cache) => {
-      return openBlock(), createElementBlock(Fragment, null, [
-        createBaseVNode("div", _hoisted_1$1, [
-          createBaseVNode("div", _hoisted_2$1, [
-            createBaseVNode("div", _hoisted_3$1, [
-              createBaseVNode("div", null, [
-                createBaseVNode("h3", _hoisted_4$1, toDisplayString$1(page.value.title), 1),
-                createVNode(VBreadcrumbs, {
-                  items: breadcrumbs.value,
-                  class: "pa-0 ml-n1"
-                }, createSlots({
-                  title: withCtx(({ item }) => [
-                    createBaseVNode("h6", _hoisted_5$1, toDisplayString$1(item.text), 1)
-                  ]),
-                  _: 2
-                }, [
-                  breadcrumbs.value ? {
-                    name: "divider",
-                    fn: withCtx(() => [
-                      createVNode(VIcon, null, {
-                        default: withCtx(() => [
-                          createTextVNode("mdi-chevron-right")
-                        ]),
-                        _: 1
-                      })
-                    ]),
-                    key: "0"
-                  } : void 0
-                ]), 1032, ["items"])
-              ])
-            ])
-          ])
-        ]),
-        createVNode(VCard, {
-          variant: "outlined",
-          class: "bg-surface"
-        }, {
-          default: withCtx(() => [
-            createVNode(VCardText, null, {
-              default: withCtx(() => [
-                createVNode(VTabs, {
-                  modelValue: tab.value,
-                  "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => tab.value = $event),
-                  color: "primary",
-                  class: "customTab"
-                }, {
-                  default: withCtx(() => [
-                    createVNode(VTab, {
-                      value: "tab-1",
-                      rounded: "md",
-                      class: "mb-3 mx-2 text-left",
-                      height: "70"
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(unref(IconBasket), {
-                          "stroke-width": "1.5",
-                          width: "20",
-                          class: "v-icon--start"
-                        }),
-                        createBaseVNode("div", null, [
-                          createBaseVNode("div", null, toDisplayString$1(_ctx.$t("text.item.cart")), 1),
-                          createBaseVNode("span", _hoisted_6$1, toDisplayString$1(_ctx.$t("text.product.summary")), 1)
-                        ])
-                      ]),
-                      _: 1
-                    }),
-                    createVNode(VTab, {
-                      value: "tab-2",
-                      rounded: "md",
-                      class: "mb-3 mx-2 text-left",
-                      height: "70",
-                      disabled: unref(selectedProducts).size < 1
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(unref(IconFileDescription), {
-                          "stroke-width": "1.5",
-                          width: "20",
-                          class: "v-icon--start"
-                        }),
-                        createBaseVNode("div", null, [
-                          createBaseVNode("div", null, toDisplayString$1(_ctx.$t("text.billing")), 1),
-                          createBaseVNode("span", _hoisted_7$1, toDisplayString$1(_ctx.$t("text.billing.information")), 1)
-                        ])
-                      ]),
-                      _: 1
-                    }, 8, ["disabled"])
-                  ]),
-                  _: 1
-                }, 8, ["modelValue"]),
-                createVNode(VWindow, {
-                  modelValue: tab.value,
-                  "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => tab.value = $event)
-                }, {
-                  default: withCtx(() => [
-                    createVNode(VWindowItem, {
-                      value: "tab-1",
-                      class: "pa-1"
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(_sfc_main$4, { mode: __props.mode }, null, 8, ["mode"]),
-                        createVNode(VRow, { class: "mt-3" }, {
-                          default: withCtx(() => [
-                            createVNode(VCol, {
-                              cols: "12",
-                              sm: "6"
-                            }, {
-                              default: withCtx(() => [
-                                createVNode(VBtn, {
-                                  color: "primary",
-                                  variant: "tonal",
-                                  to: { name: unref(RouteName).Products, query: { ..._ctx.$route.query } }
-                                }, {
-                                  default: withCtx(() => [
-                                    createTextVNode(toDisplayString$1(_ctx.$t("action.continue.shopping")), 1)
-                                  ]),
-                                  _: 1
-                                }, 8, ["to"])
-                              ]),
-                              _: 1
-                            }),
-                            createVNode(VCol, {
-                              cols: "12",
-                              sm: "6",
-                              class: "text-sm-right"
-                            }, {
-                              default: withCtx(() => [
-                                unref(selectedProducts).size >= 1 ? (openBlock(), createBlock(VBtn, {
-                                  key: 0,
-                                  color: "primary",
-                                  onClick: _cache[1] || (_cache[1] = ($event) => changeTab("tab-2"))
-                                }, {
-                                  default: withCtx(() => [
-                                    createTextVNode(toDisplayString$1(_ctx.$t("action.checkout")), 1)
-                                  ]),
-                                  _: 1
-                                })) : createCommentVNode("", true)
-                              ]),
-                              _: 1
-                            })
-                          ]),
-                          _: 1
-                        })
-                      ]),
-                      _: 1
-                    }),
-                    createVNode(VWindowItem, {
-                      value: "tab-2",
-                      class: "pa-1"
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(_sfc_main$2, { mode: __props.mode }, null, 8, ["mode"]),
-                        createVNode(VRow, { class: "mt-3" }, {
-                          default: withCtx(() => [
-                            createVNode(VCol, { cols: "6" }, {
-                              default: withCtx(() => [
-                                __props.mode !== unref(PaymentMode).Manual ? (openBlock(), createBlock(VBtn, {
-                                  key: 0,
-                                  color: "primary",
-                                  variant: "tonal",
-                                  onClick: _cache[2] || (_cache[2] = ($event) => changeTab("tab-1"))
-                                }, {
-                                  default: withCtx(() => [
-                                    createTextVNode(toDisplayString$1(_ctx.$t("action.back")), 1)
-                                  ]),
-                                  _: 1
-                                })) : createCommentVNode("", true)
-                              ]),
-                              _: 1
-                            }),
-                            createVNode(VCol, {
-                              cols: "6",
-                              class: "text-right"
-                            }, {
-                              default: withCtx(() => [
-                                __props.mode !== unref(PaymentMode).Manual && __props.mode !== unref(PaymentMode).PayByBank ? (openBlock(), createBlock(VBtn, {
-                                  key: 0,
-                                  color: "primary",
-                                  disabled: !isInitPaymentButtonClickable.value,
-                                  onClick: initPayment
-                                }, {
-                                  default: withCtx(() => [
-                                    createTextVNode(toDisplayString$1(_ctx.$t("action.complete.an.order")), 1)
-                                  ]),
-                                  _: 1
-                                }, 8, ["disabled"])) : createCommentVNode("", true),
-                                __props.mode === unref(PaymentMode).PayByBank ? (openBlock(), createElementBlock("div", _hoisted_8, "Pay by bank")) : createCommentVNode("", true)
-                              ]),
-                              _: 1
-                            })
-                          ]),
-                          _: 1
-                        })
-                      ]),
-                      _: 1
-                    })
-                  ]),
-                  _: 1
-                }, 8, ["modelValue"])
-              ]),
-              _: 1
-            })
-          ]),
-          _: 1
-        })
-      ], 64);
-    };
-  }
-});
-const _imports_0 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF0AAAAeCAYAAABOvRIBAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAa/SURBVHgBtVpNdts2EJ4h6ayVOFlXPkHU2lLSVeQT1D1BlBPEOUGUEzQ5QZQTxD6B6FVTW2nUE0Rex37VtjFJdIYiZf4AA4Buv/f0RALgYDgYzB+IDw4+HQeAPfBApvDvLN05XS9/XPk8t/vT+QQD1Tf1J8m9WUnz4cHFmGYam8ZeLZ5MwQKmoZQ6QoQfUOFAIfTLPqVgTe1LulorFZykaXjm8z69wZfeTnBzpIzvo9ZXi6dvdT348OCPKUDwjK7H4AkV4OT6/OCDy1hmMoySr0iXWloKVtefh3vlPQlsLvAUXy2Gh6Z5oih5SfSOSaheykQL9O768+jYNq43+L0fhtEcK4uoQ5JE92kh1832gDWGX4B+JA84pIk/sBaAAzBTb/klXcaGpBUmgRfUptU7BTAwjSQe/9K1s2aHYfKFLqe+As85QOX03mEYTm0CZ9Dia98hqN6Q4GNa6Qlp3H2VqResfSCDtOqfCTgAA3wp9fP23hIdnA/EBUKcN5t2R4vn9Dd3EYYZQWwbwVqOiM/BCald6FVc/zma8XZH0nwQoDB6DBawEEHUXJxV7WkYBn0QEKC6bNKnXTeDO4LMwdI2hrUcHGGSTWB5Dm7SHdHG0aIMwIIwBJEGafmbeovZgRLW3y5Gyzp9/Ah3x1Jnf9vAZ+CKTI11zVahF4zEwpA+WCEyGjejBtq+0u6pCTyPiASTUvgnXtTDJIr2yh/fZ0qxMsSbcWjVcttcTfBYnc+LXB5mx0WCGBu6e72nX/rrT/pwyy4UnGmax2BEdla7RfgFBKSpOlwvRzqBrmAj8Hdsp8EBNr+kA0VsrHCn1TarpueTIZ6IhL/fjI3PBmanswkT6yHnJj6XUHd2lGMMJPoGgdewXv684p80puBLOxfF/yvTcwjpXrPNSejsYCiEM9s71DNTaNDY+BhCazEzg8ev8lK9V8IuKra3sd8HtNsnxs5UvTE/2bYQTkJnu44NW1oji/qszObpSYDvWrRUINn/lrNDS1hLcfvcvntkWMLEOM12BEvQfh8noW/QsKUWwhuYHWgzTNw+gdgHMw+XLTooC73wJ/Pd/cX7rlofBuHY1Fe8x1pY/NznVRs8hC4mDi3CNgdKu6MV/xeeXjAvKtY0Clu7Nt+EMsSvnYSP+NrUReFu7iQzQSnDJKlFY85C52xVsutNwjYHyvSa7aa0uTLLUs+XOgFHsPDZ5JDwnbJKSXlKLc+vUZkdtlK1OpGHprO/FOx6xUvbHGizznILMSkC3UIx0mTnBQi8tWYnIZLwZ2Trf7OOFZSHHMp2sbPEbAmaeYeX0CmyODX1VVNeyYGylpdbsg3RicamDtY2csp5sQ78cLw7XLw3dUrKk4e7i+HpLQ8jKcKr7WA/oQurWU95pQwUY1O63aWyWIJpcrHOsVB3yw2Fgg/pTEHXJ0dfGLdawM2ZegldWs0y5bU50HadpeCqQ2VRh7JQ5yf88HWbH3bqZuUJgqwV7pJimJ1pJYH0EnpBOTZ1sSMUbaCmzrJlyrOyaEMpfHCLbnqPhue1XZbX/40OFFbNolvOoxL8SiWBdKq91CbE7AwhPNL25UdjxhqNqc5SgJ0omjrXupd0ATnfaW94fhIqnEs7KUtzodzOIYSJjOJkqwkjfZLLdtd4a3qWmMMzImwsCOnqLI1nnSuLvljzgnk4Wc5g0VJegI2Drf2UmGPc0vMWOheGxDqMEaYwcYuxuUvKhv8bkFlclddinaU7tibM36YzVHbq+0j1OK4J38oiY3f/fOaa4GxCPxRLwGUhze84zg9KbfIQb5ueP0zZF9lHZ8ZMdZYSXFkMIDQ+rztG2whGPd/dv5gW4VtMCc8lHVCsyjFRkvTp75n9y4DstAxjo+jeS+bo/0CZy3QSOtv1IAJrNldCV2ep9XNl0ehD25XF6s7Y2NfcHPCPBa2ZHyz83Zo+0sYj2/jOKHKZTkJnu/5o/2Kl3I6ulqb0vYRvZdG2MzzxpoyMHI7jOPyMwQLyeR91kVKZy3QSOoOraghybJ0zoPCt1L9JQhKvyqJlZziDv3T49nk03d5bT7mGU3AA+ZuYJKwNqzmX6eZIgROBdhrchC1MLJkAEaHOnvfh7nhFAp+UNw5FuhgcwbmMuTftLvQb8bSkhAuj/pVFKuWuoAP4ywD+dI4c8x7Rre1A2ymXzS9VEWgUZcsDOdPO5oWd24ODT6+kj0/T9N7MQoaiT1xhkGlTdaXCr7r268Xo1/zbyDClJCYdKMDHCNgnofarUQqf5pDfYUGfcYqekKKYim0k1BXNaCwZXC2exOAIjrai6LuWFpm09b+jGDX1ruJqkgAAAABJRU5ErkJggg==";
-const _imports_1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAAeCAYAAACFZvb/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAPCSURBVHgBrZjdThNBFMf/s7vy0VYsotKIxhpN9EJjfQLLlZfqE1A1mniFPgHwBOKViTeFN4D4ANQL7+HGO+KqJRABWaDQlu3OeM6SllJoO7DzS5r9mOns/PecOWfnCGiwhWSyhr6Mgv1cAE/ol1ZAktvo3KPzRfotKcjCMFbnOo2l8slkGYkxS8qsEsjQCOl6mzgcx1NCzIlKbb7/3ZoLDQS6Tj42LiDe1yetgUtTnXEgZwdxNIndfCrrKHuCTrPQp0C/mf5XK7OdOrUVsYkb4wpq8gyTb8WlwSeH8nvzZZnIC6Ge47wozOAgmGpnmVNFrGPkIx3eIyL2ZR8Xc2Wv9mDgvC+iGdeu4UXP25XF1oYTIjZwPa8gcogIC0g+XYfoUQhSMfj3BhEVXn9WDaOtQqzmC7aACQFWooaB0c1QAGOv7cNZ3kZU2LWlg4Xy51T62PPqJ38xkoMBF2IuPd2AnQiO3XOKJdjFPUQlXKO99gJHufq9UMQWUmky1QQM0Htn/4SAOs6vHYiahAHS+zLWeOGhCB/2JDfAALHMTts2FmCTRUxgCzFet0YoghMYDNDJCo2Hr+wZsQa7Vd0a1gZucvxOwwB9d/e79mEBouTDBJYQY+FRQp4/CTUheiQupKpafe2NCgyR5khlkSvdggGcy/pvV2zridXB6rUe8ZrIwAB2PNDuKyr6fbsRKHWbRZj4JAgTnC6GwmwIJeekBUPIA2NDnRl+sgcTnEGEcswJFlAej+bCAP6Wo91XxfX7doOS3k+LksY3GECWziCi35wIWZVLFGLFHAygyJ38tV6tvsFQP8ygXN4oWQ4c/jY3si6qv/u69lF9NuSV7v10UEp94qM1CJcEHF5EpbocI4t03LYjGI7BFOJAhV4UhgkHPdMwYA12qb2lgfbtZIUgFYcJpBKNPXcogq0hYL2EASo/Em3XRu3WQCgkOsqNvy5O1q8aAfsK/pBphBG32v0+SNHq+GSDkUS4144K16VQlaPN945lnasocn1pFhFhAdsLQ431wevAv3sJUWEBkgoFraWbE6nzGlZyZJEpRCT4dwFbX4fhD130/PvRKx3sQiwgcUrJ5tT8TxbhotlLKp65OD9eULI/BA/jj2V06xbYhU4TwHSMh6tUQKA8kqMa6xglxTT08HhtlVCavg2vEfEOvoxkAgdclMtCnwICikJvioVOnToH9SZ4G0u7wCz94REO9yDJo0nD5c8Xzv40+cXmybdSzlPNSNo0jngmheIqS7ifYX/njzmhrEXyj4KqOFRQdl1o8B9ZSmZyeNGaRQAAAABJRU5ErkJggg==";
-const _imports_2 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAAeCAYAAACFZvb/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAO0SURBVHgBxZi7bxNZFMa/O3YggjiM2UEbbUgY7zahirfY1Ra7iymhwXR0hIaHKAgtEsL8BUCFBEWSDipMAxICEQQVSMipLAri4R0UIw9JgCTYdzhn/MAOsT3KHImflGTmzs3M+ea7jzlHIQAlmGYZfUk6TEeAPR5g07FZu+wqIFcBZhQq0xbeZTvebKJgYgWHoZCiM76n3bimkOP7QSMLDzdxIuEgAApdggf6TmlgvCnoLniOATUJlKfimHMazZcLKURwjoJLISgK09R/EscSU527taGEnRx8BoGDXwuLQSY+8egmVjFBDWlsFEVCKjjfzhljvcYShi6QgIvYsAD/yfZba9fk/vyLAsIIYDyMUaT3caWQXPdJaxtKGJzQUGMIyZw1jMn0GSxv3oJ8vA93h3ZAAJci3oujiVxzY4sTVQfCC3BjFq7tG/cFMLtLS/j/7QcIYJIr92l+2c2NDRFFDI5peOMQgB1w+62WttHiApLFjxDA9IcWr3I1fBElDNg0rs5BgNzIfz8IqPP3exebKxoC2FjWjRfui6igJ8MTEQJM/3Ww7TUWMCrjBkVunKq74YtQ0HsgQCcX6iRpWAm5YdbdMIoYSku5kBv5t2sfFmB9WYUIhnHY/4Owa3gNXomcwd2B+v6+8AlC2LxSGQa8XRBg7pfhwH13Li1DDBUZNbzqR1ho3P7gm1nsaxliqK8JHk4hPi2+wxtcUIQmdhUN04AQvSuf8bNgES4E6F0NLmIlIvbuWIHLc8KBAAPFF4H7zvdughheT4FFPIAA5mIxcN/FTVGI4VVm2NcsBOA5Yb/JB+o7278FQjicKBlRRKt5rQAjs0+79lnoiWJ221YIcYl/GXE4rq6dhCX57CE50nk3zm+PQQxdHUX+MkFucCoa2g0eUqknN9peZxc4yxNB60bO7YtgNzyoIxDgn5k7befG419NqUlNc+GPTP2ksWBbeJWVGlbpe1dhLsy3tOWsbVJDietSe5sbWnadHXg97sGbQkh4uT10+1JjfuTjMTz8bTsEcFEmAWtKNz9snRbeUK5NNZ6QDBRf4vj1s3i+NeLeHQr+XdUBxxdwsrXSway7/5MjGXKE5ohysHHc2OL86VuJ4T+hQ7rrUSVQry+A6VLGHLDLiI5RWZIyKM9GMPwlO4qli3G431c8LnxpXKjVYIPh+WVMXoWmO3XrKKIZTmM96JSCGlXVHKRRUObvL3KOPl9UloLPtQS/lmrNKEVPPkA/fFzPZ1wKmP+P3rZBwevABeVvGK1A/Ol76t8AAAAASUVORK5CYII=";
-const _imports_3 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKEAAAAeCAYAAABEzX4WAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAifSURBVHgB7VxLc9vWFT7ngpTEUTLmsrvASZbtmF6mT1D+AVL6B0z/AlGLjk1tRHWmdTxdiF51KWrfmTA/ICUyzbRLU/u6ZbrpsmgmiR4g7sk5ACnjcUHzYXn48DeWReFeABe43z3vS4Q1QcF57CDiHgDeAwSbD9nDpr6vL+6D2/LgLWDLeWz7lqoAUTk8gOhhoL0BXPXe1hgWDVh80OjCLcD/8mk1fYzv9ZB/1WASaDoHhS/8QH8F7rM+zIjizpMaEO4z8SqmdgR9fP3XZ024RcgCUMp6qIH2EKA8pmuPB9TKe+aic1gBi05gfrR5fs4y1zdzYZq+GSCBR0Tf8E9n4D5zTX0KQODAWwKRvougnIk6Izo8NigqBbBz2PZ1cDwVGXnCiopO+VOFJzZnQNC/7t4eASPpq474/g7xzfD1p7CEhHb4zM7v7vvun3rxRoKgjKQcmBMETHJzgzNPX3M3kLnkf7hf3Gn0NcJB8OXTTryPgqUA1XhiusCqbJLexQeH+0zAFwBm6TeCRboKtwGnXuYXfoIyZpxtkROoMqwebEXw+cbO4VH8YAGWB7YQ0XfqY+23gjwgUdPURqwaEKkDqHoUBOf///1fKlD4iNUbhWRFwr4mOidft0rVfh9mAS8UHufn8JoFsM5grdC0HjTORxJxIUjI9oI7+syC2x46DibYG2qzfg3QNDWKBDQSkNUu/zTfg4svvG7Lu+jattpkKSX3Gt417Mb3ZbXh4Ka17//jw2bxk38dw5SYhIDyvHzHc0LymPhlVln35L6w5BgucrYBUX6XX73fLFgingZO3RWBYiQh2wHHgwmN9cLO4ybbeUcwBwbdzxJqUTzIALHJhsRDyIxN7bO6a2WkIZ/Dk9vM2F1EZ9t0Wfe4v5wQEnDDElU9Vt1pwiYTEeJEFBsvz7gO20M1Q0YCygQB6ufv6auWZ5DkZVbh38PWHj/zUd4iHN4784jh+1Lq34ZTDiytO5n+cOXdihvOz+fHeBOOC3hxmZ+pXFSlmg/QWkh1fBk5ILWNncYdlhJ7qeaypbb2Avba4gc3lDqhFLFCz5cdj/gLjyQgTGRvCREv/vbxV6Vf/dMNvWzAUyZi1UhEfuEIZjNAJHGB7c/L7rN+3uQPidnmiXMDCKXp3GBv3PMNztwlvB0M57HN76zPDlrWm0bY5f9bC+2YkEajOmRRnpA2IqHSZOW/O+nQy8XXH9XSKoIllAsD+FQHWNUAmVCEpegocogwlPZomaV+EVUTjA8BfXGALif07KWfT5tVlg4T9V8GhItW3nMaw3lcaBL67h97xgaEO4m/FavoOETyaH2QPs1CSKv3ztYvXlY3f/2yI9Ku9POXNa3hUeJS7N3+7CffSajHHl7bEdInriIkzV47uucUBLyB2/Qu54iNLiIIjaGeUCMtSYhmDJxmGdMqG6FjmkR2BOz43yz9nqf7lH75ss09E+f+99uSk7h8mHl5BXZG0ibDCK1VI9PMYAcsr2mhSRjZYVmwi//N6LNlXTnpdjbGn5vO04F6JGo3VL8s8bYGA6OklVBN/O/f/vQ/SVMOcTc1oF3TdfLGsY7A9DuLEL7XxY0TxuywNEgXXow+I+lKYi0R9PKkj6hceA3Ee6ZUgHl7IxBbMa7ybQlIxzz0rEeM5L6TghGGUQM704AUCoGFIOFWKhMSWNYuewx1AEOogu29wP3DF68OqHvxZoxJyWlBXbt8vWGlc7Pen7/+uMU8T9idRSjavuR6o5tmVY2Gc1gzSMwzPpcDkLirqvGbNdrLEGBbfi0ECTMxLqLcvog64cFygrwcj5zp4eqaFpd//7B1TRyXTBEKh/Ylp+ES/UdptSgWloUEomHdwPlhju/eLNaxuXIWJr4bFUYsl2MiBQe3VPGiKCzxSku0fgDB1FmTd3g9iPRNFGJpSCipLnPBQVL9ctrvA3gz6GsMqqVPOIfMHni6kQPhoaTLs/twjDe4zggzR5oexQP+C1/AEOUj4ZhTe62BqZ1ttoTYJ5yvcEDup6BT3AoO8H5/6L1dVNLr1Qe/Hz8nI0UV3oN3uMGoeKRAdJxeuItRwMDptfQxROt/UukyLlcbnovQS5BQileTnutECDg7o4ieb7wfuCPyvRqLGNeJAaeroMUOdVJ9ZhrHUoOzIqagNGnVex8uXCke8Q2nLQQJB3PYeYHe6ih1dRo/Nq7SJg+54ZsoG/KbxLG084Mg3rqTOrM8yziWGULAvLkctxKXP2PCKa50XnJYafNGbLKCsiS8YCeurynhoft6s206NxrHZIW464zlJyGEnlZanZeLVmn+ShRTZQyr4oyJEC4EOjNcoRzWF86yIN7QIloGrAQJjVUaBE66jHwqRBXSmfIjJvyBqbslxbRk1DqVoipNvDUh2hpweFqAzfkcrCXCSpBQYEncKUUCKSOXvR7TShWpkhkS0E62UDvPUQo9PoK8mGJFrre506iPI2N039IL2VMDa4Rl2mMyFmFWw3lywK7saaqpzhO7Bw8aTdPWxQRE+kldoKksiwPl23R5MM7A5gxAq1htVHLKumwNcMJkPOGxuCxRb7xIBdYHE2wHXVmsDAkFvvtZu7Ajdlym8NQOt1LuNJrsyrpMknCjkzSQQluhusMB1L3cnXHDwlRvgnCL331aK1SfeBhLXxmu58S3vk64HXRlsVIkFEiIoOg0PBYvpk3idqjqOMKNKrJEwsmXXHX+3uQeE/DTaSpiOLBe58Xgzbv3Zl2wMjZhHKIWLa3vhrvs5gEHr7fpojpLSZYshjcyhjVAIb7dcoR0Uec4oMY+YfYa8/adF0Pi3GU7sTZuB5sJsj9FtgfINeZJd4zGMPwenBor3V3EcXYf9Vk1n+XtyBs7ZuM8JivEZ7uGmQvz8iZxHqwJRl+IFO3xFUKiLcdHe2X5oyub4reDH868W0y1yffJaCnwVHRDRsVprW34oe+t6Rci/Qigf/xmaYV7GQAAAABJRU5ErkJggg==";
-const _hoisted_1 = /* @__PURE__ */ createBaseVNode("h6", { class: "text-h4 text-center mb-4" }, "Test cards", -1);
-const _hoisted_2 = {
-  colspan: "3",
-  class: "text-center"
-};
-const _hoisted_3 = {
-  key: 0,
-  style: { "height": "20px" },
-  src: _imports_0,
-  alt: "VISA"
-};
-const _hoisted_4 = {
-  key: 1,
-  style: { "height": "20px" },
-  src: _imports_1,
-  alt: "MasterCard"
-};
-const _hoisted_5 = {
-  key: 2,
-  style: { "height": "20px" },
-  src: _imports_2,
-  alt: "Maestro"
-};
-const _hoisted_6 = {
-  key: 3,
-  style: { "height": "20px" },
-  src: _imports_3,
-  alt: "Простір"
-};
-const _hoisted_7 = /* @__PURE__ */ createBaseVNode("div", { class: "d-flex justify-space-between flex-wrap" }, [
-  /* @__PURE__ */ createBaseVNode("a", {
-    href: "https://developer.mastercard.com/unified-checkout-solutions/documentation/testing/test_cases/click_to_pay_case/#test-cards",
-    target: "_blank",
-    class: "my-2",
-    rel: "noopener noreferrer"
-  }, " Click to Pay test cards "),
-  /* @__PURE__ */ createBaseVNode("a", {
-    href: "https://sandbox.src.mastercard.com/profile/",
-    target: "_blank",
-    class: "my-2",
-    rel: "noopener noreferrer"
-  }, " MasterCard Click to Pay Profile (test environment) "),
-  /* @__PURE__ */ createBaseVNode("a", {
-    href: "https://sandbox.secure.checkout.visa.com/",
-    target: "_blank",
-    class: "my-2",
-    rel: "noopener noreferrer"
-  }, " VISA Click to Pay Profile (test environment) ")
-], -1);
-const _sfc_main = /* @__PURE__ */ defineComponent$1({
-  __name: "index",
-  setup(__props) {
-    const visaTestCards = [
-      {
-        cardNumber: "4999999999990011",
-        tranCode: "000",
-        description: "Authorized transaction"
-      },
-      {
-        cardNumber: "4999999999990029",
-        tranCode: "105",
-        description: "Transaction not allowed by the issuing bank"
-      },
-      {
-        cardNumber: "4999999999990037",
-        tranCode: "116",
-        description: "Insufficient funds"
-      },
-      {
-        cardNumber: "4999999999990045",
-        tranCode: "111",
-        description: "Non-existent card"
-      },
-      {
-        cardNumber: "4999999999990052",
-        tranCode: "108",
-        description: "Lost or stolen card"
-      },
-      {
-        cardNumber: "4999999999990060",
-        tranCode: "101",
-        description: "Invalid expiration date"
-      },
-      {
-        cardNumber: "4999999999990078",
-        tranCode: "130",
-        description: "Overdraft limit exceeded"
-      },
-      {
-        cardNumber: "4999999999990086",
-        tranCode: "290",
-        description: "Issuing bank unavailable"
-      },
-      {
-        cardNumber: "4999999999990094",
-        tranCode: "291",
-        description: "Technical issue or communication problem"
-      },
-      {
-        cardNumber: "4999999999990102",
-        tranCode: "403",
-        description: "Connection error to PS (DS) source"
-      },
-      {
-        cardNumber: "4999999999990110",
-        tranCode: "404",
-        description: "Customer authentication error"
-      }
-    ];
-    const masterCardTestCards = [
-      {
-        cardNumber: "5559490000000007",
-        tranCode: "000",
-        description: "Authorized transaction"
-      },
-      {
-        cardNumber: "5559490000000015",
-        tranCode: "000",
-        description: "Authorized transaction"
-      },
-      {
-        cardNumber: "5559490000000023",
-        tranCode: "000",
-        description: "Authorized transaction"
-      },
-      {
-        cardNumber: "5559490000000106",
-        tranCode: "105",
-        description: "Transaction not allowed by the issuing bank"
-      },
-      {
-        cardNumber: "5559490000000114",
-        tranCode: "116",
-        description: "Insufficient funds"
-      },
-      {
-        cardNumber: "5559490000000122",
-        tranCode: "111",
-        description: "Non-existent card"
-      },
-      {
-        cardNumber: "5559490000000148",
-        tranCode: "101",
-        description: "Invalid expiration date"
-      },
-      {
-        cardNumber: "5559490000000213",
-        tranCode: "291",
-        description: "Technical issue or communication problem"
-      }
-    ];
-    const maestroTestCards = [
-      {
-        cardNumber: "6258148147036936",
-        tranCode: "000",
-        description: "Authorized transaction"
-      }
-    ];
-    const prostirTestCards = [
-      {
-        cardNumber: "9804560070289154",
-        tranCode: "000",
-        description: "Authorized transaction"
-      }
-    ];
-    const testCardsGroups = [
-      {
-        issuer: "VISA",
-        cards: visaTestCards
-      },
-      {
-        issuer: "MasterCard",
-        cards: masterCardTestCards
-      },
-      {
-        issuer: "Maestro",
-        cards: maestroTestCards
-      },
-      {
-        issuer: "Prostir",
-        cards: prostirTestCards
-      }
-    ];
-    const successsnackbar = ref(false);
-    const copyToClipboard = (text) => {
-      navigator.clipboard.writeText(text);
-      successsnackbar.value = true;
-    };
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(VCard, {
-        variant: "outlined",
-        class: "rounded overflow-hidden bg-surface"
-      }, {
-        default: withCtx(() => [
-          createVNode(VCardItem, { class: "pt-5" }, {
-            default: withCtx(() => [
-              _hoisted_1,
-              createVNode(VSnackbar, {
-                modelValue: successsnackbar.value,
-                "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => successsnackbar.value = $event),
-                variant: "flat",
-                location: "bottom right",
-                color: "primary",
-                rounded: "md",
-                class: "text-white"
-              }, {
-                default: withCtx(() => [
-                  createTextVNode(toDisplayString$1(_ctx.$t("snackbar.card.number.copied.to.clipboard")), 1)
-                ]),
-                _: 1
-              }, 8, ["modelValue"]),
-              (openBlock(), createElementBlock(Fragment, null, renderList(testCardsGroups, (item) => {
-                return createBaseVNode("div", {
-                  key: item.issuer
-                }, [
-                  createVNode(VTable, null, {
-                    default: withCtx(() => [
-                      createBaseVNode("thead", null, [
-                        createBaseVNode("tr", null, [
-                          createBaseVNode("td", _hoisted_2, [
-                            item.issuer === "VISA" ? (openBlock(), createElementBlock("img", _hoisted_3)) : createCommentVNode("", true),
-                            item.issuer === "MasterCard" ? (openBlock(), createElementBlock("img", _hoisted_4)) : createCommentVNode("", true),
-                            item.issuer === "Maestro" ? (openBlock(), createElementBlock("img", _hoisted_5)) : createCommentVNode("", true),
-                            item.issuer === "Prostir" ? (openBlock(), createElementBlock("img", _hoisted_6)) : createCommentVNode("", true)
-                          ])
-                        ]),
-                        createBaseVNode("tr", null, [
-                          createBaseVNode("th", null, toDisplayString$1(_ctx.$t("text.transaction.code")), 1),
-                          createBaseVNode("th", null, toDisplayString$1(_ctx.$t("text.description")), 1),
-                          createBaseVNode("th", null, toDisplayString$1(_ctx.$t("text.card.number")), 1)
-                        ])
-                      ]),
-                      createBaseVNode("tbody", null, [
-                        (openBlock(true), createElementBlock(Fragment, null, renderList(item.cards, (card) => {
-                          return openBlock(), createElementBlock("tr", {
-                            key: card.cardNumber
-                          }, [
-                            createBaseVNode("td", null, toDisplayString$1(card.tranCode), 1),
-                            createBaseVNode("td", null, toDisplayString$1(card.description), 1),
-                            createBaseVNode("td", null, [
-                              createBaseVNode("span", null, toDisplayString$1(card.cardNumber), 1),
-                              createVNode(VBtn, {
-                                icon: "",
-                                variant: "text",
-                                color: "primary",
-                                title: _ctx.$t("title.copy"),
-                                onClick: ($event) => copyToClipboard(card.cardNumber)
-                              }, {
-                                default: withCtx(() => [
-                                  createVNode(unref(IconCopy), {
-                                    "stroke-width": "1.5",
-                                    size: "22"
-                                  })
-                                ]),
-                                _: 2
-                              }, 1032, ["title", "onClick"])
-                            ])
-                          ]);
-                        }), 128))
-                      ])
-                    ]),
-                    _: 2
-                  }, 1024)
-                ]);
-              }), 64)),
-              _hoisted_7
-            ]),
-            _: 1
-          })
-        ]),
-        _: 1
-      });
-    };
-  }
-});
-const getPaymentMode = (route) => {
-  const mode = route.query.mode;
-  const enumValue = getPaymentModeFromValue(mode);
-  return { mode: enumValue ?? PaymentMode.Redirect };
-};
-const router = createRouter({
-  history: createWebHashHistory("/fake-shop"),
-  routes: [
-    {
-      path: "",
-      component: ProxyComponent,
-      redirect: { name: RouteName.Config },
-      children: [
-        {
-          path: "/config",
-          name: RouteName.Config,
-          component: _sfc_main$9
-        },
-        {
-          path: "/products",
-          name: RouteName.Products,
-          component: ProductsPage,
-          props: (route) => {
-            return getPaymentMode(route);
-          }
-        },
-        {
-          path: "/checkout",
-          name: RouteName.Checkout,
-          component: _sfc_main$1,
-          props: (route) => {
-            return getPaymentMode(route);
-          }
-        },
-        {
-          path: "/test-cards",
-          name: RouteName.TestCards,
-          component: _sfc_main
-        },
-        {
-          path: "/:pathMatch(.*)*",
-          redirect: { name: RouteName.Config }
-        }
-      ]
-    },
-    {
-      path: "/:pathMatch(.*)*",
-      redirect: { name: RouteName.Config }
-    }
-  ]
-});
 const BLUE_THEME = {
   name: "BLUE_THEME",
   dark: false,
@@ -32613,7 +19770,170 @@ if (Storage.version.getValue() !== Storage.LocalStorageVersion) {
   sessionStorage.clear();
   Storage.version.setValue(Storage.LocalStorageVersion);
 }
-loadAndSetLocaleMessages();
-const locale = getLocaleCodeFromValue(Storage.locale.getValue()) ?? LocaleCode.Uk;
-setLocale(locale);
-createApp(_sfc_main$b).use(router).use(createPinia()).use(i18n).use(vuetify).mount("#app");
+loadAndSetLocaleMessages().then(() => {
+  const locale = getLocaleCodeFromValue(Storage.locale.getValue()) ?? LocaleCode.Uk;
+  setLocale(locale);
+  createApp(_sfc_main$1).use(router).use(createPinia()).use(i18n).use(vuetify).mount("#app");
+});
+export {
+  useElevation as $,
+  useRender as A,
+  mergeProps as B,
+  omit as C,
+  ref as D,
+  defineStore as E,
+  Fragment as F,
+  filterInputAttrs as G,
+  makeGroupProps as H,
+  IconValue as I,
+  useGroup as J,
+  provideDefaults as K,
+  toRef as L,
+  inject$1 as M,
+  withDirectives as N,
+  vShow as O,
+  PaymentMode as P,
+  VExpandTransition as Q,
+  RouteName as R,
+  Ripple as S,
+  useBackgroundColor as T,
+  resolveDirective as U,
+  VBtn as V,
+  VIcon as W,
+  makeElevationProps as X,
+  makeGroupItemProps as Y,
+  makeRoundedProps as Z,
+  useGroupItem as _,
+  createBlock as a,
+  getNextElement as a$,
+  useRounded as a0,
+  provide as a1,
+  makeBorderProps as a2,
+  makeDimensionProps as a3,
+  makeLocationProps as a4,
+  makePositionProps as a5,
+  useBorder as a6,
+  useDimension as a7,
+  useLocation as a8,
+  usePosition as a9,
+  _export_sfc as aA,
+  VBtnToggle as aB,
+  Storage as aC,
+  useResizeObserver as aD,
+  IN_BROWSER as aE,
+  VFadeTransition as aF,
+  focusableChildren as aG,
+  deepEqual as aH,
+  makeVariantProps as aI,
+  EventProp as aJ,
+  makeRouterProps as aK,
+  useVariant as aL,
+  useDensity as aM,
+  useSize as aN,
+  useLink$1 as aO,
+  genOverlays as aP,
+  VExpandXTransition as aQ,
+  VDefaultsProvider as aR,
+  toRaw as aS,
+  getCurrentInstance as aT,
+  defineComponent as aU,
+  MaybeTransition as aV,
+  createSimpleFunctional as aW,
+  deprecate as aX,
+  useTextColor as aY,
+  getPropertyFromItem as aZ,
+  focusChild as a_,
+  useProductsListStore as aa,
+  storeToRefs as ab,
+  onMounted as ac,
+  createElementBlock as ad,
+  renderList as ae,
+  createCommentVNode as af,
+  convertToUnit as ag,
+  watch as ah,
+  onBeforeUnmount as ai,
+  CircularBuffer as aj,
+  makeDisplayProps as ak,
+  makeLayoutItemProps as al,
+  useRtl as am,
+  useDisplay as an,
+  useRouter as ao,
+  useSsrBoot as ap,
+  toPhysical as aq,
+  useToggleScope as ar,
+  onBeforeMount as as,
+  useLayoutItem as at,
+  Transition as au,
+  nextTick as av,
+  useCartStore as aw,
+  VImg as ax,
+  pushScopeId as ay,
+  popScopeId as az,
+  createVNode as b,
+  watchEffect as b0,
+  onScopeDispose as b1,
+  debounce as b2,
+  makeTransitionProps as b3,
+  wrapInArray as b4,
+  ensureValidVNode as b5,
+  matchesSelector as b6,
+  useI18n as b7,
+  withModifiers as b8,
+  isRef as b9,
+  effectScope as bA,
+  defer as bB,
+  reactive as bC,
+  readonly as bD,
+  Teleport as bE,
+  useBackButton as bF,
+  makeVBtnProps as ba,
+  isObject as bb,
+  keys as bc,
+  createSlots as bd,
+  VSlideYTransition as be,
+  getCurrentInstanceName as bf,
+  makeLoaderProps as bg,
+  useLoader as bh,
+  LoaderSlot as bi,
+  isOn as bj,
+  pick as bk,
+  Intersect as bl,
+  cloneVNode as bm,
+  callEvent as bn,
+  breakpoints as bo,
+  capitalize$1 as bp,
+  h as bq,
+  refElement as br,
+  VProgressLinear as bs,
+  eventName as bt,
+  destructComputed as bu,
+  parseAnchor as bv,
+  flipSide as bw,
+  flipAlign as bx,
+  flipCorner as by,
+  getAxis as bz,
+  createVueComponent as c,
+  defineComponent$1 as d,
+  createBaseVNode as e,
+  createTextVNode as f,
+  makeDensityProps as g,
+  makeSizeProps as h,
+  makeTagProps as i,
+  makeThemeProps as j,
+  genericComponent as k,
+  useLocale as l,
+  makeComponentProps as m,
+  normalizeClass as n,
+  openBlock as o,
+  propsFactory as p,
+  provideTheme as q,
+  useProxiedModel as r,
+  computed as s,
+  toDisplayString$1 as t,
+  unref as u,
+  clamp as v,
+  withCtx as w,
+  createRange as x,
+  shallowRef as y,
+  getUid as z
+};
