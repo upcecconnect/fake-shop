@@ -17,16 +17,18 @@ if (Storage.version.getValue() !== Storage.LocalStorageVersion) {
   Storage.version.setValue(Storage.LocalStorageVersion);
 }
 
-loadAndSetLocaleMessages();
-const locale = getLocaleCodeFromValue(Storage.locale.getValue()) ?? LocaleCode.Uk;
-setLocale(locale);
+loadAndSetLocaleMessages().then(() => {
+  const locale = getLocaleCodeFromValue(Storage.locale.getValue()) ?? LocaleCode.Uk;
+  setLocale(locale);
+  
+  createApp(App)
+    .use(router)
+    .use(createPinia())
+    .use(i18n)
+    .use(vuetify)
+    .mount('#app')
+  ;
+})
 
-createApp(App)
-  .use(router)
-  .use(createPinia())
-  .use(i18n)
-  .use(vuetify)
-  .mount('#app')
-;
 
 

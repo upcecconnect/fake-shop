@@ -102,5 +102,17 @@
   "label.customer.email": {
     "en": "Customer Email",
     "uk": "Email клієнта"
+  },
+  "label.variant": {
+    "en": "Variant",
+    "uk": "Варіант"
+  },
+  "label.IBAN": {
+    "en": "IBAN",
+    "uk": "IBAN"
+  },
+  "label.session.data": {
+    "en": "Session Data",
+    "uk": "Дані сесії"
   }
 }

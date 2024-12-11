@@ -7,6 +7,9 @@ import type { VForm } from 'vuetify/lib/components/index.mjs';
 import { PaymentMode } from '@/enums/PaymentMode';
 import ManualRequest from './ManualRequest.vue';
 import { rules } from '@/utils/rules';
+import { fetchBillingAddress } from '@/api/billing-address/fetch-billing-address';
+import { updateBillingAddress } from '@/api/billing-address/update-billing-address';
+import PayByBankForm from './PayByBankForm.vue';
 
 defineProps({
   mode: {
@@ -16,40 +19,15 @@ defineProps({
   },
 });
 
-const getSavedBillingAddress = () => {
-  const defaultAddress = {
-    building: 'B-11',
-    city: 'Kyiv',
-    country: 'Ukraine',
-    destination: 'Office',
-    email: '',
-    firstName: 'John',
-    id: 1,
-    label: 'Home',
-    lastName: 'Doe',
-    phone: '',
-    phoneCode: '',
-    street: 'Gareth Jones 8',
-  };
-  const savedBillingAddress = localStorage.getItem('billingAddress');
-  if (savedBillingAddress) {
-    try {
-      return JSON.parse(savedBillingAddress);
-    } catch (e) {
-      return defaultAddress;
-    }
-  }
-  return defaultAddress
-};
-
 const form = ref<VForm|null>(null);
 const cartStore = useCartStore();
+const address = fetchBillingAddress();
 
 cartStore.$patch({
-  billingAddress: getSavedBillingAddress(),
+  billingAddress: address,
 })
 
-const billingAddress = ref(getSavedBillingAddress());
+const billingAddress = ref(address);
 
 const isEditing = ref(false);
 
@@ -62,9 +40,9 @@ const onEdit = () => {
 
 const onCancel = () => {
   isEditing.value = false;
-  billingAddress.value = getSavedBillingAddress();
+  billingAddress.value = address;
   cartStore.$patch({
-    billingAddress: getSavedBillingAddress(),
+    billingAddress: address,
   })
 };
 
@@ -74,13 +52,7 @@ const onSubmit = async () => {
   if(!valid) {
     return;
   }
-  isEditing.value = false;
-  try {
-    localStorage.setItem('billingAddress', JSON.stringify(billingAddress.value));
-  } catch (e) {
-    console.error(e);
-    localStorage.setItem('billingAddress', JSON.stringify(getSavedBillingAddress()));
-  }
+  updateBillingAddress(billingAddress.value);
   cartStore.$patch({
     billingAddress: billingAddress.value,
   });
@@ -96,6 +68,9 @@ const onSubmit = async () => {
       <template v-if="mode === PaymentMode.Manual">
         <ManualRequest />
       </template>
+      <template v-else-if="mode === PaymentMode.PayByBank">
+        <PayByBankForm />
+      </template>
       <template v-else>
         <div class="d-flex align-center my-5">
           <h4 class="text-h5">{{ $t('text.billing.address') }}</h4>
@@ -110,7 +85,6 @@ const onSubmit = async () => {
                     :color="billingAddress.label.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
                     :rules="[rules.required, rules.minLength(2)]"
-                    hide-details="auto"
                     label="First Name"
                     variant="outlined"
                   />
@@ -121,7 +95,6 @@ const onSubmit = async () => {
                     :color="billingAddress.lastName.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
                     :rules="[rules.required, rules.minLength(2)]"
-                    hide-details="auto" 
                     label="Last Name"
                     variant="outlined"
                   />
@@ -134,7 +107,6 @@ const onSubmit = async () => {
                     :color="billingAddress.country.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
                     :rules="[rules.required, rules.minLength(2)]"
-                    hide-details="auto" 
                   />
                 </v-col>
                 <v-col cols="12" lg="6">
@@ -145,7 +117,6 @@ const onSubmit = async () => {
                     :color="billingAddress.city.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
                     :rules="[rules.required, rules.minLength(2)]"
-                    hide-details="auto"
                   />
                 </v-col>
                 <v-col cols="12" lg="12">
@@ -156,7 +127,6 @@ const onSubmit = async () => {
                     :color="billingAddress.street.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
                     :rules="[rules.required, rules.minLength(2)]"
-                    hide-details="auto"
                   />
                 </v-col>
                 <v-col cols="12" lg="12">
@@ -165,7 +135,7 @@ const onSubmit = async () => {
                     :color="billingAddress.building.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
                     :rules="[rules.required, rules.minLength(2)]"
-                    label="Building No" hide-details="auto"
+                    label="Building No"
                     variant="outlined"
                   />
                 </v-col>
@@ -174,7 +144,6 @@ const onSubmit = async () => {
                     v-model="billingAddress.phoneCode"
                     :color="billingAddress.phoneCode.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
-                    hide-details="auto"
                     label="Phone code"
                     placeholder="380"
                     variant="outlined"
@@ -185,7 +154,6 @@ const onSubmit = async () => {
                     v-model="billingAddress.phone"
                     :color="billingAddress.phone.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
-                    hide-details="auto"
                     label="Phone number"
                     placeholder="000000000"
                     variant="outlined"
@@ -196,7 +164,6 @@ const onSubmit = async () => {
                     v-model="billingAddress.email"
                     :color="billingAddress.email.length > 2 ? 'success' : 'primary'"
                     :readonly="!isEditing"
-                    hide-details="auto"
                     label="Email address"
                     variant="outlined"
                   />

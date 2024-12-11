@@ -166,5 +166,17 @@
   "text.other.params": {
     "en": "Other params",
     "uk": "Інші параметри"
+  },
+  "text.pay.by.bank.form.params": {
+    "en": "Pay by bank form params",
+    "uk": "Параметри форми оплати через банк"
+  },
+  "text.button.params": {
+    "en": "Button params",
+    "uk": "Параметри кнопки"
+  },
+  "text.payment.params": {
+    "en": "Payment params",
+    "uk": "Параметри оплати"
   }
 }

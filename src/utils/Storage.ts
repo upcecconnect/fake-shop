@@ -1,9 +1,11 @@
+import { BillingAddress } from '@/types/Address';
 import { RequestBean } from '@/types/RequestBean';
 
 const LocalStorageKey = Object.freeze({
   Version : 'version',
   Locale: 'locale',
   RequestBeans: 'request-beans',
+  BillingAddress: 'billing-address',
 });
 
 export const Storage = {
@@ -40,5 +42,13 @@ export const Storage = {
     setValue(value: readonly RequestBean[]): void {
       localStorage.setItem(LocalStorageKey.RequestBeans, JSON.stringify(value));
     },
+  },
+  billingAddress: {
+    getValue(): BillingAddress | null {
+      return localStorage.getItem(LocalStorageKey.BillingAddress) ? JSON.parse(localStorage.getItem(LocalStorageKey.BillingAddress)!) : null;
+    },
+    setValue(value: BillingAddress): void {
+      localStorage.setItem(LocalStorageKey.BillingAddress, JSON.stringify(value));
+    }
   },
 };

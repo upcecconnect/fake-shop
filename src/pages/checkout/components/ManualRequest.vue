@@ -14,7 +14,7 @@ import { updateRequestBean } from '@/api/request-beans/update-request-bean';
 import { useI18n } from 'vue-i18n';
 import { PaymentMode } from '@/enums/PaymentMode';
 
-const { smAndDown } = useDisplay()
+const { smAndDown } = useDisplay();
 const paramsFormElement = ref<VForm|null>(null);
 const isEditing = ref(false);
 
@@ -205,7 +205,6 @@ onMounted(() => {
               v-model="currentRequestBean.label"
               :readonly="!isEditing"
               :rules="[rules.required]"
-              hide-details="auto"
               :label="$t('label.form.name')"
               variant="outlined"
             />
@@ -214,7 +213,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.url"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.request.url')"
               variant="outlined"
             />
@@ -224,7 +222,6 @@ onMounted(() => {
               v-model="currentRequestBean.mode"
               :readonly="!isEditing"
               :rules="[rules.required]"
-              hide-details="auto"
               :items="paymentModes"
               :label="$t('label.payment.mode')"
               variant="outlined"
@@ -238,7 +235,6 @@ onMounted(() => {
               v-model="currentRequestBean.merchantId"
               :readonly="!isEditing"
               :rules="[rules.required]"
-              hide-details="auto"
               :label="$t('label.merchant.id')"
               variant="outlined"
             />
@@ -248,7 +244,6 @@ onMounted(() => {
               v-model="currentRequestBean.merchantTerminalId"
               :readonly="!isEditing"
               :rules="[rules.required]"
-              hide-details="auto"
               :label="$t('label.terminal.id')"
               variant="outlined"
             />
@@ -258,7 +253,6 @@ onMounted(() => {
               <v-text-field 
                 v-model="currentRequestBean.orderId"
                 :readonly="!isEditing"
-                hide-details="auto"
                 :label="$t('label.order.id')"
                 variant="outlined"
                 class="mr-2"
@@ -281,7 +275,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.currencyNumericCode"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.currency.numeric.code')"
               variant="outlined"
             />
@@ -290,7 +283,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.altCurrencyNumericCode"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.currency.numeric.code.alternative')"
               variant="outlined"
             />
@@ -302,7 +294,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.feeCents"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.fee.cents')"
               variant="outlined"
             />
@@ -311,7 +302,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.altFeeCents"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.alternative.fee.cents')"
               variant="outlined"
             />
@@ -323,7 +313,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.totalAmountCents"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.total.amount.cents')"
               variant="outlined"
             />
@@ -332,7 +321,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.altTotalAmountCents"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.alternative.total.amount.cents')"
               variant="outlined"
             />
@@ -344,7 +332,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.customerPhoneCode"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.customer.phone.code')"
               variant="outlined"
               placeholder="380"
@@ -354,7 +341,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.customerPhone"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.customer.phone.number')"
               variant="outlined"
               placeholder="000000000"
@@ -364,7 +350,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.customerFirstName"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.customer.first.name')"
               variant="outlined"
             />
@@ -373,7 +358,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.customerLastName"
               :readonly="!isEditing"
-              hide-details="auto" 
               :label="$t('label.customer.last.name')"
               variant="outlined"
             />
@@ -382,7 +366,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.customerEmail"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.customer.email')"
               variant="outlined"
             />
@@ -394,7 +377,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.locale"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.locale')"
               variant="outlined"
             />
@@ -403,7 +385,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.purchaseTime"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.purchase.time')"
               variant="outlined"
             />
@@ -412,7 +393,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.delay"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.delay')"
               variant="outlined"
             />
@@ -421,7 +401,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.description"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.purchase.description')"
               variant="outlined"
             />
@@ -430,7 +409,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.token"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.payment.token')"
               variant="outlined"
             />
@@ -439,7 +417,6 @@ onMounted(() => {
             <v-text-field 
               v-model="currentRequestBean.merchantSignature"
               :readonly="!isEditing"
-              hide-details="auto"
               :label="$t('label.signature')"
               variant="outlined"
             />

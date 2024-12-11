@@ -107,7 +107,6 @@ onMounted(() => {
     <v-text-field
       v-if="mode !== PaymentMode.Manual"
       v-model="paymentDescriptionComputed"
-      hide-details="auto"
       label="Payment Description"
       variant="outlined"
     />

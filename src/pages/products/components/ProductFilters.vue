@@ -248,7 +248,6 @@ onMounted(() => {
               :label="priceItem.label"
               color="primary"
               :value="priceItem.id"
-              hide-details
             >
             </v-radio>
           </v-radio-group>

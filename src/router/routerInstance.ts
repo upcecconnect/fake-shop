@@ -5,10 +5,6 @@ import { RouteName } from './RouteName';
 import { getPaymentModeFromValue } from '@/enums/PaymentMode';
 import { PaymentMode } from '@/enums/PaymentMode';
 import ProxyComponent from './ProxyComponent.vue';
-import ConfigPage from '@/pages/config/index.vue';
-import ProductsPage from '@/pages/products/index.vue';
-import CheckoutPage from '@/pages/checkout/index.vue';
-import TestCards from '@/pages/test-cards/index.vue';
 
 const getPaymentMode = (route: RouteLocationNormalized) => {
   const mode = route.query.mode as string;
@@ -27,12 +23,12 @@ export const router = createRouter({
           {
             path: '/config',
             name: RouteName.Config,
-            component: ConfigPage,
+            component: () => import('@/pages/config/index.vue'),
           },
           {
             path: '/products',
             name: RouteName.Products,
-            component: ProductsPage,
+            component: () => import('@/pages/products/index.vue'),
             props: (route) => {
               return getPaymentMode(route);
             },
@@ -40,7 +36,7 @@ export const router = createRouter({
           {
             path: '/checkout',
             name: RouteName.Checkout,
-            component: CheckoutPage,
+            component: () => import('@/pages/checkout/index.vue'),
             props: (route) => {
               return getPaymentMode(route);
             },
@@ -48,7 +44,7 @@ export const router = createRouter({
           {
             path: '/test-cards',
             name: RouteName.TestCards,
-            component: TestCards,
+            component: () => import('@/pages/test-cards/index.vue'),
           },
           {
             path: '/:pathMatch(.*)*',

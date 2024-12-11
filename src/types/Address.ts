@@ -6,7 +6,6 @@ export interface BillingAddress {
   readonly email: string;
   readonly firstName: string;
   readonly id: number;
-  readonly isDefault: boolean;
   readonly label: string;
   readonly lastName: string;
   readonly phone: string;

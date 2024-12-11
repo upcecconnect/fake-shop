@@ -1,12 +1,6 @@
 import { i18n } from './i18n';
 import { LocaleCode } from '@/enums/LocaleCode';
-import actionJSON from '@/locales/action.json';
-import metaJSON from '@/locales/meta.json';
-import textJSON from '@/locales/text.json';
-import titleJSON from '@/locales/title.json';
-import snackbarJSON from '@/locales/snackbar.json';
 import { Storage } from '@/utils/Storage';
-import labelJSON from '@/locales/label.json';
 
 type MessagesDtoGet = Record<string, Record<string, string>>;
 
@@ -18,16 +12,26 @@ interface FormattedMessages {
   [key: string]: Messages;
 }
 
-const messagesDto: MessagesDtoGet = {
-  ...actionJSON,
-  ...metaJSON,
-  ...textJSON,
-  ...titleJSON,
-  ...snackbarJSON,
-  ...labelJSON,
-}
 
-export const loadAndSetLocaleMessages = (): void => {
+export const loadAndSetLocaleMessages = async (): Promise<void> => {
+  const response = await Promise.all([
+    import('@/locales/action.json'),
+    import('@/locales/meta.json'),
+    import('@/locales/text.json'),
+    import('@/locales/title.json'),
+    import('@/locales/snackbar.json'),
+    import('@/locales/label.json'),
+  ]);
+
+  const messagesDto = response.reduce<MessagesDtoGet>((acc, item) => {
+    const locales = item.default;
+    acc = {
+      ...acc,
+      ...locales,
+    }
+    return acc;
+  }, {});
+
   const formattedMessages = [LocaleCode.En, LocaleCode.Uk].reduce<FormattedMessages>((acc, locale) => {
     const translate = Object.keys(messagesDto).reduce<Messages>((accumulator, key) => {
       const foundTranslate = messagesDto[key][locale];

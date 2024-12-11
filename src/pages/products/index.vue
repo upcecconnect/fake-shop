@@ -86,14 +86,13 @@ const addToCart = (productId: Product['id']) => {
             <h5 class="text-h5 d-none d-lg-flex font-weight-semibold">Products</h5>
             <v-sheet  width="300">
               <v-text-field
-                  variant="outlined"
-                  v-model="userSearchValue"
-                  prepend-inner-icon="mdi-magnify"
-                  placeholder="Search Product"
-                  hide-details
-                  density="compact"
-                  color="primary"
-              ></v-text-field>
+                variant="outlined"
+                v-model="userSearchValue"
+                prepend-inner-icon="mdi-magnify"
+                placeholder="Search Product"
+                density="compact"
+                color="primary"
+              />
             </v-sheet>
           </div>
           <v-row v-if="filteredProducts.length >= 1">

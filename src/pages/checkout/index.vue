@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { nextTick } from 'vue';
+import { onMounted } from 'vue';
+import { watch } from 'vue';
 import { PropType } from 'vue';
 import { ref } from 'vue';
 import { useCartStore } from '@/stores/useCartStore';
@@ -13,6 +16,9 @@ import { PaymentMode } from '@/enums/PaymentMode';
 import { submitPaymentRedirect } from '@/utils/submitPayment/submitPaymentRedirect';
 import { submitPaymentBuiltIn } from '@/utils/submitPayment/submitPaymentBuiltIn';
 import { submitPaymentModal } from '@/utils/submitPayment/submitPaymentModal';
+import { usePayByBankBankStore } from '@/stores/usePayByBankStore';
+import { useI18n } from 'vue-i18n';
+import { NUPCPayByBank } from '@/types/pay-by-bank';
 
 const props = defineProps({
   mode: {
@@ -22,6 +28,25 @@ const props = defineProps({
   },
 });
 
+const i18n = useI18n();
+const payByBankStore = usePayByBankBankStore();
+const {
+    buttonVariant,
+    buttonLocale,
+    buttonWrapperSelector,
+    paymentMode,
+    creditorIBAN,
+    currencyNumericCode,
+    locale,
+    merchantID,
+    orderId,
+    purchaseDescription,
+    purchaseTime,
+    sessionData,
+    signature,
+    totalAmountCents,
+    url
+} = storeToRefs(payByBankStore);
 const page = ref({ title: 'Checkout' });
 const breadcrumbs = ref([
   {
@@ -63,6 +88,61 @@ const initPayment = () => {
     return;
   }
 }
+
+const button = ref<NUPCPayByBank.PayByBank|null>(null);
+
+onMounted(() => {
+  if (props.mode === PaymentMode.PayByBank) {
+    tab.value = 'tab-2';
+    nextTick(() => {
+      buttonLocale.value = i18n.locale.value as NUPCPayByBank.Locale;
+      button.value = new window.UPCPayByBank({
+        buttonProps: {
+          locale: buttonLocale.value,
+          variant: buttonVariant.value,
+          wrapperSelector: buttonWrapperSelector.value,
+          mode: paymentMode.value,
+        },
+        getPaymentProps() {
+          return {
+            orderId: orderId.value,
+            url: url.value,
+            creditorIBAN: creditorIBAN.value,
+            currencyNumericCode: currencyNumericCode.value,
+            locale: locale.value,
+            merchantID: merchantID.value,
+            purchaseDescription: purchaseDescription.value,
+            purchaseTime: purchaseTime.value,
+            signature: signature.value,
+            totalAmountCents: totalAmountCents.value,
+            sessionData: sessionData.value,
+          }
+        },
+        callback: () => {
+          orderId.value = Date.now().toString();
+        }
+      });
+    })
+  }
+});
+
+watch(buttonLocale, (newValue: NUPCPayByBank.Locale) => {
+  if (button.value) {
+    button.value.buttonProps.locale = newValue;
+  }
+});
+
+watch(buttonVariant, (newValue: NUPCPayByBank.Variant) => {
+  if (button.value) {
+    button.value.buttonProps.variant = newValue;
+  }
+});
+
+watch(paymentMode, (newValue: NUPCPayByBank.PaymentMode) => {
+  if (button.value) {
+    button.value.buttonProps.mode = newValue;
+  }
+});
 </script>
 
 <template>
@@ -152,7 +232,7 @@ const initPayment = () => {
               >
                 {{ $t('action.complete.an.order') }}
               </v-btn>
-              <div v-if="mode === PaymentMode.PayByBank">Pay by bank</div>
+              <div v-if="mode === PaymentMode.PayByBank" id="pay-by-bank"></div>
             </v-col>
           </v-row>
         </v-window-item>

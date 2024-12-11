@@ -4,7 +4,8 @@ import { PaymentMode } from '@/enums/PaymentMode';
 import { IconCornerUpRightDouble } from '@tabler/icons-vue';
 import { IconWall } from '@tabler/icons-vue';
 import { IconAppWindow } from '@tabler/icons-vue';
-// import { IconBuildingBank } from '@tabler/icons-vue';
+import { IconBuildingBank } from '@tabler/icons-vue';
+import { IconCode } from '@tabler/icons-vue';
 </script>
 
 <template>
@@ -72,7 +73,7 @@ import { IconAppWindow } from '@tabler/icons-vue';
         </v-card-text>
       </v-card>
     </v-col>
-    <!-- <v-col cols="12" lg="6">
+    <v-col cols="12" lg="6">
       <v-card elevation="10" class="overflow-hidden">
         <v-card-item :class="'py-4 px-6 text-white bg-primary'">
           <h4 class="text-h6 d-flex align-center">
@@ -92,12 +93,12 @@ import { IconAppWindow } from '@tabler/icons-vue';
           </v-btn>
         </v-card-text>
       </v-card>
-    </v-col> -->
+    </v-col>
     <v-col cols="12" lg="6">
       <v-card elevation="10" class="overflow-hidden">
         <v-card-item :class="'py-4 px-6 text-white bg-error'">
           <h4 class="text-h6 d-flex align-center">
-            <IconWall class="mr-4" />
+            <IconCode class="mr-4" />
             <span>{{ $t('text.payment.with.manual.params') }}</span>
           </h4>
         </v-card-item>
