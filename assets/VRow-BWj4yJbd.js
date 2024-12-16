@@ -1,4 +1,4 @@
-import { bo as breakpoints, bp as capitalize, p as propsFactory, m as makeComponentProps, i as makeTagProps, k as genericComponent, s as computed, bq as h } from "./index-BZtgzgBp.js";
+import { bn as breakpoints, bo as capitalize, p as propsFactory, m as makeComponentProps, i as makeTagProps, k as genericComponent, s as computed, bp as h } from "./index-DSl-8azQ.js";
 const breakpointProps = (() => {
   return breakpoints.reduce((props, val) => {
     props[val] = {

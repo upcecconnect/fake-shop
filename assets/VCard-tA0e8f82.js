@@ -1,4 +1,30 @@
-import { k as genericComponent, m as makeComponentProps, K as provideDefaults, A as useRender, b as createVNode, aW as createSimpleFunctional, p as propsFactory, I as IconValue, g as makeDensityProps, Z as makeRoundedProps, h as makeSizeProps, i as makeTagProps, j as makeThemeProps, aI as makeVariantProps, q as provideTheme, aL as useVariant, aM as useDensity, a0 as useRounded, aN as useSize, ax as VImg, W as VIcon, aR as VDefaultsProvider, aP as genOverlays, F as Fragment, a2 as makeBorderProps, a3 as makeDimensionProps, X as makeElevationProps, bg as makeLoaderProps, a4 as makeLocationProps, a5 as makePositionProps, aK as makeRouterProps, S as Ripple, a6 as useBorder, a7 as useDimension, $ as useElevation, bh as useLoader, a8 as useLocation, a9 as usePosition, aO as useLink, s as computed, N as withDirectives, U as resolveDirective, bi as LoaderSlot } from "./index-BZtgzgBp.js";
+import { k as genericComponent, bo as capitalize, bF as camelize, m as makeComponentProps, bp as h, K as provideDefaults, A as useRender, b as createVNode, p as propsFactory, I as IconValue, g as makeDensityProps, Z as makeRoundedProps, h as makeSizeProps, i as makeTagProps, j as makeThemeProps, aI as makeVariantProps, q as provideTheme, aL as useVariant, aM as useDensity, a0 as useRounded, aN as useSize, ax as VImg, W as VIcon, aR as VDefaultsProvider, aP as genOverlays, F as Fragment, a2 as makeBorderProps, a3 as makeDimensionProps, X as makeElevationProps, bf as makeLoaderProps, a4 as makeLocationProps, a5 as makePositionProps, aK as makeRouterProps, S as Ripple, a6 as useBorder, a7 as useDimension, $ as useElevation, bg as useLoader, a8 as useLocation, a9 as usePosition, aO as useLink, s as computed, N as withDirectives, U as resolveDirective, bh as LoaderSlot } from "./index-DSl-8azQ.js";
+function createSimpleFunctional(klass) {
+  let tag = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "div";
+  let name = arguments.length > 2 ? arguments[2] : void 0;
+  return genericComponent()({
+    name: name ?? capitalize(camelize(klass.replace(/__/g, "-"))),
+    props: {
+      tag: {
+        type: String,
+        default: tag
+      },
+      ...makeComponentProps()
+    },
+    setup(props, _ref) {
+      let {
+        slots
+      } = _ref;
+      return () => {
+        var _a;
+        return h(props.tag, {
+          class: [klass, props.class],
+          style: props.style
+        }, (_a = slots.default) == null ? void 0 : _a.call(slots));
+      };
+    }
+  });
+}
 const VCardActions = genericComponent()({
   name: "VCardActions",
   props: makeComponentProps(),
@@ -361,5 +387,6 @@ export {
   VCard as V,
   VCardItem as a,
   VCardText as b,
-  VAvatar as c
+  VAvatar as c,
+  createSimpleFunctional as d
 };

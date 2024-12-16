@@ -3,6 +3,10 @@ const title = {
     en: "Test cards",
     uk: "Тестові картки"
   },
+  "title.language": {
+    en: "Language",
+    uk: "Мова"
+  },
   "title.shopping.cart": {
     en: "Shopping cart",
     uk: "Кошик"

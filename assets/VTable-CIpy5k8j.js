@@ -1,4 +1,4 @@
-import { p as propsFactory, m as makeComponentProps, g as makeDensityProps, i as makeTagProps, j as makeThemeProps, k as genericComponent, q as provideTheme, aM as useDensity, A as useRender, b as createVNode, ag as convertToUnit } from "./index-BZtgzgBp.js";
+import { p as propsFactory, m as makeComponentProps, g as makeDensityProps, i as makeTagProps, j as makeThemeProps, k as genericComponent, q as provideTheme, aM as useDensity, A as useRender, b as createVNode, ag as convertToUnit } from "./index-DSl-8azQ.js";
 const makeVTableProps = propsFactory({
   fixedHeader: Boolean,
   fixedFooter: Boolean,

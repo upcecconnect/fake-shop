@@ -1,9 +1,9 @@
-import { c as createVueComponent, k as genericComponent, b as createVNode, B as mergeProps, au as Transition, p as propsFactory, d as defineComponent, aw as useCartStore, ab as storeToRefs, o as openBlock, a as createBlock, w as withCtx, e as createBaseVNode, t as toDisplayString, u as unref, P as PaymentMode, s as computed, ac as onMounted, ad as createElementBlock, af as createCommentVNode, F as Fragment, ae as renderList, ax as VImg, V as VBtn, R as RouteName, f as createTextVNode, aB as VBtnToggle, aC as Storage, m as makeComponentProps, D as ref, A as useRender, I as IconValue, ak as makeDisplayProps, i as makeTagProps, H as makeGroupProps, am as useRtl, an as useDisplay, J as useGroup, y as shallowRef, aD as useResizeObserver, aE as IN_BROWSER, ah as watch, aF as VFadeTransition, W as VIcon, aG as focusableChildren, v as clamp, aH as deepEqual, j as makeThemeProps, aI as makeVariantProps, q as provideTheme, K as provideDefaults, L as toRef, aJ as EventProp, a2 as makeBorderProps, g as makeDensityProps, X as makeElevationProps, Y as makeGroupItemProps, Z as makeRoundedProps, aK as makeRouterProps, h as makeSizeProps, S as Ripple, l as useLocale, a6 as useBorder, aL as useVariant, aM as useDensity, $ as useElevation, a0 as useRounded, aN as useSize, r as useProxiedModel, _ as useGroupItem, aO as useLink, N as withDirectives, U as resolveDirective, aP as genOverlays, aQ as VExpandXTransition, aR as VDefaultsProvider, O as vShow, M as inject, a1 as provide, aS as toRaw, ai as onBeforeUnmount, aT as getCurrentInstance, z as getUid, aU as defineComponent$1, ap as useSsrBoot, aV as MaybeTransition, Q as VExpandTransition, aW as createSimpleFunctional, a3 as makeDimensionProps, a7 as useDimension, aX as deprecate, aY as useTextColor, aZ as getPropertyFromItem, C as omit, T as useBackgroundColor, a_ as focusChild, av as nextTick, a$ as getNextElement, b0 as watchEffect, b1 as onScopeDispose, b2 as debounce, ar as useToggleScope, ag as convertToUnit, b3 as makeTransitionProps, b4 as wrapInArray, b5 as ensureValidVNode, b6 as matchesSelector, b7 as useI18n, n as normalizeClass, b8 as withModifiers, E as defineStore, b9 as isRef, ba as makeVBtnProps, bb as isObject, bc as keys, bd as createSlots } from "./index-BZtgzgBp.js";
-import { a as asCurrency, j as VTextField, i as VDivider, k as imageEmpty, l as makeFormProps, n as createForm, o as makeVTextFieldProps, p as useForm, c as VCheckboxBtn, I as IconBasket } from "./VTextField-KRwQFjK2.js";
-import { a as VCardItem, V as VCard, c as VAvatar, b as VCardText } from "./VCard-w1fiAr5g.js";
-import { V as VTable } from "./VTable-BI0fq4TN.js";
-import { a as VRow, V as VCol } from "./VRow-BRFRbXyO.js";
-import { c as animate, d as deceleratedEasing, s as standardEasing, e as acceleratedEasing, g as getTargetBox, n as nullifyTransforms, f as forwardRefs, m as makeVOverlayProps, u as useScopeId, h as VMenuSymbol, V as VOverlay, i as getScrollParent, a as makeLazyProps, b as useLazy } from "./forwardRefs-VFy-yl6w.js";
+import { c as createVueComponent, k as genericComponent, b as createVNode, B as mergeProps, au as Transition, p as propsFactory, d as defineComponent, aw as useCartStore, ab as storeToRefs, o as openBlock, a as createBlock, w as withCtx, e as createBaseVNode, t as toDisplayString, u as unref, P as PaymentMode, s as computed, ac as onMounted, ad as createElementBlock, af as createCommentVNode, F as Fragment, ae as renderList, ax as VImg, V as VBtn, R as RouteName, f as createTextVNode, aB as VBtnToggle, aC as Storage, m as makeComponentProps, D as ref, A as useRender, I as IconValue, ak as makeDisplayProps, i as makeTagProps, H as makeGroupProps, am as useRtl, an as useDisplay, J as useGroup, y as shallowRef, aD as useResizeObserver, aE as IN_BROWSER, ah as watch, aF as VFadeTransition, W as VIcon, aG as focusableChildren, v as clamp, aH as deepEqual, j as makeThemeProps, aI as makeVariantProps, q as provideTheme, K as provideDefaults, L as toRef, aJ as EventProp, a2 as makeBorderProps, g as makeDensityProps, X as makeElevationProps, Y as makeGroupItemProps, Z as makeRoundedProps, aK as makeRouterProps, h as makeSizeProps, S as Ripple, l as useLocale, a6 as useBorder, aL as useVariant, aM as useDensity, $ as useElevation, a0 as useRounded, aN as useSize, r as useProxiedModel, _ as useGroupItem, aO as useLink, N as withDirectives, U as resolveDirective, aP as genOverlays, aQ as VExpandXTransition, aR as VDefaultsProvider, O as vShow, M as inject, a1 as provide, aS as toRaw, ai as onBeforeUnmount, aT as getCurrentInstance, z as getUid, aU as defineComponent$1, ap as useSsrBoot, aV as MaybeTransition, Q as VExpandTransition, a3 as makeDimensionProps, a7 as useDimension, aW as deprecate, aX as useTextColor, aY as getPropertyFromItem, C as omit, T as useBackgroundColor, aZ as focusChild, av as nextTick, a_ as getNextElement, a$ as watchEffect, b0 as onScopeDispose, b1 as debounce, ar as useToggleScope, ag as convertToUnit, b2 as makeTransitionProps, b3 as wrapInArray, b4 as ensureValidVNode, b5 as matchesSelector, b6 as useI18n, n as normalizeClass, b7 as withModifiers, E as defineStore, b8 as isRef, b9 as makeVBtnProps, ba as isObject, bb as keys, bc as createSlots } from "./index-DSl-8azQ.js";
+import { a as asCurrency, j as VTextField, i as VDivider, k as imageEmpty, l as makeFormProps, n as createForm, o as makeVTextFieldProps, p as useForm, c as VCheckboxBtn, I as IconBasket } from "./VTextField-TWJCBqjZ.js";
+import { a as VCardItem, V as VCard, c as VAvatar, d as createSimpleFunctional, b as VCardText } from "./VCard-tA0e8f82.js";
+import { V as VTable } from "./VTable-CIpy5k8j.js";
+import { a as VRow, V as VCol } from "./VRow-BWj4yJbd.js";
+import { c as animate, d as deceleratedEasing, s as standardEasing, e as acceleratedEasing, g as getTargetBox, n as nullifyTransforms, f as forwardRefs, m as makeVOverlayProps, u as useScopeId, h as VMenuSymbol, V as VOverlay, i as getScrollParent, a as makeLazyProps, b as useLazy } from "./forwardRefs-CeyhghAF.js";
 /**
  * @license @tabler/icons-vue v3.24.0 - MIT
  *
@@ -6502,7 +6502,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                         createVNode(_sfc_main$1, { mode: __props.mode }, null, 8, ["mode"]),
                         createVNode(VRow, { class: "mt-3" }, {
                           default: withCtx(() => [
-                            createVNode(VCol, { cols: "6" }, {
+                            createVNode(VCol, {
+                              cols: "12",
+                              md: "6"
+                            }, {
                               default: withCtx(() => [
                                 __props.mode !== unref(PaymentMode).Manual ? (openBlock(), createBlock(VBtn, {
                                   key: 0,
@@ -6519,7 +6522,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                               _: 1
                             }),
                             createVNode(VCol, {
-                              cols: "6",
+                              cols: "12",
+                              md: "6",
                               class: "text-right"
                             }, {
                               default: withCtx(() => [

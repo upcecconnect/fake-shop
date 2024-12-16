@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/index-DDOCiO4t.js","assets/VCard-w1fiAr5g.js","assets/VCard-Dqmb2AXB.css","assets/VRow-BRFRbXyO.js","assets/index-ZaagjZI9.js","assets/VTextField-KRwQFjK2.js","assets/forwardRefs-VFy-yl6w.js","assets/forwardRefs-O1SENgYM.css","assets/VTextField-DiRpeTuz.css","assets/VSnackbar-Btp4-gFm.js","assets/VSnackbar-Dv9oml3V.css","assets/index-XXNKNsor.css","assets/index-BbMPehs9.js","assets/VTable-BI0fq4TN.js","assets/VTable-hQtDlOgp.css","assets/index-fbgJwTLK.css","assets/index-AQxfZAt2.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/index-DxksOyCG.js","assets/VCard-tA0e8f82.js","assets/VCard-Dqmb2AXB.css","assets/VRow-BWj4yJbd.js","assets/index-utSeVQN9.js","assets/VTextField-TWJCBqjZ.js","assets/forwardRefs-CeyhghAF.js","assets/forwardRefs-O1SENgYM.css","assets/VTextField-DiRpeTuz.css","assets/VSnackbar-CaJkG02N.js","assets/VSnackbar-Dv9oml3V.css","assets/index-XXNKNsor.css","assets/index-CaPvbWUf.js","assets/VTable-CIpy5k8j.js","assets/VTable-hQtDlOgp.css","assets/index-fbgJwTLK.css","assets/index-DaPyLiDI.js"])))=>i.map(i=>d[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -11912,7 +11912,7 @@ const loadAndSetLocaleMessages = async () => {
     __vitePreload(() => import("./action-CkLctwqF.js"), true ? [] : void 0),
     __vitePreload(() => import("./meta-DLAGXscK.js"), true ? [] : void 0),
     __vitePreload(() => import("./text-BwCsXSU4.js"), true ? [] : void 0),
-    __vitePreload(() => import("./title-BDLqJj6d.js"), true ? [] : void 0),
+    __vitePreload(() => import("./title-RDb5V7vX.js"), true ? [] : void 0),
     __vitePreload(() => import("./snackbar-BLhYcoij.js"), true ? [] : void 0),
     __vitePreload(() => import("./label-CRO0QDz2.js"), true ? [] : void 0)
   ]);
@@ -11946,35 +11946,29 @@ const setLocale = (locale) => {
   document.title = i18n.global.t("meta.title");
   Storage.locale.setValue(locale);
 };
-function propsFactory(props, source) {
-  return (defaults) => {
-    return Object.keys(props).reduce((obj, prop) => {
-      const isObjectDefinition = typeof props[prop] === "object" && props[prop] != null && !Array.isArray(props[prop]);
-      const definition = isObjectDefinition ? props[prop] : {
-        type: props[prop]
-      };
-      if (defaults && prop in defaults) {
-        obj[prop] = {
-          ...definition,
-          default: defaults[prop]
-        };
-      } else {
-        obj[prop] = definition;
-      }
-      if (source && !obj[prop].source) {
-        obj[prop].source = source;
-      }
-      return obj;
-    }, {});
-  };
-}
-const makeComponentProps = propsFactory({
-  class: [String, Array],
-  style: {
-    type: [String, Array, Object],
-    default: null
+function useToggleScope(source, fn) {
+  let scope;
+  function start() {
+    scope = effectScope();
+    scope.run(() => fn.length ? fn(() => {
+      scope == null ? void 0 : scope.stop();
+      start();
+    }) : fn());
   }
-}, "component");
+  watch(source, (active) => {
+    if (active && !scope) {
+      start();
+    } else if (!active) {
+      scope == null ? void 0 : scope.stop();
+      scope = void 0;
+    }
+  }, {
+    immediate: true
+  });
+  onScopeDispose(() => {
+    scope == null ? void 0 : scope.stop();
+  });
+}
 const IN_BROWSER = typeof window !== "undefined";
 const SUPPORTS_INTERSECTION = IN_BROWSER && "IntersectionObserver" in window;
 const SUPPORTS_TOUCH = IN_BROWSER && ("ontouchstart" in window || window.navigator.maxTouchPoints > 0);
@@ -12694,6 +12688,35 @@ function getForeground(color) {
   const whiteContrast = Math.abs(APCAcontrast(parseColor(16777215), parseColor(color)));
   return whiteContrast > Math.min(blackContrast, 50) ? "#fff" : "#000";
 }
+function propsFactory(props, source) {
+  return (defaults) => {
+    return Object.keys(props).reduce((obj, prop) => {
+      const isObjectDefinition = typeof props[prop] === "object" && props[prop] != null && !Array.isArray(props[prop]);
+      const definition = isObjectDefinition ? props[prop] : {
+        type: props[prop]
+      };
+      if (defaults && prop in defaults) {
+        obj[prop] = {
+          ...definition,
+          default: defaults[prop]
+        };
+      } else {
+        obj[prop] = definition;
+      }
+      if (source && !obj[prop].source) {
+        obj[prop].source = source;
+      }
+      return obj;
+    }, {});
+  };
+}
+const makeComponentProps = propsFactory({
+  class: [String, Array],
+  style: {
+    type: [String, Array, Object],
+    default: null
+  }
+}, "component");
 const DefaultsSymbol = Symbol.for("vuetify:defaults");
 function createDefaults(options) {
   return ref(options);
@@ -12819,32 +12842,6 @@ function genericComponent() {
   let exposeDefaults = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : true;
   return (options) => (exposeDefaults ? defineComponent : defineComponent$1)(options);
 }
-function createSimpleFunctional(klass) {
-  let tag = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "div";
-  let name = arguments.length > 2 ? arguments[2] : void 0;
-  return genericComponent()({
-    name: name ?? capitalize$1(camelize(klass.replace(/__/g, "-"))),
-    props: {
-      tag: {
-        type: String,
-        default: tag
-      },
-      ...makeComponentProps()
-    },
-    setup(props, _ref) {
-      let {
-        slots
-      } = _ref;
-      return () => {
-        var _a;
-        return h(props.tag, {
-          class: [klass, props.class],
-          style: props.style
-        }, (_a = slots.default) == null ? void 0 : _a.call(slots));
-      };
-    }
-  });
-}
 function getCurrentInstance(name, message) {
   const vm = getCurrentInstance$1();
   if (!vm) {
@@ -12885,329 +12882,6 @@ function injectSelf(key) {
 function useRender(render) {
   const vm = getCurrentInstance("useRender");
   vm.render = render;
-}
-function useResizeObserver(callback) {
-  let box = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "content";
-  const resizeRef = ref();
-  const contentRect = ref();
-  if (IN_BROWSER) {
-    const observer = new ResizeObserver((entries) => {
-      if (!entries.length) return;
-      if (box === "content") {
-        contentRect.value = entries[0].contentRect;
-      } else {
-        contentRect.value = entries[0].target.getBoundingClientRect();
-      }
-    });
-    onBeforeUnmount(() => {
-      observer.disconnect();
-    });
-    watch(resizeRef, (newValue, oldValue) => {
-      if (oldValue) {
-        observer.unobserve(refElement(oldValue));
-        contentRect.value = void 0;
-      }
-      if (newValue) observer.observe(refElement(newValue));
-    }, {
-      flush: "post"
-    });
-  }
-  return {
-    resizeRef,
-    contentRect: readonly(contentRect)
-  };
-}
-const VuetifyLayoutKey = Symbol.for("vuetify:layout");
-const VuetifyLayoutItemKey = Symbol.for("vuetify:layout-item");
-const ROOT_ZINDEX = 1e3;
-const makeLayoutProps = propsFactory({
-  overlaps: {
-    type: Array,
-    default: () => []
-  },
-  fullHeight: Boolean
-}, "layout");
-const makeLayoutItemProps = propsFactory({
-  name: {
-    type: String
-  },
-  order: {
-    type: [Number, String],
-    default: 0
-  },
-  absolute: Boolean
-}, "layout-item");
-function useLayout() {
-  const layout = inject$1(VuetifyLayoutKey);
-  if (!layout) throw new Error("[Vuetify] Could not find injected layout");
-  return {
-    getLayoutItem: layout.getLayoutItem,
-    mainRect: layout.mainRect,
-    mainStyles: layout.mainStyles
-  };
-}
-function useLayoutItem(options) {
-  const layout = inject$1(VuetifyLayoutKey);
-  if (!layout) throw new Error("[Vuetify] Could not find injected layout");
-  const id = options.id ?? `layout-item-${getUid()}`;
-  const vm = getCurrentInstance("useLayoutItem");
-  provide(VuetifyLayoutItemKey, {
-    id
-  });
-  const isKeptAlive = shallowRef(false);
-  onDeactivated(() => isKeptAlive.value = true);
-  onActivated(() => isKeptAlive.value = false);
-  const {
-    layoutItemStyles,
-    layoutItemScrimStyles
-  } = layout.register(vm, {
-    ...options,
-    active: computed(() => isKeptAlive.value ? false : options.active.value),
-    id
-  });
-  onBeforeUnmount(() => layout.unregister(id));
-  return {
-    layoutItemStyles,
-    layoutRect: layout.layoutRect,
-    layoutItemScrimStyles
-  };
-}
-const generateLayers = (layout, positions, layoutSizes, activeItems) => {
-  let previousLayer = {
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0
-  };
-  const layers = [{
-    id: "",
-    layer: {
-      ...previousLayer
-    }
-  }];
-  for (const id of layout) {
-    const position = positions.get(id);
-    const amount = layoutSizes.get(id);
-    const active = activeItems.get(id);
-    if (!position || !amount || !active) continue;
-    const layer = {
-      ...previousLayer,
-      [position.value]: parseInt(previousLayer[position.value], 10) + (active.value ? parseInt(amount.value, 10) : 0)
-    };
-    layers.push({
-      id,
-      layer
-    });
-    previousLayer = layer;
-  }
-  return layers;
-};
-function createLayout(props) {
-  const parentLayout = inject$1(VuetifyLayoutKey, null);
-  const rootZIndex = computed(() => parentLayout ? parentLayout.rootZIndex.value - 100 : ROOT_ZINDEX);
-  const registered = ref([]);
-  const positions = reactive(/* @__PURE__ */ new Map());
-  const layoutSizes = reactive(/* @__PURE__ */ new Map());
-  const priorities = reactive(/* @__PURE__ */ new Map());
-  const activeItems = reactive(/* @__PURE__ */ new Map());
-  const disabledTransitions = reactive(/* @__PURE__ */ new Map());
-  const {
-    resizeRef,
-    contentRect: layoutRect
-  } = useResizeObserver();
-  const computedOverlaps = computed(() => {
-    const map = /* @__PURE__ */ new Map();
-    const overlaps = props.overlaps ?? [];
-    for (const overlap of overlaps.filter((item) => item.includes(":"))) {
-      const [top, bottom] = overlap.split(":");
-      if (!registered.value.includes(top) || !registered.value.includes(bottom)) continue;
-      const topPosition = positions.get(top);
-      const bottomPosition = positions.get(bottom);
-      const topAmount = layoutSizes.get(top);
-      const bottomAmount = layoutSizes.get(bottom);
-      if (!topPosition || !bottomPosition || !topAmount || !bottomAmount) continue;
-      map.set(bottom, {
-        position: topPosition.value,
-        amount: parseInt(topAmount.value, 10)
-      });
-      map.set(top, {
-        position: bottomPosition.value,
-        amount: -parseInt(bottomAmount.value, 10)
-      });
-    }
-    return map;
-  });
-  const layers = computed(() => {
-    const uniquePriorities = [...new Set([...priorities.values()].map((p2) => p2.value))].sort((a, b) => a - b);
-    const layout = [];
-    for (const p2 of uniquePriorities) {
-      const items2 = registered.value.filter((id) => {
-        var _a;
-        return ((_a = priorities.get(id)) == null ? void 0 : _a.value) === p2;
-      });
-      layout.push(...items2);
-    }
-    return generateLayers(layout, positions, layoutSizes, activeItems);
-  });
-  const transitionsEnabled = computed(() => {
-    return !Array.from(disabledTransitions.values()).some((ref2) => ref2.value);
-  });
-  const mainRect = computed(() => {
-    return layers.value[layers.value.length - 1].layer;
-  });
-  const mainStyles = computed(() => {
-    return {
-      "--v-layout-left": convertToUnit(mainRect.value.left),
-      "--v-layout-right": convertToUnit(mainRect.value.right),
-      "--v-layout-top": convertToUnit(mainRect.value.top),
-      "--v-layout-bottom": convertToUnit(mainRect.value.bottom),
-      ...transitionsEnabled.value ? void 0 : {
-        transition: "none"
-      }
-    };
-  });
-  const items = computed(() => {
-    return layers.value.slice(1).map((_ref, index) => {
-      let {
-        id
-      } = _ref;
-      const {
-        layer
-      } = layers.value[index];
-      const size2 = layoutSizes.get(id);
-      const position = positions.get(id);
-      return {
-        id,
-        ...layer,
-        size: Number(size2.value),
-        position: position.value
-      };
-    });
-  });
-  const getLayoutItem = (id) => {
-    return items.value.find((item) => item.id === id);
-  };
-  const rootVm = getCurrentInstance("createLayout");
-  const isMounted = shallowRef(false);
-  onMounted(() => {
-    isMounted.value = true;
-  });
-  provide(VuetifyLayoutKey, {
-    register: (vm, _ref2) => {
-      let {
-        id,
-        order,
-        position,
-        layoutSize,
-        elementSize,
-        active,
-        disableTransitions,
-        absolute
-      } = _ref2;
-      priorities.set(id, order);
-      positions.set(id, position);
-      layoutSizes.set(id, layoutSize);
-      activeItems.set(id, active);
-      disableTransitions && disabledTransitions.set(id, disableTransitions);
-      const instances = findChildrenWithProvide(VuetifyLayoutItemKey, rootVm == null ? void 0 : rootVm.vnode);
-      const instanceIndex = instances.indexOf(vm);
-      if (instanceIndex > -1) registered.value.splice(instanceIndex, 0, id);
-      else registered.value.push(id);
-      const index = computed(() => items.value.findIndex((i) => i.id === id));
-      const zIndex = computed(() => rootZIndex.value + layers.value.length * 2 - index.value * 2);
-      const layoutItemStyles = computed(() => {
-        const isHorizontal = position.value === "left" || position.value === "right";
-        const isOppositeHorizontal = position.value === "right";
-        const isOppositeVertical = position.value === "bottom";
-        const styles = {
-          [position.value]: 0,
-          zIndex: zIndex.value,
-          transform: `translate${isHorizontal ? "X" : "Y"}(${(active.value ? 0 : -110) * (isOppositeHorizontal || isOppositeVertical ? -1 : 1)}%)`,
-          position: absolute.value || rootZIndex.value !== ROOT_ZINDEX ? "absolute" : "fixed",
-          ...transitionsEnabled.value ? void 0 : {
-            transition: "none"
-          }
-        };
-        if (!isMounted.value) return styles;
-        const item = items.value[index.value];
-        if (!item) throw new Error(`[Vuetify] Could not find layout item "${id}"`);
-        const overlap = computedOverlaps.value.get(id);
-        if (overlap) {
-          item[overlap.position] += overlap.amount;
-        }
-        return {
-          ...styles,
-          height: isHorizontal ? `calc(100% - ${item.top}px - ${item.bottom}px)` : elementSize.value ? `${elementSize.value}px` : void 0,
-          left: isOppositeHorizontal ? void 0 : `${item.left}px`,
-          right: isOppositeHorizontal ? `${item.right}px` : void 0,
-          top: position.value !== "bottom" ? `${item.top}px` : void 0,
-          bottom: position.value !== "top" ? `${item.bottom}px` : void 0,
-          width: !isHorizontal ? `calc(100% - ${item.left}px - ${item.right}px)` : elementSize.value ? `${elementSize.value}px` : void 0
-        };
-      });
-      const layoutItemScrimStyles = computed(() => ({
-        zIndex: zIndex.value - 1
-      }));
-      return {
-        layoutItemStyles,
-        layoutItemScrimStyles,
-        zIndex
-      };
-    },
-    unregister: (id) => {
-      priorities.delete(id);
-      positions.delete(id);
-      layoutSizes.delete(id);
-      activeItems.delete(id);
-      disabledTransitions.delete(id);
-      registered.value = registered.value.filter((v) => v !== id);
-    },
-    mainRect,
-    mainStyles,
-    getLayoutItem,
-    items,
-    layoutRect,
-    rootZIndex
-  });
-  const layoutClasses = computed(() => ["v-layout", {
-    "v-layout--full-height": props.fullHeight
-  }]);
-  const layoutStyles = computed(() => ({
-    zIndex: parentLayout ? rootZIndex.value : void 0,
-    position: parentLayout ? "relative" : void 0,
-    overflow: parentLayout ? "hidden" : void 0
-  }));
-  return {
-    layoutClasses,
-    layoutStyles,
-    getLayoutItem,
-    items,
-    layoutRect,
-    layoutRef: resizeRef
-  };
-}
-function useToggleScope(source, fn) {
-  let scope;
-  function start() {
-    scope = effectScope();
-    scope.run(() => fn.length ? fn(() => {
-      scope == null ? void 0 : scope.stop();
-      start();
-    }) : fn());
-  }
-  watch(source, (active) => {
-    if (active && !scope) {
-      start();
-    } else if (!active) {
-      scope == null ? void 0 : scope.stop();
-      scope = void 0;
-    }
-  }, {
-    immediate: true
-  });
-  onScopeDispose(() => {
-    scope == null ? void 0 : scope.stop();
-  });
 }
 function useProxiedModel(props, prop, defaultValue) {
   let transformIn = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : (v) => v;
@@ -13518,11 +13192,988 @@ function useRtl() {
     rtlClasses: locale.rtlClasses
   };
 }
+const firstDay = {
+  "001": 1,
+  AD: 1,
+  AE: 6,
+  AF: 6,
+  AG: 0,
+  AI: 1,
+  AL: 1,
+  AM: 1,
+  AN: 1,
+  AR: 1,
+  AS: 0,
+  AT: 1,
+  AU: 1,
+  AX: 1,
+  AZ: 1,
+  BA: 1,
+  BD: 0,
+  BE: 1,
+  BG: 1,
+  BH: 6,
+  BM: 1,
+  BN: 1,
+  BR: 0,
+  BS: 0,
+  BT: 0,
+  BW: 0,
+  BY: 1,
+  BZ: 0,
+  CA: 0,
+  CH: 1,
+  CL: 1,
+  CM: 1,
+  CN: 1,
+  CO: 0,
+  CR: 1,
+  CY: 1,
+  CZ: 1,
+  DE: 1,
+  DJ: 6,
+  DK: 1,
+  DM: 0,
+  DO: 0,
+  DZ: 6,
+  EC: 1,
+  EE: 1,
+  EG: 6,
+  ES: 1,
+  ET: 0,
+  FI: 1,
+  FJ: 1,
+  FO: 1,
+  FR: 1,
+  GB: 1,
+  "GB-alt-variant": 0,
+  GE: 1,
+  GF: 1,
+  GP: 1,
+  GR: 1,
+  GT: 0,
+  GU: 0,
+  HK: 0,
+  HN: 0,
+  HR: 1,
+  HU: 1,
+  ID: 0,
+  IE: 1,
+  IL: 0,
+  IN: 0,
+  IQ: 6,
+  IR: 6,
+  IS: 1,
+  IT: 1,
+  JM: 0,
+  JO: 6,
+  JP: 0,
+  KE: 0,
+  KG: 1,
+  KH: 0,
+  KR: 0,
+  KW: 6,
+  KZ: 1,
+  LA: 0,
+  LB: 1,
+  LI: 1,
+  LK: 1,
+  LT: 1,
+  LU: 1,
+  LV: 1,
+  LY: 6,
+  MC: 1,
+  MD: 1,
+  ME: 1,
+  MH: 0,
+  MK: 1,
+  MM: 0,
+  MN: 1,
+  MO: 0,
+  MQ: 1,
+  MT: 0,
+  MV: 5,
+  MX: 0,
+  MY: 1,
+  MZ: 0,
+  NI: 0,
+  NL: 1,
+  NO: 1,
+  NP: 0,
+  NZ: 1,
+  OM: 6,
+  PA: 0,
+  PE: 0,
+  PH: 0,
+  PK: 0,
+  PL: 1,
+  PR: 0,
+  PT: 0,
+  PY: 0,
+  QA: 6,
+  RE: 1,
+  RO: 1,
+  RS: 1,
+  RU: 1,
+  SA: 0,
+  SD: 6,
+  SE: 1,
+  SG: 0,
+  SI: 1,
+  SK: 1,
+  SM: 1,
+  SV: 0,
+  SY: 6,
+  TH: 0,
+  TJ: 1,
+  TM: 1,
+  TR: 1,
+  TT: 0,
+  TW: 0,
+  UA: 1,
+  UM: 0,
+  US: 0,
+  UY: 1,
+  UZ: 1,
+  VA: 1,
+  VE: 0,
+  VI: 0,
+  VN: 1,
+  WS: 0,
+  XK: 1,
+  YE: 0,
+  ZA: 0,
+  ZW: 0
+};
+function getWeekArray(date2, locale) {
+  const weeks = [];
+  let currentWeek = [];
+  const firstDayOfMonth = startOfMonth(date2);
+  const lastDayOfMonth = endOfMonth(date2);
+  const firstDayWeekIndex = (firstDayOfMonth.getDay() - firstDay[locale.slice(-2).toUpperCase()] + 7) % 7;
+  const lastDayWeekIndex = (lastDayOfMonth.getDay() - firstDay[locale.slice(-2).toUpperCase()] + 7) % 7;
+  for (let i = 0; i < firstDayWeekIndex; i++) {
+    const adjacentDay = new Date(firstDayOfMonth);
+    adjacentDay.setDate(adjacentDay.getDate() - (firstDayWeekIndex - i));
+    currentWeek.push(adjacentDay);
+  }
+  for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
+    const day = new Date(date2.getFullYear(), date2.getMonth(), i);
+    currentWeek.push(day);
+    if (currentWeek.length === 7) {
+      weeks.push(currentWeek);
+      currentWeek = [];
+    }
+  }
+  for (let i = 1; i < 7 - lastDayWeekIndex; i++) {
+    const adjacentDay = new Date(lastDayOfMonth);
+    adjacentDay.setDate(adjacentDay.getDate() + i);
+    currentWeek.push(adjacentDay);
+  }
+  if (currentWeek.length > 0) {
+    weeks.push(currentWeek);
+  }
+  return weeks;
+}
+function startOfWeek(date2) {
+  const d = new Date(date2);
+  while (d.getDay() !== 0) {
+    d.setDate(d.getDate() - 1);
+  }
+  return d;
+}
+function endOfWeek(date2) {
+  const d = new Date(date2);
+  while (d.getDay() !== 6) {
+    d.setDate(d.getDate() + 1);
+  }
+  return d;
+}
+function startOfMonth(date2) {
+  return new Date(date2.getFullYear(), date2.getMonth(), 1);
+}
+function endOfMonth(date2) {
+  return new Date(date2.getFullYear(), date2.getMonth() + 1, 0);
+}
+function parseLocalDate(value) {
+  const parts = value.split("-").map(Number);
+  return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+const _YYYMMDD = /^([12]\d{3}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[12]\d|3[01]))$/;
+function date(value) {
+  if (value == null) return /* @__PURE__ */ new Date();
+  if (value instanceof Date) return value;
+  if (typeof value === "string") {
+    let parsed;
+    if (_YYYMMDD.test(value)) {
+      return parseLocalDate(value);
+    } else {
+      parsed = Date.parse(value);
+    }
+    if (!isNaN(parsed)) return new Date(parsed);
+  }
+  return null;
+}
+const sundayJanuarySecond2000 = new Date(2e3, 0, 2);
+function getWeekdays(locale) {
+  const daysFromSunday = firstDay[locale.slice(-2).toUpperCase()];
+  return createRange(7).map((i) => {
+    const weekday = new Date(sundayJanuarySecond2000);
+    weekday.setDate(sundayJanuarySecond2000.getDate() + daysFromSunday + i);
+    return new Intl.DateTimeFormat(locale, {
+      weekday: "narrow"
+    }).format(weekday);
+  });
+}
+function format(value, formatString, locale, formats) {
+  const newDate = date(value) ?? /* @__PURE__ */ new Date();
+  const customFormat = formats == null ? void 0 : formats[formatString];
+  if (typeof customFormat === "function") {
+    return customFormat(newDate, formatString, locale);
+  }
+  let options = {};
+  switch (formatString) {
+    case "fullDateWithWeekday":
+      options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      };
+      break;
+    case "hours12h":
+      options = {
+        hour: "numeric",
+        hour12: true
+      };
+      break;
+    case "normalDateWithWeekday":
+      options = {
+        weekday: "short",
+        day: "numeric",
+        month: "short"
+      };
+      break;
+    case "keyboardDate":
+      options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      };
+      break;
+    case "monthAndDate":
+      options = {
+        month: "long",
+        day: "numeric"
+      };
+      break;
+    case "monthAndYear":
+      options = {
+        month: "long",
+        year: "numeric"
+      };
+      break;
+    case "month":
+      options = {
+        month: "long"
+      };
+      break;
+    case "monthShort":
+      options = {
+        month: "short"
+      };
+      break;
+    case "dayOfMonth":
+      return new Intl.NumberFormat(locale).format(newDate.getDate());
+    case "shortDate":
+      options = {
+        year: "2-digit",
+        month: "numeric",
+        day: "numeric"
+      };
+      break;
+    case "weekdayShort":
+      options = {
+        weekday: "short"
+      };
+      break;
+    case "year":
+      options = {
+        year: "numeric"
+      };
+      break;
+    default:
+      options = customFormat ?? {
+        timeZone: "UTC",
+        timeZoneName: "short"
+      };
+  }
+  return new Intl.DateTimeFormat(locale, options).format(newDate);
+}
+function toISO(adapter, value) {
+  const date2 = adapter.toJsDate(value);
+  const year = date2.getFullYear();
+  const month = padStart(String(date2.getMonth() + 1), 2, "0");
+  const day = padStart(String(date2.getDate()), 2, "0");
+  return `${year}-${month}-${day}`;
+}
+function parseISO(value) {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+function addMinutes(date2, amount) {
+  const d = new Date(date2);
+  d.setMinutes(d.getMinutes() + amount);
+  return d;
+}
+function addHours(date2, amount) {
+  const d = new Date(date2);
+  d.setHours(d.getHours() + amount);
+  return d;
+}
+function addDays(date2, amount) {
+  const d = new Date(date2);
+  d.setDate(d.getDate() + amount);
+  return d;
+}
+function addWeeks(date2, amount) {
+  const d = new Date(date2);
+  d.setDate(d.getDate() + amount * 7);
+  return d;
+}
+function addMonths(date2, amount) {
+  const d = new Date(date2);
+  d.setMonth(d.getMonth() + amount);
+  return d;
+}
+function getYear(date2) {
+  return date2.getFullYear();
+}
+function getMonth(date2) {
+  return date2.getMonth();
+}
+function getNextMonth(date2) {
+  return new Date(date2.getFullYear(), date2.getMonth() + 1, 1);
+}
+function getHours(date2) {
+  return date2.getHours();
+}
+function getMinutes(date2) {
+  return date2.getMinutes();
+}
+function startOfYear(date2) {
+  return new Date(date2.getFullYear(), 0, 1);
+}
+function endOfYear(date2) {
+  return new Date(date2.getFullYear(), 11, 31);
+}
+function isWithinRange(date2, range) {
+  return isAfter(date2, range[0]) && isBefore(date2, range[1]);
+}
+function isValid(date2) {
+  const d = new Date(date2);
+  return d instanceof Date && !isNaN(d.getTime());
+}
+function isAfter(date2, comparing) {
+  return date2.getTime() > comparing.getTime();
+}
+function isBefore(date2, comparing) {
+  return date2.getTime() < comparing.getTime();
+}
+function isEqual(date2, comparing) {
+  return date2.getTime() === comparing.getTime();
+}
+function isSameDay(date2, comparing) {
+  return date2.getDate() === comparing.getDate() && date2.getMonth() === comparing.getMonth() && date2.getFullYear() === comparing.getFullYear();
+}
+function isSameMonth(date2, comparing) {
+  return date2.getMonth() === comparing.getMonth() && date2.getFullYear() === comparing.getFullYear();
+}
+function getDiff(date2, comparing, unit) {
+  const d = new Date(date2);
+  const c = new Date(comparing);
+  if (unit === "month") {
+    return d.getMonth() - c.getMonth() + (d.getFullYear() - c.getFullYear()) * 12;
+  }
+  return Math.floor((d.getTime() - c.getTime()) / (1e3 * 60 * 60 * 24));
+}
+function setHours(date2, count) {
+  const d = new Date(date2);
+  d.setHours(count);
+  return d;
+}
+function setMinutes(date2, count) {
+  const d = new Date(date2);
+  d.setMinutes(count);
+  return d;
+}
+function setMonth(date2, count) {
+  const d = new Date(date2);
+  d.setMonth(count);
+  return d;
+}
+function setYear(date2, year) {
+  const d = new Date(date2);
+  d.setFullYear(year);
+  return d;
+}
+function startOfDay(date2) {
+  return new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+}
+function endOfDay(date2) {
+  return new Date(date2.getFullYear(), date2.getMonth(), date2.getDate(), 23, 59, 59, 999);
+}
+class VuetifyDateAdapter {
+  constructor(options) {
+    this.locale = options.locale;
+    this.formats = options.formats;
+  }
+  date(value) {
+    return date(value);
+  }
+  toJsDate(date2) {
+    return date2;
+  }
+  toISO(date2) {
+    return toISO(this, date2);
+  }
+  parseISO(date2) {
+    return parseISO(date2);
+  }
+  addMinutes(date2, amount) {
+    return addMinutes(date2, amount);
+  }
+  addHours(date2, amount) {
+    return addHours(date2, amount);
+  }
+  addDays(date2, amount) {
+    return addDays(date2, amount);
+  }
+  addWeeks(date2, amount) {
+    return addWeeks(date2, amount);
+  }
+  addMonths(date2, amount) {
+    return addMonths(date2, amount);
+  }
+  getWeekArray(date2) {
+    return getWeekArray(date2, this.locale);
+  }
+  startOfWeek(date2) {
+    return startOfWeek(date2);
+  }
+  endOfWeek(date2) {
+    return endOfWeek(date2);
+  }
+  startOfMonth(date2) {
+    return startOfMonth(date2);
+  }
+  endOfMonth(date2) {
+    return endOfMonth(date2);
+  }
+  format(date2, formatString) {
+    return format(date2, formatString, this.locale, this.formats);
+  }
+  isEqual(date2, comparing) {
+    return isEqual(date2, comparing);
+  }
+  isValid(date2) {
+    return isValid(date2);
+  }
+  isWithinRange(date2, range) {
+    return isWithinRange(date2, range);
+  }
+  isAfter(date2, comparing) {
+    return isAfter(date2, comparing);
+  }
+  isBefore(date2, comparing) {
+    return !isAfter(date2, comparing) && !isEqual(date2, comparing);
+  }
+  isSameDay(date2, comparing) {
+    return isSameDay(date2, comparing);
+  }
+  isSameMonth(date2, comparing) {
+    return isSameMonth(date2, comparing);
+  }
+  setMinutes(date2, count) {
+    return setMinutes(date2, count);
+  }
+  setHours(date2, count) {
+    return setHours(date2, count);
+  }
+  setMonth(date2, count) {
+    return setMonth(date2, count);
+  }
+  setYear(date2, year) {
+    return setYear(date2, year);
+  }
+  getDiff(date2, comparing, unit) {
+    return getDiff(date2, comparing, unit);
+  }
+  getWeekdays() {
+    return getWeekdays(this.locale);
+  }
+  getYear(date2) {
+    return getYear(date2);
+  }
+  getMonth(date2) {
+    return getMonth(date2);
+  }
+  getNextMonth(date2) {
+    return getNextMonth(date2);
+  }
+  getHours(date2) {
+    return getHours(date2);
+  }
+  getMinutes(date2) {
+    return getMinutes(date2);
+  }
+  startOfDay(date2) {
+    return startOfDay(date2);
+  }
+  endOfDay(date2) {
+    return endOfDay(date2);
+  }
+  startOfYear(date2) {
+    return startOfYear(date2);
+  }
+  endOfYear(date2) {
+    return endOfYear(date2);
+  }
+}
+const DateOptionsSymbol = Symbol.for("vuetify:date-options");
+const DateAdapterSymbol = Symbol.for("vuetify:date-adapter");
+function createDate(options, locale) {
+  const _options = mergeDeep({
+    adapter: VuetifyDateAdapter,
+    locale: {
+      af: "af-ZA",
+      // ar: '', # not the same value for all variants
+      bg: "bg-BG",
+      ca: "ca-ES",
+      ckb: "",
+      cs: "cs-CZ",
+      de: "de-DE",
+      el: "el-GR",
+      en: "en-US",
+      // es: '', # not the same value for all variants
+      et: "et-EE",
+      fa: "fa-IR",
+      fi: "fi-FI",
+      // fr: '', #not the same value for all variants
+      hr: "hr-HR",
+      hu: "hu-HU",
+      he: "he-IL",
+      id: "id-ID",
+      it: "it-IT",
+      ja: "ja-JP",
+      ko: "ko-KR",
+      lv: "lv-LV",
+      lt: "lt-LT",
+      nl: "nl-NL",
+      no: "no-NO",
+      pl: "pl-PL",
+      pt: "pt-PT",
+      ro: "ro-RO",
+      ru: "ru-RU",
+      sk: "sk-SK",
+      sl: "sl-SI",
+      srCyrl: "sr-SP",
+      srLatn: "sr-SP",
+      sv: "sv-SE",
+      th: "th-TH",
+      tr: "tr-TR",
+      az: "az-AZ",
+      uk: "uk-UA",
+      vi: "vi-VN",
+      zhHans: "zh-CN",
+      zhHant: "zh-TW"
+    }
+  }, options);
+  return {
+    options: _options,
+    instance: createInstance(_options, locale)
+  };
+}
+function createInstance(options, locale) {
+  const instance = reactive(typeof options.adapter === "function" ? new options.adapter({
+    locale: options.locale[locale.current.value] ?? locale.current.value,
+    formats: options.formats
+  }) : options.adapter);
+  watch(locale.current, (value) => {
+    instance.locale = options.locale[value] ?? value ?? instance.locale;
+  });
+  return instance;
+}
+const breakpoints = ["sm", "md", "lg", "xl", "xxl"];
+const DisplaySymbol = Symbol.for("vuetify:display");
+const defaultDisplayOptions = {
+  mobileBreakpoint: "lg",
+  thresholds: {
+    xs: 0,
+    sm: 600,
+    md: 960,
+    lg: 1280,
+    xl: 1920,
+    xxl: 2560
+  }
+};
+const parseDisplayOptions = function() {
+  let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : defaultDisplayOptions;
+  return mergeDeep(defaultDisplayOptions, options);
+};
+function getClientWidth(ssr) {
+  return IN_BROWSER && !ssr ? window.innerWidth : typeof ssr === "object" && ssr.clientWidth || 0;
+}
+function getClientHeight(ssr) {
+  return IN_BROWSER && !ssr ? window.innerHeight : typeof ssr === "object" && ssr.clientHeight || 0;
+}
+function getPlatform(ssr) {
+  const userAgent = IN_BROWSER && !ssr ? window.navigator.userAgent : "ssr";
+  function match(regexp) {
+    return Boolean(userAgent.match(regexp));
+  }
+  const android = match(/android/i);
+  const ios = match(/iphone|ipad|ipod/i);
+  const cordova = match(/cordova/i);
+  const electron = match(/electron/i);
+  const chrome = match(/chrome/i);
+  const edge = match(/edge/i);
+  const firefox = match(/firefox/i);
+  const opera = match(/opera/i);
+  const win = match(/win/i);
+  const mac = match(/mac/i);
+  const linux = match(/linux/i);
+  return {
+    android,
+    ios,
+    cordova,
+    electron,
+    chrome,
+    edge,
+    firefox,
+    opera,
+    win,
+    mac,
+    linux,
+    touch: SUPPORTS_TOUCH,
+    ssr: userAgent === "ssr"
+  };
+}
+function createDisplay(options, ssr) {
+  const {
+    thresholds,
+    mobileBreakpoint
+  } = parseDisplayOptions(options);
+  const height = shallowRef(getClientHeight(ssr));
+  const platform = shallowRef(getPlatform(ssr));
+  const state = reactive({});
+  const width = shallowRef(getClientWidth(ssr));
+  function updateSize() {
+    height.value = getClientHeight();
+    width.value = getClientWidth();
+  }
+  function update() {
+    updateSize();
+    platform.value = getPlatform();
+  }
+  watchEffect(() => {
+    const xs = width.value < thresholds.sm;
+    const sm = width.value < thresholds.md && !xs;
+    const md = width.value < thresholds.lg && !(sm || xs);
+    const lg = width.value < thresholds.xl && !(md || sm || xs);
+    const xl = width.value < thresholds.xxl && !(lg || md || sm || xs);
+    const xxl = width.value >= thresholds.xxl;
+    const name = xs ? "xs" : sm ? "sm" : md ? "md" : lg ? "lg" : xl ? "xl" : "xxl";
+    const breakpointValue = typeof mobileBreakpoint === "number" ? mobileBreakpoint : thresholds[mobileBreakpoint];
+    const mobile = width.value < breakpointValue;
+    state.xs = xs;
+    state.sm = sm;
+    state.md = md;
+    state.lg = lg;
+    state.xl = xl;
+    state.xxl = xxl;
+    state.smAndUp = !xs;
+    state.mdAndUp = !(xs || sm);
+    state.lgAndUp = !(xs || sm || md);
+    state.xlAndUp = !(xs || sm || md || lg);
+    state.smAndDown = !(md || lg || xl || xxl);
+    state.mdAndDown = !(lg || xl || xxl);
+    state.lgAndDown = !(xl || xxl);
+    state.xlAndDown = !xxl;
+    state.name = name;
+    state.height = height.value;
+    state.width = width.value;
+    state.mobile = mobile;
+    state.mobileBreakpoint = mobileBreakpoint;
+    state.platform = platform.value;
+    state.thresholds = thresholds;
+  });
+  if (IN_BROWSER) {
+    window.addEventListener("resize", updateSize, {
+      passive: true
+    });
+  }
+  return {
+    ...toRefs(state),
+    update,
+    ssr: !!ssr
+  };
+}
+const makeDisplayProps = propsFactory({
+  mobileBreakpoint: [Number, String]
+}, "display");
+function useDisplay() {
+  let props = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
+  const display = inject$1(DisplaySymbol);
+  if (!display) throw new Error("Could not find Vuetify display injection");
+  const mobile = computed(() => {
+    if (!props.mobileBreakpoint) return display.mobile.value;
+    const breakpointValue = typeof props.mobileBreakpoint === "number" ? props.mobileBreakpoint : display.thresholds.value[props.mobileBreakpoint];
+    return display.width.value < breakpointValue;
+  });
+  const displayClasses = computed(() => {
+    if (!name) return {};
+    return {
+      [`${name}--mobile`]: mobile.value
+    };
+  });
+  return {
+    ...display,
+    displayClasses,
+    mobile
+  };
+}
+const GoToSymbol = Symbol.for("vuetify:goto");
+function genDefaults$1() {
+  return {
+    container: void 0,
+    duration: 300,
+    layout: false,
+    offset: 0,
+    easing: "easeInOutCubic",
+    patterns: {
+      linear: (t) => t,
+      easeInQuad: (t) => t ** 2,
+      easeOutQuad: (t) => t * (2 - t),
+      easeInOutQuad: (t) => t < 0.5 ? 2 * t ** 2 : -1 + (4 - 2 * t) * t,
+      easeInCubic: (t) => t ** 3,
+      easeOutCubic: (t) => --t ** 3 + 1,
+      easeInOutCubic: (t) => t < 0.5 ? 4 * t ** 3 : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
+      easeInQuart: (t) => t ** 4,
+      easeOutQuart: (t) => 1 - --t ** 4,
+      easeInOutQuart: (t) => t < 0.5 ? 8 * t ** 4 : 1 - 8 * --t ** 4,
+      easeInQuint: (t) => t ** 5,
+      easeOutQuint: (t) => 1 + --t ** 5,
+      easeInOutQuint: (t) => t < 0.5 ? 16 * t ** 5 : 1 + 16 * --t ** 5
+    }
+  };
+}
+function createGoTo(options, locale) {
+  return {
+    rtl: locale.isRtl,
+    options: mergeDeep(genDefaults$1(), options)
+  };
+}
+const aliases = {
+  collapse: "mdi-chevron-up",
+  complete: "mdi-check",
+  cancel: "mdi-close-circle",
+  close: "mdi-close",
+  delete: "mdi-close-circle",
+  // delete (e.g. v-chip close)
+  clear: "mdi-close-circle",
+  success: "mdi-check-circle",
+  info: "mdi-information",
+  warning: "mdi-alert-circle",
+  error: "mdi-close-circle",
+  prev: "mdi-chevron-left",
+  next: "mdi-chevron-right",
+  checkboxOn: "mdi-checkbox-marked",
+  checkboxOff: "mdi-checkbox-blank-outline",
+  checkboxIndeterminate: "mdi-minus-box",
+  delimiter: "mdi-circle",
+  // for carousel
+  sortAsc: "mdi-arrow-up",
+  sortDesc: "mdi-arrow-down",
+  expand: "mdi-chevron-down",
+  menu: "mdi-menu",
+  subgroup: "mdi-menu-down",
+  dropdown: "mdi-menu-down",
+  radioOn: "mdi-radiobox-marked",
+  radioOff: "mdi-radiobox-blank",
+  edit: "mdi-pencil",
+  ratingEmpty: "mdi-star-outline",
+  ratingFull: "mdi-star",
+  ratingHalf: "mdi-star-half-full",
+  loading: "mdi-cached",
+  first: "mdi-page-first",
+  last: "mdi-page-last",
+  unfold: "mdi-unfold-more-horizontal",
+  file: "mdi-paperclip",
+  plus: "mdi-plus",
+  minus: "mdi-minus",
+  calendar: "mdi-calendar",
+  eyeDropper: "mdi-eyedropper"
+};
+const mdi = {
+  // Not using mergeProps here, functional components merge props by default (?)
+  component: (props) => h(VClassIcon, {
+    ...props,
+    class: "mdi"
+  })
+};
+const IconValue = [String, Function, Object, Array];
+const IconSymbol = Symbol.for("vuetify:icons");
+const makeIconProps = propsFactory({
+  icon: {
+    type: IconValue
+  },
+  // Could not remove this and use makeTagProps, types complained because it is not required
+  tag: {
+    type: String,
+    required: true
+  }
+}, "icon");
+const VComponentIcon = genericComponent()({
+  name: "VComponentIcon",
+  props: makeIconProps(),
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    return () => {
+      const Icon = props.icon;
+      return createVNode(props.tag, null, {
+        default: () => {
+          var _a;
+          return [props.icon ? createVNode(Icon, null, null) : (_a = slots.default) == null ? void 0 : _a.call(slots)];
+        }
+      });
+    };
+  }
+});
+const VSvgIcon = defineComponent({
+  name: "VSvgIcon",
+  inheritAttrs: false,
+  props: makeIconProps(),
+  setup(props, _ref2) {
+    let {
+      attrs
+    } = _ref2;
+    return () => {
+      return createVNode(props.tag, mergeProps(attrs, {
+        "style": null
+      }), {
+        default: () => [createVNode("svg", {
+          "class": "v-icon__svg",
+          "xmlns": "http://www.w3.org/2000/svg",
+          "viewBox": "0 0 24 24",
+          "role": "img",
+          "aria-hidden": "true"
+        }, [Array.isArray(props.icon) ? props.icon.map((path) => Array.isArray(path) ? createVNode("path", {
+          "d": path[0],
+          "fill-opacity": path[1]
+        }, null) : createVNode("path", {
+          "d": path
+        }, null)) : createVNode("path", {
+          "d": props.icon
+        }, null)])]
+      });
+    };
+  }
+});
+defineComponent({
+  name: "VLigatureIcon",
+  props: makeIconProps(),
+  setup(props) {
+    return () => {
+      return createVNode(props.tag, null, {
+        default: () => [props.icon]
+      });
+    };
+  }
+});
+const VClassIcon = defineComponent({
+  name: "VClassIcon",
+  props: makeIconProps(),
+  setup(props) {
+    return () => {
+      return createVNode(props.tag, {
+        "class": props.icon
+      }, null);
+    };
+  }
+});
+const defaultSets = {
+  svg: {
+    component: VSvgIcon
+  },
+  class: {
+    component: VClassIcon
+  }
+};
+function createIcons(options) {
+  return mergeDeep({
+    defaultSet: "mdi",
+    sets: {
+      ...defaultSets,
+      mdi
+    },
+    aliases: {
+      ...aliases,
+      /* eslint-disable max-len */
+      vuetify: ["M8.2241 14.2009L12 21L22 3H14.4459L8.2241 14.2009Z", ["M7.26303 12.4733L7.00113 12L2 3H12.5261C12.5261 3 12.5261 3 12.5261 3L7.26303 12.4733Z", 0.6]],
+      "vuetify-outline": "svg:M7.26 12.47 12.53 3H2L7.26 12.47ZM14.45 3 8.22 14.2 12 21 22 3H14.45ZM18.6 5 12 16.88 10.51 14.2 15.62 5ZM7.26 8.35 5.4 5H9.13L7.26 8.35Z"
+      /* eslint-enable max-len */
+    }
+  }, options);
+}
+const useIcon = (props) => {
+  const icons = inject$1(IconSymbol);
+  if (!icons) throw new Error("Missing Vuetify Icons provide!");
+  const iconData = computed(() => {
+    var _a;
+    const iconAlias = unref(props);
+    if (!iconAlias) return {
+      component: VComponentIcon
+    };
+    let icon = iconAlias;
+    if (typeof icon === "string") {
+      icon = icon.trim();
+      if (icon.startsWith("$")) {
+        icon = (_a = icons.aliases) == null ? void 0 : _a[icon.slice(1)];
+      }
+    }
+    if (!icon) throw new Error(`Could not find aliased icon "${iconAlias}"`);
+    if (Array.isArray(icon)) {
+      return {
+        component: VSvgIcon,
+        icon
+      };
+    } else if (typeof icon !== "string") {
+      return {
+        component: VComponentIcon,
+        icon
+      };
+    }
+    const iconSetName = Object.keys(icons.sets).find((setName) => typeof icon === "string" && icon.startsWith(`${setName}:`));
+    const iconName = iconSetName ? icon.slice(iconSetName.length + 1) : icon;
+    const iconSet = icons.sets[iconSetName ?? icons.defaultSet];
+    return {
+      component: iconSet.component,
+      icon: iconName
+    };
+  });
+  return {
+    iconData
+  };
+};
 const ThemeSymbol = Symbol.for("vuetify:theme");
 const makeThemeProps = propsFactory({
   theme: String
 }, "theme");
-function genDefaults$1() {
+function genDefaults() {
   return {
     defaultTheme: "light",
     variations: {
@@ -13610,8 +14261,8 @@ function genDefaults$1() {
 }
 function parseThemeOptions() {
   var _a, _b;
-  let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : genDefaults$1();
-  const defaults = genDefaults$1();
+  let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : genDefaults();
+  const defaults = genDefaults();
   if (!options) return {
     ...defaults,
     isDisabled: true
@@ -13797,6 +14448,404 @@ function genCssVariables(theme) {
     variables.push(`--v-${key}: ${rgb ?? value}`);
   }
   return variables;
+}
+function useResizeObserver(callback) {
+  let box = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "content";
+  const resizeRef = ref();
+  const contentRect = ref();
+  if (IN_BROWSER) {
+    const observer = new ResizeObserver((entries) => {
+      if (!entries.length) return;
+      if (box === "content") {
+        contentRect.value = entries[0].contentRect;
+      } else {
+        contentRect.value = entries[0].target.getBoundingClientRect();
+      }
+    });
+    onBeforeUnmount(() => {
+      observer.disconnect();
+    });
+    watch(resizeRef, (newValue, oldValue) => {
+      if (oldValue) {
+        observer.unobserve(refElement(oldValue));
+        contentRect.value = void 0;
+      }
+      if (newValue) observer.observe(refElement(newValue));
+    }, {
+      flush: "post"
+    });
+  }
+  return {
+    resizeRef,
+    contentRect: readonly(contentRect)
+  };
+}
+const VuetifyLayoutKey = Symbol.for("vuetify:layout");
+const VuetifyLayoutItemKey = Symbol.for("vuetify:layout-item");
+const ROOT_ZINDEX = 1e3;
+const makeLayoutProps = propsFactory({
+  overlaps: {
+    type: Array,
+    default: () => []
+  },
+  fullHeight: Boolean
+}, "layout");
+const makeLayoutItemProps = propsFactory({
+  name: {
+    type: String
+  },
+  order: {
+    type: [Number, String],
+    default: 0
+  },
+  absolute: Boolean
+}, "layout-item");
+function useLayout() {
+  const layout = inject$1(VuetifyLayoutKey);
+  if (!layout) throw new Error("[Vuetify] Could not find injected layout");
+  return {
+    getLayoutItem: layout.getLayoutItem,
+    mainRect: layout.mainRect,
+    mainStyles: layout.mainStyles
+  };
+}
+function useLayoutItem(options) {
+  const layout = inject$1(VuetifyLayoutKey);
+  if (!layout) throw new Error("[Vuetify] Could not find injected layout");
+  const id = options.id ?? `layout-item-${getUid()}`;
+  const vm = getCurrentInstance("useLayoutItem");
+  provide(VuetifyLayoutItemKey, {
+    id
+  });
+  const isKeptAlive = shallowRef(false);
+  onDeactivated(() => isKeptAlive.value = true);
+  onActivated(() => isKeptAlive.value = false);
+  const {
+    layoutItemStyles,
+    layoutItemScrimStyles
+  } = layout.register(vm, {
+    ...options,
+    active: computed(() => isKeptAlive.value ? false : options.active.value),
+    id
+  });
+  onBeforeUnmount(() => layout.unregister(id));
+  return {
+    layoutItemStyles,
+    layoutRect: layout.layoutRect,
+    layoutItemScrimStyles
+  };
+}
+const generateLayers = (layout, positions, layoutSizes, activeItems) => {
+  let previousLayer = {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0
+  };
+  const layers = [{
+    id: "",
+    layer: {
+      ...previousLayer
+    }
+  }];
+  for (const id of layout) {
+    const position = positions.get(id);
+    const amount = layoutSizes.get(id);
+    const active = activeItems.get(id);
+    if (!position || !amount || !active) continue;
+    const layer = {
+      ...previousLayer,
+      [position.value]: parseInt(previousLayer[position.value], 10) + (active.value ? parseInt(amount.value, 10) : 0)
+    };
+    layers.push({
+      id,
+      layer
+    });
+    previousLayer = layer;
+  }
+  return layers;
+};
+function createLayout(props) {
+  const parentLayout = inject$1(VuetifyLayoutKey, null);
+  const rootZIndex = computed(() => parentLayout ? parentLayout.rootZIndex.value - 100 : ROOT_ZINDEX);
+  const registered = ref([]);
+  const positions = reactive(/* @__PURE__ */ new Map());
+  const layoutSizes = reactive(/* @__PURE__ */ new Map());
+  const priorities = reactive(/* @__PURE__ */ new Map());
+  const activeItems = reactive(/* @__PURE__ */ new Map());
+  const disabledTransitions = reactive(/* @__PURE__ */ new Map());
+  const {
+    resizeRef,
+    contentRect: layoutRect
+  } = useResizeObserver();
+  const computedOverlaps = computed(() => {
+    const map = /* @__PURE__ */ new Map();
+    const overlaps = props.overlaps ?? [];
+    for (const overlap of overlaps.filter((item) => item.includes(":"))) {
+      const [top, bottom] = overlap.split(":");
+      if (!registered.value.includes(top) || !registered.value.includes(bottom)) continue;
+      const topPosition = positions.get(top);
+      const bottomPosition = positions.get(bottom);
+      const topAmount = layoutSizes.get(top);
+      const bottomAmount = layoutSizes.get(bottom);
+      if (!topPosition || !bottomPosition || !topAmount || !bottomAmount) continue;
+      map.set(bottom, {
+        position: topPosition.value,
+        amount: parseInt(topAmount.value, 10)
+      });
+      map.set(top, {
+        position: bottomPosition.value,
+        amount: -parseInt(bottomAmount.value, 10)
+      });
+    }
+    return map;
+  });
+  const layers = computed(() => {
+    const uniquePriorities = [...new Set([...priorities.values()].map((p2) => p2.value))].sort((a, b) => a - b);
+    const layout = [];
+    for (const p2 of uniquePriorities) {
+      const items2 = registered.value.filter((id) => {
+        var _a;
+        return ((_a = priorities.get(id)) == null ? void 0 : _a.value) === p2;
+      });
+      layout.push(...items2);
+    }
+    return generateLayers(layout, positions, layoutSizes, activeItems);
+  });
+  const transitionsEnabled = computed(() => {
+    return !Array.from(disabledTransitions.values()).some((ref2) => ref2.value);
+  });
+  const mainRect = computed(() => {
+    return layers.value[layers.value.length - 1].layer;
+  });
+  const mainStyles = computed(() => {
+    return {
+      "--v-layout-left": convertToUnit(mainRect.value.left),
+      "--v-layout-right": convertToUnit(mainRect.value.right),
+      "--v-layout-top": convertToUnit(mainRect.value.top),
+      "--v-layout-bottom": convertToUnit(mainRect.value.bottom),
+      ...transitionsEnabled.value ? void 0 : {
+        transition: "none"
+      }
+    };
+  });
+  const items = computed(() => {
+    return layers.value.slice(1).map((_ref, index) => {
+      let {
+        id
+      } = _ref;
+      const {
+        layer
+      } = layers.value[index];
+      const size2 = layoutSizes.get(id);
+      const position = positions.get(id);
+      return {
+        id,
+        ...layer,
+        size: Number(size2.value),
+        position: position.value
+      };
+    });
+  });
+  const getLayoutItem = (id) => {
+    return items.value.find((item) => item.id === id);
+  };
+  const rootVm = getCurrentInstance("createLayout");
+  const isMounted = shallowRef(false);
+  onMounted(() => {
+    isMounted.value = true;
+  });
+  provide(VuetifyLayoutKey, {
+    register: (vm, _ref2) => {
+      let {
+        id,
+        order,
+        position,
+        layoutSize,
+        elementSize,
+        active,
+        disableTransitions,
+        absolute
+      } = _ref2;
+      priorities.set(id, order);
+      positions.set(id, position);
+      layoutSizes.set(id, layoutSize);
+      activeItems.set(id, active);
+      disableTransitions && disabledTransitions.set(id, disableTransitions);
+      const instances = findChildrenWithProvide(VuetifyLayoutItemKey, rootVm == null ? void 0 : rootVm.vnode);
+      const instanceIndex = instances.indexOf(vm);
+      if (instanceIndex > -1) registered.value.splice(instanceIndex, 0, id);
+      else registered.value.push(id);
+      const index = computed(() => items.value.findIndex((i) => i.id === id));
+      const zIndex = computed(() => rootZIndex.value + layers.value.length * 2 - index.value * 2);
+      const layoutItemStyles = computed(() => {
+        const isHorizontal = position.value === "left" || position.value === "right";
+        const isOppositeHorizontal = position.value === "right";
+        const isOppositeVertical = position.value === "bottom";
+        const styles = {
+          [position.value]: 0,
+          zIndex: zIndex.value,
+          transform: `translate${isHorizontal ? "X" : "Y"}(${(active.value ? 0 : -110) * (isOppositeHorizontal || isOppositeVertical ? -1 : 1)}%)`,
+          position: absolute.value || rootZIndex.value !== ROOT_ZINDEX ? "absolute" : "fixed",
+          ...transitionsEnabled.value ? void 0 : {
+            transition: "none"
+          }
+        };
+        if (!isMounted.value) return styles;
+        const item = items.value[index.value];
+        if (!item) throw new Error(`[Vuetify] Could not find layout item "${id}"`);
+        const overlap = computedOverlaps.value.get(id);
+        if (overlap) {
+          item[overlap.position] += overlap.amount;
+        }
+        return {
+          ...styles,
+          height: isHorizontal ? `calc(100% - ${item.top}px - ${item.bottom}px)` : elementSize.value ? `${elementSize.value}px` : void 0,
+          left: isOppositeHorizontal ? void 0 : `${item.left}px`,
+          right: isOppositeHorizontal ? `${item.right}px` : void 0,
+          top: position.value !== "bottom" ? `${item.top}px` : void 0,
+          bottom: position.value !== "top" ? `${item.bottom}px` : void 0,
+          width: !isHorizontal ? `calc(100% - ${item.left}px - ${item.right}px)` : elementSize.value ? `${elementSize.value}px` : void 0
+        };
+      });
+      const layoutItemScrimStyles = computed(() => ({
+        zIndex: zIndex.value - 1
+      }));
+      return {
+        layoutItemStyles,
+        layoutItemScrimStyles,
+        zIndex
+      };
+    },
+    unregister: (id) => {
+      priorities.delete(id);
+      positions.delete(id);
+      layoutSizes.delete(id);
+      activeItems.delete(id);
+      disabledTransitions.delete(id);
+      registered.value = registered.value.filter((v) => v !== id);
+    },
+    mainRect,
+    mainStyles,
+    getLayoutItem,
+    items,
+    layoutRect,
+    rootZIndex
+  });
+  const layoutClasses = computed(() => ["v-layout", {
+    "v-layout--full-height": props.fullHeight
+  }]);
+  const layoutStyles = computed(() => ({
+    zIndex: parentLayout ? rootZIndex.value : void 0,
+    position: parentLayout ? "relative" : void 0,
+    overflow: parentLayout ? "hidden" : void 0
+  }));
+  return {
+    layoutClasses,
+    layoutStyles,
+    getLayoutItem,
+    items,
+    layoutRect,
+    layoutRef: resizeRef
+  };
+}
+function createVuetify() {
+  let vuetify2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+  const {
+    blueprint,
+    ...rest
+  } = vuetify2;
+  const options = mergeDeep(blueprint, rest);
+  const {
+    aliases: aliases2 = {},
+    components = {},
+    directives = {}
+  } = options;
+  const defaults = createDefaults(options.defaults);
+  const display = createDisplay(options.display, options.ssr);
+  const theme = createTheme(options.theme);
+  const icons = createIcons(options.icons);
+  const locale = createLocale(options.locale);
+  const date2 = createDate(options.date, locale);
+  const goTo = createGoTo(options.goTo, locale);
+  const install = (app) => {
+    for (const key in directives) {
+      app.directive(key, directives[key]);
+    }
+    for (const key in components) {
+      app.component(key, components[key]);
+    }
+    for (const key in aliases2) {
+      app.component(key, defineComponent({
+        ...aliases2[key],
+        name: key,
+        aliasName: aliases2[key].name
+      }));
+    }
+    theme.install(app);
+    app.provide(DefaultsSymbol, defaults);
+    app.provide(DisplaySymbol, display);
+    app.provide(ThemeSymbol, theme);
+    app.provide(IconSymbol, icons);
+    app.provide(LocaleSymbol, locale);
+    app.provide(DateOptionsSymbol, date2.options);
+    app.provide(DateAdapterSymbol, date2.instance);
+    app.provide(GoToSymbol, goTo);
+    if (IN_BROWSER && options.ssr) {
+      if (app.$nuxt) {
+        app.$nuxt.hook("app:suspense:resolve", () => {
+          display.update();
+        });
+      } else {
+        const {
+          mount
+        } = app;
+        app.mount = function() {
+          const vm = mount(...arguments);
+          nextTick(() => display.update());
+          app.mount = mount;
+          return vm;
+        };
+      }
+    }
+    getUid.reset();
+    {
+      app.mixin({
+        computed: {
+          $vuetify() {
+            return reactive({
+              defaults: inject.call(this, DefaultsSymbol),
+              display: inject.call(this, DisplaySymbol),
+              theme: inject.call(this, ThemeSymbol),
+              icons: inject.call(this, IconSymbol),
+              locale: inject.call(this, LocaleSymbol),
+              date: inject.call(this, DateAdapterSymbol)
+            });
+          }
+        }
+      });
+    }
+  };
+  return {
+    install,
+    defaults,
+    display,
+    theme,
+    icons,
+    locale,
+    date: date2,
+    goTo
+  };
+}
+const version = "3.5.3";
+createVuetify.version = version;
+function inject(key) {
+  var _a, _b;
+  const vm = this.$;
+  const provides = ((_a = vm.parent) == null ? void 0 : _a.provides) ?? ((_b = vm.vnode.appContext) == null ? void 0 : _b.provides);
+  if (provides && key in provides) {
+    return provides[key];
+  }
 }
 const makeVAppProps = propsFactory({
   ...makeComponentProps(),
@@ -15339,200 +16388,6 @@ const VBtnToggle = genericComponent()({
     };
   }
 });
-const aliases = {
-  collapse: "mdi-chevron-up",
-  complete: "mdi-check",
-  cancel: "mdi-close-circle",
-  close: "mdi-close",
-  delete: "mdi-close-circle",
-  // delete (e.g. v-chip close)
-  clear: "mdi-close-circle",
-  success: "mdi-check-circle",
-  info: "mdi-information",
-  warning: "mdi-alert-circle",
-  error: "mdi-close-circle",
-  prev: "mdi-chevron-left",
-  next: "mdi-chevron-right",
-  checkboxOn: "mdi-checkbox-marked",
-  checkboxOff: "mdi-checkbox-blank-outline",
-  checkboxIndeterminate: "mdi-minus-box",
-  delimiter: "mdi-circle",
-  // for carousel
-  sortAsc: "mdi-arrow-up",
-  sortDesc: "mdi-arrow-down",
-  expand: "mdi-chevron-down",
-  menu: "mdi-menu",
-  subgroup: "mdi-menu-down",
-  dropdown: "mdi-menu-down",
-  radioOn: "mdi-radiobox-marked",
-  radioOff: "mdi-radiobox-blank",
-  edit: "mdi-pencil",
-  ratingEmpty: "mdi-star-outline",
-  ratingFull: "mdi-star",
-  ratingHalf: "mdi-star-half-full",
-  loading: "mdi-cached",
-  first: "mdi-page-first",
-  last: "mdi-page-last",
-  unfold: "mdi-unfold-more-horizontal",
-  file: "mdi-paperclip",
-  plus: "mdi-plus",
-  minus: "mdi-minus",
-  calendar: "mdi-calendar",
-  eyeDropper: "mdi-eyedropper"
-};
-const mdi = {
-  // Not using mergeProps here, functional components merge props by default (?)
-  component: (props) => h(VClassIcon, {
-    ...props,
-    class: "mdi"
-  })
-};
-const IconValue = [String, Function, Object, Array];
-const IconSymbol = Symbol.for("vuetify:icons");
-const makeIconProps = propsFactory({
-  icon: {
-    type: IconValue
-  },
-  // Could not remove this and use makeTagProps, types complained because it is not required
-  tag: {
-    type: String,
-    required: true
-  }
-}, "icon");
-const VComponentIcon = genericComponent()({
-  name: "VComponentIcon",
-  props: makeIconProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    return () => {
-      const Icon = props.icon;
-      return createVNode(props.tag, null, {
-        default: () => {
-          var _a;
-          return [props.icon ? createVNode(Icon, null, null) : (_a = slots.default) == null ? void 0 : _a.call(slots)];
-        }
-      });
-    };
-  }
-});
-const VSvgIcon = defineComponent({
-  name: "VSvgIcon",
-  inheritAttrs: false,
-  props: makeIconProps(),
-  setup(props, _ref2) {
-    let {
-      attrs
-    } = _ref2;
-    return () => {
-      return createVNode(props.tag, mergeProps(attrs, {
-        "style": null
-      }), {
-        default: () => [createVNode("svg", {
-          "class": "v-icon__svg",
-          "xmlns": "http://www.w3.org/2000/svg",
-          "viewBox": "0 0 24 24",
-          "role": "img",
-          "aria-hidden": "true"
-        }, [Array.isArray(props.icon) ? props.icon.map((path) => Array.isArray(path) ? createVNode("path", {
-          "d": path[0],
-          "fill-opacity": path[1]
-        }, null) : createVNode("path", {
-          "d": path
-        }, null)) : createVNode("path", {
-          "d": props.icon
-        }, null)])]
-      });
-    };
-  }
-});
-defineComponent({
-  name: "VLigatureIcon",
-  props: makeIconProps(),
-  setup(props) {
-    return () => {
-      return createVNode(props.tag, null, {
-        default: () => [props.icon]
-      });
-    };
-  }
-});
-const VClassIcon = defineComponent({
-  name: "VClassIcon",
-  props: makeIconProps(),
-  setup(props) {
-    return () => {
-      return createVNode(props.tag, {
-        "class": props.icon
-      }, null);
-    };
-  }
-});
-const defaultSets = {
-  svg: {
-    component: VSvgIcon
-  },
-  class: {
-    component: VClassIcon
-  }
-};
-function createIcons(options) {
-  return mergeDeep({
-    defaultSet: "mdi",
-    sets: {
-      ...defaultSets,
-      mdi
-    },
-    aliases: {
-      ...aliases,
-      /* eslint-disable max-len */
-      vuetify: ["M8.2241 14.2009L12 21L22 3H14.4459L8.2241 14.2009Z", ["M7.26303 12.4733L7.00113 12L2 3H12.5261C12.5261 3 12.5261 3 12.5261 3L7.26303 12.4733Z", 0.6]],
-      "vuetify-outline": "svg:M7.26 12.47 12.53 3H2L7.26 12.47ZM14.45 3 8.22 14.2 12 21 22 3H14.45ZM18.6 5 12 16.88 10.51 14.2 15.62 5ZM7.26 8.35 5.4 5H9.13L7.26 8.35Z"
-      /* eslint-enable max-len */
-    }
-  }, options);
-}
-const useIcon = (props) => {
-  const icons = inject$1(IconSymbol);
-  if (!icons) throw new Error("Missing Vuetify Icons provide!");
-  const iconData = computed(() => {
-    var _a;
-    const iconAlias = unref(props);
-    if (!iconAlias) return {
-      component: VComponentIcon
-    };
-    let icon = iconAlias;
-    if (typeof icon === "string") {
-      icon = icon.trim();
-      if (icon.startsWith("$")) {
-        icon = (_a = icons.aliases) == null ? void 0 : _a[icon.slice(1)];
-      }
-    }
-    if (!icon) throw new Error(`Could not find aliased icon "${iconAlias}"`);
-    if (Array.isArray(icon)) {
-      return {
-        component: VSvgIcon,
-        icon
-      };
-    } else if (typeof icon !== "string") {
-      return {
-        component: VComponentIcon,
-        icon
-      };
-    }
-    const iconSetName = Object.keys(icons.sets).find((setName) => typeof icon === "string" && icon.startsWith(`${setName}:`));
-    const iconName = iconSetName ? icon.slice(iconSetName.length + 1) : icon;
-    const iconSet = icons.sets[iconSetName ?? icons.defaultSet];
-    return {
-      component: iconSet.component,
-      icon: iconName
-    };
-  });
-  return {
-    iconData
-  };
-};
 const predefinedSizes = ["x-small", "small", "default", "large", "x-large"];
 const makeSizeProps = propsFactory({
   size: {
@@ -16735,147 +17590,6 @@ const VContainer = genericComponent()({
     return {};
   }
 });
-const breakpoints = ["sm", "md", "lg", "xl", "xxl"];
-const DisplaySymbol = Symbol.for("vuetify:display");
-const defaultDisplayOptions = {
-  mobileBreakpoint: "lg",
-  thresholds: {
-    xs: 0,
-    sm: 600,
-    md: 960,
-    lg: 1280,
-    xl: 1920,
-    xxl: 2560
-  }
-};
-const parseDisplayOptions = function() {
-  let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : defaultDisplayOptions;
-  return mergeDeep(defaultDisplayOptions, options);
-};
-function getClientWidth(ssr) {
-  return IN_BROWSER && !ssr ? window.innerWidth : typeof ssr === "object" && ssr.clientWidth || 0;
-}
-function getClientHeight(ssr) {
-  return IN_BROWSER && !ssr ? window.innerHeight : typeof ssr === "object" && ssr.clientHeight || 0;
-}
-function getPlatform(ssr) {
-  const userAgent = IN_BROWSER && !ssr ? window.navigator.userAgent : "ssr";
-  function match(regexp) {
-    return Boolean(userAgent.match(regexp));
-  }
-  const android = match(/android/i);
-  const ios = match(/iphone|ipad|ipod/i);
-  const cordova = match(/cordova/i);
-  const electron = match(/electron/i);
-  const chrome = match(/chrome/i);
-  const edge = match(/edge/i);
-  const firefox = match(/firefox/i);
-  const opera = match(/opera/i);
-  const win = match(/win/i);
-  const mac = match(/mac/i);
-  const linux = match(/linux/i);
-  return {
-    android,
-    ios,
-    cordova,
-    electron,
-    chrome,
-    edge,
-    firefox,
-    opera,
-    win,
-    mac,
-    linux,
-    touch: SUPPORTS_TOUCH,
-    ssr: userAgent === "ssr"
-  };
-}
-function createDisplay(options, ssr) {
-  const {
-    thresholds,
-    mobileBreakpoint
-  } = parseDisplayOptions(options);
-  const height = shallowRef(getClientHeight(ssr));
-  const platform = shallowRef(getPlatform(ssr));
-  const state = reactive({});
-  const width = shallowRef(getClientWidth(ssr));
-  function updateSize() {
-    height.value = getClientHeight();
-    width.value = getClientWidth();
-  }
-  function update() {
-    updateSize();
-    platform.value = getPlatform();
-  }
-  watchEffect(() => {
-    const xs = width.value < thresholds.sm;
-    const sm = width.value < thresholds.md && !xs;
-    const md = width.value < thresholds.lg && !(sm || xs);
-    const lg = width.value < thresholds.xl && !(md || sm || xs);
-    const xl = width.value < thresholds.xxl && !(lg || md || sm || xs);
-    const xxl = width.value >= thresholds.xxl;
-    const name = xs ? "xs" : sm ? "sm" : md ? "md" : lg ? "lg" : xl ? "xl" : "xxl";
-    const breakpointValue = typeof mobileBreakpoint === "number" ? mobileBreakpoint : thresholds[mobileBreakpoint];
-    const mobile = width.value < breakpointValue;
-    state.xs = xs;
-    state.sm = sm;
-    state.md = md;
-    state.lg = lg;
-    state.xl = xl;
-    state.xxl = xxl;
-    state.smAndUp = !xs;
-    state.mdAndUp = !(xs || sm);
-    state.lgAndUp = !(xs || sm || md);
-    state.xlAndUp = !(xs || sm || md || lg);
-    state.smAndDown = !(md || lg || xl || xxl);
-    state.mdAndDown = !(lg || xl || xxl);
-    state.lgAndDown = !(xl || xxl);
-    state.xlAndDown = !xxl;
-    state.name = name;
-    state.height = height.value;
-    state.width = width.value;
-    state.mobile = mobile;
-    state.mobileBreakpoint = mobileBreakpoint;
-    state.platform = platform.value;
-    state.thresholds = thresholds;
-  });
-  if (IN_BROWSER) {
-    window.addEventListener("resize", updateSize, {
-      passive: true
-    });
-  }
-  return {
-    ...toRefs(state),
-    update,
-    ssr: !!ssr
-  };
-}
-const makeDisplayProps = propsFactory({
-  mobileBreakpoint: [Number, String]
-}, "display");
-function useDisplay() {
-  let props = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-  let name = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstanceName();
-  const display = inject$1(DisplaySymbol);
-  if (!display) throw new Error("Could not find Vuetify display injection");
-  const mobile = computed(() => {
-    if (!props.mobileBreakpoint) return display.mobile.value;
-    const breakpointValue = typeof props.mobileBreakpoint === "number" ? props.mobileBreakpoint : display.thresholds.value[props.mobileBreakpoint];
-    return display.width.value < breakpointValue;
-  });
-  const displayClasses = computed(() => {
-    if (!name) return {};
-    return {
-      [`${name}--mobile`]: mobile.value
-    };
-  });
-  return {
-    ...display,
-    displayClasses,
-    mobile
-  };
-}
-const VSpacer = createSimpleFunctional("v-spacer", "div", "VSpacer");
 const makeVMainProps = propsFactory({
   scrollable: Boolean,
   ...makeComponentProps(),
@@ -16912,28 +17626,19 @@ const VMain = genericComponent()({
     return {};
   }
 });
-const _hoisted_1 = { class: "maxWidth v-toolbar__content px-lg-0 px-4" };
-const _hoisted_2 = { class: "d-sm-flex d-none" };
-const _hoisted_3 = { class: "logo" };
-const _hoisted_4 = /* @__PURE__ */ createBaseVNode("img", {
-  style: { "height": "100px" },
+const _hoisted_1 = { class: "header pl-4" };
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("img", {
   src: _imports_0,
   alt: "upc"
 }, null, -1);
-const _hoisted_5 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_3 = /* @__PURE__ */ createBaseVNode("img", {
   src: _imports_1,
-  class: "pl-3",
-  alt: "upc"
-}, null, -1);
-const _hoisted_6 = { class: "d-sm-none d-flex mr-2" };
-const _hoisted_7 = /* @__PURE__ */ createBaseVNode("img", {
-  style: { "height": "100px" },
-  src: _imports_0,
-  alt: "upc"
+  alt: "ecconnect"
 }, null, -1);
 const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
   __name: "App",
   setup(__props) {
+    const { smAndDown } = useDisplay();
     const cartStore = useCartStore();
     const { selectedProducts } = storeToRefs(cartStore);
     const isLoaded = ref(false);
@@ -16960,97 +17665,86 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
           createVNode(VAppBar, {
             elevation: "10",
             priority: "0",
-            height: "64",
             class: "horizontal-header",
             color: ""
           }, {
             default: withCtx(() => [
               createBaseVNode("div", _hoisted_1, [
-                createBaseVNode("div", _hoisted_2, [
-                  createBaseVNode("div", _hoisted_3, [
-                    createVNode(_component_router_link, {
-                      to: "/",
-                      class: "d-flex"
-                    }, {
-                      default: withCtx(() => [
-                        _hoisted_4,
-                        _hoisted_5
-                      ]),
-                      _: 1
-                    })
-                  ])
+                withDirectives(createVNode(_component_router_link, { to: "/" }, {
+                  default: withCtx(() => [
+                    _hoisted_2,
+                    _hoisted_3
+                  ]),
+                  _: 1
+                }, 512), [
+                  [vShow, !unref(smAndDown)]
                 ]),
-                createBaseVNode("div", _hoisted_6, [
-                  createVNode(_component_router_link, {
-                    to: "/",
-                    class: "d-flex"
+                createVNode(_component_router_link, { to: "/" }, {
+                  default: withCtx(() => [
+                    createBaseVNode("h3", null, toDisplayString$1(_ctx.$t("text.demo.shop")), 1)
+                  ]),
+                  _: 1
+                }),
+                createBaseVNode("div", null, [
+                  createVNode(VBtn, {
+                    icon: "",
+                    variant: "text",
+                    color: "primary",
+                    title: _ctx.$t("title.test.cards"),
+                    class: "mr-5",
+                    to: { name: unref(RouteName).TestCards, query: { ..._ctx.$route.query } }
                   }, {
                     default: withCtx(() => [
-                      _hoisted_7
+                      createVNode(unref(IconCreditCard), {
+                        "stroke-width": "1.5",
+                        size: "22"
+                      })
                     ]),
                     _: 1
-                  })
-                ]),
-                createVNode(VSpacer),
-                createBaseVNode("h3", null, toDisplayString$1(_ctx.$t("text.demo.shop")), 1),
-                createVNode(VSpacer),
-                createVNode(VBtn, {
-                  icon: "",
-                  variant: "text",
-                  color: "primary",
-                  title: _ctx.$t("title.test.cards"),
-                  class: "mr-5",
-                  to: { name: unref(RouteName).TestCards, query: { ..._ctx.$route.query } }
-                }, {
-                  default: withCtx(() => [
-                    createVNode(unref(IconCreditCard), {
-                      "stroke-width": "1.5",
-                      size: "22"
-                    })
-                  ]),
-                  _: 1
-                }, 8, ["title", "to"]),
-                createVNode(VBtn, {
-                  icon: "",
-                  variant: "text",
-                  color: "primary",
-                  title: _ctx.$t("title.test.cards"),
-                  class: "mr-5",
-                  onClick: changeLocale
-                }, {
-                  default: withCtx(() => [
-                    createVNode(unref(IconWorld), {
-                      "stroke-width": "1.5",
-                      size: "22"
-                    }),
-                    createBaseVNode("span", null, toDisplayString$1(_ctx.$i18n.locale.toUpperCase()), 1)
-                  ]),
-                  _: 1
-                }, 8, ["title"]),
-                _ctx.$route.name !== unref(RouteName).Config ? (openBlock(), createBlock(VBtn, {
-                  key: 0,
-                  icon: "",
-                  variant: "text",
-                  title: _ctx.$t("title.shopping.cart"),
-                  color: "primary",
-                  to: { name: unref(RouteName).Checkout, query: { ..._ctx.$route.query } }
-                }, {
-                  default: withCtx(() => [
-                    createVNode(VBadge, {
-                      color: "error",
-                      content: unref(selectedProducts).size
-                    }, {
-                      default: withCtx(() => [
-                        createVNode(unref(IconShoppingCart), {
-                          "stroke-width": "1.5",
-                          size: "22"
-                        })
-                      ]),
-                      _: 1
-                    }, 8, ["content"])
-                  ]),
-                  _: 1
-                }, 8, ["title", "to"])) : createCommentVNode("", true)
+                  }, 8, ["title", "to"]),
+                  _ctx.$route.name === unref(RouteName).Config ? (openBlock(), createBlock(VBtn, {
+                    key: 0,
+                    icon: "",
+                    variant: "text",
+                    color: "primary",
+                    title: _ctx.$t("title.language"),
+                    class: "mr-5",
+                    onClick: changeLocale
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(unref(IconWorld), {
+                        "stroke-width": "1.5",
+                        size: "22"
+                      }),
+                      createBaseVNode("span", null, toDisplayString$1(_ctx.$i18n.locale.toUpperCase()), 1)
+                    ]),
+                    _: 1
+                  }, 8, ["title"])) : createCommentVNode("", true),
+                  _ctx.$route.name !== unref(RouteName).Config ? (openBlock(), createBlock(VBtn, {
+                    key: 1,
+                    icon: "",
+                    variant: "text",
+                    title: _ctx.$t("title.shopping.cart"),
+                    color: "primary",
+                    to: { name: unref(RouteName).Checkout, query: { ..._ctx.$route.query } }
+                  }, {
+                    default: withCtx(() => [
+                      createVNode(VBadge, {
+                        color: "error",
+                        content: unref(selectedProducts).size
+                      }, {
+                        default: withCtx(() => [
+                          createVNode(unref(IconShoppingCart), {
+                            "stroke-width": "1.5",
+                            size: "22"
+                          })
+                        ]),
+                        _: 1
+                      }, 8, ["content"])
+                    ]),
+                    _: 1
+                  }, 8, ["title", "to"])) : createCommentVNode("", true)
+                ])
               ])
             ]),
             _: 1
@@ -18919,12 +19613,12 @@ const router = createRouter({
         {
           path: "/config",
           name: RouteName.Config,
-          component: () => __vitePreload(() => import("./index-DDOCiO4t.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0)
+          component: () => __vitePreload(() => import("./index-DxksOyCG.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0)
         },
         {
           path: "/products",
           name: RouteName.Products,
-          component: () => __vitePreload(() => import("./index-ZaagjZI9.js"), true ? __vite__mapDeps([4,5,6,7,8,1,2,9,10,3,11]) : void 0),
+          component: () => __vitePreload(() => import("./index-utSeVQN9.js"), true ? __vite__mapDeps([4,5,6,7,8,1,2,9,10,3,11]) : void 0),
           props: (route) => {
             return getPaymentMode(route);
           }
@@ -18932,7 +19626,7 @@ const router = createRouter({
         {
           path: "/checkout",
           name: RouteName.Checkout,
-          component: () => __vitePreload(() => import("./index-BbMPehs9.js"), true ? __vite__mapDeps([12,5,6,7,8,1,2,13,14,3,15]) : void 0),
+          component: () => __vitePreload(() => import("./index-CaPvbWUf.js"), true ? __vite__mapDeps([12,5,6,7,8,1,2,13,14,3,15]) : void 0),
           props: (route) => {
             return getPaymentMode(route);
           }
@@ -18940,7 +19634,7 @@ const router = createRouter({
         {
           path: "/test-cards",
           name: RouteName.TestCards,
-          component: () => __vitePreload(() => import("./index-AQxfZAt2.js"), true ? __vite__mapDeps([16,9,6,7,10,1,2,13,14]) : void 0)
+          component: () => __vitePreload(() => import("./index-DaPyLiDI.js"), true ? __vite__mapDeps([16,9,6,7,10,1,2,13,14]) : void 0)
         },
         {
           path: "/:pathMatch(.*)*",
@@ -18954,747 +19648,6 @@ const router = createRouter({
     }
   ]
 });
-const firstDay = {
-  "001": 1,
-  AD: 1,
-  AE: 6,
-  AF: 6,
-  AG: 0,
-  AI: 1,
-  AL: 1,
-  AM: 1,
-  AN: 1,
-  AR: 1,
-  AS: 0,
-  AT: 1,
-  AU: 1,
-  AX: 1,
-  AZ: 1,
-  BA: 1,
-  BD: 0,
-  BE: 1,
-  BG: 1,
-  BH: 6,
-  BM: 1,
-  BN: 1,
-  BR: 0,
-  BS: 0,
-  BT: 0,
-  BW: 0,
-  BY: 1,
-  BZ: 0,
-  CA: 0,
-  CH: 1,
-  CL: 1,
-  CM: 1,
-  CN: 1,
-  CO: 0,
-  CR: 1,
-  CY: 1,
-  CZ: 1,
-  DE: 1,
-  DJ: 6,
-  DK: 1,
-  DM: 0,
-  DO: 0,
-  DZ: 6,
-  EC: 1,
-  EE: 1,
-  EG: 6,
-  ES: 1,
-  ET: 0,
-  FI: 1,
-  FJ: 1,
-  FO: 1,
-  FR: 1,
-  GB: 1,
-  "GB-alt-variant": 0,
-  GE: 1,
-  GF: 1,
-  GP: 1,
-  GR: 1,
-  GT: 0,
-  GU: 0,
-  HK: 0,
-  HN: 0,
-  HR: 1,
-  HU: 1,
-  ID: 0,
-  IE: 1,
-  IL: 0,
-  IN: 0,
-  IQ: 6,
-  IR: 6,
-  IS: 1,
-  IT: 1,
-  JM: 0,
-  JO: 6,
-  JP: 0,
-  KE: 0,
-  KG: 1,
-  KH: 0,
-  KR: 0,
-  KW: 6,
-  KZ: 1,
-  LA: 0,
-  LB: 1,
-  LI: 1,
-  LK: 1,
-  LT: 1,
-  LU: 1,
-  LV: 1,
-  LY: 6,
-  MC: 1,
-  MD: 1,
-  ME: 1,
-  MH: 0,
-  MK: 1,
-  MM: 0,
-  MN: 1,
-  MO: 0,
-  MQ: 1,
-  MT: 0,
-  MV: 5,
-  MX: 0,
-  MY: 1,
-  MZ: 0,
-  NI: 0,
-  NL: 1,
-  NO: 1,
-  NP: 0,
-  NZ: 1,
-  OM: 6,
-  PA: 0,
-  PE: 0,
-  PH: 0,
-  PK: 0,
-  PL: 1,
-  PR: 0,
-  PT: 0,
-  PY: 0,
-  QA: 6,
-  RE: 1,
-  RO: 1,
-  RS: 1,
-  RU: 1,
-  SA: 0,
-  SD: 6,
-  SE: 1,
-  SG: 0,
-  SI: 1,
-  SK: 1,
-  SM: 1,
-  SV: 0,
-  SY: 6,
-  TH: 0,
-  TJ: 1,
-  TM: 1,
-  TR: 1,
-  TT: 0,
-  TW: 0,
-  UA: 1,
-  UM: 0,
-  US: 0,
-  UY: 1,
-  UZ: 1,
-  VA: 1,
-  VE: 0,
-  VI: 0,
-  VN: 1,
-  WS: 0,
-  XK: 1,
-  YE: 0,
-  ZA: 0,
-  ZW: 0
-};
-function getWeekArray(date2, locale) {
-  const weeks = [];
-  let currentWeek = [];
-  const firstDayOfMonth = startOfMonth(date2);
-  const lastDayOfMonth = endOfMonth(date2);
-  const firstDayWeekIndex = (firstDayOfMonth.getDay() - firstDay[locale.slice(-2).toUpperCase()] + 7) % 7;
-  const lastDayWeekIndex = (lastDayOfMonth.getDay() - firstDay[locale.slice(-2).toUpperCase()] + 7) % 7;
-  for (let i = 0; i < firstDayWeekIndex; i++) {
-    const adjacentDay = new Date(firstDayOfMonth);
-    adjacentDay.setDate(adjacentDay.getDate() - (firstDayWeekIndex - i));
-    currentWeek.push(adjacentDay);
-  }
-  for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-    const day = new Date(date2.getFullYear(), date2.getMonth(), i);
-    currentWeek.push(day);
-    if (currentWeek.length === 7) {
-      weeks.push(currentWeek);
-      currentWeek = [];
-    }
-  }
-  for (let i = 1; i < 7 - lastDayWeekIndex; i++) {
-    const adjacentDay = new Date(lastDayOfMonth);
-    adjacentDay.setDate(adjacentDay.getDate() + i);
-    currentWeek.push(adjacentDay);
-  }
-  if (currentWeek.length > 0) {
-    weeks.push(currentWeek);
-  }
-  return weeks;
-}
-function startOfWeek(date2) {
-  const d = new Date(date2);
-  while (d.getDay() !== 0) {
-    d.setDate(d.getDate() - 1);
-  }
-  return d;
-}
-function endOfWeek(date2) {
-  const d = new Date(date2);
-  while (d.getDay() !== 6) {
-    d.setDate(d.getDate() + 1);
-  }
-  return d;
-}
-function startOfMonth(date2) {
-  return new Date(date2.getFullYear(), date2.getMonth(), 1);
-}
-function endOfMonth(date2) {
-  return new Date(date2.getFullYear(), date2.getMonth() + 1, 0);
-}
-function parseLocalDate(value) {
-  const parts = value.split("-").map(Number);
-  return new Date(parts[0], parts[1] - 1, parts[2]);
-}
-const _YYYMMDD = /^([12]\d{3}-([1-9]|0[1-9]|1[0-2])-([1-9]|0[1-9]|[12]\d|3[01]))$/;
-function date(value) {
-  if (value == null) return /* @__PURE__ */ new Date();
-  if (value instanceof Date) return value;
-  if (typeof value === "string") {
-    let parsed;
-    if (_YYYMMDD.test(value)) {
-      return parseLocalDate(value);
-    } else {
-      parsed = Date.parse(value);
-    }
-    if (!isNaN(parsed)) return new Date(parsed);
-  }
-  return null;
-}
-const sundayJanuarySecond2000 = new Date(2e3, 0, 2);
-function getWeekdays(locale) {
-  const daysFromSunday = firstDay[locale.slice(-2).toUpperCase()];
-  return createRange(7).map((i) => {
-    const weekday = new Date(sundayJanuarySecond2000);
-    weekday.setDate(sundayJanuarySecond2000.getDate() + daysFromSunday + i);
-    return new Intl.DateTimeFormat(locale, {
-      weekday: "narrow"
-    }).format(weekday);
-  });
-}
-function format(value, formatString, locale, formats) {
-  const newDate = date(value) ?? /* @__PURE__ */ new Date();
-  const customFormat = formats == null ? void 0 : formats[formatString];
-  if (typeof customFormat === "function") {
-    return customFormat(newDate, formatString, locale);
-  }
-  let options = {};
-  switch (formatString) {
-    case "fullDateWithWeekday":
-      options = {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      };
-      break;
-    case "hours12h":
-      options = {
-        hour: "numeric",
-        hour12: true
-      };
-      break;
-    case "normalDateWithWeekday":
-      options = {
-        weekday: "short",
-        day: "numeric",
-        month: "short"
-      };
-      break;
-    case "keyboardDate":
-      options = {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric"
-      };
-      break;
-    case "monthAndDate":
-      options = {
-        month: "long",
-        day: "numeric"
-      };
-      break;
-    case "monthAndYear":
-      options = {
-        month: "long",
-        year: "numeric"
-      };
-      break;
-    case "month":
-      options = {
-        month: "long"
-      };
-      break;
-    case "monthShort":
-      options = {
-        month: "short"
-      };
-      break;
-    case "dayOfMonth":
-      return new Intl.NumberFormat(locale).format(newDate.getDate());
-    case "shortDate":
-      options = {
-        year: "2-digit",
-        month: "numeric",
-        day: "numeric"
-      };
-      break;
-    case "weekdayShort":
-      options = {
-        weekday: "short"
-      };
-      break;
-    case "year":
-      options = {
-        year: "numeric"
-      };
-      break;
-    default:
-      options = customFormat ?? {
-        timeZone: "UTC",
-        timeZoneName: "short"
-      };
-  }
-  return new Intl.DateTimeFormat(locale, options).format(newDate);
-}
-function toISO(adapter, value) {
-  const date2 = adapter.toJsDate(value);
-  const year = date2.getFullYear();
-  const month = padStart(String(date2.getMonth() + 1), 2, "0");
-  const day = padStart(String(date2.getDate()), 2, "0");
-  return `${year}-${month}-${day}`;
-}
-function parseISO(value) {
-  const [year, month, day] = value.split("-").map(Number);
-  return new Date(year, month - 1, day);
-}
-function addMinutes(date2, amount) {
-  const d = new Date(date2);
-  d.setMinutes(d.getMinutes() + amount);
-  return d;
-}
-function addHours(date2, amount) {
-  const d = new Date(date2);
-  d.setHours(d.getHours() + amount);
-  return d;
-}
-function addDays(date2, amount) {
-  const d = new Date(date2);
-  d.setDate(d.getDate() + amount);
-  return d;
-}
-function addWeeks(date2, amount) {
-  const d = new Date(date2);
-  d.setDate(d.getDate() + amount * 7);
-  return d;
-}
-function addMonths(date2, amount) {
-  const d = new Date(date2);
-  d.setMonth(d.getMonth() + amount);
-  return d;
-}
-function getYear(date2) {
-  return date2.getFullYear();
-}
-function getMonth(date2) {
-  return date2.getMonth();
-}
-function getNextMonth(date2) {
-  return new Date(date2.getFullYear(), date2.getMonth() + 1, 1);
-}
-function getHours(date2) {
-  return date2.getHours();
-}
-function getMinutes(date2) {
-  return date2.getMinutes();
-}
-function startOfYear(date2) {
-  return new Date(date2.getFullYear(), 0, 1);
-}
-function endOfYear(date2) {
-  return new Date(date2.getFullYear(), 11, 31);
-}
-function isWithinRange(date2, range) {
-  return isAfter(date2, range[0]) && isBefore(date2, range[1]);
-}
-function isValid(date2) {
-  const d = new Date(date2);
-  return d instanceof Date && !isNaN(d.getTime());
-}
-function isAfter(date2, comparing) {
-  return date2.getTime() > comparing.getTime();
-}
-function isBefore(date2, comparing) {
-  return date2.getTime() < comparing.getTime();
-}
-function isEqual(date2, comparing) {
-  return date2.getTime() === comparing.getTime();
-}
-function isSameDay(date2, comparing) {
-  return date2.getDate() === comparing.getDate() && date2.getMonth() === comparing.getMonth() && date2.getFullYear() === comparing.getFullYear();
-}
-function isSameMonth(date2, comparing) {
-  return date2.getMonth() === comparing.getMonth() && date2.getFullYear() === comparing.getFullYear();
-}
-function getDiff(date2, comparing, unit) {
-  const d = new Date(date2);
-  const c = new Date(comparing);
-  if (unit === "month") {
-    return d.getMonth() - c.getMonth() + (d.getFullYear() - c.getFullYear()) * 12;
-  }
-  return Math.floor((d.getTime() - c.getTime()) / (1e3 * 60 * 60 * 24));
-}
-function setHours(date2, count) {
-  const d = new Date(date2);
-  d.setHours(count);
-  return d;
-}
-function setMinutes(date2, count) {
-  const d = new Date(date2);
-  d.setMinutes(count);
-  return d;
-}
-function setMonth(date2, count) {
-  const d = new Date(date2);
-  d.setMonth(count);
-  return d;
-}
-function setYear(date2, year) {
-  const d = new Date(date2);
-  d.setFullYear(year);
-  return d;
-}
-function startOfDay(date2) {
-  return new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
-}
-function endOfDay(date2) {
-  return new Date(date2.getFullYear(), date2.getMonth(), date2.getDate(), 23, 59, 59, 999);
-}
-class VuetifyDateAdapter {
-  constructor(options) {
-    this.locale = options.locale;
-    this.formats = options.formats;
-  }
-  date(value) {
-    return date(value);
-  }
-  toJsDate(date2) {
-    return date2;
-  }
-  toISO(date2) {
-    return toISO(this, date2);
-  }
-  parseISO(date2) {
-    return parseISO(date2);
-  }
-  addMinutes(date2, amount) {
-    return addMinutes(date2, amount);
-  }
-  addHours(date2, amount) {
-    return addHours(date2, amount);
-  }
-  addDays(date2, amount) {
-    return addDays(date2, amount);
-  }
-  addWeeks(date2, amount) {
-    return addWeeks(date2, amount);
-  }
-  addMonths(date2, amount) {
-    return addMonths(date2, amount);
-  }
-  getWeekArray(date2) {
-    return getWeekArray(date2, this.locale);
-  }
-  startOfWeek(date2) {
-    return startOfWeek(date2);
-  }
-  endOfWeek(date2) {
-    return endOfWeek(date2);
-  }
-  startOfMonth(date2) {
-    return startOfMonth(date2);
-  }
-  endOfMonth(date2) {
-    return endOfMonth(date2);
-  }
-  format(date2, formatString) {
-    return format(date2, formatString, this.locale, this.formats);
-  }
-  isEqual(date2, comparing) {
-    return isEqual(date2, comparing);
-  }
-  isValid(date2) {
-    return isValid(date2);
-  }
-  isWithinRange(date2, range) {
-    return isWithinRange(date2, range);
-  }
-  isAfter(date2, comparing) {
-    return isAfter(date2, comparing);
-  }
-  isBefore(date2, comparing) {
-    return !isAfter(date2, comparing) && !isEqual(date2, comparing);
-  }
-  isSameDay(date2, comparing) {
-    return isSameDay(date2, comparing);
-  }
-  isSameMonth(date2, comparing) {
-    return isSameMonth(date2, comparing);
-  }
-  setMinutes(date2, count) {
-    return setMinutes(date2, count);
-  }
-  setHours(date2, count) {
-    return setHours(date2, count);
-  }
-  setMonth(date2, count) {
-    return setMonth(date2, count);
-  }
-  setYear(date2, year) {
-    return setYear(date2, year);
-  }
-  getDiff(date2, comparing, unit) {
-    return getDiff(date2, comparing, unit);
-  }
-  getWeekdays() {
-    return getWeekdays(this.locale);
-  }
-  getYear(date2) {
-    return getYear(date2);
-  }
-  getMonth(date2) {
-    return getMonth(date2);
-  }
-  getNextMonth(date2) {
-    return getNextMonth(date2);
-  }
-  getHours(date2) {
-    return getHours(date2);
-  }
-  getMinutes(date2) {
-    return getMinutes(date2);
-  }
-  startOfDay(date2) {
-    return startOfDay(date2);
-  }
-  endOfDay(date2) {
-    return endOfDay(date2);
-  }
-  startOfYear(date2) {
-    return startOfYear(date2);
-  }
-  endOfYear(date2) {
-    return endOfYear(date2);
-  }
-}
-const DateOptionsSymbol = Symbol.for("vuetify:date-options");
-const DateAdapterSymbol = Symbol.for("vuetify:date-adapter");
-function createDate(options, locale) {
-  const _options = mergeDeep({
-    adapter: VuetifyDateAdapter,
-    locale: {
-      af: "af-ZA",
-      // ar: '', # not the same value for all variants
-      bg: "bg-BG",
-      ca: "ca-ES",
-      ckb: "",
-      cs: "cs-CZ",
-      de: "de-DE",
-      el: "el-GR",
-      en: "en-US",
-      // es: '', # not the same value for all variants
-      et: "et-EE",
-      fa: "fa-IR",
-      fi: "fi-FI",
-      // fr: '', #not the same value for all variants
-      hr: "hr-HR",
-      hu: "hu-HU",
-      he: "he-IL",
-      id: "id-ID",
-      it: "it-IT",
-      ja: "ja-JP",
-      ko: "ko-KR",
-      lv: "lv-LV",
-      lt: "lt-LT",
-      nl: "nl-NL",
-      no: "no-NO",
-      pl: "pl-PL",
-      pt: "pt-PT",
-      ro: "ro-RO",
-      ru: "ru-RU",
-      sk: "sk-SK",
-      sl: "sl-SI",
-      srCyrl: "sr-SP",
-      srLatn: "sr-SP",
-      sv: "sv-SE",
-      th: "th-TH",
-      tr: "tr-TR",
-      az: "az-AZ",
-      uk: "uk-UA",
-      vi: "vi-VN",
-      zhHans: "zh-CN",
-      zhHant: "zh-TW"
-    }
-  }, options);
-  return {
-    options: _options,
-    instance: createInstance(_options, locale)
-  };
-}
-function createInstance(options, locale) {
-  const instance = reactive(typeof options.adapter === "function" ? new options.adapter({
-    locale: options.locale[locale.current.value] ?? locale.current.value,
-    formats: options.formats
-  }) : options.adapter);
-  watch(locale.current, (value) => {
-    instance.locale = options.locale[value] ?? value ?? instance.locale;
-  });
-  return instance;
-}
-const GoToSymbol = Symbol.for("vuetify:goto");
-function genDefaults() {
-  return {
-    container: void 0,
-    duration: 300,
-    layout: false,
-    offset: 0,
-    easing: "easeInOutCubic",
-    patterns: {
-      linear: (t) => t,
-      easeInQuad: (t) => t ** 2,
-      easeOutQuad: (t) => t * (2 - t),
-      easeInOutQuad: (t) => t < 0.5 ? 2 * t ** 2 : -1 + (4 - 2 * t) * t,
-      easeInCubic: (t) => t ** 3,
-      easeOutCubic: (t) => --t ** 3 + 1,
-      easeInOutCubic: (t) => t < 0.5 ? 4 * t ** 3 : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1,
-      easeInQuart: (t) => t ** 4,
-      easeOutQuart: (t) => 1 - --t ** 4,
-      easeInOutQuart: (t) => t < 0.5 ? 8 * t ** 4 : 1 - 8 * --t ** 4,
-      easeInQuint: (t) => t ** 5,
-      easeOutQuint: (t) => 1 + --t ** 5,
-      easeInOutQuint: (t) => t < 0.5 ? 16 * t ** 5 : 1 + 16 * --t ** 5
-    }
-  };
-}
-function createGoTo(options, locale) {
-  return {
-    rtl: locale.isRtl,
-    options: mergeDeep(genDefaults(), options)
-  };
-}
-function createVuetify() {
-  let vuetify2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-  const {
-    blueprint,
-    ...rest
-  } = vuetify2;
-  const options = mergeDeep(blueprint, rest);
-  const {
-    aliases: aliases2 = {},
-    components = {},
-    directives = {}
-  } = options;
-  const defaults = createDefaults(options.defaults);
-  const display = createDisplay(options.display, options.ssr);
-  const theme = createTheme(options.theme);
-  const icons = createIcons(options.icons);
-  const locale = createLocale(options.locale);
-  const date2 = createDate(options.date, locale);
-  const goTo = createGoTo(options.goTo, locale);
-  const install = (app) => {
-    for (const key in directives) {
-      app.directive(key, directives[key]);
-    }
-    for (const key in components) {
-      app.component(key, components[key]);
-    }
-    for (const key in aliases2) {
-      app.component(key, defineComponent({
-        ...aliases2[key],
-        name: key,
-        aliasName: aliases2[key].name
-      }));
-    }
-    theme.install(app);
-    app.provide(DefaultsSymbol, defaults);
-    app.provide(DisplaySymbol, display);
-    app.provide(ThemeSymbol, theme);
-    app.provide(IconSymbol, icons);
-    app.provide(LocaleSymbol, locale);
-    app.provide(DateOptionsSymbol, date2.options);
-    app.provide(DateAdapterSymbol, date2.instance);
-    app.provide(GoToSymbol, goTo);
-    if (IN_BROWSER && options.ssr) {
-      if (app.$nuxt) {
-        app.$nuxt.hook("app:suspense:resolve", () => {
-          display.update();
-        });
-      } else {
-        const {
-          mount
-        } = app;
-        app.mount = function() {
-          const vm = mount(...arguments);
-          nextTick(() => display.update());
-          app.mount = mount;
-          return vm;
-        };
-      }
-    }
-    getUid.reset();
-    {
-      app.mixin({
-        computed: {
-          $vuetify() {
-            return reactive({
-              defaults: inject.call(this, DefaultsSymbol),
-              display: inject.call(this, DisplaySymbol),
-              theme: inject.call(this, ThemeSymbol),
-              icons: inject.call(this, IconSymbol),
-              locale: inject.call(this, LocaleSymbol),
-              date: inject.call(this, DateAdapterSymbol)
-            });
-          }
-        }
-      });
-    }
-  };
-  return {
-    install,
-    defaults,
-    display,
-    theme,
-    icons,
-    locale,
-    date: date2,
-    goTo
-  };
-}
-const version = "3.5.3";
-createVuetify.version = version;
-function inject(key) {
-  var _a, _b;
-  const vm = this.$;
-  const provides = ((_a = vm.parent) == null ? void 0 : _a.provides) ?? ((_b = vm.vnode.appContext) == null ? void 0 : _b.provides);
-  if (provides && key in provides) {
-    return provides[key];
-  }
-}
 const BLUE_THEME = {
   name: "BLUE_THEME",
   dark: false,
@@ -19805,7 +19758,7 @@ export {
   makeRoundedProps as Z,
   useGroupItem as _,
   createBlock as a,
-  getNextElement as a$,
+  watchEffect as a$,
   useRounded as a0,
   provide as a1,
   makeBorderProps as a2,
@@ -19838,11 +19791,11 @@ export {
   getCurrentInstance as aT,
   defineComponent as aU,
   MaybeTransition as aV,
-  createSimpleFunctional as aW,
-  deprecate as aX,
-  useTextColor as aY,
-  getPropertyFromItem as aZ,
-  focusChild as a_,
+  deprecate as aW,
+  useTextColor as aX,
+  getPropertyFromItem as aY,
+  focusChild as aZ,
+  getNextElement as a_,
   useProductsListStore as aa,
   storeToRefs as ab,
   onMounted as ac,
@@ -19870,48 +19823,48 @@ export {
   pushScopeId as ay,
   popScopeId as az,
   createVNode as b,
-  watchEffect as b0,
-  onScopeDispose as b1,
-  debounce as b2,
-  makeTransitionProps as b3,
-  wrapInArray as b4,
-  ensureValidVNode as b5,
-  matchesSelector as b6,
-  useI18n as b7,
-  withModifiers as b8,
-  isRef as b9,
-  effectScope as bA,
-  defer as bB,
-  reactive as bC,
-  readonly as bD,
-  Teleport as bE,
-  useBackButton as bF,
-  makeVBtnProps as ba,
-  isObject as bb,
-  keys as bc,
-  createSlots as bd,
-  VSlideYTransition as be,
-  getCurrentInstanceName as bf,
-  makeLoaderProps as bg,
-  useLoader as bh,
-  LoaderSlot as bi,
-  isOn as bj,
-  pick as bk,
-  Intersect as bl,
-  cloneVNode as bm,
-  callEvent as bn,
-  breakpoints as bo,
-  capitalize$1 as bp,
-  h as bq,
-  refElement as br,
-  VProgressLinear as bs,
-  eventName as bt,
-  destructComputed as bu,
-  parseAnchor as bv,
-  flipSide as bw,
-  flipAlign as bx,
-  flipCorner as by,
-  getAxis as bz,
+  onScopeDispose as b0,
+  debounce as b1,
+  makeTransitionProps as b2,
+  wrapInArray as b3,
+  ensureValidVNode as b4,
+  matchesSelector as b5,
+  useI18n as b6,
+  withModifiers as b7,
+  isRef as b8,
+  makeVBtnProps as b9,
+  defer as bA,
+  reactive as bB,
+  readonly as bC,
+  Teleport as bD,
+  useBackButton as bE,
+  camelize as bF,
+  isObject as ba,
+  keys as bb,
+  createSlots as bc,
+  VSlideYTransition as bd,
+  getCurrentInstanceName as be,
+  makeLoaderProps as bf,
+  useLoader as bg,
+  LoaderSlot as bh,
+  isOn as bi,
+  pick as bj,
+  Intersect as bk,
+  cloneVNode as bl,
+  callEvent as bm,
+  breakpoints as bn,
+  capitalize$1 as bo,
+  h as bp,
+  refElement as bq,
+  VProgressLinear as br,
+  eventName as bs,
+  destructComputed as bt,
+  parseAnchor as bu,
+  flipSide as bv,
+  flipAlign as bw,
+  flipCorner as bx,
+  getAxis as by,
+  effectScope as bz,
   createVueComponent as c,
   defineComponent$1 as d,
   createBaseVNode as e,

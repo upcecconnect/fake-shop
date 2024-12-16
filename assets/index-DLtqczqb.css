@@ -45837,6 +45837,24 @@ html {
   top: 40px;
   transform: translate(-50%, -50%);
 }
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header > a {
+  line-height: 0;
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+}
+.header > a > img {
+  max-height: 100px;
+}
+.header > a > img:first-child {
+  margin-right: 12px;
+}
 .v-locale--is-rtl .customizer-btn {
   left: 30px;
   right: unset;
