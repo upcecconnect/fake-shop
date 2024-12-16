@@ -213,7 +213,7 @@ watch(paymentMode, (newValue: NUPCPayByBank.PaymentMode) => {
         <v-window-item value="tab-2" class="pa-1">
           <StepSecond :mode="mode" />
           <v-row class="mt-3">
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-btn
                 v-if="mode !== PaymentMode.Manual"
                 color="primary"
@@ -223,7 +223,7 @@ watch(paymentMode, (newValue: NUPCPayByBank.PaymentMode) => {
                 {{ $t('action.back') }}
               </v-btn>
             </v-col>
-            <v-col cols="6" class="text-right">
+            <v-col cols="12" md="6" class="text-right">
               <v-btn
                 v-if="mode !== PaymentMode.Manual && mode !== PaymentMode.PayByBank"
                 color="primary"
