@@ -24,12 +24,12 @@
     "uk": "Показати модальний iframe оплати на сторінці оформлення замовлення"
   },
   "text.payment.with.manual.params": {
-    "en": "Payment with manual params (developers purpose only)",
-    "uk": "Оплата з ручними параметрами (тільки для розробників)"
+    "en": "Payment with manual params",
+    "uk": "Оплата з ручними параметрами"
   },
   "text.payment.with.manual.params.description": {
-    "en": "Set all available payment parameters on checkout",
-    "uk": "Встановити всі доступні параметри оплати при оформленні замовлення"
+    "en": "Show built-in payment iframe on checkout page (development purpose only)",
+    "uk": "Показати вбудований платіжний iframe на сторінці оформлення замовлення (тільки для розробки)"
   },
   "text.payment.by.bank": {
     "en": "Pay by bank",
@@ -40,8 +40,8 @@
     "uk": "Оплата платіжною кнопкою 'Оплатити через банк'"
   },
   "text.demo.shop": {
-    "en": "Demo shop",
-    "uk": "Демо магазин"
+    "en": "Explore various payment integration methods. Test our payment options, including redirection, built-in iframes, modal windows, and custom parameter setups.",
+    "uk": "Досліджуйте різні методи інтеграції платежів. Перевірте наші варіанти оплати, включаючи перенаправлення, вбудовані фрейми iframe, модальні вікна та налаштування спеціальних параметрів."
   },
   "text.transaction.code": {
     "en": "Transaction code",

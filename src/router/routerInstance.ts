@@ -5,6 +5,7 @@ import { RouteName } from './RouteName';
 import { getPaymentModeFromValue } from '@/enums/PaymentMode';
 import { PaymentMode } from '@/enums/PaymentMode';
 import ProxyComponent from './ProxyComponent.vue';
+import DefaultLayout from './DefaultLayout.vue';
 
 const getPaymentMode = (route: RouteLocationNormalized) => {
   const mode = route.query.mode as string;
@@ -17,7 +18,7 @@ export const router = createRouter({
     routes: [
       {
         path: '',
-        component: ProxyComponent,
+        component: DefaultLayout,
         redirect: { name: RouteName.Config },
         children: [
           {
@@ -25,6 +26,13 @@ export const router = createRouter({
             name: RouteName.Config,
             component: () => import('@/pages/config/index.vue'),
           },
+        ]
+      },
+      {
+        path: '',
+        component: ProxyComponent,
+        redirect: { name: RouteName.Config },
+        children: [
           {
             path: '/products',
             name: RouteName.Products,

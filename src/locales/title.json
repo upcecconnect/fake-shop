@@ -26,5 +26,13 @@
   "title.next.form": {
     "en": "Next Form",
     "uk": "Наступна форма"
+  },
+  "title.payment.methods": {
+    "en": "Payment Methods",
+    "uk": "Способи оплати"
+  },
+  "title.demo.shop": {
+    "en": "Welcome to the UPC eCommerce Connect Demo Shop!",
+    "uk": "Ласкаво просимо до демомагазину UPC eCommerce Connect!"
   }
 }
