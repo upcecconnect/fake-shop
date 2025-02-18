@@ -10,6 +10,7 @@ import { setLocale } from '@/i18n/setLocale';
 import { Locales } from '@/enums/LocaleCode';
 import { IconShoppingCart } from '@tabler/icons-vue';
 import { IconCreditCard } from '@tabler/icons-vue';
+import type { Locale } from '@/types/Locale';
 
 console.log(useDisplay());
 
@@ -28,7 +29,7 @@ const i18n = useI18n();
 })();
 
 
-const activeLocale = computed(() => Locales.find(i => i.code === i18n.locale.value))
+const activeLocale = computed<Locale|undefined>(() => Locales.find(i => i.code === i18n.locale.value))
 </script>
 
 <template>

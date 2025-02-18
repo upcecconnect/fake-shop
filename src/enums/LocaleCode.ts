@@ -1,12 +1,13 @@
 import greatBritain from '@/assets/images/locales/great-britain.png';
 import ukraine from '@/assets/images/locales/ukraine.png';
+import type { Locale } from '@/types/Locale';
 
 export enum LocaleCode {
   En = 'en',
   Uk = 'uk',
 }
 
-export const Locales = [
+export const Locales: readonly Locale[] = [
   { code: LocaleCode.En, text: 'English', shortText: 'Eng', img: greatBritain },
   { code: LocaleCode.Uk, text: 'Українська', shortText: 'Укр', img: ukraine },
 ]
