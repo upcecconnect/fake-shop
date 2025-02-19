@@ -4,7 +4,6 @@ import { RouteLocationNormalized } from 'vue-router';
 import { RouteName } from './RouteName';
 import { getPaymentModeFromValue } from '@/enums/PaymentMode';
 import { PaymentMode } from '@/enums/PaymentMode';
-import ProxyComponent from './ProxyComponent.vue';
 import DefaultLayout from './DefaultLayout.vue';
 
 const getPaymentMode = (route: RouteLocationNormalized) => {
@@ -17,20 +16,13 @@ export const router = createRouter({
     history: createWebHashHistory('/fake-shop'),
     routes: [
       {
-        path: '',
-        component: DefaultLayout,
-        redirect: { name: RouteName.Config },
-        children: [
-          {
-            path: '/config',
-            name: RouteName.Config,
-            component: () => import('@/pages/config/index.vue'),
-          },
-        ]
+        path: '/config',
+        name: RouteName.Config,
+        component: () => import('@/pages/config/index.vue'),
       },
       {
         path: '',
-        component: ProxyComponent,
+        component: DefaultLayout,
         redirect: { name: RouteName.Config },
         children: [
           {

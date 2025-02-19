@@ -7,10 +7,9 @@ import { RouteName } from '@/router/RouteName';
 import { useCartStore } from '@/stores/useCartStore';
 import { useProductsListStore } from '@/stores/useProductsListStore';
 import { setLocale } from '@/i18n/setLocale';
-import { Locales } from '@/enums/LocaleCode';
+import { Locales } from '@/i18n/Locales';
 import { IconShoppingCart } from '@tabler/icons-vue';
 import { IconCreditCard } from '@tabler/icons-vue';
-import type { Locale } from '@/types/Locale';
 
 const { xs } = useDisplay();
 const cartStore = useCartStore();
@@ -27,7 +26,13 @@ const i18n = useI18n();
 })();
 
 
-const activeLocale = computed<Locale|undefined>(() => Locales.find(i => i.code === i18n.locale.value))
+const activeLocale = computed(() => {
+  const result = Locales.find(i => i.code === i18n.locale.value);
+  if (!result) {
+    return Locales[0];
+  }
+  return result;
+})
 </script>
 
 <template>
@@ -77,13 +82,3 @@ const activeLocale = computed<Locale|undefined>(() => Locales.find(i => i.code =
     </v-main>
   </v-app>
 </template>
-
-<style lang="scss" scoped>
-.logo img {
-  max-height: 30px;
-
-  @media (max-width: 768px) {
-    max-height: 22px;
-  }
-}
-</style>
