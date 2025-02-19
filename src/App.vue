@@ -48,7 +48,7 @@ const activeLocale = computed<Locale|undefined>(() => Locales.find(i => i.code =
           <v-menu transition="slide-y-transition">
             <template v-slot:activator="{ props }">
               <v-btn variant="text" size="small" v-bind="props" class=" px-1 px-sm-3">
-                <img :src="activeLocale?.img" alt="Flag" class="mr-2" />
+                <img width="20px" :src="activeLocale?.img" alt="Flag" class="mr-2" />
                 <span v-if="xs">{{ activeLocale?.shortText }}</span>
                 <span v-else>{{ activeLocale?.text }}</span>
               </v-btn>
@@ -56,7 +56,7 @@ const activeLocale = computed<Locale|undefined>(() => Locales.find(i => i.code =
             <v-list class="px-0 py-1 mt-2">
               <v-list-item v-for="local in Locales" :key="local.code" class="pa-0 " style="min-height: auto;">
                 <v-btn variant="text" rounded="0" class="w-100 justify-start px-3 py-1 " @click="setLocale(local.code)">
-                  <img :src="local.img" alt="Flag" class="mr-2" />
+                  <img width="20px" :src="local.img" alt="Flag" class="mr-2"  />
                   <span>{{ local.text }}</span>
                 </v-btn>
               </v-list-item>
