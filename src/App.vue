@@ -12,8 +12,6 @@ import { IconShoppingCart } from '@tabler/icons-vue';
 import { IconCreditCard } from '@tabler/icons-vue';
 import type { Locale } from '@/types/Locale';
 
-console.log(useDisplay());
-
 const { xs } = useDisplay();
 const cartStore = useCartStore();
 const { selectedProducts } = storeToRefs(cartStore);

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { RouteName } from '@/router/RouteName';
 import { PaymentMode } from '@/enums/PaymentMode';
+import { useAnimation, smoothScrollTo } from '@/composables/useAnimation'
+
+useAnimation(".payments-animate", { animationType: 'fade-in-up' })
+
 </script>
 
 <template>
@@ -12,8 +16,7 @@ import { PaymentMode } from '@/enums/PaymentMode';
         </v-col>
         <v-col cols="12" md="6">
           <p class="text-body-1">{{ $t('text.demo.shop') }}</p>
-          <v-btn :to="{ name: RouteName.Products, query: { mode: PaymentMode.Redirect } }" variant="outlined"
-            class="mt-6 text-none" color="primary">
+          <v-btn variant="outlined" class="mt-6 text-none" color="primary" @click="smoothScrollTo('payments')">
             {{ $t('action.try.payment.methods') }}
           </v-btn>
         </v-col>
@@ -23,9 +26,11 @@ import { PaymentMode } from '@/enums/PaymentMode';
 
   <v-container class="payments-container">
     <v-row class="py-6">
-      <v-col cols="12" class="pt-16 pb-4">
+      <v-col id="payments" cols="12" class="pt-16 pb-4">
         <h2 class="text-h2 font-weight-medium text-center">{{ $t('title.payment.methods') }}</h2>
       </v-col>
+    </v-row>
+    <v-row class="payments-animate">
       <v-col cols="12" sm="6">
         <v-card elevation="10" class="overflow-hidden  d-flex flex-column  h-100 pa-6">
           <v-card-item class="pa-0 pb-1">
