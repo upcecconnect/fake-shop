@@ -1,30 +1,4 @@
-import { k as genericComponent, bo as capitalize, bF as camelize, m as makeComponentProps, bp as h, K as provideDefaults, A as useRender, b as createVNode, p as propsFactory, I as IconValue, g as makeDensityProps, Z as makeRoundedProps, h as makeSizeProps, i as makeTagProps, j as makeThemeProps, aI as makeVariantProps, q as provideTheme, aL as useVariant, aM as useDensity, a0 as useRounded, aN as useSize, ax as VImg, W as VIcon, aR as VDefaultsProvider, aP as genOverlays, F as Fragment, a2 as makeBorderProps, a3 as makeDimensionProps, X as makeElevationProps, bf as makeLoaderProps, a4 as makeLocationProps, a5 as makePositionProps, aK as makeRouterProps, S as Ripple, a6 as useBorder, a7 as useDimension, $ as useElevation, bg as useLoader, a8 as useLocation, a9 as usePosition, aO as useLink, s as computed, N as withDirectives, U as resolveDirective, bh as LoaderSlot } from "./index-DSl-8azQ.js";
-function createSimpleFunctional(klass) {
-  let tag = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "div";
-  let name = arguments.length > 2 ? arguments[2] : void 0;
-  return genericComponent()({
-    name: name ?? capitalize(camelize(klass.replace(/__/g, "-"))),
-    props: {
-      tag: {
-        type: String,
-        default: tag
-      },
-      ...makeComponentProps()
-    },
-    setup(props, _ref) {
-      let {
-        slots
-      } = _ref;
-      return () => {
-        var _a;
-        return h(props.tag, {
-          class: [klass, props.class],
-          style: props.style
-        }, (_a = slots.default) == null ? void 0 : _a.call(slots));
-      };
-    }
-  });
-}
+import { k as genericComponent, B as makeComponentProps, S as provideDefaults, v as useRender, b as createVNode, bF as createSimpleFunctional, p as propsFactory, F as Fragment, ao as VAvatar, a4 as VIcon, aX as VDefaultsProvider, A as makeDensityProps, I as IconValue, a1 as Ripple, m as provideTheme, ac as useBorder, aR as useVariant, aS as useDensity, ad as useDimension, a6 as useElevation, bu as useLoader, ae as useLocation, af as usePosition, a7 as useRounded, aU as useLink, q as computed, aP as makeVariantProps, x as makeThemeProps, y as makeTagProps, aY as makeRouterProps, a8 as makeRoundedProps, ag as makePositionProps, ah as makeLocationProps, bt as makeLoaderProps, aa as makeElevationProps, ai as makeDimensionProps, aj as makeBorderProps, $ as withDirectives, a3 as resolveDirective, aV as genOverlays, aF as VImg, bv as LoaderSlot } from "./index-oInSTNWe.js";
 const VCardActions = genericComponent()({
   name: "VCardActions",
   props: makeComponentProps(),
@@ -50,83 +24,6 @@ const VCardActions = genericComponent()({
 });
 const VCardSubtitle = createSimpleFunctional("v-card-subtitle");
 const VCardTitle = createSimpleFunctional("v-card-title");
-const makeVAvatarProps = propsFactory({
-  start: Boolean,
-  end: Boolean,
-  icon: IconValue,
-  image: String,
-  text: String,
-  ...makeComponentProps(),
-  ...makeDensityProps(),
-  ...makeRoundedProps(),
-  ...makeSizeProps(),
-  ...makeTagProps(),
-  ...makeThemeProps(),
-  ...makeVariantProps({
-    variant: "flat"
-  })
-}, "VAvatar");
-const VAvatar = genericComponent()({
-  name: "VAvatar",
-  props: makeVAvatarProps(),
-  setup(props, _ref) {
-    let {
-      slots
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      colorClasses,
-      colorStyles,
-      variantClasses
-    } = useVariant(props);
-    const {
-      densityClasses
-    } = useDensity(props);
-    const {
-      roundedClasses
-    } = useRounded(props);
-    const {
-      sizeClasses,
-      sizeStyles
-    } = useSize(props);
-    useRender(() => createVNode(props.tag, {
-      "class": ["v-avatar", {
-        "v-avatar--start": props.start,
-        "v-avatar--end": props.end
-      }, themeClasses.value, colorClasses.value, densityClasses.value, roundedClasses.value, sizeClasses.value, variantClasses.value, props.class],
-      "style": [colorStyles.value, sizeStyles.value, props.style]
-    }, {
-      default: () => [!slots.default ? props.image ? createVNode(VImg, {
-        "key": "image",
-        "src": props.image,
-        "alt": "",
-        "cover": true
-      }, null) : props.icon ? createVNode(VIcon, {
-        "key": "icon",
-        "icon": props.icon
-      }, null) : props.text : createVNode(VDefaultsProvider, {
-        "key": "content-defaults",
-        "defaults": {
-          VAvatar: {
-            cover: true,
-            image: props.image
-          },
-          VIcon: {
-            icon: props.icon
-          }
-        }
-      }, {
-        default: () => {
-          var _a;
-          return [(_a = slots.default) == null ? void 0 : _a.call(slots)];
-        }
-      }), genOverlays(false, "v-avatar")]
-    }));
-    return {};
-  }
-});
 const makeCardItemProps = propsFactory({
   appendAvatar: String,
   appendIcon: IconValue,
@@ -386,7 +283,5 @@ const VCard = genericComponent()({
 export {
   VCard as V,
   VCardItem as a,
-  VCardText as b,
-  VAvatar as c,
-  createSimpleFunctional as d
+  VCardText as b
 };

@@ -1,7 +1,6 @@
-import { c as createVueComponent, p as propsFactory, aJ as EventProp, m as makeComponentProps, j as makeThemeProps, k as genericComponent, A as useRender, b as createVNode, I as IconValue, aH as deepEqual, g as makeDensityProps, r as useProxiedModel, z as getUid, s as computed, a1 as provide, b0 as onScopeDispose, K as provideDefaults, L as toRef, S as Ripple, y as shallowRef, D as ref, G as filterInputAttrs, B as mergeProps, N as withDirectives, U as resolveDirective, F as Fragment, W as VIcon, M as inject, aM as useDensity, b3 as wrapInArray, aX as useTextColor, T as useBackgroundColor, b5 as matchesSelector, av as nextTick, C as omit, l as useLocale, b2 as makeTransitionProps, bd as VSlideYTransition, aV as MaybeTransition, be as getCurrentInstanceName, ah as watch, u as unref, as as onBeforeMount, ai as onBeforeUnmount, ac as onMounted, ar as useToggleScope, am as useRtl, q as provideTheme, ag as convertToUnit, O as vShow, bf as makeLoaderProps, Z as makeRoundedProps, bg as useLoader, a0 as useRounded, bh as LoaderSlot, aQ as VExpandXTransition, bi as isOn, bj as pick, bk as Intersect, bl as cloneVNode, bm as callEvent } from "./index-DSl-8azQ.js";
-import { n as nullifyTransforms, c as animate, s as standardEasing, f as forwardRefs } from "./forwardRefs-CeyhghAF.js";
+import { j as createVueComponent, k as genericComponent, p as propsFactory, v as useRender, b as createVNode, x as makeThemeProps, B as makeComponentProps, aZ as EventProp, A as makeDensityProps, aQ as deepEqual, I as IconValue, n as useProxiedModel, E as getUid, q as computed, S as provideDefaults, U as toRef, ab as provide, b0 as onScopeDispose, a1 as Ripple, s as shallowRef, r as ref, O as filterInputAttrs, G as mergeProps, $ as withDirectives, a3 as resolveDirective, F as Fragment, a4 as VIcon, X as inject, aS as useDensity, bh as useTextColor, a2 as useBackgroundColor, aD as nextTick, b6 as matchesSelector, b8 as wrapInArray, L as omit, l as useLocale, bn as MaybeTransition, b4 as makeTransitionProps, bp as VSlideYTransition, bq as getCurrentInstanceName, ap as watch, ay as onBeforeMount, aq as onBeforeUnmount, o as onMounted, ax as useToggleScope, u as unref, at as useRtl, a0 as vShow, br as isOn, bs as pick, a8 as makeRoundedProps, bt as makeLoaderProps, m as provideTheme, bu as useLoader, a7 as useRounded, bv as LoaderSlot, aW as VExpandXTransition, bw as nullifyTransforms, bj as animate, bk as standardEasing, ar as convertToUnit, bx as Intersect, K as forwardRefs, by as cloneVNode, bz as callEvent } from "./index-oInSTNWe.js";
 /**
- * @license @tabler/icons-vue v3.24.0 - MIT
+ * @license @tabler/icons-vue v3.30.0 - MIT
  *
  * This source code is licensed under the MIT license.
  * See the LICENSE file in the root directory of this source tree.
@@ -902,52 +901,6 @@ const VInput = genericComponent()({
     };
   }
 });
-const makeVDividerProps = propsFactory({
-  color: String,
-  inset: Boolean,
-  length: [Number, String],
-  thickness: [Number, String],
-  vertical: Boolean,
-  ...makeComponentProps(),
-  ...makeThemeProps()
-}, "VDivider");
-const VDivider = genericComponent()({
-  name: "VDivider",
-  props: makeVDividerProps(),
-  setup(props, _ref) {
-    let {
-      attrs
-    } = _ref;
-    const {
-      themeClasses
-    } = provideTheme(props);
-    const {
-      textColorClasses,
-      textColorStyles
-    } = useTextColor(toRef(props, "color"));
-    const dividerStyles = computed(() => {
-      const styles = {};
-      if (props.length) {
-        styles[props.vertical ? "maxHeight" : "maxWidth"] = convertToUnit(props.length);
-      }
-      if (props.thickness) {
-        styles[props.vertical ? "borderRightWidth" : "borderTopWidth"] = convertToUnit(props.thickness);
-      }
-      return styles;
-    });
-    useRender(() => createVNode("hr", {
-      "class": [{
-        "v-divider": true,
-        "v-divider--inset": props.inset,
-        "v-divider--vertical": props.vertical
-      }, themeClasses.value, textColorClasses.value, props.class],
-      "style": [dividerStyles.value, textColorStyles.value, props.style],
-      "aria-orientation": !attrs.role || attrs.role === "separator" ? props.vertical ? "vertical" : "horizontal" : void 0,
-      "role": `${attrs.role || "separator"}`
-    }, null));
-    return {};
-  }
-});
 const imageEmpty = "/fake-shop/assets/empty-shopping-cart-C-a9p3Jc.svg";
 const makeVCounterProps = propsFactory({
   active: Boolean,
@@ -1487,20 +1440,19 @@ export {
   IconBasket as I,
   VInput as V,
   asCurrency as a,
-  makeVCheckboxBtnProps as b,
-  VCheckboxBtn as c,
-  makeVSelectionControlProps as d,
-  VSelectionControl as e,
+  VCheckboxBtn as b,
+  makeVCheckboxBtnProps as c,
+  VSelectionControl as d,
+  makeVSelectionControlProps as e,
   makeSelectionControlGroupProps as f,
   VLabel as g,
   VSelectionControlGroup as h,
-  VDivider as i,
-  VTextField as j,
-  imageEmpty as k,
+  VTextField as i,
+  imageEmpty as j,
+  createForm as k,
   makeFormProps as l,
   makeVInputProps as m,
-  createForm as n,
+  useForm as n,
   makeVTextFieldProps as o,
-  useForm as p,
   useFocus as u
 };

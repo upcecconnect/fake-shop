@@ -1,4 +1,4 @@
-import { bn as breakpoints, bo as capitalize, p as propsFactory, m as makeComponentProps, i as makeTagProps, k as genericComponent, s as computed, bp as h } from "./index-DSl-8azQ.js";
+import { k as genericComponent, p as propsFactory, q as computed, bA as h, y as makeTagProps, B as makeComponentProps, bB as breakpoints, bC as capitalize } from "./index-oInSTNWe.js";
 const breakpointProps = (() => {
   return breakpoints.reduce((props, val) => {
     props[val] = {
@@ -225,6 +225,6 @@ const VRow = genericComponent()({
   }
 });
 export {
-  VCol as V,
-  VRow as a
+  VRow as V,
+  VCol as a
 };

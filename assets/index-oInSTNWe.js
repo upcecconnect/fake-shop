@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/index-DxksOyCG.js","assets/VCard-tA0e8f82.js","assets/VCard-Dqmb2AXB.css","assets/VRow-BWj4yJbd.js","assets/index-utSeVQN9.js","assets/VTextField-TWJCBqjZ.js","assets/forwardRefs-CeyhghAF.js","assets/forwardRefs-O1SENgYM.css","assets/VTextField-DiRpeTuz.css","assets/VSnackbar-CaJkG02N.js","assets/VSnackbar-Dv9oml3V.css","assets/index-XXNKNsor.css","assets/index-CaPvbWUf.js","assets/VTable-CIpy5k8j.js","assets/VTable-hQtDlOgp.css","assets/index-fbgJwTLK.css","assets/index-DaPyLiDI.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/index-DNAFm7lu.js","assets/VRow-bUhf9ezA.js","assets/VCard-D0XpQMJn.js","assets/VCard-DKC21lfh.css","assets/index-Br-68o16.js","assets/VTextField-NjvR5UHi.js","assets/VTextField-ifi-zCpt.css","assets/VSnackbar-8jvOtBJn.js","assets/VSnackbar-BLz2-VJ8.css","assets/index-DMbMrTVk.css","assets/index-CjA8j5BB.js","assets/VTable-zi7Fdz_7.js","assets/VTable-CJSWgLDE.css","assets/index-Cvl-j8wS.css","assets/index-CCefUW74.js"])))=>i.map(i=>d[i]);
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -3198,11 +3198,11 @@ function createAppAPI(render, hydrate) {
         context.components[name] = component;
         return app;
       },
-      directive(name, directive) {
-        if (!directive) {
+      directive(name, directive2) {
+        if (!directive2) {
           return context.directives[name];
         }
-        context.directives[name] = directive;
+        context.directives[name] = directive2;
         return app;
       },
       mount(rootContainer, isHydrate, namespace) {
@@ -3214,9 +3214,7 @@ function createAppAPI(render, hydrate) {
           } else if (namespace === false) {
             namespace = void 0;
           }
-          if (isHydrate && hydrate) {
-            hydrate(vnode, rootContainer);
-          } else {
+          {
             render(vnode, rootContainer, namespace);
           }
           isMounted = true;
@@ -4355,29 +4353,7 @@ function baseCreateRenderer(options, createHydrationFns) {
           invokeVNodeHook(vnodeHook, parent, initialVNode);
         }
         toggleRecurse(instance, true);
-        if (el && hydrateNode) {
-          const hydrateSubTree = () => {
-            instance.subTree = renderComponentRoot(instance);
-            hydrateNode(
-              el,
-              instance.subTree,
-              instance,
-              parentSuspense,
-              null
-            );
-          };
-          if (isAsyncWrapperVNode) {
-            initialVNode.type.__asyncLoader().then(
-              // note: we are moving the render call into an async callback,
-              // which means it won't track dependencies - but it's ok because
-              // a server-rendered async wrapper is already in resolved state
-              // and it will never need to change.
-              () => !instance.isUnmounted && hydrateSubTree()
-            );
-          } else {
-            hydrateSubTree();
-          }
-        } else {
+        {
           const subTree = instance.subTree = renderComponentRoot(instance);
           patch(
             null,
@@ -5002,11 +4978,10 @@ function baseCreateRenderer(options, createHydrationFns) {
     o: options
   };
   let hydrate;
-  let hydrateNode;
   return {
     render,
     hydrate,
-    createApp: createAppAPI(render, hydrate)
+    createApp: createAppAPI(render)
   };
 }
 function resolveChildrenNamespace({ type, props }, currentNamespace) {
@@ -5831,7 +5806,7 @@ function setupStatefulComponent(instance, isSSR) {
       setupResult.then(unsetCurrentInstance, unsetCurrentInstance);
       if (isSSR) {
         return setupResult.then((resolvedResult) => {
-          handleSetupResult(instance, resolvedResult, isSSR);
+          handleSetupResult(instance, resolvedResult);
         }).catch((e) => {
           handleError(e, instance, 0);
         });
@@ -5839,10 +5814,10 @@ function setupStatefulComponent(instance, isSSR) {
         instance.asyncDep = setupResult;
       }
     } else {
-      handleSetupResult(instance, setupResult, isSSR);
+      handleSetupResult(instance, setupResult);
     }
   } else {
-    finishComponentSetup(instance, isSSR);
+    finishComponentSetup(instance);
   }
 }
 function handleSetupResult(instance, setupResult, isSSR) {
@@ -5855,30 +5830,11 @@ function handleSetupResult(instance, setupResult, isSSR) {
   } else if (isObject$2(setupResult)) {
     instance.setupState = proxyRefs(setupResult);
   } else ;
-  finishComponentSetup(instance, isSSR);
+  finishComponentSetup(instance);
 }
-let compile$1;
 function finishComponentSetup(instance, isSSR, skipOptions) {
   const Component = instance.type;
   if (!instance.render) {
-    if (!isSSR && compile$1 && !Component.render) {
-      const template = Component.template || resolveMergedOptions(instance).template;
-      if (template) {
-        const { isCustomElement, compilerOptions } = instance.appContext.config;
-        const { delimiters, compilerOptions: componentCompilerOptions } = Component;
-        const finalCompilerOptions = extend(
-          extend(
-            {
-              isCustomElement,
-              delimiters
-            },
-            compilerOptions
-          ),
-          componentCompilerOptions
-        );
-        Component.render = compile$1(template, finalCompilerOptions);
-      }
-    }
     instance.render = Component.render || NOOP;
   }
   {
@@ -6833,7 +6789,6 @@ function normalizeContainer(container) {
   }
   return container;
 }
-var isVue2 = false;
 /*!
  * pinia v2.1.7
  * (c) 2023 Eduardo San Martin Morote
@@ -6871,7 +6826,7 @@ function createPinia() {
       }
     },
     use(plugin) {
-      if (!this._a && !isVue2) {
+      if (!this._a && true) {
         toBeInstalled.push(plugin);
       } else {
         _p.push(plugin);
@@ -7161,282 +7116,8 @@ function storeToRefs(store) {
     return refs;
   }
 }
-const _imports_0 = "/fake-shop/assets/upc-CBCp4ns_.jpeg";
+const _imports_0 = "data:image/svg+xml,%3csvg%20width='65'%20height='30'%20viewBox='0%200%2065%2030'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0_404_399)'%3e%3cmask%20id='mask0_404_399'%20style='mask-type:luminance'%20maskUnits='userSpaceOnUse'%20x='0'%20y='0'%20width='65'%20height='30'%3e%3cpath%20d='M0%200H64.3826V29.5271H0V0Z'%20fill='white'/%3e%3c/mask%3e%3cg%20mask='url(%23mask0_404_399)'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M54.2912%208.17588H64.3826V0H54.2912C49.8582%200%2046.0306%202.55%2044.1662%206.25765C42.2576%202.45471%2038.1997%200.000882353%2033.7924%200.000882353H22.6729V0.0414706H22.665C22.6606%200.0202941%2022.6474%200.000882353%2022.6244%200.000882353H17.6885C17.2692%200.00076646%2016.854%200.0832536%2016.4666%200.243632C16.0792%200.404011%2015.7272%200.63914%2015.4306%200.935589C15.1341%201.23204%2014.8989%201.584%2014.7384%201.97137C14.5779%202.35874%2014.4953%202.77394%2014.4953%203.19324V11.1106C14.4953%2012.7871%2013.2953%2014.3338%2011.6259%2014.4829C11.1884%2014.5228%2010.7475%2014.471%2010.3311%2014.3311C9.91475%2014.1911%209.5321%2013.9659%209.20755%2013.6699C8.88299%2013.3739%208.62364%2013.0136%208.44602%2012.6118C8.2684%2012.2101%208.1764%2011.7757%208.17588%2011.3365V0.0485294C8.17588%200.0358926%208.17086%200.0237734%208.16193%200.0148379C8.15299%200.0059023%208.14087%200.000882353%208.12823%200.000882353H0.0485294C0.0421984%200.000765093%200.0359076%200.00191091%200.0300246%200.00425285C0.0241415%200.00659478%200.0187843%200.0100858%200.014266%200.014522C0.00974768%200.0189582%200.00615891%200.0242505%200.00370944%200.0300895C0.00125996%200.0359286%20-1.08514e-06%200.0421974%207.0063e-10%200.0485294V10.9059C7.0063e-10%2016.9676%204.57412%2022.2821%2010.6253%2022.65C17.2076%2023.0524%2022.6721%2017.8324%2022.6721%2011.3356V8.16529V8.17765H33.9715C35.2288%208.17765%2036.4385%208.87735%2036.9097%2010.0429C37.8282%2012.3194%2036.1685%2014.4971%2034.0085%2014.4971H25.8529C25.0096%2014.4971%2024.2007%2014.8321%2023.6043%2015.4285C23.008%2016.0248%2022.6729%2016.8337%2022.6729%2017.6771V29.5271H30.9494V22.6729H34.0085C38.4521%2022.6729%2042.2965%2020.115%2044.1556%2016.3924C46.0147%2020.1124%2049.8494%2022.6721%2054.2903%2022.6721H64.3826V14.4953H54.2912C53.4536%2014.4946%2052.6506%2014.1616%2052.0583%2013.5693C51.4661%2012.9771%2051.1331%2012.174%2051.1324%2011.3365C51.133%2010.4987%2051.466%209.69552%2052.0582%209.10299C52.6504%208.51047%2053.4535%208.17705%2054.2912%208.17588Z'%20fill='%232272FF'/%3e%3c/g%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0_404_399'%3e%3crect%20width='64.4118'%20height='30'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e";
 const _imports_1 = "/fake-shop/assets/ecconnect-najfx_-e.svg";
-const RouteName = Object.freeze({
-  Config: "Config",
-  Products: "Products",
-  Checkout: "Checkout",
-  TestCards: "TestCards"
-});
-const product1 = "/fake-shop/assets/s1-CfPudjzf.jpg";
-const product2 = "/fake-shop/assets/s2-DkKuGiM1.jpg";
-const product3 = "/fake-shop/assets/s3-DmiOuX0y.jpg";
-const product4 = "/fake-shop/assets/s4-DZcRYgYm.jpg";
-const product5 = "/fake-shop/assets/s5-DTyTrfBt.jpg";
-const product6 = "/fake-shop/assets/s6-BHYP62n9.jpg";
-const product7 = "/fake-shop/assets/s7-CTzWdjv0.jpg";
-const product8 = "/fake-shop/assets/s8-I3EieleH.jpg";
-const products = [
-  {
-    categories: ["toys"],
-    colors: ["error", "warning", "primary", "secondary"],
-    description: "Cuddle up with our Cute Soft Teddybear — the perfect companion for comfort and joy. Crafted from ultra-soft plush, this huggable teddy bear features a charming design that’s ideal for all ages. Whether as a gift or a cozy addition to your own collection, it’s sure to bring warmth and smiles.",
-    gender: "kids",
-    id: 1,
-    image: product1,
-    name: "Cute Soft Teddybear",
-    offerPrice: 129,
-    price: 229,
-    rating: Math.floor(Math.random() * 6)
-  },
-  {
-    categories: ["books"],
-    colors: ["lightprimary", "success", "lighterror", "warning"],
-    description: '"Psalms Book for Growth" offers a profound journey through the timeless wisdom of the Psalms. This inspirational guide provides reflections and insights to help you deepen your spiritual understanding and personal growth. Perfect for daily meditation and encouragement, it’s a valuable resource for anyone seeking to enrich their faith and enhance their life journey.',
-    gender: "kids",
-    id: 2,
-    image: product2,
-    name: "Psalms Book for Growth",
-    offerPrice: 349,
-    price: 449,
-    rating: Math.floor(Math.random() * 6)
-  },
-  {
-    id: 3,
-    categories: ["books"],
-    colors: ["lightprimary", "primary"],
-    description: 'Unlock the secrets to financial success with "The Psychology of Money". This insightful book delves into the emotional and psychological aspects of money management, offering practical wisdom and strategies for achieving financial well-being. Discover how your mindset can influence your financial decisions and learn to make smarter choices for a more prosperous future.',
-    gender: "male",
-    image: product3,
-    name: "The Psychology of Money",
-    offerPrice: 599,
-    price: 799,
-    rating: Math.floor(Math.random() * 6)
-  },
-  {
-    categories: ["fashion", "electronics", "toys"],
-    colors: ["error", "warning", "warning"],
-    description: "Experience superior sound with the Boat Headphones. Designed for crisp, clear audio and deep bass, these headphones offer comfortable, all-day wear with their ergonomic fit. Whether you're at home or on the move, enjoy immersive sound quality and stylish design. Perfect for music lovers and everyday listening.",
-    gender: "kids",
-    id: 4,
-    image: product4,
-    name: "Boat Headphone",
-    offerPrice: 899,
-    price: 999,
-    rating: Math.floor(Math.random() * 6)
-  },
-  {
-    categories: ["electronics"],
-    colors: ["warning", "lightprimary"],
-    description: "Discover productivity and style with our sleek Notebook. Featuring a high-resolution display, smooth keyboard, and powerful performance, it’s perfect for work, study, or on-the-go tasks. Its lightweight design and long battery life make it the ideal companion for any lifestyle.",
-    gender: "male",
-    id: 5,
-    image: product5,
-    name: "Notebook",
-    offerPrice: 1299,
-    price: 1599,
-    rating: Math.floor(Math.random() * 6)
-  },
-  {
-    categories: ["fashion", "kitchen"],
-    colors: ["primary", "warning"],
-    description: "Unleash the ultimate gaming experience with our Gaming Console. Packed with cutting-edge technology and a sleek design, it delivers stunning graphics and lightning-fast performance. With a vast library of games and seamless connectivity, it’s your gateway to endless entertainment. Upgrade your playtime today!",
-    gender: "male",
-    id: 6,
-    image: product6,
-    name: "Gaming Console",
-    offerPrice: 499,
-    price: 599,
-    rating: Math.floor(Math.random() * 6)
-  },
-  {
-    categories: ["fashion"],
-    colors: ["error", "secondary", "primary", "warning"],
-    description: "Elevate your style with the Red Velvet Dress — a show-stopping piece in rich, luxurious velvet. Featuring a flattering fit, sleeveless design, and knee-length cut, this dress combines elegance with modern sophistication. Perfect for any formal or festive occasion, it promises to make you the center of attention.",
-    gender: "female",
-    id: 7,
-    image: product7,
-    name: "Red Valvet Dress",
-    offerPrice: 299,
-    price: 499,
-    rating: Math.floor(Math.random() * 6)
-  },
-  {
-    categories: ["fashion"],
-    colors: ["lightsuccess", "primary", "success"],
-    description: "Step into style with our Shoes for Girls —perfectly crafted for comfort and charm. These versatile shoes feature a sleek design, supportive fit, and durable materials, making them ideal for everyday adventures and special occasions alike. Available in a variety of colors and patterns, they’re sure to be a favorite in any wardrobe.",
-    gender: "female",
-    id: 8,
-    image: product8,
-    name: "Shoes for Girls",
-    offerPrice: 640,
-    price: 870,
-    rating: Math.floor(Math.random() * 6)
-  }
-];
-const fetchProducts = async () => {
-  return new Promise((resolve2) => {
-    setTimeout(() => {
-      resolve2(products);
-    }, 500);
-  });
-};
-const useProductsListStore = defineStore({
-  id: "products/list",
-  state: () => ({
-    products: []
-  }),
-  getters: {
-    productsHashedById() {
-      return new Map(this.products.map((product) => [product.id, product]));
-    }
-  },
-  actions: {
-    async fetchProducts() {
-      try {
-        this.products = await fetchProducts();
-      } catch (error) {
-        alert(error);
-        console.log(error);
-      }
-    }
-  }
-});
-const useCartStore = defineStore({
-  id: "cart",
-  state: () => ({
-    selectedProducts: /* @__PURE__ */ new Map(),
-    total: 0,
-    discount: 0,
-    subTotal: 0,
-    billingAddress: null,
-    paymentDescription: ""
-  }),
-  actions: {
-    addProductToCart(productId) {
-      const productsListStore = useProductsListStore();
-      const product = productsListStore.productsHashedById.get(productId);
-      if (product === void 0) {
-        return;
-      }
-      this.selectedProducts.set(productId, { quantity: 1, ...product });
-      this.setPrices();
-    },
-    removeProductFromCart(productId) {
-      this.selectedProducts.delete(productId);
-      this.setPrices();
-    },
-    incrementQuantity(productId) {
-      const currentProduct = this.selectedProducts.get(productId);
-      if (currentProduct === void 0) {
-        return;
-      }
-      this.selectedProducts.set(productId, { ...currentProduct, quantity: currentProduct.quantity + 1 });
-      this.setPrices();
-    },
-    decrementQuantity(productId) {
-      const currentProduct = this.selectedProducts.get(productId);
-      if (currentProduct === void 0) {
-        return;
-      }
-      if (currentProduct.quantity === 1) {
-        return;
-      }
-      this.selectedProducts.set(productId, { ...currentProduct, quantity: currentProduct.quantity - 1 });
-      this.setPrices();
-    },
-    setPrices() {
-      const products2 = Array.from(this.selectedProducts.values());
-      const subTotal = products2.reduce((acc, item) => {
-        const product = item.offerPrice * item.quantity;
-        return acc + product;
-      }, 0);
-      const discount = Math.round(subTotal * (5 / 100));
-      const total = subTotal - discount;
-      this.subTotal = subTotal;
-      this.discount = discount;
-      this.total = total;
-    }
-  }
-});
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var defaultAttributes = {
-  outline: {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: 24,
-    height: 24,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    "stroke-width": 2,
-    "stroke-linecap": "round",
-    "stroke-linejoin": "round"
-  },
-  filled: {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: 24,
-    height: 24,
-    viewBox: "0 0 24 24",
-    fill: "currentColor",
-    stroke: "none"
-  }
-};
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const createVueComponent = (type, iconName, iconNamePascal, iconNode) => ({ color = "currentColor", size: size2 = 24, stroke = 2, title, class: classes, ...rest }, { attrs, slots }) => {
-  let children = [...iconNode.map((child) => h(...child)), ...slots.default ? [slots.default()] : []];
-  if (title)
-    children = [h("title", title), ...children];
-  return h(
-    "svg",
-    {
-      ...defaultAttributes[type],
-      width: size2,
-      height: size2,
-      ...attrs,
-      class: ["tabler-icon", `tabler-icon-${iconName}`],
-      ...type === "filled" ? {
-        fill: color
-      } : {
-        "stroke-width": stroke ?? defaultAttributes[type]["stroke-width"],
-        stroke: color
-      },
-      ...rest
-    },
-    children
-  );
-};
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconCreditCard = createVueComponent("outline", "credit-card", "IconCreditCard", [["path", { "d": "M3 5m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z", "key": "svg-0" }], ["path", { "d": "M3 10l18 0", "key": "svg-1" }], ["path", { "d": "M7 15l.01 0", "key": "svg-2" }], ["path", { "d": "M11 15l2 0", "key": "svg-3" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconShoppingCart = createVueComponent("outline", "shopping-cart", "IconShoppingCart", [["path", { "d": "M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0", "key": "svg-0" }], ["path", { "d": "M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0", "key": "svg-1" }], ["path", { "d": "M17 17h-11v-14h-2", "key": "svg-2" }], ["path", { "d": "M6 5l14 1l-1 7h-13", "key": "svg-3" }]]);
-/**
- * @license @tabler/icons-vue v3.24.0 - MIT
- *
- * This source code is licensed under the MIT license.
- * See the LICENSE file in the root directory of this source tree.
- */
-var IconWorld = createVueComponent("outline", "world", "IconWorld", [["path", { "d": "M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0", "key": "svg-0" }], ["path", { "d": "M3.6 9h16.8", "key": "svg-1" }], ["path", { "d": "M3.6 15h16.8", "key": "svg-2" }], ["path", { "d": "M11.5 3a17 17 0 0 0 0 18", "key": "svg-3" }], ["path", { "d": "M12.5 3a17 17 0 0 1 0 18", "key": "svg-4" }]]);
 /*!
   * shared v10.0.5
   * (c) 2024 kazuya kawaguchi
@@ -7540,11 +7221,7 @@ const CompileErrorCodes = {
   MUST_HAVE_MESSAGES_IN_PLURAL: 11,
   UNEXPECTED_EMPTY_LINKED_MODIFIER: 12,
   UNEXPECTED_EMPTY_LINKED_KEY: 13,
-  UNEXPECTED_LEXICAL_ANALYSIS: 14,
-  // generator error codes
-  UNHANDLED_CODEGEN_NODE_TYPE: 15,
-  // minifier error codes
-  UNHANDLED_MINIFIER_NODE_TYPE: 16
+  UNEXPECTED_LEXICAL_ANALYSIS: 14
 };
 const COMPILE_ERROR_CODES_EXTEND_POINT = 17;
 function createCompileError(code, loc, options = {}) {
@@ -8277,6 +7954,7 @@ function fromEscapeSequence(match, codePoint4, codePoint6) {
   switch (match) {
     case `\\\\`:
       return `\\`;
+    // eslint-disable-next-line no-useless-escape
     case `\\'`:
       return `'`;
     default: {
@@ -8734,7 +8412,7 @@ function minify(node) {
   delete node.type;
 }
 function createCodeGenerator(ast, options) {
-  const { sourceMap, filename, breakLineCode, needIndent: _needIndent } = options;
+  const { filename, breakLineCode, needIndent: _needIndent } = options;
   const location2 = options.location !== false;
   const _context = {
     filename,
@@ -8892,14 +8570,12 @@ function generateNode(generator, node) {
 const generate = (ast, options = {}) => {
   const mode = isString(options.mode) ? options.mode : "normal";
   const filename = isString(options.filename) ? options.filename : "message.intl";
-  const sourceMap = !!options.sourceMap;
+  !!options.sourceMap;
   const breakLineCode = options.breakLineCode != null ? options.breakLineCode : mode === "arrow" ? ";" : "\n";
   const needIndent = options.needIndent ? options.needIndent : mode !== "arrow";
   const helpers = ast.helpers || [];
   const generator = createCodeGenerator(ast, {
-    mode,
     filename,
-    sourceMap,
     breakLineCode,
     needIndent
   });
@@ -9151,7 +8827,6 @@ const CoreErrorCodes = {
   // 17
   INVALID_DATE_ARGUMENT: 18,
   INVALID_ISO_DATE_ARGUMENT: 19,
-  NOT_SUPPORT_NON_STRING_MESSAGE: 20,
   NOT_SUPPORT_LOCALE_PROMISE_VALUE: 21,
   NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: 22,
   NOT_SUPPORT_LOCALE_TYPE: 23
@@ -9512,21 +9187,33 @@ function getPathCharType(ch) {
   const code = ch.charCodeAt(0);
   switch (code) {
     case 91:
+    // [
     case 93:
+    // ]
     case 46:
+    // .
     case 34:
+    // "
     case 39:
       return ch;
     case 95:
+    // _
     case 36:
+    // $
     case 45:
       return "i";
     case 9:
+    // Tab (HT)
     case 10:
+    // Newline (LF)
     case 13:
+    // Return (CR)
     case 160:
+    // No-break space (NBSP)
     case 65279:
+    // Byte Order Mark (BOM)
     case 8232:
+    // Line Separator (LS)
     case 8233:
       return "w";
   }
@@ -10403,15 +10090,9 @@ const I18nErrorCodes = {
   // directive module errors
   REQUIRED_VALUE: 28,
   INVALID_VALUE: 29,
-  // vue-devtools errors
-  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: 30,
   NOT_INSTALLED_WITH_PROVIDE: 31,
   // unexpected error
-  UNEXPECTED_ERROR: 32,
-  // not compatible legacy vue-i18n constructor
-  NOT_COMPATIBLE_LEGACY_VUE_I18N: 33,
-  // Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly
-  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: 34
+  UNEXPECTED_ERROR: 32
 };
 function createI18nError(code, ...args) {
   return createCompileError(code, null, void 0);
@@ -11784,168 +11465,6 @@ if (__INTLIFY_PROD_DEVTOOLS__) {
   target.__INTLIFY__ = true;
   setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__);
 }
-const scriptRel = "modulepreload";
-const assetsURL = function(dep) {
-  return "/fake-shop/" + dep;
-};
-const seen = {};
-const __vitePreload = function preload(baseModule, deps, importerUrl) {
-  let promise = Promise.resolve();
-  if (deps && deps.length > 0) {
-    document.getElementsByTagName("link");
-    const cspNonceMeta = document.querySelector(
-      "meta[property=csp-nonce]"
-    );
-    const cspNonce = (cspNonceMeta == null ? void 0 : cspNonceMeta.nonce) || (cspNonceMeta == null ? void 0 : cspNonceMeta.getAttribute("nonce"));
-    promise = Promise.all(
-      deps.map((dep) => {
-        dep = assetsURL(dep);
-        if (dep in seen) return;
-        seen[dep] = true;
-        const isCss = dep.endsWith(".css");
-        const cssSelector = isCss ? '[rel="stylesheet"]' : "";
-        if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) {
-          return;
-        }
-        const link = document.createElement("link");
-        link.rel = isCss ? "stylesheet" : scriptRel;
-        if (!isCss) {
-          link.as = "script";
-        }
-        link.crossOrigin = "";
-        link.href = dep;
-        if (cspNonce) {
-          link.setAttribute("nonce", cspNonce);
-        }
-        document.head.appendChild(link);
-        if (isCss) {
-          return new Promise((res, rej) => {
-            link.addEventListener("load", res);
-            link.addEventListener(
-              "error",
-              () => rej(new Error(`Unable to preload CSS for ${dep}`))
-            );
-          });
-        }
-      })
-    );
-  }
-  return promise.then(() => baseModule()).catch((err) => {
-    const e = new Event("vite:preloadError", {
-      cancelable: true
-    });
-    e.payload = err;
-    window.dispatchEvent(e);
-    if (!e.defaultPrevented) {
-      throw err;
-    }
-  });
-};
-var LocaleCode = /* @__PURE__ */ ((LocaleCode2) => {
-  LocaleCode2["En"] = "en";
-  LocaleCode2["Uk"] = "uk";
-  return LocaleCode2;
-})(LocaleCode || {});
-const isStringLocaleCode = (value) => {
-  return Object.values(LocaleCode).includes(value ?? "");
-};
-const getLocaleCodeFromValue = (value) => {
-  return isStringLocaleCode(value) ? value : void 0;
-};
-const i18n = createI18n({
-  globalInjection: true,
-  legacy: false,
-  fallbackLocale: LocaleCode.En
-});
-const LocalStorageKey = Object.freeze({
-  Version: "version",
-  Locale: "locale",
-  RequestBeans: "request-beans",
-  BillingAddress: "billing-address"
-});
-const Storage = {
-  LocalStorageVersion: "0",
-  version: {
-    getValue() {
-      return localStorage.getItem(LocalStorageKey.Version) || "";
-    },
-    setValue(value) {
-      localStorage.setItem(LocalStorageKey.Version, value);
-    }
-  },
-  locale: {
-    getValue() {
-      return localStorage.getItem(LocalStorageKey.Locale) ?? "uk";
-    },
-    setValue(value) {
-      localStorage.setItem(LocalStorageKey.Locale, value);
-    }
-  },
-  requestBeans: {
-    getValue() {
-      const values = localStorage.getItem(LocalStorageKey.RequestBeans);
-      if (values) {
-        try {
-          return JSON.parse(values);
-        } catch (e) {
-          console.error(e);
-          return [];
-        }
-      }
-      return [];
-    },
-    setValue(value) {
-      localStorage.setItem(LocalStorageKey.RequestBeans, JSON.stringify(value));
-    }
-  },
-  billingAddress: {
-    getValue() {
-      return localStorage.getItem(LocalStorageKey.BillingAddress) ? JSON.parse(localStorage.getItem(LocalStorageKey.BillingAddress)) : null;
-    },
-    setValue(value) {
-      localStorage.setItem(LocalStorageKey.BillingAddress, JSON.stringify(value));
-    }
-  }
-};
-const loadAndSetLocaleMessages = async () => {
-  const response = await Promise.all([
-    __vitePreload(() => import("./action-CkLctwqF.js"), true ? [] : void 0),
-    __vitePreload(() => import("./meta-DLAGXscK.js"), true ? [] : void 0),
-    __vitePreload(() => import("./text-BwCsXSU4.js"), true ? [] : void 0),
-    __vitePreload(() => import("./title-RDb5V7vX.js"), true ? [] : void 0),
-    __vitePreload(() => import("./snackbar-BLhYcoij.js"), true ? [] : void 0),
-    __vitePreload(() => import("./label-CRO0QDz2.js"), true ? [] : void 0)
-  ]);
-  const messagesDto = response.reduce((acc, item) => {
-    const locales = item.default;
-    acc = {
-      ...acc,
-      ...locales
-    };
-    return acc;
-  }, {});
-  const formattedMessages = [LocaleCode.En, LocaleCode.Uk].reduce((acc, locale) => {
-    const translate2 = Object.keys(messagesDto).reduce((accumulator, key) => {
-      const foundTranslate = messagesDto[key][locale];
-      if (!accumulator[key]) {
-        accumulator[key] = foundTranslate;
-      }
-      return accumulator;
-    }, {});
-    acc[locale] = translate2;
-    return acc;
-  }, {});
-  Object.keys(formattedMessages).forEach((locale) => {
-    i18n.global.setLocaleMessage(locale, formattedMessages[locale]);
-  });
-};
-const setLocale = (locale) => {
-  var _a;
-  i18n.global.locale.value = locale;
-  (_a = document.querySelector("html")) == null ? void 0 : _a.setAttribute("lang", locale);
-  document.title = i18n.global.t("meta.title");
-  Storage.locale.setValue(locale);
-};
 function useToggleScope(source, fn) {
   let scope;
   function start() {
@@ -12129,7 +11648,7 @@ function pickWithRest(obj, paths, exclude) {
   const found = /* @__PURE__ */ Object.create(null);
   const rest = /* @__PURE__ */ Object.create(null);
   for (const key in obj) {
-    if (paths.some((path) => path instanceof RegExp ? path.test(key) : path === key) && !(exclude == null ? void 0 : exclude.some((path) => path === key))) {
+    if (paths.some((path) => path instanceof RegExp ? path.test(key) : path === key) && true) {
       found[key] = obj[key];
     } else {
       rest[key] = obj[key];
@@ -12417,6 +11936,160 @@ function flipCorner(anchor) {
 function getAxis(anchor) {
   return includes(block, anchor.side) ? "y" : "x";
 }
+class Box {
+  constructor(_ref) {
+    let {
+      x,
+      y,
+      width,
+      height
+    } = _ref;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+  get top() {
+    return this.y;
+  }
+  get bottom() {
+    return this.y + this.height;
+  }
+  get left() {
+    return this.x;
+  }
+  get right() {
+    return this.x + this.width;
+  }
+}
+function getOverflow(a, b) {
+  return {
+    x: {
+      before: Math.max(0, b.left - a.left),
+      after: Math.max(0, a.right - b.right)
+    },
+    y: {
+      before: Math.max(0, b.top - a.top),
+      after: Math.max(0, a.bottom - b.bottom)
+    }
+  };
+}
+function getTargetBox(target) {
+  if (Array.isArray(target)) {
+    return new Box({
+      x: target[0],
+      y: target[1],
+      width: 0,
+      height: 0
+    });
+  } else {
+    return target.getBoundingClientRect();
+  }
+}
+function nullifyTransforms(el) {
+  const rect = el.getBoundingClientRect();
+  const style = getComputedStyle(el);
+  const tx = style.transform;
+  if (tx) {
+    let ta, sx, sy, dx, dy;
+    if (tx.startsWith("matrix3d(")) {
+      ta = tx.slice(9, -1).split(/, /);
+      sx = +ta[0];
+      sy = +ta[5];
+      dx = +ta[12];
+      dy = +ta[13];
+    } else if (tx.startsWith("matrix(")) {
+      ta = tx.slice(7, -1).split(/, /);
+      sx = +ta[0];
+      sy = +ta[3];
+      dx = +ta[4];
+      dy = +ta[5];
+    } else {
+      return new Box(rect);
+    }
+    const to = style.transformOrigin;
+    const x = rect.x - dx - (1 - sx) * parseFloat(to);
+    const y = rect.y - dy - (1 - sy) * parseFloat(to.slice(to.indexOf(" ") + 1));
+    const w = sx ? rect.width / sx : el.offsetWidth + 1;
+    const h2 = sy ? rect.height / sy : el.offsetHeight + 1;
+    return new Box({
+      x,
+      y,
+      width: w,
+      height: h2
+    });
+  } else {
+    return new Box(rect);
+  }
+}
+function animate(el, keyframes, options) {
+  if (typeof el.animate === "undefined") return {
+    finished: Promise.resolve()
+  };
+  let animation;
+  try {
+    animation = el.animate(keyframes, options);
+  } catch (err) {
+    return {
+      finished: Promise.resolve()
+    };
+  }
+  if (typeof animation.finished === "undefined") {
+    animation.finished = new Promise((resolve2) => {
+      animation.onfinish = () => {
+        resolve2(animation);
+      };
+    });
+  }
+  return animation;
+}
+const handlers = /* @__PURE__ */ new WeakMap();
+function bindProps(el, props) {
+  Object.keys(props).forEach((k) => {
+    var _a;
+    if (isOn(k)) {
+      const name = eventName(k);
+      const handler = handlers.get(el);
+      if (props[k] == null) {
+        handler == null ? void 0 : handler.forEach((v) => {
+          const [n, fn] = v;
+          if (n === name) {
+            el.removeEventListener(name, fn);
+            handler.delete(v);
+          }
+        });
+      } else if (!handler || !((_a = [...handler]) == null ? void 0 : _a.some((v) => v[0] === name && v[1] === props[k]))) {
+        el.addEventListener(name, props[k]);
+        const _handler = handler || /* @__PURE__ */ new Set();
+        _handler.add([name, props[k]]);
+        if (!handlers.has(el)) handlers.set(el, _handler);
+      }
+    } else {
+      if (props[k] == null) {
+        el.removeAttribute(k);
+      } else {
+        el.setAttribute(k, props[k]);
+      }
+    }
+  });
+}
+function unbindProps(el, props) {
+  Object.keys(props).forEach((k) => {
+    if (isOn(k)) {
+      const name = eventName(k);
+      const handler = handlers.get(el);
+      handler == null ? void 0 : handler.forEach((v) => {
+        const [n, fn] = v;
+        if (n === name) {
+          el.removeEventListener(name, fn);
+          handler.delete(v);
+        }
+      });
+    } else {
+      el.removeAttribute(k);
+    }
+  });
+}
 const mainTRC = 2.4;
 const Rco = 0.2126729;
 const Gco = 0.7151522;
@@ -12452,7 +12125,7 @@ function APCAcontrast(text, background) {
     outputContrast = SAPC < loClip ? 0 : SAPC < loConThresh ? SAPC - SAPC * loConFactor * loConOffset : SAPC - loConOffset;
   } else {
     const SAPC = (Ybg ** revBG - Ytxt ** revTXT) * scaleWoB;
-    outputContrast = SAPC > -loClip ? 0 : SAPC > -loConThresh ? SAPC - SAPC * loConFactor * loConOffset : SAPC + loConOffset;
+    outputContrast = SAPC > -1e-3 ? 0 : SAPC > -0.078 ? SAPC - SAPC * loConFactor * loConOffset : SAPC + loConOffset;
   }
   return outputContrast * 100;
 }
@@ -12842,6 +12515,47 @@ function genericComponent() {
   let exposeDefaults = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : true;
   return (options) => (exposeDefaults ? defineComponent : defineComponent$1)(options);
 }
+function createSimpleFunctional(klass) {
+  let tag = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "div";
+  let name = arguments.length > 2 ? arguments[2] : void 0;
+  return genericComponent()({
+    name: name ?? capitalize$1(camelize(klass.replace(/__/g, "-"))),
+    props: {
+      tag: {
+        type: String,
+        default: tag
+      },
+      ...makeComponentProps()
+    },
+    setup(props, _ref) {
+      let {
+        slots
+      } = _ref;
+      return () => {
+        var _a;
+        return h(props.tag, {
+          class: [klass, props.class],
+          style: props.style
+        }, (_a = slots.default) == null ? void 0 : _a.call(slots));
+      };
+    }
+  });
+}
+function attachedRoot(node) {
+  if (typeof node.getRootNode !== "function") {
+    while (node.parentNode) node = node.parentNode;
+    if (node !== document) return null;
+    return document;
+  }
+  const root = node.getRootNode();
+  if (root !== document && root.getRootNode({
+    composed: true
+  }) !== document) return null;
+  return root;
+}
+const standardEasing = "cubic-bezier(0.4, 0, 0.2, 1)";
+const deceleratedEasing = "cubic-bezier(0.0, 0, 0.2, 1)";
+const acceleratedEasing = "cubic-bezier(0.4, 0, 1, 1)";
 function getCurrentInstance(name, message) {
   const vm = getCurrentInstance$1();
   if (!vm) {
@@ -12869,6 +12583,34 @@ getUid.reset = () => {
   _uid = 0;
   _map = /* @__PURE__ */ new WeakMap();
 };
+function getScrollParent(el) {
+  let includeHidden = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : false;
+  while (el) {
+    if (includeHidden ? isPotentiallyScrollable(el) : hasScrollbar(el)) return el;
+    el = el.parentElement;
+  }
+  return document.scrollingElement;
+}
+function getScrollParents(el, stopAt) {
+  const elements = [];
+  if (stopAt && el && !stopAt.contains(el)) return elements;
+  while (el) {
+    if (hasScrollbar(el)) elements.push(el);
+    if (el === stopAt) break;
+    el = el.parentElement;
+  }
+  return elements;
+}
+function hasScrollbar(el) {
+  if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
+  const style = window.getComputedStyle(el);
+  return style.overflowY === "scroll" || style.overflowY === "auto" && el.scrollHeight > el.clientHeight;
+}
+function isPotentiallyScrollable(el) {
+  if (!el || el.nodeType !== Node.ELEMENT_NODE) return false;
+  const style = window.getComputedStyle(el);
+  return ["scroll", "auto"].includes(style.overflowY);
+}
 function injectSelf(key) {
   let vm = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : getCurrentInstance("injectSelf");
   const {
@@ -12878,6 +12620,15 @@ function injectSelf(key) {
     return provides[key];
   }
   return void 0;
+}
+function isFixedPosition(el) {
+  while (el) {
+    if (window.getComputedStyle(el).position === "fixed") {
+      return true;
+    }
+    el = el.offsetParent;
+  }
+  return false;
 }
 function useRender(render) {
   const vm = getCurrentInstance("useRender");
@@ -14847,6 +14598,448 @@ function inject(key) {
     return provides[key];
   }
 }
+const RouteName = Object.freeze({
+  Config: "Config",
+  Products: "Products",
+  Checkout: "Checkout",
+  TestCards: "TestCards"
+});
+const product1 = "/fake-shop/assets/s1-CfPudjzf.jpg";
+const product2 = "/fake-shop/assets/s2-DkKuGiM1.jpg";
+const product3 = "/fake-shop/assets/s3-DmiOuX0y.jpg";
+const product4 = "/fake-shop/assets/s4-DZcRYgYm.jpg";
+const product5 = "/fake-shop/assets/s5-DTyTrfBt.jpg";
+const product6 = "/fake-shop/assets/s6-BHYP62n9.jpg";
+const product7 = "/fake-shop/assets/s7-CTzWdjv0.jpg";
+const product8 = "/fake-shop/assets/s8-I3EieleH.jpg";
+const products = [
+  {
+    categories: ["toys"],
+    colors: ["error", "warning", "primary", "secondary"],
+    description: "Cuddle up with our Cute Soft Teddybear — the perfect companion for comfort and joy. Crafted from ultra-soft plush, this huggable teddy bear features a charming design that’s ideal for all ages. Whether as a gift or a cozy addition to your own collection, it’s sure to bring warmth and smiles.",
+    gender: "kids",
+    id: 1,
+    image: product1,
+    name: "Cute Soft Teddybear",
+    offerPrice: 129,
+    price: 229,
+    rating: Math.floor(Math.random() * 6)
+  },
+  {
+    categories: ["books"],
+    colors: ["lightprimary", "success", "lighterror", "warning"],
+    description: '"Psalms Book for Growth" offers a profound journey through the timeless wisdom of the Psalms. This inspirational guide provides reflections and insights to help you deepen your spiritual understanding and personal growth. Perfect for daily meditation and encouragement, it’s a valuable resource for anyone seeking to enrich their faith and enhance their life journey.',
+    gender: "kids",
+    id: 2,
+    image: product2,
+    name: "Psalms Book for Growth",
+    offerPrice: 349,
+    price: 449,
+    rating: Math.floor(Math.random() * 6)
+  },
+  {
+    id: 3,
+    categories: ["books"],
+    colors: ["lightprimary", "primary"],
+    description: 'Unlock the secrets to financial success with "The Psychology of Money". This insightful book delves into the emotional and psychological aspects of money management, offering practical wisdom and strategies for achieving financial well-being. Discover how your mindset can influence your financial decisions and learn to make smarter choices for a more prosperous future.',
+    gender: "male",
+    image: product3,
+    name: "The Psychology of Money",
+    offerPrice: 599,
+    price: 799,
+    rating: Math.floor(Math.random() * 6)
+  },
+  {
+    categories: ["fashion", "electronics", "toys"],
+    colors: ["error", "warning", "warning"],
+    description: "Experience superior sound with the Boat Headphones. Designed for crisp, clear audio and deep bass, these headphones offer comfortable, all-day wear with their ergonomic fit. Whether you're at home or on the move, enjoy immersive sound quality and stylish design. Perfect for music lovers and everyday listening.",
+    gender: "kids",
+    id: 4,
+    image: product4,
+    name: "Boat Headphone",
+    offerPrice: 899,
+    price: 999,
+    rating: Math.floor(Math.random() * 6)
+  },
+  {
+    categories: ["electronics"],
+    colors: ["warning", "lightprimary"],
+    description: "Discover productivity and style with our sleek Notebook. Featuring a high-resolution display, smooth keyboard, and powerful performance, it’s perfect for work, study, or on-the-go tasks. Its lightweight design and long battery life make it the ideal companion for any lifestyle.",
+    gender: "male",
+    id: 5,
+    image: product5,
+    name: "Notebook",
+    offerPrice: 1299,
+    price: 1599,
+    rating: Math.floor(Math.random() * 6)
+  },
+  {
+    categories: ["fashion", "kitchen"],
+    colors: ["primary", "warning"],
+    description: "Unleash the ultimate gaming experience with our Gaming Console. Packed with cutting-edge technology and a sleek design, it delivers stunning graphics and lightning-fast performance. With a vast library of games and seamless connectivity, it’s your gateway to endless entertainment. Upgrade your playtime today!",
+    gender: "male",
+    id: 6,
+    image: product6,
+    name: "Gaming Console",
+    offerPrice: 499,
+    price: 599,
+    rating: Math.floor(Math.random() * 6)
+  },
+  {
+    categories: ["fashion"],
+    colors: ["error", "secondary", "primary", "warning"],
+    description: "Elevate your style with the Red Velvet Dress — a show-stopping piece in rich, luxurious velvet. Featuring a flattering fit, sleeveless design, and knee-length cut, this dress combines elegance with modern sophistication. Perfect for any formal or festive occasion, it promises to make you the center of attention.",
+    gender: "female",
+    id: 7,
+    image: product7,
+    name: "Red Valvet Dress",
+    offerPrice: 299,
+    price: 499,
+    rating: Math.floor(Math.random() * 6)
+  },
+  {
+    categories: ["fashion"],
+    colors: ["lightsuccess", "primary", "success"],
+    description: "Step into style with our Shoes for Girls —perfectly crafted for comfort and charm. These versatile shoes feature a sleek design, supportive fit, and durable materials, making them ideal for everyday adventures and special occasions alike. Available in a variety of colors and patterns, they’re sure to be a favorite in any wardrobe.",
+    gender: "female",
+    id: 8,
+    image: product8,
+    name: "Shoes for Girls",
+    offerPrice: 640,
+    price: 870,
+    rating: Math.floor(Math.random() * 6)
+  }
+];
+const fetchProducts = async () => {
+  return new Promise((resolve2) => {
+    setTimeout(() => {
+      resolve2(products);
+    }, 500);
+  });
+};
+const useProductsListStore = defineStore({
+  id: "products/list",
+  state: () => ({
+    products: []
+  }),
+  getters: {
+    productsHashedById() {
+      return new Map(this.products.map((product) => [product.id, product]));
+    }
+  },
+  actions: {
+    async fetchProducts() {
+      try {
+        this.products = await fetchProducts();
+      } catch (error) {
+        alert(error);
+        console.log(error);
+      }
+    }
+  }
+});
+const useCartStore = defineStore({
+  id: "cart",
+  state: () => ({
+    selectedProducts: /* @__PURE__ */ new Map(),
+    total: 0,
+    discount: 0,
+    subTotal: 0,
+    billingAddress: null,
+    paymentDescription: ""
+  }),
+  actions: {
+    addProductToCart(productId) {
+      const productsListStore = useProductsListStore();
+      const product = productsListStore.productsHashedById.get(productId);
+      if (product === void 0) {
+        return;
+      }
+      this.selectedProducts.set(productId, { quantity: 1, ...product });
+      this.setPrices();
+    },
+    removeProductFromCart(productId) {
+      this.selectedProducts.delete(productId);
+      this.setPrices();
+    },
+    incrementQuantity(productId) {
+      const currentProduct = this.selectedProducts.get(productId);
+      if (currentProduct === void 0) {
+        return;
+      }
+      this.selectedProducts.set(productId, { ...currentProduct, quantity: currentProduct.quantity + 1 });
+      this.setPrices();
+    },
+    decrementQuantity(productId) {
+      const currentProduct = this.selectedProducts.get(productId);
+      if (currentProduct === void 0) {
+        return;
+      }
+      if (currentProduct.quantity === 1) {
+        return;
+      }
+      this.selectedProducts.set(productId, { ...currentProduct, quantity: currentProduct.quantity - 1 });
+      this.setPrices();
+    },
+    setPrices() {
+      const products2 = Array.from(this.selectedProducts.values());
+      const subTotal = products2.reduce((acc, item) => {
+        const product = item.offerPrice * item.quantity;
+        return acc + product;
+      }, 0);
+      const discount = Math.round(subTotal * (5 / 100));
+      const total = subTotal - discount;
+      this.subTotal = subTotal;
+      this.discount = discount;
+      this.total = total;
+    }
+  }
+});
+const scriptRel = "modulepreload";
+const assetsURL = function(dep) {
+  return "/fake-shop/" + dep;
+};
+const seen = {};
+const __vitePreload = function preload(baseModule, deps, importerUrl) {
+  let promise = Promise.resolve();
+  if (deps && deps.length > 0) {
+    document.getElementsByTagName("link");
+    const cspNonceMeta = document.querySelector(
+      "meta[property=csp-nonce]"
+    );
+    const cspNonce = (cspNonceMeta == null ? void 0 : cspNonceMeta.nonce) || (cspNonceMeta == null ? void 0 : cspNonceMeta.getAttribute("nonce"));
+    promise = Promise.allSettled(
+      deps.map((dep) => {
+        dep = assetsURL(dep);
+        if (dep in seen) return;
+        seen[dep] = true;
+        const isCss = dep.endsWith(".css");
+        const cssSelector = isCss ? '[rel="stylesheet"]' : "";
+        if (document.querySelector(`link[href="${dep}"]${cssSelector}`)) {
+          return;
+        }
+        const link = document.createElement("link");
+        link.rel = isCss ? "stylesheet" : scriptRel;
+        if (!isCss) {
+          link.as = "script";
+        }
+        link.crossOrigin = "";
+        link.href = dep;
+        if (cspNonce) {
+          link.setAttribute("nonce", cspNonce);
+        }
+        document.head.appendChild(link);
+        if (isCss) {
+          return new Promise((res, rej) => {
+            link.addEventListener("load", res);
+            link.addEventListener(
+              "error",
+              () => rej(new Error(`Unable to preload CSS for ${dep}`))
+            );
+          });
+        }
+      })
+    );
+  }
+  function handlePreloadError(err) {
+    const e = new Event("vite:preloadError", {
+      cancelable: true
+    });
+    e.payload = err;
+    window.dispatchEvent(e);
+    if (!e.defaultPrevented) {
+      throw err;
+    }
+  }
+  return promise.then((res) => {
+    for (const item of res || []) {
+      if (item.status !== "rejected") continue;
+      handlePreloadError(item.reason);
+    }
+    return baseModule().catch(handlePreloadError);
+  });
+};
+var LocaleCode = /* @__PURE__ */ ((LocaleCode2) => {
+  LocaleCode2["En"] = "en";
+  LocaleCode2["Uk"] = "uk";
+  return LocaleCode2;
+})(LocaleCode || {});
+const isStringLocaleCode = (value) => {
+  return Object.values(LocaleCode).includes(value ?? "");
+};
+const getLocaleCodeFromValue = (value) => {
+  return isStringLocaleCode(value) ? value : void 0;
+};
+const i18n = createI18n({
+  globalInjection: true,
+  legacy: false,
+  fallbackLocale: LocaleCode.En
+});
+const LocalStorageKey = Object.freeze({
+  Version: "version",
+  Locale: "locale",
+  RequestBeans: "request-beans",
+  BillingAddress: "billing-address"
+});
+const Storage = {
+  LocalStorageVersion: "0",
+  version: {
+    getValue() {
+      return localStorage.getItem(LocalStorageKey.Version) || "";
+    },
+    setValue(value) {
+      localStorage.setItem(LocalStorageKey.Version, value);
+    }
+  },
+  locale: {
+    getValue() {
+      return localStorage.getItem(LocalStorageKey.Locale) ?? "uk";
+    },
+    setValue(value) {
+      localStorage.setItem(LocalStorageKey.Locale, value);
+    }
+  },
+  requestBeans: {
+    getValue() {
+      const values = localStorage.getItem(LocalStorageKey.RequestBeans);
+      if (values) {
+        try {
+          return JSON.parse(values);
+        } catch (e) {
+          console.error(e);
+          return [];
+        }
+      }
+      return [];
+    },
+    setValue(value) {
+      localStorage.setItem(LocalStorageKey.RequestBeans, JSON.stringify(value));
+    }
+  },
+  billingAddress: {
+    getValue() {
+      return localStorage.getItem(LocalStorageKey.BillingAddress) ? JSON.parse(localStorage.getItem(LocalStorageKey.BillingAddress)) : null;
+    },
+    setValue(value) {
+      localStorage.setItem(LocalStorageKey.BillingAddress, JSON.stringify(value));
+    }
+  }
+};
+const loadAndSetLocaleMessages = async () => {
+  const response = await Promise.all([
+    __vitePreload(() => import("./action-BWj-yONy.js"), true ? [] : void 0),
+    __vitePreload(() => import("./meta-LMSbGRIQ.js"), true ? [] : void 0),
+    __vitePreload(() => import("./text-BrSkYlyD.js"), true ? [] : void 0),
+    __vitePreload(() => import("./title-DEp_RUoJ.js"), true ? [] : void 0),
+    __vitePreload(() => import("./snackbar-CeqLlS0G.js"), true ? [] : void 0),
+    __vitePreload(() => import("./label-DsHwNCGE.js"), true ? [] : void 0)
+  ]);
+  const messagesDto = response.reduce((acc, item) => {
+    const locales = item.default;
+    acc = {
+      ...acc,
+      ...locales
+    };
+    return acc;
+  }, {});
+  const formattedMessages = [LocaleCode.En, LocaleCode.Uk].reduce((acc, locale) => {
+    const translate2 = Object.keys(messagesDto).reduce((accumulator, key) => {
+      const foundTranslate = messagesDto[key][locale];
+      if (!accumulator[key]) {
+        accumulator[key] = foundTranslate;
+      }
+      return accumulator;
+    }, {});
+    acc[locale] = translate2;
+    return acc;
+  }, {});
+  Object.keys(formattedMessages).forEach((locale) => {
+    i18n.global.setLocaleMessage(locale, formattedMessages[locale]);
+  });
+};
+const setLocale = (locale) => {
+  var _a;
+  i18n.global.locale.value = locale;
+  (_a = document.querySelector("html")) == null ? void 0 : _a.setAttribute("lang", locale);
+  document.title = i18n.global.t("meta.title");
+  Storage.locale.setValue(locale);
+};
+const greatBritain = "data:image/svg+xml,%3csvg%20width='19'%20height='20'%20viewBox='0%200%2019%2020'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M0.791748%204.45834H18.2084V15.5417H0.791748V4.45834Z'%20fill='%233F51B5'/%3e%3cpath%20d='M0.791748%206.12718L9.02904%2011.1618L10.2676%209.13511L2.61575%204.45834H0.791748V6.12718Z'%20fill='white'/%3e%3cpath%20d='M18.2084%204.45834H16.7799L9.12842%209.13472L10.3666%2011.1618L18.2084%206.36864V4.45834Z'%20fill='white'/%3e%3cpath%20d='M10.3666%208.52393L9.12842%2010.5506L17.2945%2015.5417H18.2084V13.3167L10.3666%208.52393Z'%20fill='white'/%3e%3cpath%20d='M0.791748%2013.5589V15.5417H2.10196L10.2676%2010.551L9.02944%208.52393L0.791748%2013.5589Z'%20fill='white'/%3e%3cpath%20d='M0.791748%208.41666H18.2084V11.5833H0.791748V8.41666Z'%20fill='white'/%3e%3cpath%20d='M7.91675%204.45834H11.0834V15.5417H7.91675V4.45834Z'%20fill='white'/%3e%3cpath%20d='M6.81554%208.41668L0.791748%204.73503V5.66286L5.29712%208.41668H6.81554ZM17.5391%204.45834L11.0624%208.41668H12.5805L18.2084%204.97728V4.45834H17.5391ZM13.095%2011.5833L18.2084%2014.7084V13.7806L14.6131%2011.5833H13.095ZM6.30096%2011.5833L0.791748%2014.9503V15.5417H1.34275L7.81898%2011.5833H6.30096ZM0.791748%209.20834H18.2084V10.7917H0.791748V9.20834Z'%20fill='%23E53935'/%3e%3cpath%20d='M8.7085%204.45834H10.2918V15.5417H8.7085V4.45834Z'%20fill='%23E53935'/%3e%3c/svg%3e";
+const ukraine = "data:image/svg+xml,%3csvg%20width='19'%20height='20'%20viewBox='0%200%2019%2020'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M0.791748%2010H18.2084V15.9375H0.791748V10Z'%20fill='%23FDD835'/%3e%3cpath%20d='M0.791748%204.0625H18.2084V10H0.791748V4.0625Z'%20fill='%232196F3'/%3e%3c/svg%3e";
+const Locales = [
+  { code: LocaleCode.En, text: "English", shortText: "Eng", img: greatBritain },
+  { code: LocaleCode.Uk, text: "Українська", shortText: "Укр", img: ukraine }
+];
+/**
+ * @license @tabler/icons-vue v3.30.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var defaultAttributes = {
+  outline: {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 24,
+    height: 24,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": 2,
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round"
+  },
+  filled: {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 24,
+    height: 24,
+    viewBox: "0 0 24 24",
+    fill: "currentColor",
+    stroke: "none"
+  }
+};
+/**
+ * @license @tabler/icons-vue v3.30.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const createVueComponent = (type, iconName, iconNamePascal, iconNode) => ({ color = "currentColor", size: size2 = 24, stroke = 2, title, class: classes, ...rest }, { attrs, slots }) => {
+  let children = [...iconNode.map((child) => h(...child)), ...slots.default ? [slots.default()] : []];
+  if (title)
+    children = [h("title", title), ...children];
+  return h(
+    "svg",
+    {
+      ...defaultAttributes[type],
+      width: size2,
+      height: size2,
+      ...attrs,
+      class: ["tabler-icon", `tabler-icon-${iconName}`],
+      ...type === "filled" ? {
+        fill: color
+      } : {
+        "stroke-width": stroke ?? defaultAttributes[type]["stroke-width"],
+        stroke: color
+      },
+      ...rest
+    },
+    children
+  );
+};
+/**
+ * @license @tabler/icons-vue v3.30.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconCreditCard = createVueComponent("outline", "credit-card", "IconCreditCard", [["path", { "d": "M3 5m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z", "key": "svg-0" }], ["path", { "d": "M3 10l18 0", "key": "svg-1" }], ["path", { "d": "M7 15l.01 0", "key": "svg-2" }], ["path", { "d": "M11 15l2 0", "key": "svg-3" }]]);
+/**
+ * @license @tabler/icons-vue v3.30.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+var IconShoppingCart = createVueComponent("outline", "shopping-cart", "IconShoppingCart", [["path", { "d": "M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0", "key": "svg-0" }], ["path", { "d": "M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0", "key": "svg-1" }], ["path", { "d": "M17 17h-11v-14h-2", "key": "svg-2" }], ["path", { "d": "M6 5l14 1l-1 7h-13", "key": "svg-3" }]]);
 const makeVAppProps = propsFactory({
   ...makeComponentProps(),
   ...makeLayoutProps({
@@ -15088,6 +15281,141 @@ function ExpandTransitionGenerator() {
     if (size2 != null) el.style[sizeProperty] = size2;
     delete el._initialStyle;
   }
+}
+const makeVDialogTransitionProps = propsFactory({
+  target: [Object, Array]
+}, "v-dialog-transition");
+const VDialogTransition = genericComponent()({
+  name: "VDialogTransition",
+  props: makeVDialogTransitionProps(),
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    const functions = {
+      onBeforeEnter(el) {
+        el.style.pointerEvents = "none";
+        el.style.visibility = "hidden";
+      },
+      async onEnter(el, done) {
+        var _a;
+        await new Promise((resolve2) => requestAnimationFrame(resolve2));
+        await new Promise((resolve2) => requestAnimationFrame(resolve2));
+        el.style.visibility = "";
+        const {
+          x,
+          y,
+          sx,
+          sy,
+          speed
+        } = getDimensions(props.target, el);
+        const animation = animate(el, [{
+          transform: `translate(${x}px, ${y}px) scale(${sx}, ${sy})`,
+          opacity: 0
+        }, {}], {
+          duration: 225 * speed,
+          easing: deceleratedEasing
+        });
+        (_a = getChildren(el)) == null ? void 0 : _a.forEach((el2) => {
+          animate(el2, [{
+            opacity: 0
+          }, {
+            opacity: 0,
+            offset: 0.33
+          }, {}], {
+            duration: 225 * 2 * speed,
+            easing: standardEasing
+          });
+        });
+        animation.finished.then(() => done());
+      },
+      onAfterEnter(el) {
+        el.style.removeProperty("pointer-events");
+      },
+      onBeforeLeave(el) {
+        el.style.pointerEvents = "none";
+      },
+      async onLeave(el, done) {
+        var _a;
+        await new Promise((resolve2) => requestAnimationFrame(resolve2));
+        const {
+          x,
+          y,
+          sx,
+          sy,
+          speed
+        } = getDimensions(props.target, el);
+        const animation = animate(el, [{}, {
+          transform: `translate(${x}px, ${y}px) scale(${sx}, ${sy})`,
+          opacity: 0
+        }], {
+          duration: 125 * speed,
+          easing: acceleratedEasing
+        });
+        animation.finished.then(() => done());
+        (_a = getChildren(el)) == null ? void 0 : _a.forEach((el2) => {
+          animate(el2, [{}, {
+            opacity: 0,
+            offset: 0.2
+          }, {
+            opacity: 0
+          }], {
+            duration: 125 * 2 * speed,
+            easing: standardEasing
+          });
+        });
+      },
+      onAfterLeave(el) {
+        el.style.removeProperty("pointer-events");
+      }
+    };
+    return () => {
+      return props.target ? createVNode(Transition, mergeProps({
+        "name": "dialog-transition"
+      }, functions, {
+        "css": false
+      }), slots) : createVNode(Transition, {
+        "name": "dialog-transition"
+      }, slots);
+    };
+  }
+});
+function getChildren(el) {
+  var _a;
+  const els = (_a = el.querySelector(":scope > .v-card, :scope > .v-sheet, :scope > .v-list")) == null ? void 0 : _a.children;
+  return els && [...els];
+}
+function getDimensions(target, el) {
+  const targetBox = getTargetBox(target);
+  const elBox = nullifyTransforms(el);
+  const [originX, originY] = getComputedStyle(el).transformOrigin.split(" ").map((v) => parseFloat(v));
+  const [anchorSide, anchorOffset] = getComputedStyle(el).getPropertyValue("--v-overlay-anchor-origin").split(" ");
+  let offsetX = targetBox.left + targetBox.width / 2;
+  if (anchorSide === "left" || anchorOffset === "left") {
+    offsetX -= targetBox.width / 2;
+  } else if (anchorSide === "right" || anchorOffset === "right") {
+    offsetX += targetBox.width / 2;
+  }
+  let offsetY = targetBox.top + targetBox.height / 2;
+  if (anchorSide === "top" || anchorOffset === "top") {
+    offsetY -= targetBox.height / 2;
+  } else if (anchorSide === "bottom" || anchorOffset === "bottom") {
+    offsetY += targetBox.height / 2;
+  }
+  const tsx = targetBox.width / elBox.width;
+  const tsy = targetBox.height / elBox.height;
+  const maxs = Math.max(1, tsx, tsy);
+  const sx = tsx / maxs || 0;
+  const sy = tsy / maxs || 0;
+  const asa = elBox.width * elBox.height / (window.innerWidth * window.innerHeight);
+  const speed = asa > 0.12 ? Math.min(1.5, (asa - 0.12) * 10 + 1) : 1;
+  return {
+    x: offsetX - (originX + elBox.left),
+    y: offsetY - (originY + elBox.top),
+    sx,
+    sy,
+    speed
+  };
 }
 createCssTransition("fab-transition", "center center", "out-in");
 createCssTransition("dialog-bottom-transition");
@@ -16638,16 +16966,16 @@ function useLocation(props) {
       side,
       align
     } = parseAnchor(props.location.split(" ").length > 1 ? props.location : `${props.location} center`, isRtl.value);
-    function getOffset(side2) {
+    function getOffset2(side2) {
       return offset ? offset(side2) : 0;
     }
     const styles = {};
     if (side !== "center") {
-      if (opposite) styles[oppositeMap[side]] = `calc(100% - ${getOffset(side)}px)`;
+      if (opposite) styles[oppositeMap[side]] = `calc(100% - ${getOffset2(side)}px)`;
       else styles[side] = 0;
     }
     if (align !== "center") {
-      if (opposite) styles[oppositeMap[align]] = `calc(100% - ${getOffset(align)}px)`;
+      if (opposite) styles[oppositeMap[align]] = `calc(100% - ${getOffset2(align)}px)`;
       else styles[align] = 0;
     } else {
       if (side === "center") styles.top = styles.left = "50%";
@@ -17590,6 +17918,1377 @@ const VContainer = genericComponent()({
     return {};
   }
 });
+const ListKey = Symbol.for("vuetify:list");
+function createList() {
+  const parent = inject$1(ListKey, {
+    hasPrepend: shallowRef(false),
+    updateHasPrepend: () => null
+  });
+  const data = {
+    hasPrepend: shallowRef(false),
+    updateHasPrepend: (value) => {
+      if (value) data.hasPrepend.value = value;
+    }
+  };
+  provide(ListKey, data);
+  return parent;
+}
+function useList() {
+  return inject$1(ListKey, null);
+}
+const singleOpenStrategy = {
+  open: (_ref) => {
+    let {
+      id,
+      value,
+      opened,
+      parents
+    } = _ref;
+    if (value) {
+      const newOpened = /* @__PURE__ */ new Set();
+      newOpened.add(id);
+      let parent = parents.get(id);
+      while (parent != null) {
+        newOpened.add(parent);
+        parent = parents.get(parent);
+      }
+      return newOpened;
+    } else {
+      opened.delete(id);
+      return opened;
+    }
+  },
+  select: () => null
+};
+const multipleOpenStrategy = {
+  open: (_ref2) => {
+    let {
+      id,
+      value,
+      opened,
+      parents
+    } = _ref2;
+    if (value) {
+      let parent = parents.get(id);
+      opened.add(id);
+      while (parent != null && parent !== id) {
+        opened.add(parent);
+        parent = parents.get(parent);
+      }
+      return opened;
+    } else {
+      opened.delete(id);
+    }
+    return opened;
+  },
+  select: () => null
+};
+const listOpenStrategy = {
+  open: multipleOpenStrategy.open,
+  select: (_ref3) => {
+    let {
+      id,
+      value,
+      opened,
+      parents
+    } = _ref3;
+    if (!value) return opened;
+    const path = [];
+    let parent = parents.get(id);
+    while (parent != null) {
+      path.push(parent);
+      parent = parents.get(parent);
+    }
+    return new Set(path);
+  }
+};
+const independentSelectStrategy = (mandatory) => {
+  const strategy = {
+    select: (_ref) => {
+      let {
+        id,
+        value,
+        selected
+      } = _ref;
+      id = toRaw(id);
+      if (mandatory && !value) {
+        const on = Array.from(selected.entries()).reduce((arr, _ref2) => {
+          let [key, value2] = _ref2;
+          return value2 === "on" ? [...arr, key] : arr;
+        }, []);
+        if (on.length === 1 && on[0] === id) return selected;
+      }
+      selected.set(id, value ? "on" : "off");
+      return selected;
+    },
+    in: (v, children, parents) => {
+      let map = /* @__PURE__ */ new Map();
+      for (const id of v || []) {
+        map = strategy.select({
+          id,
+          value: true,
+          selected: new Map(map),
+          children,
+          parents
+        });
+      }
+      return map;
+    },
+    out: (v) => {
+      const arr = [];
+      for (const [key, value] of v.entries()) {
+        if (value === "on") arr.push(key);
+      }
+      return arr;
+    }
+  };
+  return strategy;
+};
+const independentSingleSelectStrategy = (mandatory) => {
+  const parentStrategy = independentSelectStrategy(mandatory);
+  const strategy = {
+    select: (_ref3) => {
+      let {
+        selected,
+        id,
+        ...rest
+      } = _ref3;
+      id = toRaw(id);
+      const singleSelected = selected.has(id) ? /* @__PURE__ */ new Map([[id, selected.get(id)]]) : /* @__PURE__ */ new Map();
+      return parentStrategy.select({
+        ...rest,
+        id,
+        selected: singleSelected
+      });
+    },
+    in: (v, children, parents) => {
+      let map = /* @__PURE__ */ new Map();
+      if (v == null ? void 0 : v.length) {
+        map = parentStrategy.in(v.slice(0, 1), children, parents);
+      }
+      return map;
+    },
+    out: (v, children, parents) => {
+      return parentStrategy.out(v, children, parents);
+    }
+  };
+  return strategy;
+};
+const leafSelectStrategy = (mandatory) => {
+  const parentStrategy = independentSelectStrategy(mandatory);
+  const strategy = {
+    select: (_ref4) => {
+      let {
+        id,
+        selected,
+        children,
+        ...rest
+      } = _ref4;
+      id = toRaw(id);
+      if (children.has(id)) return selected;
+      return parentStrategy.select({
+        id,
+        selected,
+        children,
+        ...rest
+      });
+    },
+    in: parentStrategy.in,
+    out: parentStrategy.out
+  };
+  return strategy;
+};
+const leafSingleSelectStrategy = (mandatory) => {
+  const parentStrategy = independentSingleSelectStrategy(mandatory);
+  const strategy = {
+    select: (_ref5) => {
+      let {
+        id,
+        selected,
+        children,
+        ...rest
+      } = _ref5;
+      id = toRaw(id);
+      if (children.has(id)) return selected;
+      return parentStrategy.select({
+        id,
+        selected,
+        children,
+        ...rest
+      });
+    },
+    in: parentStrategy.in,
+    out: parentStrategy.out
+  };
+  return strategy;
+};
+const classicSelectStrategy = (mandatory) => {
+  const strategy = {
+    select: (_ref6) => {
+      let {
+        id,
+        value,
+        selected,
+        children,
+        parents
+      } = _ref6;
+      id = toRaw(id);
+      const original = new Map(selected);
+      const items = [id];
+      while (items.length) {
+        const item = items.shift();
+        selected.set(item, value ? "on" : "off");
+        if (children.has(item)) {
+          items.push(...children.get(item));
+        }
+      }
+      let parent = parents.get(id);
+      while (parent) {
+        const childrenIds = children.get(parent);
+        const everySelected = childrenIds.every((cid) => selected.get(cid) === "on");
+        const noneSelected = childrenIds.every((cid) => !selected.has(cid) || selected.get(cid) === "off");
+        selected.set(parent, everySelected ? "on" : noneSelected ? "off" : "indeterminate");
+        parent = parents.get(parent);
+      }
+      if (mandatory && !value) {
+        const on = Array.from(selected.entries()).reduce((arr, _ref7) => {
+          let [key, value2] = _ref7;
+          return value2 === "on" ? [...arr, key] : arr;
+        }, []);
+        if (on.length === 0) return original;
+      }
+      return selected;
+    },
+    in: (v, children, parents) => {
+      let map = /* @__PURE__ */ new Map();
+      for (const id of v || []) {
+        map = strategy.select({
+          id,
+          value: true,
+          selected: new Map(map),
+          children,
+          parents
+        });
+      }
+      return map;
+    },
+    out: (v, children) => {
+      const arr = [];
+      for (const [key, value] of v.entries()) {
+        if (value === "on" && !children.has(key)) arr.push(key);
+      }
+      return arr;
+    }
+  };
+  return strategy;
+};
+const VNestedSymbol = Symbol.for("vuetify:nested");
+const emptyNested = {
+  id: shallowRef(),
+  root: {
+    register: () => null,
+    unregister: () => null,
+    parents: ref(/* @__PURE__ */ new Map()),
+    children: ref(/* @__PURE__ */ new Map()),
+    open: () => null,
+    openOnSelect: () => null,
+    select: () => null,
+    opened: ref(/* @__PURE__ */ new Set()),
+    selected: ref(/* @__PURE__ */ new Map()),
+    selectedValues: ref([])
+  }
+};
+const makeNestedProps = propsFactory({
+  selectStrategy: [String, Function],
+  openStrategy: [String, Object],
+  opened: Array,
+  selected: Array,
+  mandatory: Boolean
+}, "nested");
+const useNested = (props) => {
+  let isUnmounted = false;
+  const children = ref(/* @__PURE__ */ new Map());
+  const parents = ref(/* @__PURE__ */ new Map());
+  const opened = useProxiedModel(props, "opened", props.opened, (v) => new Set(v), (v) => [...v.values()]);
+  const selectStrategy = computed(() => {
+    if (typeof props.selectStrategy === "object") return props.selectStrategy;
+    switch (props.selectStrategy) {
+      case "single-leaf":
+        return leafSingleSelectStrategy(props.mandatory);
+      case "leaf":
+        return leafSelectStrategy(props.mandatory);
+      case "independent":
+        return independentSelectStrategy(props.mandatory);
+      case "single-independent":
+        return independentSingleSelectStrategy(props.mandatory);
+      case "classic":
+      default:
+        return classicSelectStrategy(props.mandatory);
+    }
+  });
+  const openStrategy = computed(() => {
+    if (typeof props.openStrategy === "object") return props.openStrategy;
+    switch (props.openStrategy) {
+      case "list":
+        return listOpenStrategy;
+      case "single":
+        return singleOpenStrategy;
+      case "multiple":
+      default:
+        return multipleOpenStrategy;
+    }
+  });
+  const selected = useProxiedModel(props, "selected", props.selected, (v) => selectStrategy.value.in(v, children.value, parents.value), (v) => selectStrategy.value.out(v, children.value, parents.value));
+  onBeforeUnmount(() => {
+    isUnmounted = true;
+  });
+  function getPath(id) {
+    const path = [];
+    let parent = id;
+    while (parent != null) {
+      path.unshift(parent);
+      parent = parents.value.get(parent);
+    }
+    return path;
+  }
+  const vm = getCurrentInstance("nested");
+  const nested = {
+    id: shallowRef(),
+    root: {
+      opened,
+      selected,
+      selectedValues: computed(() => {
+        const arr = [];
+        for (const [key, value] of selected.value.entries()) {
+          if (value === "on") arr.push(key);
+        }
+        return arr;
+      }),
+      register: (id, parentId, isGroup) => {
+        parentId && id !== parentId && parents.value.set(id, parentId);
+        isGroup && children.value.set(id, []);
+        if (parentId != null) {
+          children.value.set(parentId, [...children.value.get(parentId) || [], id]);
+        }
+      },
+      unregister: (id) => {
+        if (isUnmounted) return;
+        children.value.delete(id);
+        const parent = parents.value.get(id);
+        if (parent) {
+          const list = children.value.get(parent) ?? [];
+          children.value.set(parent, list.filter((child) => child !== id));
+        }
+        parents.value.delete(id);
+        opened.value.delete(id);
+      },
+      open: (id, value, event) => {
+        vm.emit("click:open", {
+          id,
+          value,
+          path: getPath(id),
+          event
+        });
+        const newOpened = openStrategy.value.open({
+          id,
+          value,
+          opened: new Set(opened.value),
+          children: children.value,
+          parents: parents.value,
+          event
+        });
+        newOpened && (opened.value = newOpened);
+      },
+      openOnSelect: (id, value, event) => {
+        const newOpened = openStrategy.value.select({
+          id,
+          value,
+          selected: new Map(selected.value),
+          opened: new Set(opened.value),
+          children: children.value,
+          parents: parents.value,
+          event
+        });
+        newOpened && (opened.value = newOpened);
+      },
+      select: (id, value, event) => {
+        vm.emit("click:select", {
+          id,
+          value,
+          path: getPath(id),
+          event
+        });
+        const newSelected = selectStrategy.value.select({
+          id,
+          value,
+          selected: new Map(selected.value),
+          children: children.value,
+          parents: parents.value,
+          event
+        });
+        newSelected && (selected.value = newSelected);
+        nested.root.openOnSelect(id, value, event);
+      },
+      children,
+      parents
+    }
+  };
+  provide(VNestedSymbol, nested);
+  return nested.root;
+};
+const useNestedItem = (id, isGroup) => {
+  const parent = inject$1(VNestedSymbol, emptyNested);
+  const uidSymbol = Symbol(getUid());
+  const computedId = computed(() => id.value !== void 0 ? id.value : uidSymbol);
+  const item = {
+    ...parent,
+    id: computedId,
+    open: (open, e) => parent.root.open(computedId.value, open, e),
+    openOnSelect: (open, e) => parent.root.openOnSelect(computedId.value, open, e),
+    isOpen: computed(() => parent.root.opened.value.has(computedId.value)),
+    parent: computed(() => parent.root.parents.value.get(computedId.value)),
+    select: (selected, e) => parent.root.select(computedId.value, selected, e),
+    isSelected: computed(() => parent.root.selected.value.get(toRaw(computedId.value)) === "on"),
+    isIndeterminate: computed(() => parent.root.selected.value.get(computedId.value) === "indeterminate"),
+    isLeaf: computed(() => !parent.root.children.value.get(computedId.value)),
+    isGroupActivator: parent.isGroupActivator
+  };
+  !parent.isGroupActivator && parent.root.register(computedId.value, parent.id.value, isGroup);
+  onBeforeUnmount(() => {
+    !parent.isGroupActivator && parent.root.unregister(computedId.value);
+  });
+  isGroup && provide(VNestedSymbol, item);
+  return item;
+};
+const useNestedGroupActivator = () => {
+  const parent = inject$1(VNestedSymbol, emptyNested);
+  provide(VNestedSymbol, {
+    ...parent,
+    isGroupActivator: true
+  });
+};
+const VListGroupActivator = defineComponent({
+  name: "VListGroupActivator",
+  setup(_, _ref) {
+    let {
+      slots
+    } = _ref;
+    useNestedGroupActivator();
+    return () => {
+      var _a;
+      return (_a = slots.default) == null ? void 0 : _a.call(slots);
+    };
+  }
+});
+const makeVListGroupProps = propsFactory({
+  /* @deprecated */
+  activeColor: String,
+  baseColor: String,
+  color: String,
+  collapseIcon: {
+    type: IconValue,
+    default: "$collapse"
+  },
+  expandIcon: {
+    type: IconValue,
+    default: "$expand"
+  },
+  prependIcon: IconValue,
+  appendIcon: IconValue,
+  fluid: Boolean,
+  subgroup: Boolean,
+  title: String,
+  value: null,
+  ...makeComponentProps(),
+  ...makeTagProps()
+}, "VListGroup");
+const VListGroup = genericComponent()({
+  name: "VListGroup",
+  props: makeVListGroupProps(),
+  setup(props, _ref2) {
+    let {
+      slots
+    } = _ref2;
+    const {
+      isOpen,
+      open,
+      id: _id
+    } = useNestedItem(toRef(props, "value"), true);
+    const id = computed(() => `v-list-group--id-${String(_id.value)}`);
+    const list = useList();
+    const {
+      isBooted
+    } = useSsrBoot();
+    function onClick(e) {
+      open(!isOpen.value, e);
+    }
+    const activatorProps = computed(() => ({
+      onClick,
+      class: "v-list-group__header",
+      id: id.value
+    }));
+    const toggleIcon = computed(() => isOpen.value ? props.collapseIcon : props.expandIcon);
+    const activatorDefaults = computed(() => ({
+      VListItem: {
+        active: isOpen.value,
+        activeColor: props.activeColor,
+        baseColor: props.baseColor,
+        color: props.color,
+        prependIcon: props.prependIcon || props.subgroup && toggleIcon.value,
+        appendIcon: props.appendIcon || !props.subgroup && toggleIcon.value,
+        title: props.title,
+        value: props.value
+      }
+    }));
+    useRender(() => createVNode(props.tag, {
+      "class": ["v-list-group", {
+        "v-list-group--prepend": list == null ? void 0 : list.hasPrepend.value,
+        "v-list-group--fluid": props.fluid,
+        "v-list-group--subgroup": props.subgroup,
+        "v-list-group--open": isOpen.value
+      }, props.class],
+      "style": props.style
+    }, {
+      default: () => [slots.activator && createVNode(VDefaultsProvider, {
+        "defaults": activatorDefaults.value
+      }, {
+        default: () => [createVNode(VListGroupActivator, null, {
+          default: () => [slots.activator({
+            props: activatorProps.value,
+            isOpen: isOpen.value
+          })]
+        })]
+      }), createVNode(MaybeTransition, {
+        "transition": {
+          component: VExpandTransition
+        },
+        "disabled": !isBooted.value
+      }, {
+        default: () => {
+          var _a;
+          return [withDirectives(createVNode("div", {
+            "class": "v-list-group__items",
+            "role": "group",
+            "aria-labelledby": id.value
+          }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]), [[vShow, isOpen.value]])];
+        }
+      })]
+    }));
+    return {};
+  }
+});
+const VListItemSubtitle = createSimpleFunctional("v-list-item-subtitle");
+const VListItemTitle = createSimpleFunctional("v-list-item-title");
+const makeVAvatarProps = propsFactory({
+  start: Boolean,
+  end: Boolean,
+  icon: IconValue,
+  image: String,
+  text: String,
+  ...makeComponentProps(),
+  ...makeDensityProps(),
+  ...makeRoundedProps(),
+  ...makeSizeProps(),
+  ...makeTagProps(),
+  ...makeThemeProps(),
+  ...makeVariantProps({
+    variant: "flat"
+  })
+}, "VAvatar");
+const VAvatar = genericComponent()({
+  name: "VAvatar",
+  props: makeVAvatarProps(),
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      colorClasses,
+      colorStyles,
+      variantClasses
+    } = useVariant(props);
+    const {
+      densityClasses
+    } = useDensity(props);
+    const {
+      roundedClasses
+    } = useRounded(props);
+    const {
+      sizeClasses,
+      sizeStyles
+    } = useSize(props);
+    useRender(() => createVNode(props.tag, {
+      "class": ["v-avatar", {
+        "v-avatar--start": props.start,
+        "v-avatar--end": props.end
+      }, themeClasses.value, colorClasses.value, densityClasses.value, roundedClasses.value, sizeClasses.value, variantClasses.value, props.class],
+      "style": [colorStyles.value, sizeStyles.value, props.style]
+    }, {
+      default: () => [!slots.default ? props.image ? createVNode(VImg, {
+        "key": "image",
+        "src": props.image,
+        "alt": "",
+        "cover": true
+      }, null) : props.icon ? createVNode(VIcon, {
+        "key": "icon",
+        "icon": props.icon
+      }, null) : props.text : createVNode(VDefaultsProvider, {
+        "key": "content-defaults",
+        "defaults": {
+          VAvatar: {
+            cover: true,
+            image: props.image
+          },
+          VIcon: {
+            icon: props.icon
+          }
+        }
+      }, {
+        default: () => {
+          var _a;
+          return [(_a = slots.default) == null ? void 0 : _a.call(slots)];
+        }
+      }), genOverlays(false, "v-avatar")]
+    }));
+    return {};
+  }
+});
+const makeVListItemProps = propsFactory({
+  active: {
+    type: Boolean,
+    default: void 0
+  },
+  activeClass: String,
+  /* @deprecated */
+  activeColor: String,
+  appendAvatar: String,
+  appendIcon: IconValue,
+  baseColor: String,
+  disabled: Boolean,
+  lines: String,
+  link: {
+    type: Boolean,
+    default: void 0
+  },
+  nav: Boolean,
+  prependAvatar: String,
+  prependIcon: IconValue,
+  ripple: {
+    type: [Boolean, Object],
+    default: true
+  },
+  slim: Boolean,
+  subtitle: [String, Number],
+  title: [String, Number],
+  value: null,
+  onClick: EventProp(),
+  onClickOnce: EventProp(),
+  ...makeBorderProps(),
+  ...makeComponentProps(),
+  ...makeDensityProps(),
+  ...makeDimensionProps(),
+  ...makeElevationProps(),
+  ...makeRoundedProps(),
+  ...makeRouterProps(),
+  ...makeTagProps(),
+  ...makeThemeProps(),
+  ...makeVariantProps({
+    variant: "text"
+  })
+}, "VListItem");
+const VListItem = genericComponent()({
+  name: "VListItem",
+  directives: {
+    Ripple
+  },
+  props: makeVListItemProps(),
+  emits: {
+    click: (e) => true
+  },
+  setup(props, _ref) {
+    let {
+      attrs,
+      slots,
+      emit: emit2
+    } = _ref;
+    const link = useLink$1(props, attrs);
+    const id = computed(() => props.value === void 0 ? link.href.value : props.value);
+    const {
+      select,
+      isSelected,
+      isIndeterminate,
+      isGroupActivator,
+      root,
+      parent,
+      openOnSelect
+    } = useNestedItem(id, false);
+    const list = useList();
+    const isActive = computed(() => {
+      var _a;
+      return props.active !== false && (props.active || ((_a = link.isActive) == null ? void 0 : _a.value) || isSelected.value);
+    });
+    const isLink = computed(() => props.link !== false && link.isLink.value);
+    const isClickable = computed(() => !props.disabled && props.link !== false && (props.link || link.isClickable.value || props.value != null && !!list));
+    const roundedProps = computed(() => props.rounded || props.nav);
+    const color = computed(() => props.color ?? props.activeColor);
+    const variantProps = computed(() => ({
+      color: isActive.value ? color.value ?? props.baseColor : props.baseColor,
+      variant: props.variant
+    }));
+    watch(() => {
+      var _a;
+      return (_a = link.isActive) == null ? void 0 : _a.value;
+    }, (val) => {
+      if (val && parent.value != null) {
+        root.open(parent.value, true);
+      }
+      if (val) {
+        openOnSelect(val);
+      }
+    }, {
+      immediate: true
+    });
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      borderClasses
+    } = useBorder(props);
+    const {
+      colorClasses,
+      colorStyles,
+      variantClasses
+    } = useVariant(variantProps);
+    const {
+      densityClasses
+    } = useDensity(props);
+    const {
+      dimensionStyles
+    } = useDimension(props);
+    const {
+      elevationClasses
+    } = useElevation(props);
+    const {
+      roundedClasses
+    } = useRounded(roundedProps);
+    const lineClasses = computed(() => props.lines ? `v-list-item--${props.lines}-line` : void 0);
+    const slotProps = computed(() => ({
+      isActive: isActive.value,
+      select,
+      isSelected: isSelected.value,
+      isIndeterminate: isIndeterminate.value
+    }));
+    function onClick(e) {
+      var _a;
+      emit2("click", e);
+      if (isGroupActivator || !isClickable.value) return;
+      (_a = link.navigate) == null ? void 0 : _a.call(link, e);
+      props.value != null && select(!isSelected.value, e);
+    }
+    function onKeyDown(e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onClick(e);
+      }
+    }
+    useRender(() => {
+      const Tag = isLink.value ? "a" : props.tag;
+      const hasTitle = slots.title || props.title != null;
+      const hasSubtitle = slots.subtitle || props.subtitle != null;
+      const hasAppendMedia = !!(props.appendAvatar || props.appendIcon);
+      const hasAppend = !!(hasAppendMedia || slots.append);
+      const hasPrependMedia = !!(props.prependAvatar || props.prependIcon);
+      const hasPrepend = !!(hasPrependMedia || slots.prepend);
+      list == null ? void 0 : list.updateHasPrepend(hasPrepend);
+      if (props.activeColor) {
+        deprecate("active-color", ["color", "base-color"]);
+      }
+      return withDirectives(createVNode(Tag, {
+        "class": ["v-list-item", {
+          "v-list-item--active": isActive.value,
+          "v-list-item--disabled": props.disabled,
+          "v-list-item--link": isClickable.value,
+          "v-list-item--nav": props.nav,
+          "v-list-item--prepend": !hasPrepend && (list == null ? void 0 : list.hasPrepend.value),
+          "v-list-item--slim": props.slim,
+          [`${props.activeClass}`]: props.activeClass && isActive.value
+        }, themeClasses.value, borderClasses.value, colorClasses.value, densityClasses.value, elevationClasses.value, lineClasses.value, roundedClasses.value, variantClasses.value, props.class],
+        "style": [colorStyles.value, dimensionStyles.value, props.style],
+        "href": link.href.value,
+        "tabindex": isClickable.value ? list ? -2 : 0 : void 0,
+        "onClick": onClick,
+        "onKeydown": isClickable.value && !isLink.value && onKeyDown
+      }, {
+        default: () => {
+          var _a;
+          return [genOverlays(isClickable.value || isActive.value, "v-list-item"), hasPrepend && createVNode("div", {
+            "key": "prepend",
+            "class": "v-list-item__prepend"
+          }, [!slots.prepend ? createVNode(Fragment, null, [props.prependAvatar && createVNode(VAvatar, {
+            "key": "prepend-avatar",
+            "density": props.density,
+            "image": props.prependAvatar
+          }, null), props.prependIcon && createVNode(VIcon, {
+            "key": "prepend-icon",
+            "density": props.density,
+            "icon": props.prependIcon
+          }, null)]) : createVNode(VDefaultsProvider, {
+            "key": "prepend-defaults",
+            "disabled": !hasPrependMedia,
+            "defaults": {
+              VAvatar: {
+                density: props.density,
+                image: props.prependAvatar
+              },
+              VIcon: {
+                density: props.density,
+                icon: props.prependIcon
+              },
+              VListItemAction: {
+                start: true
+              }
+            }
+          }, {
+            default: () => {
+              var _a2;
+              return [(_a2 = slots.prepend) == null ? void 0 : _a2.call(slots, slotProps.value)];
+            }
+          }), createVNode("div", {
+            "class": "v-list-item__spacer"
+          }, null)]), createVNode("div", {
+            "class": "v-list-item__content",
+            "data-no-activator": ""
+          }, [hasTitle && createVNode(VListItemTitle, {
+            "key": "title"
+          }, {
+            default: () => {
+              var _a2;
+              return [((_a2 = slots.title) == null ? void 0 : _a2.call(slots, {
+                title: props.title
+              })) ?? props.title];
+            }
+          }), hasSubtitle && createVNode(VListItemSubtitle, {
+            "key": "subtitle"
+          }, {
+            default: () => {
+              var _a2;
+              return [((_a2 = slots.subtitle) == null ? void 0 : _a2.call(slots, {
+                subtitle: props.subtitle
+              })) ?? props.subtitle];
+            }
+          }), (_a = slots.default) == null ? void 0 : _a.call(slots, slotProps.value)]), hasAppend && createVNode("div", {
+            "key": "append",
+            "class": "v-list-item__append"
+          }, [!slots.append ? createVNode(Fragment, null, [props.appendIcon && createVNode(VIcon, {
+            "key": "append-icon",
+            "density": props.density,
+            "icon": props.appendIcon
+          }, null), props.appendAvatar && createVNode(VAvatar, {
+            "key": "append-avatar",
+            "density": props.density,
+            "image": props.appendAvatar
+          }, null)]) : createVNode(VDefaultsProvider, {
+            "key": "append-defaults",
+            "disabled": !hasAppendMedia,
+            "defaults": {
+              VAvatar: {
+                density: props.density,
+                image: props.appendAvatar
+              },
+              VIcon: {
+                density: props.density,
+                icon: props.appendIcon
+              },
+              VListItemAction: {
+                end: true
+              }
+            }
+          }, {
+            default: () => {
+              var _a2;
+              return [(_a2 = slots.append) == null ? void 0 : _a2.call(slots, slotProps.value)];
+            }
+          }), createVNode("div", {
+            "class": "v-list-item__spacer"
+          }, null)])];
+        }
+      }), [[resolveDirective("ripple"), isClickable.value && props.ripple]]);
+    });
+    return {};
+  }
+});
+const makeVListSubheaderProps = propsFactory({
+  color: String,
+  inset: Boolean,
+  sticky: Boolean,
+  title: String,
+  ...makeComponentProps(),
+  ...makeTagProps()
+}, "VListSubheader");
+const VListSubheader = genericComponent()({
+  name: "VListSubheader",
+  props: makeVListSubheaderProps(),
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    const {
+      textColorClasses,
+      textColorStyles
+    } = useTextColor(toRef(props, "color"));
+    useRender(() => {
+      const hasText = !!(slots.default || props.title);
+      return createVNode(props.tag, {
+        "class": ["v-list-subheader", {
+          "v-list-subheader--inset": props.inset,
+          "v-list-subheader--sticky": props.sticky
+        }, textColorClasses.value, props.class],
+        "style": [{
+          textColorStyles
+        }, props.style]
+      }, {
+        default: () => {
+          var _a;
+          return [hasText && createVNode("div", {
+            "class": "v-list-subheader__text"
+          }, [((_a = slots.default) == null ? void 0 : _a.call(slots)) ?? props.title])];
+        }
+      });
+    });
+    return {};
+  }
+});
+const makeVDividerProps = propsFactory({
+  color: String,
+  inset: Boolean,
+  length: [Number, String],
+  thickness: [Number, String],
+  vertical: Boolean,
+  ...makeComponentProps(),
+  ...makeThemeProps()
+}, "VDivider");
+const VDivider = genericComponent()({
+  name: "VDivider",
+  props: makeVDividerProps(),
+  setup(props, _ref) {
+    let {
+      attrs
+    } = _ref;
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      textColorClasses,
+      textColorStyles
+    } = useTextColor(toRef(props, "color"));
+    const dividerStyles = computed(() => {
+      const styles = {};
+      if (props.length) {
+        styles[props.vertical ? "maxHeight" : "maxWidth"] = convertToUnit(props.length);
+      }
+      if (props.thickness) {
+        styles[props.vertical ? "borderRightWidth" : "borderTopWidth"] = convertToUnit(props.thickness);
+      }
+      return styles;
+    });
+    useRender(() => createVNode("hr", {
+      "class": [{
+        "v-divider": true,
+        "v-divider--inset": props.inset,
+        "v-divider--vertical": props.vertical
+      }, themeClasses.value, textColorClasses.value, props.class],
+      "style": [dividerStyles.value, textColorStyles.value, props.style],
+      "aria-orientation": !attrs.role || attrs.role === "separator" ? props.vertical ? "vertical" : "horizontal" : void 0,
+      "role": `${attrs.role || "separator"}`
+    }, null));
+    return {};
+  }
+});
+const makeVListChildrenProps = propsFactory({
+  items: Array,
+  returnObject: Boolean
+}, "VListChildren");
+const VListChildren = genericComponent()({
+  name: "VListChildren",
+  props: makeVListChildrenProps(),
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    createList();
+    return () => {
+      var _a, _b;
+      return ((_a = slots.default) == null ? void 0 : _a.call(slots)) ?? ((_b = props.items) == null ? void 0 : _b.map((_ref2) => {
+        var _a2, _b2;
+        let {
+          children,
+          props: itemProps,
+          type,
+          raw: item
+        } = _ref2;
+        if (type === "divider") {
+          return ((_a2 = slots.divider) == null ? void 0 : _a2.call(slots, {
+            props: itemProps
+          })) ?? createVNode(VDivider, itemProps, null);
+        }
+        if (type === "subheader") {
+          return ((_b2 = slots.subheader) == null ? void 0 : _b2.call(slots, {
+            props: itemProps
+          })) ?? createVNode(VListSubheader, itemProps, null);
+        }
+        const slotsWithItem = {
+          subtitle: slots.subtitle ? (slotProps) => {
+            var _a3;
+            return (_a3 = slots.subtitle) == null ? void 0 : _a3.call(slots, {
+              ...slotProps,
+              item
+            });
+          } : void 0,
+          prepend: slots.prepend ? (slotProps) => {
+            var _a3;
+            return (_a3 = slots.prepend) == null ? void 0 : _a3.call(slots, {
+              ...slotProps,
+              item
+            });
+          } : void 0,
+          append: slots.append ? (slotProps) => {
+            var _a3;
+            return (_a3 = slots.append) == null ? void 0 : _a3.call(slots, {
+              ...slotProps,
+              item
+            });
+          } : void 0,
+          title: slots.title ? (slotProps) => {
+            var _a3;
+            return (_a3 = slots.title) == null ? void 0 : _a3.call(slots, {
+              ...slotProps,
+              item
+            });
+          } : void 0
+        };
+        const listGroupProps = VListGroup.filterProps(itemProps);
+        return children ? createVNode(VListGroup, mergeProps({
+          "value": itemProps == null ? void 0 : itemProps.value
+        }, listGroupProps), {
+          activator: (_ref3) => {
+            let {
+              props: activatorProps
+            } = _ref3;
+            const listItemProps = {
+              ...itemProps,
+              ...activatorProps,
+              value: props.returnObject ? item : itemProps.value
+            };
+            return slots.header ? slots.header({
+              props: listItemProps
+            }) : createVNode(VListItem, listItemProps, slotsWithItem);
+          },
+          default: () => createVNode(VListChildren, {
+            "items": children
+          }, slots)
+        }) : slots.item ? slots.item({
+          props: itemProps
+        }) : createVNode(VListItem, mergeProps(itemProps, {
+          "value": props.returnObject ? item : itemProps.value
+        }), slotsWithItem);
+      }));
+    };
+  }
+});
+const makeItemsProps = propsFactory({
+  items: {
+    type: Array,
+    default: () => []
+  },
+  itemTitle: {
+    type: [String, Array, Function],
+    default: "title"
+  },
+  itemValue: {
+    type: [String, Array, Function],
+    default: "value"
+  },
+  itemChildren: {
+    type: [Boolean, String, Array, Function],
+    default: "children"
+  },
+  itemProps: {
+    type: [Boolean, String, Array, Function],
+    default: "props"
+  },
+  returnObject: Boolean,
+  valueComparator: {
+    type: Function,
+    default: deepEqual
+  }
+}, "list-items");
+function transformItem$1(props, item) {
+  const title = getPropertyFromItem(item, props.itemTitle, item);
+  const value = getPropertyFromItem(item, props.itemValue, title);
+  const children = getPropertyFromItem(item, props.itemChildren);
+  const itemProps = props.itemProps === true ? typeof item === "object" && item != null && !Array.isArray(item) ? "children" in item ? omit(item, ["children"]) : item : void 0 : getPropertyFromItem(item, props.itemProps);
+  const _props = {
+    title,
+    value,
+    ...itemProps
+  };
+  return {
+    title: String(_props.title ?? ""),
+    value: _props.value,
+    props: _props,
+    children: Array.isArray(children) ? transformItems$1(props, children) : void 0,
+    raw: item
+  };
+}
+function transformItems$1(props, items) {
+  const array = [];
+  for (const item of items) {
+    array.push(transformItem$1(props, item));
+  }
+  return array;
+}
+function useItems(props) {
+  const items = computed(() => transformItems$1(props, props.items));
+  const hasNullItem = computed(() => items.value.some((item) => item.value === null));
+  function transformIn(value) {
+    if (!hasNullItem.value) {
+      value = value.filter((v) => v !== null);
+    }
+    return value.map((v) => {
+      if (props.returnObject && typeof v === "string") {
+        return transformItem$1(props, v);
+      }
+      return items.value.find((item) => props.valueComparator(v, item.value)) || transformItem$1(props, v);
+    });
+  }
+  function transformOut(value) {
+    return props.returnObject ? value.map((_ref) => {
+      let {
+        raw
+      } = _ref;
+      return raw;
+    }) : value.map((_ref2) => {
+      let {
+        value: value2
+      } = _ref2;
+      return value2;
+    });
+  }
+  return {
+    items,
+    transformIn,
+    transformOut
+  };
+}
+function isPrimitive(value) {
+  return typeof value === "string" || typeof value === "number" || typeof value === "boolean";
+}
+function transformItem(props, item) {
+  const type = getPropertyFromItem(item, props.itemType, "item");
+  const title = isPrimitive(item) ? item : getPropertyFromItem(item, props.itemTitle);
+  const value = getPropertyFromItem(item, props.itemValue, void 0);
+  const children = getPropertyFromItem(item, props.itemChildren);
+  const itemProps = props.itemProps === true ? omit(item, ["children"]) : getPropertyFromItem(item, props.itemProps);
+  const _props = {
+    title,
+    value,
+    ...itemProps
+  };
+  return {
+    type,
+    title: _props.title,
+    value: _props.value,
+    props: _props,
+    children: type === "item" && children ? transformItems(props, children) : void 0,
+    raw: item
+  };
+}
+function transformItems(props, items) {
+  const array = [];
+  for (const item of items) {
+    array.push(transformItem(props, item));
+  }
+  return array;
+}
+function useListItems(props) {
+  const items = computed(() => transformItems(props, props.items));
+  return {
+    items
+  };
+}
+const makeVListProps = propsFactory({
+  baseColor: String,
+  /* @deprecated */
+  activeColor: String,
+  activeClass: String,
+  bgColor: String,
+  disabled: Boolean,
+  expandIcon: String,
+  collapseIcon: String,
+  lines: {
+    type: [Boolean, String],
+    default: "one"
+  },
+  slim: Boolean,
+  nav: Boolean,
+  ...makeNestedProps({
+    selectStrategy: "single-leaf",
+    openStrategy: "list"
+  }),
+  ...makeBorderProps(),
+  ...makeComponentProps(),
+  ...makeDensityProps(),
+  ...makeDimensionProps(),
+  ...makeElevationProps(),
+  itemType: {
+    type: String,
+    default: "type"
+  },
+  ...makeItemsProps(),
+  ...makeRoundedProps(),
+  ...makeTagProps(),
+  ...makeThemeProps(),
+  ...makeVariantProps({
+    variant: "text"
+  })
+}, "VList");
+const VList = genericComponent()({
+  name: "VList",
+  props: makeVListProps(),
+  emits: {
+    "update:selected": (value) => true,
+    "update:opened": (value) => true,
+    "click:open": (value) => true,
+    "click:select": (value) => true
+  },
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    const {
+      items
+    } = useListItems(props);
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      backgroundColorClasses,
+      backgroundColorStyles
+    } = useBackgroundColor(toRef(props, "bgColor"));
+    const {
+      borderClasses
+    } = useBorder(props);
+    const {
+      densityClasses
+    } = useDensity(props);
+    const {
+      dimensionStyles
+    } = useDimension(props);
+    const {
+      elevationClasses
+    } = useElevation(props);
+    const {
+      roundedClasses
+    } = useRounded(props);
+    const {
+      open,
+      select
+    } = useNested(props);
+    const lineClasses = computed(() => props.lines ? `v-list--${props.lines}-line` : void 0);
+    const activeColor = toRef(props, "activeColor");
+    const baseColor = toRef(props, "baseColor");
+    const color = toRef(props, "color");
+    createList();
+    provideDefaults({
+      VListGroup: {
+        activeColor,
+        baseColor,
+        color,
+        expandIcon: toRef(props, "expandIcon"),
+        collapseIcon: toRef(props, "collapseIcon")
+      },
+      VListItem: {
+        activeClass: toRef(props, "activeClass"),
+        activeColor,
+        baseColor,
+        color,
+        density: toRef(props, "density"),
+        disabled: toRef(props, "disabled"),
+        lines: toRef(props, "lines"),
+        nav: toRef(props, "nav"),
+        slim: toRef(props, "slim"),
+        variant: toRef(props, "variant")
+      }
+    });
+    const isFocused = shallowRef(false);
+    const contentRef = ref();
+    function onFocusin(e) {
+      isFocused.value = true;
+    }
+    function onFocusout(e) {
+      isFocused.value = false;
+    }
+    function onFocus(e) {
+      var _a;
+      if (!isFocused.value && !(e.relatedTarget && ((_a = contentRef.value) == null ? void 0 : _a.contains(e.relatedTarget)))) focus();
+    }
+    function onKeydown(e) {
+      if (!contentRef.value) return;
+      if (e.key === "ArrowDown") {
+        focus("next");
+      } else if (e.key === "ArrowUp") {
+        focus("prev");
+      } else if (e.key === "Home") {
+        focus("first");
+      } else if (e.key === "End") {
+        focus("last");
+      } else {
+        return;
+      }
+      e.preventDefault();
+    }
+    function onMousedown(e) {
+      isFocused.value = true;
+    }
+    function focus(location2) {
+      if (contentRef.value) {
+        return focusChild(contentRef.value, location2);
+      }
+    }
+    useRender(() => {
+      return createVNode(props.tag, {
+        "ref": contentRef,
+        "class": ["v-list", {
+          "v-list--disabled": props.disabled,
+          "v-list--nav": props.nav,
+          "v-list--slim": props.slim
+        }, themeClasses.value, backgroundColorClasses.value, borderClasses.value, densityClasses.value, elevationClasses.value, lineClasses.value, roundedClasses.value, props.class],
+        "style": [backgroundColorStyles.value, dimensionStyles.value, props.style],
+        "tabindex": props.disabled || isFocused.value ? -1 : 0,
+        "role": "listbox",
+        "aria-activedescendant": void 0,
+        "onFocusin": onFocusin,
+        "onFocusout": onFocusout,
+        "onFocus": onFocus,
+        "onKeydown": onKeydown,
+        "onMousedown": onMousedown
+      }, {
+        default: () => [createVNode(VListChildren, {
+          "items": items.value,
+          "returnObject": props.returnObject
+        }, slots)]
+      });
+    });
+    return {
+      open,
+      select,
+      focus
+    };
+  }
+});
 const makeVMainProps = propsFactory({
   scrollable: Boolean,
   ...makeComponentProps(),
@@ -17626,22 +19325,1516 @@ const VMain = genericComponent()({
     return {};
   }
 });
-const _hoisted_1 = { class: "header pl-4" };
-const _hoisted_2 = /* @__PURE__ */ createBaseVNode("img", {
+function elementToViewport(point, offset) {
+  return {
+    x: point.x + offset.x,
+    y: point.y + offset.y
+  };
+}
+function getOffset(a, b) {
+  return {
+    x: a.x - b.x,
+    y: a.y - b.y
+  };
+}
+function anchorToPoint(anchor, box) {
+  if (anchor.side === "top" || anchor.side === "bottom") {
+    const {
+      side,
+      align
+    } = anchor;
+    const x = align === "left" ? 0 : align === "center" ? box.width / 2 : align === "right" ? box.width : align;
+    const y = side === "top" ? 0 : side === "bottom" ? box.height : side;
+    return elementToViewport({
+      x,
+      y
+    }, box);
+  } else if (anchor.side === "left" || anchor.side === "right") {
+    const {
+      side,
+      align
+    } = anchor;
+    const x = side === "left" ? 0 : side === "right" ? box.width : side;
+    const y = align === "top" ? 0 : align === "center" ? box.height / 2 : align === "bottom" ? box.height : align;
+    return elementToViewport({
+      x,
+      y
+    }, box);
+  }
+  return elementToViewport({
+    x: box.width / 2,
+    y: box.height / 2
+  }, box);
+}
+const locationStrategies = {
+  static: staticLocationStrategy,
+  // specific viewport position, usually centered
+  connected: connectedLocationStrategy
+  // connected to a certain element
+};
+const makeLocationStrategyProps = propsFactory({
+  locationStrategy: {
+    type: [String, Function],
+    default: "static",
+    validator: (val) => typeof val === "function" || val in locationStrategies
+  },
+  location: {
+    type: String,
+    default: "bottom"
+  },
+  origin: {
+    type: String,
+    default: "auto"
+  },
+  offset: [Number, String, Array]
+}, "VOverlay-location-strategies");
+function useLocationStrategies(props, data) {
+  const contentStyles = ref({});
+  const updateLocation = ref();
+  if (IN_BROWSER) {
+    useToggleScope(() => !!(data.isActive.value && props.locationStrategy), (reset) => {
+      var _a, _b;
+      watch(() => props.locationStrategy, reset);
+      onScopeDispose(() => {
+        window.removeEventListener("resize", onResize);
+        updateLocation.value = void 0;
+      });
+      window.addEventListener("resize", onResize, {
+        passive: true
+      });
+      if (typeof props.locationStrategy === "function") {
+        updateLocation.value = (_a = props.locationStrategy(data, props, contentStyles)) == null ? void 0 : _a.updateLocation;
+      } else {
+        updateLocation.value = (_b = locationStrategies[props.locationStrategy](data, props, contentStyles)) == null ? void 0 : _b.updateLocation;
+      }
+    });
+  }
+  function onResize(e) {
+    var _a;
+    (_a = updateLocation.value) == null ? void 0 : _a.call(updateLocation, e);
+  }
+  return {
+    contentStyles,
+    updateLocation
+  };
+}
+function staticLocationStrategy() {
+}
+function getIntrinsicSize(el, isRtl) {
+  if (isRtl) {
+    el.style.removeProperty("left");
+  } else {
+    el.style.removeProperty("right");
+  }
+  const contentBox = nullifyTransforms(el);
+  if (isRtl) {
+    contentBox.x += parseFloat(el.style.right || 0);
+  } else {
+    contentBox.x -= parseFloat(el.style.left || 0);
+  }
+  contentBox.y -= parseFloat(el.style.top || 0);
+  return contentBox;
+}
+function connectedLocationStrategy(data, props, contentStyles) {
+  const activatorFixed = Array.isArray(data.target.value) || isFixedPosition(data.target.value);
+  if (activatorFixed) {
+    Object.assign(contentStyles.value, {
+      position: "fixed",
+      top: 0,
+      [data.isRtl.value ? "right" : "left"]: 0
+    });
+  }
+  const {
+    preferredAnchor,
+    preferredOrigin
+  } = destructComputed(() => {
+    const parsedAnchor = parseAnchor(props.location, data.isRtl.value);
+    const parsedOrigin = props.origin === "overlap" ? parsedAnchor : props.origin === "auto" ? flipSide(parsedAnchor) : parseAnchor(props.origin, data.isRtl.value);
+    if (parsedAnchor.side === parsedOrigin.side && parsedAnchor.align === flipAlign(parsedOrigin).align) {
+      return {
+        preferredAnchor: flipCorner(parsedAnchor),
+        preferredOrigin: flipCorner(parsedOrigin)
+      };
+    } else {
+      return {
+        preferredAnchor: parsedAnchor,
+        preferredOrigin: parsedOrigin
+      };
+    }
+  });
+  const [minWidth, minHeight, maxWidth, maxHeight] = ["minWidth", "minHeight", "maxWidth", "maxHeight"].map((key) => {
+    return computed(() => {
+      const val = parseFloat(props[key]);
+      return isNaN(val) ? Infinity : val;
+    });
+  });
+  const offset = computed(() => {
+    if (Array.isArray(props.offset)) {
+      return props.offset;
+    }
+    if (typeof props.offset === "string") {
+      const offset2 = props.offset.split(" ").map(parseFloat);
+      if (offset2.length < 2) offset2.push(0);
+      return offset2;
+    }
+    return typeof props.offset === "number" ? [props.offset, 0] : [0, 0];
+  });
+  let observe = false;
+  const observer = new ResizeObserver(() => {
+    if (observe) updateLocation();
+  });
+  watch([data.target, data.contentEl], (_ref, _ref2) => {
+    let [newTarget, newContentEl] = _ref;
+    let [oldTarget, oldContentEl] = _ref2;
+    if (oldTarget && !Array.isArray(oldTarget)) observer.unobserve(oldTarget);
+    if (newTarget && !Array.isArray(newTarget)) observer.observe(newTarget);
+    if (oldContentEl) observer.unobserve(oldContentEl);
+    if (newContentEl) observer.observe(newContentEl);
+  }, {
+    immediate: true
+  });
+  onScopeDispose(() => {
+    observer.disconnect();
+  });
+  function updateLocation() {
+    observe = false;
+    requestAnimationFrame(() => observe = true);
+    if (!data.target.value || !data.contentEl.value) return;
+    const targetBox = getTargetBox(data.target.value);
+    const contentBox = getIntrinsicSize(data.contentEl.value, data.isRtl.value);
+    const scrollParents = getScrollParents(data.contentEl.value);
+    const viewportMargin = 12;
+    if (!scrollParents.length) {
+      scrollParents.push(document.documentElement);
+      if (!(data.contentEl.value.style.top && data.contentEl.value.style.left)) {
+        contentBox.x -= parseFloat(document.documentElement.style.getPropertyValue("--v-body-scroll-x") || 0);
+        contentBox.y -= parseFloat(document.documentElement.style.getPropertyValue("--v-body-scroll-y") || 0);
+      }
+    }
+    const viewport = scrollParents.reduce((box, el) => {
+      const rect = el.getBoundingClientRect();
+      const scrollBox = new Box({
+        x: el === document.documentElement ? 0 : rect.x,
+        y: el === document.documentElement ? 0 : rect.y,
+        width: el.clientWidth,
+        height: el.clientHeight
+      });
+      if (box) {
+        return new Box({
+          x: Math.max(box.left, scrollBox.left),
+          y: Math.max(box.top, scrollBox.top),
+          width: Math.min(box.right, scrollBox.right) - Math.max(box.left, scrollBox.left),
+          height: Math.min(box.bottom, scrollBox.bottom) - Math.max(box.top, scrollBox.top)
+        });
+      }
+      return scrollBox;
+    }, void 0);
+    viewport.x += viewportMargin;
+    viewport.y += viewportMargin;
+    viewport.width -= viewportMargin * 2;
+    viewport.height -= viewportMargin * 2;
+    let placement = {
+      anchor: preferredAnchor.value,
+      origin: preferredOrigin.value
+    };
+    function checkOverflow(_placement) {
+      const box = new Box(contentBox);
+      const targetPoint = anchorToPoint(_placement.anchor, targetBox);
+      const contentPoint = anchorToPoint(_placement.origin, box);
+      let {
+        x: x2,
+        y: y2
+      } = getOffset(targetPoint, contentPoint);
+      switch (_placement.anchor.side) {
+        case "top":
+          y2 -= offset.value[0];
+          break;
+        case "bottom":
+          y2 += offset.value[0];
+          break;
+        case "left":
+          x2 -= offset.value[0];
+          break;
+        case "right":
+          x2 += offset.value[0];
+          break;
+      }
+      switch (_placement.anchor.align) {
+        case "top":
+          y2 -= offset.value[1];
+          break;
+        case "bottom":
+          y2 += offset.value[1];
+          break;
+        case "left":
+          x2 -= offset.value[1];
+          break;
+        case "right":
+          x2 += offset.value[1];
+          break;
+      }
+      box.x += x2;
+      box.y += y2;
+      box.width = Math.min(box.width, maxWidth.value);
+      box.height = Math.min(box.height, maxHeight.value);
+      const overflows = getOverflow(box, viewport);
+      return {
+        overflows,
+        x: x2,
+        y: y2
+      };
+    }
+    let x = 0;
+    let y = 0;
+    const available = {
+      x: 0,
+      y: 0
+    };
+    const flipped = {
+      x: false,
+      y: false
+    };
+    let resets = -1;
+    while (true) {
+      if (resets++ > 10) {
+        break;
+      }
+      const {
+        x: _x,
+        y: _y,
+        overflows
+      } = checkOverflow(placement);
+      x += _x;
+      y += _y;
+      contentBox.x += _x;
+      contentBox.y += _y;
+      {
+        const axis2 = getAxis(placement.anchor);
+        const hasOverflowX = overflows.x.before || overflows.x.after;
+        const hasOverflowY = overflows.y.before || overflows.y.after;
+        let reset = false;
+        ["x", "y"].forEach((key) => {
+          if (key === "x" && hasOverflowX && !flipped.x || key === "y" && hasOverflowY && !flipped.y) {
+            const newPlacement = {
+              anchor: {
+                ...placement.anchor
+              },
+              origin: {
+                ...placement.origin
+              }
+            };
+            const flip = key === "x" ? axis2 === "y" ? flipAlign : flipSide : axis2 === "y" ? flipSide : flipAlign;
+            newPlacement.anchor = flip(newPlacement.anchor);
+            newPlacement.origin = flip(newPlacement.origin);
+            const {
+              overflows: newOverflows
+            } = checkOverflow(newPlacement);
+            if (newOverflows[key].before <= overflows[key].before && newOverflows[key].after <= overflows[key].after || newOverflows[key].before + newOverflows[key].after < (overflows[key].before + overflows[key].after) / 2) {
+              placement = newPlacement;
+              reset = flipped[key] = true;
+            }
+          }
+        });
+        if (reset) continue;
+      }
+      if (overflows.x.before) {
+        x += overflows.x.before;
+        contentBox.x += overflows.x.before;
+      }
+      if (overflows.x.after) {
+        x -= overflows.x.after;
+        contentBox.x -= overflows.x.after;
+      }
+      if (overflows.y.before) {
+        y += overflows.y.before;
+        contentBox.y += overflows.y.before;
+      }
+      if (overflows.y.after) {
+        y -= overflows.y.after;
+        contentBox.y -= overflows.y.after;
+      }
+      {
+        const overflows2 = getOverflow(contentBox, viewport);
+        available.x = viewport.width - overflows2.x.before - overflows2.x.after;
+        available.y = viewport.height - overflows2.y.before - overflows2.y.after;
+        x += overflows2.x.before;
+        contentBox.x += overflows2.x.before;
+        y += overflows2.y.before;
+        contentBox.y += overflows2.y.before;
+      }
+      break;
+    }
+    const axis = getAxis(placement.anchor);
+    Object.assign(contentStyles.value, {
+      "--v-overlay-anchor-origin": `${placement.anchor.side} ${placement.anchor.align}`,
+      transformOrigin: `${placement.origin.side} ${placement.origin.align}`,
+      // transform: `translate(${pixelRound(x)}px, ${pixelRound(y)}px)`,
+      top: convertToUnit(pixelRound(y)),
+      left: data.isRtl.value ? void 0 : convertToUnit(pixelRound(x)),
+      right: data.isRtl.value ? convertToUnit(pixelRound(-x)) : void 0,
+      minWidth: convertToUnit(axis === "y" ? Math.min(minWidth.value, targetBox.width) : minWidth.value),
+      maxWidth: convertToUnit(pixelCeil(clamp(available.x, minWidth.value === Infinity ? 0 : minWidth.value, maxWidth.value))),
+      maxHeight: convertToUnit(pixelCeil(clamp(available.y, minHeight.value === Infinity ? 0 : minHeight.value, maxHeight.value)))
+    });
+    return {
+      available,
+      contentBox
+    };
+  }
+  watch(() => [preferredAnchor.value, preferredOrigin.value, props.offset, props.minWidth, props.minHeight, props.maxWidth, props.maxHeight], () => updateLocation());
+  nextTick(() => {
+    const result = updateLocation();
+    if (!result) return;
+    const {
+      available,
+      contentBox
+    } = result;
+    if (contentBox.height > available.y) {
+      requestAnimationFrame(() => {
+        updateLocation();
+        requestAnimationFrame(() => {
+          updateLocation();
+        });
+      });
+    }
+  });
+  return {
+    updateLocation
+  };
+}
+function pixelRound(val) {
+  return Math.round(val * devicePixelRatio) / devicePixelRatio;
+}
+function pixelCeil(val) {
+  return Math.ceil(val * devicePixelRatio) / devicePixelRatio;
+}
+let clean = true;
+const frames = [];
+function requestNewFrame(cb) {
+  if (!clean || frames.length) {
+    frames.push(cb);
+    run();
+  } else {
+    clean = false;
+    cb();
+    run();
+  }
+}
+let raf = -1;
+function run() {
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(() => {
+    const frame = frames.shift();
+    if (frame) frame();
+    if (frames.length) run();
+    else clean = true;
+  });
+}
+const scrollStrategies = {
+  none: null,
+  close: closeScrollStrategy,
+  block: blockScrollStrategy,
+  reposition: repositionScrollStrategy
+};
+const makeScrollStrategyProps = propsFactory({
+  scrollStrategy: {
+    type: [String, Function],
+    default: "block",
+    validator: (val) => typeof val === "function" || val in scrollStrategies
+  }
+}, "VOverlay-scroll-strategies");
+function useScrollStrategies(props, data) {
+  if (!IN_BROWSER) return;
+  let scope;
+  watchEffect(async () => {
+    scope == null ? void 0 : scope.stop();
+    if (!(data.isActive.value && props.scrollStrategy)) return;
+    scope = effectScope();
+    await nextTick();
+    scope.active && scope.run(() => {
+      var _a;
+      if (typeof props.scrollStrategy === "function") {
+        props.scrollStrategy(data, props, scope);
+      } else {
+        (_a = scrollStrategies[props.scrollStrategy]) == null ? void 0 : _a.call(scrollStrategies, data, props, scope);
+      }
+    });
+  });
+  onScopeDispose(() => {
+    scope == null ? void 0 : scope.stop();
+  });
+}
+function closeScrollStrategy(data) {
+  function onScroll(e) {
+    data.isActive.value = false;
+  }
+  bindScroll(data.targetEl.value ?? data.contentEl.value, onScroll);
+}
+function blockScrollStrategy(data, props) {
+  var _a;
+  const offsetParent = (_a = data.root.value) == null ? void 0 : _a.offsetParent;
+  const scrollElements = [.../* @__PURE__ */ new Set([...getScrollParents(data.targetEl.value, props.contained ? offsetParent : void 0), ...getScrollParents(data.contentEl.value, props.contained ? offsetParent : void 0)])].filter((el) => !el.classList.contains("v-overlay-scroll-blocked"));
+  const scrollbarWidth = window.innerWidth - document.documentElement.offsetWidth;
+  const scrollableParent = ((el) => hasScrollbar(el) && el)(offsetParent || document.documentElement);
+  if (scrollableParent) {
+    data.root.value.classList.add("v-overlay--scroll-blocked");
+  }
+  scrollElements.forEach((el, i) => {
+    el.style.setProperty("--v-body-scroll-x", convertToUnit(-el.scrollLeft));
+    el.style.setProperty("--v-body-scroll-y", convertToUnit(-el.scrollTop));
+    if (el !== document.documentElement) {
+      el.style.setProperty("--v-scrollbar-offset", convertToUnit(scrollbarWidth));
+    }
+    el.classList.add("v-overlay-scroll-blocked");
+  });
+  onScopeDispose(() => {
+    scrollElements.forEach((el, i) => {
+      const x = parseFloat(el.style.getPropertyValue("--v-body-scroll-x"));
+      const y = parseFloat(el.style.getPropertyValue("--v-body-scroll-y"));
+      const scrollBehavior = el.style.scrollBehavior;
+      el.style.scrollBehavior = "auto";
+      el.style.removeProperty("--v-body-scroll-x");
+      el.style.removeProperty("--v-body-scroll-y");
+      el.style.removeProperty("--v-scrollbar-offset");
+      el.classList.remove("v-overlay-scroll-blocked");
+      el.scrollLeft = -x;
+      el.scrollTop = -y;
+      el.style.scrollBehavior = scrollBehavior;
+    });
+    if (scrollableParent) {
+      data.root.value.classList.remove("v-overlay--scroll-blocked");
+    }
+  });
+}
+function repositionScrollStrategy(data, props, scope) {
+  let slow = false;
+  let raf2 = -1;
+  let ric = -1;
+  function update(e) {
+    requestNewFrame(() => {
+      var _a, _b;
+      const start = performance.now();
+      (_b = (_a = data.updateLocation).value) == null ? void 0 : _b.call(_a, e);
+      const time = performance.now() - start;
+      slow = time / (1e3 / 60) > 2;
+    });
+  }
+  ric = (typeof requestIdleCallback === "undefined" ? (cb) => cb() : requestIdleCallback)(() => {
+    scope.run(() => {
+      bindScroll(data.targetEl.value ?? data.contentEl.value, (e) => {
+        if (slow) {
+          cancelAnimationFrame(raf2);
+          raf2 = requestAnimationFrame(() => {
+            raf2 = requestAnimationFrame(() => {
+              update(e);
+            });
+          });
+        } else {
+          update(e);
+        }
+      });
+    });
+  });
+  onScopeDispose(() => {
+    typeof cancelIdleCallback !== "undefined" && cancelIdleCallback(ric);
+    cancelAnimationFrame(raf2);
+  });
+}
+function bindScroll(el, onScroll) {
+  const scrollElements = [document, ...getScrollParents(el)];
+  scrollElements.forEach((el2) => {
+    el2.addEventListener("scroll", onScroll, {
+      passive: true
+    });
+  });
+  onScopeDispose(() => {
+    scrollElements.forEach((el2) => {
+      el2.removeEventListener("scroll", onScroll);
+    });
+  });
+}
+const VMenuSymbol = Symbol.for("vuetify:v-menu");
+const makeDelayProps = propsFactory({
+  closeDelay: [Number, String],
+  openDelay: [Number, String]
+}, "delay");
+function useDelay(props, cb) {
+  let clearDelay = () => {
+  };
+  function runDelay(isOpening) {
+    clearDelay == null ? void 0 : clearDelay();
+    const delay = Number(isOpening ? props.openDelay : props.closeDelay);
+    return new Promise((resolve2) => {
+      clearDelay = defer(delay, () => {
+        cb == null ? void 0 : cb(isOpening);
+        resolve2(isOpening);
+      });
+    });
+  }
+  function runOpenDelay() {
+    return runDelay(true);
+  }
+  function runCloseDelay() {
+    return runDelay(false);
+  }
+  return {
+    clearDelay,
+    runOpenDelay,
+    runCloseDelay
+  };
+}
+const makeActivatorProps = propsFactory({
+  target: [String, Object],
+  activator: [String, Object],
+  activatorProps: {
+    type: Object,
+    default: () => ({})
+  },
+  openOnClick: {
+    type: Boolean,
+    default: void 0
+  },
+  openOnHover: Boolean,
+  openOnFocus: {
+    type: Boolean,
+    default: void 0
+  },
+  closeOnContentClick: Boolean,
+  ...makeDelayProps()
+}, "VOverlay-activator");
+function useActivator(props, _ref) {
+  let {
+    isActive,
+    isTop
+  } = _ref;
+  const vm = getCurrentInstance("useActivator");
+  const activatorEl = ref();
+  let isHovered = false;
+  let isFocused = false;
+  let firstEnter = true;
+  const openOnFocus = computed(() => props.openOnFocus || props.openOnFocus == null && props.openOnHover);
+  const openOnClick = computed(() => props.openOnClick || props.openOnClick == null && !props.openOnHover && !openOnFocus.value);
+  const {
+    runOpenDelay,
+    runCloseDelay
+  } = useDelay(props, (value) => {
+    if (value === (props.openOnHover && isHovered || openOnFocus.value && isFocused) && !(props.openOnHover && isActive.value && !isTop.value)) {
+      if (isActive.value !== value) {
+        firstEnter = true;
+      }
+      isActive.value = value;
+    }
+  });
+  const cursorTarget = ref();
+  const availableEvents = {
+    onClick: (e) => {
+      e.stopPropagation();
+      activatorEl.value = e.currentTarget || e.target;
+      if (!isActive.value) {
+        cursorTarget.value = [e.clientX, e.clientY];
+      }
+      isActive.value = !isActive.value;
+    },
+    onMouseenter: (e) => {
+      var _a;
+      if ((_a = e.sourceCapabilities) == null ? void 0 : _a.firesTouchEvents) return;
+      isHovered = true;
+      activatorEl.value = e.currentTarget || e.target;
+      runOpenDelay();
+    },
+    onMouseleave: (e) => {
+      isHovered = false;
+      runCloseDelay();
+    },
+    onFocus: (e) => {
+      if (matchesSelector(e.target, ":focus-visible") === false) return;
+      isFocused = true;
+      e.stopPropagation();
+      activatorEl.value = e.currentTarget || e.target;
+      runOpenDelay();
+    },
+    onBlur: (e) => {
+      isFocused = false;
+      e.stopPropagation();
+      runCloseDelay();
+    }
+  };
+  const activatorEvents = computed(() => {
+    const events = {};
+    if (openOnClick.value) {
+      events.onClick = availableEvents.onClick;
+    }
+    if (props.openOnHover) {
+      events.onMouseenter = availableEvents.onMouseenter;
+      events.onMouseleave = availableEvents.onMouseleave;
+    }
+    if (openOnFocus.value) {
+      events.onFocus = availableEvents.onFocus;
+      events.onBlur = availableEvents.onBlur;
+    }
+    return events;
+  });
+  const contentEvents = computed(() => {
+    const events = {};
+    if (props.openOnHover) {
+      events.onMouseenter = () => {
+        isHovered = true;
+        runOpenDelay();
+      };
+      events.onMouseleave = () => {
+        isHovered = false;
+        runCloseDelay();
+      };
+    }
+    if (openOnFocus.value) {
+      events.onFocusin = () => {
+        isFocused = true;
+        runOpenDelay();
+      };
+      events.onFocusout = () => {
+        isFocused = false;
+        runCloseDelay();
+      };
+    }
+    if (props.closeOnContentClick) {
+      const menu = inject$1(VMenuSymbol, null);
+      events.onClick = () => {
+        isActive.value = false;
+        menu == null ? void 0 : menu.closeParents();
+      };
+    }
+    return events;
+  });
+  const scrimEvents = computed(() => {
+    const events = {};
+    if (props.openOnHover) {
+      events.onMouseenter = () => {
+        if (firstEnter) {
+          isHovered = true;
+          firstEnter = false;
+          runOpenDelay();
+        }
+      };
+      events.onMouseleave = () => {
+        isHovered = false;
+        runCloseDelay();
+      };
+    }
+    return events;
+  });
+  watch(isTop, (val) => {
+    if (val && (props.openOnHover && !isHovered && (!openOnFocus.value || !isFocused) || openOnFocus.value && !isFocused && (!props.openOnHover || !isHovered))) {
+      isActive.value = false;
+    }
+  });
+  watch(isActive, (val) => {
+    if (!val) {
+      setTimeout(() => {
+        cursorTarget.value = void 0;
+      });
+    }
+  }, {
+    flush: "post"
+  });
+  const activatorRef = ref();
+  watchEffect(() => {
+    if (!activatorRef.value) return;
+    nextTick(() => {
+      activatorEl.value = refElement(activatorRef.value);
+    });
+  });
+  const targetRef = ref();
+  const target = computed(() => {
+    if (props.target === "cursor" && cursorTarget.value) return cursorTarget.value;
+    if (targetRef.value) return refElement(targetRef.value);
+    return getTarget(props.target, vm) || activatorEl.value;
+  });
+  const targetEl = computed(() => {
+    return Array.isArray(target.value) ? void 0 : target.value;
+  });
+  let scope;
+  watch(() => !!props.activator, (val) => {
+    if (val && IN_BROWSER) {
+      scope = effectScope();
+      scope.run(() => {
+        _useActivator(props, vm, {
+          activatorEl,
+          activatorEvents
+        });
+      });
+    } else if (scope) {
+      scope.stop();
+    }
+  }, {
+    flush: "post",
+    immediate: true
+  });
+  onScopeDispose(() => {
+    scope == null ? void 0 : scope.stop();
+  });
+  return {
+    activatorEl,
+    activatorRef,
+    target,
+    targetEl,
+    targetRef,
+    activatorEvents,
+    contentEvents,
+    scrimEvents
+  };
+}
+function _useActivator(props, vm, _ref2) {
+  let {
+    activatorEl,
+    activatorEvents
+  } = _ref2;
+  watch(() => props.activator, (val, oldVal) => {
+    if (oldVal && val !== oldVal) {
+      const activator = getActivator(oldVal);
+      activator && unbindActivatorProps(activator);
+    }
+    if (val) {
+      nextTick(() => bindActivatorProps());
+    }
+  }, {
+    immediate: true
+  });
+  watch(() => props.activatorProps, () => {
+    bindActivatorProps();
+  });
+  onScopeDispose(() => {
+    unbindActivatorProps();
+  });
+  function bindActivatorProps() {
+    let el = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getActivator();
+    let _props = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : props.activatorProps;
+    if (!el) return;
+    bindProps(el, mergeProps(activatorEvents.value, _props));
+  }
+  function unbindActivatorProps() {
+    let el = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : getActivator();
+    let _props = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : props.activatorProps;
+    if (!el) return;
+    unbindProps(el, mergeProps(activatorEvents.value, _props));
+  }
+  function getActivator() {
+    let selector = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : props.activator;
+    const activator = getTarget(selector, vm);
+    activatorEl.value = (activator == null ? void 0 : activator.nodeType) === Node.ELEMENT_NODE ? activator : void 0;
+    return activatorEl.value;
+  }
+}
+function getTarget(selector, vm) {
+  var _a, _b;
+  if (!selector) return;
+  let target;
+  if (selector === "parent") {
+    let el = (_b = (_a = vm == null ? void 0 : vm.proxy) == null ? void 0 : _a.$el) == null ? void 0 : _b.parentNode;
+    while (el == null ? void 0 : el.hasAttribute("data-no-activator")) {
+      el = el.parentNode;
+    }
+    target = el;
+  } else if (typeof selector === "string") {
+    target = document.querySelector(selector);
+  } else if ("$el" in selector) {
+    target = selector.$el;
+  } else {
+    target = selector;
+  }
+  return target;
+}
+function useHydration() {
+  if (!IN_BROWSER) return shallowRef(false);
+  const {
+    ssr
+  } = useDisplay();
+  if (ssr) {
+    const isMounted = shallowRef(false);
+    onMounted(() => {
+      isMounted.value = true;
+    });
+    return isMounted;
+  } else {
+    return shallowRef(true);
+  }
+}
+const makeLazyProps = propsFactory({
+  eager: Boolean
+}, "lazy");
+function useLazy(props, active) {
+  const isBooted = shallowRef(false);
+  const hasContent = computed(() => isBooted.value || props.eager || active.value);
+  watch(active, () => isBooted.value = true);
+  function onAfterLeave() {
+    if (!props.eager) isBooted.value = false;
+  }
+  return {
+    isBooted,
+    hasContent,
+    onAfterLeave
+  };
+}
+function useScopeId() {
+  const vm = getCurrentInstance("useScopeId");
+  const scopeId = vm.vnode.scopeId;
+  return {
+    scopeId: scopeId ? {
+      [scopeId]: ""
+    } : void 0
+  };
+}
+const StackSymbol = Symbol.for("vuetify:stack");
+const globalStack = reactive([]);
+function useStack(isActive, zIndex, disableGlobalStack) {
+  const vm = getCurrentInstance("useStack");
+  const createStackEntry = !disableGlobalStack;
+  const parent = inject$1(StackSymbol, void 0);
+  const stack2 = reactive({
+    activeChildren: /* @__PURE__ */ new Set()
+  });
+  provide(StackSymbol, stack2);
+  const _zIndex = shallowRef(+zIndex.value);
+  useToggleScope(isActive, () => {
+    var _a;
+    const lastZIndex = (_a = globalStack.at(-1)) == null ? void 0 : _a[1];
+    _zIndex.value = lastZIndex ? lastZIndex + 10 : +zIndex.value;
+    if (createStackEntry) {
+      globalStack.push([vm.uid, _zIndex.value]);
+    }
+    parent == null ? void 0 : parent.activeChildren.add(vm.uid);
+    onScopeDispose(() => {
+      if (createStackEntry) {
+        const idx = toRaw(globalStack).findIndex((v) => v[0] === vm.uid);
+        globalStack.splice(idx, 1);
+      }
+      parent == null ? void 0 : parent.activeChildren.delete(vm.uid);
+    });
+  });
+  const globalTop = shallowRef(true);
+  if (createStackEntry) {
+    watchEffect(() => {
+      var _a;
+      const _isTop = ((_a = globalStack.at(-1)) == null ? void 0 : _a[0]) === vm.uid;
+      setTimeout(() => globalTop.value = _isTop);
+    });
+  }
+  const localTop = computed(() => !stack2.activeChildren.size);
+  return {
+    globalTop: readonly(globalTop),
+    localTop,
+    stackStyles: computed(() => ({
+      zIndex: _zIndex.value
+    }))
+  };
+}
+function useTeleport(target) {
+  const teleportTarget = computed(() => {
+    const _target = target.value;
+    if (_target === true || !IN_BROWSER) return void 0;
+    const targetElement = _target === false ? document.body : typeof _target === "string" ? document.querySelector(_target) : _target;
+    if (targetElement == null) {
+      return void 0;
+    }
+    let container = targetElement.querySelector(":scope > .v-overlay-container");
+    if (!container) {
+      container = document.createElement("div");
+      container.className = "v-overlay-container";
+      targetElement.appendChild(container);
+    }
+    return container;
+  });
+  return {
+    teleportTarget
+  };
+}
+function defaultConditional() {
+  return true;
+}
+function checkEvent(e, el, binding) {
+  if (!e || checkIsActive(e, binding) === false) return false;
+  const root = attachedRoot(el);
+  if (typeof ShadowRoot !== "undefined" && root instanceof ShadowRoot && root.host === e.target) return false;
+  const elements = (typeof binding.value === "object" && binding.value.include || (() => []))();
+  elements.push(el);
+  return !elements.some((el2) => el2 == null ? void 0 : el2.contains(e.target));
+}
+function checkIsActive(e, binding) {
+  const isActive = typeof binding.value === "object" && binding.value.closeConditional || defaultConditional;
+  return isActive(e);
+}
+function directive(e, el, binding) {
+  const handler = typeof binding.value === "function" ? binding.value : binding.value.handler;
+  el._clickOutside.lastMousedownWasOutside && checkEvent(e, el, binding) && setTimeout(() => {
+    checkIsActive(e, binding) && handler && handler(e);
+  }, 0);
+}
+function handleShadow(el, callback) {
+  const root = attachedRoot(el);
+  callback(document);
+  if (typeof ShadowRoot !== "undefined" && root instanceof ShadowRoot) {
+    callback(root);
+  }
+}
+const ClickOutside = {
+  // [data-app] may not be found
+  // if using bind, inserted makes
+  // sure that the root element is
+  // available, iOS does not support
+  // clicks on body
+  mounted(el, binding) {
+    const onClick = (e) => directive(e, el, binding);
+    const onMousedown = (e) => {
+      el._clickOutside.lastMousedownWasOutside = checkEvent(e, el, binding);
+    };
+    handleShadow(el, (app) => {
+      app.addEventListener("click", onClick, true);
+      app.addEventListener("mousedown", onMousedown, true);
+    });
+    if (!el._clickOutside) {
+      el._clickOutside = {
+        lastMousedownWasOutside: false
+      };
+    }
+    el._clickOutside[binding.instance.$.uid] = {
+      onClick,
+      onMousedown
+    };
+  },
+  unmounted(el, binding) {
+    if (!el._clickOutside) return;
+    handleShadow(el, (app) => {
+      var _a;
+      if (!app || !((_a = el._clickOutside) == null ? void 0 : _a[binding.instance.$.uid])) return;
+      const {
+        onClick,
+        onMousedown
+      } = el._clickOutside[binding.instance.$.uid];
+      app.removeEventListener("click", onClick, true);
+      app.removeEventListener("mousedown", onMousedown, true);
+    });
+    delete el._clickOutside[binding.instance.$.uid];
+  }
+};
+function Scrim(props) {
+  const {
+    modelValue,
+    color,
+    ...rest
+  } = props;
+  return createVNode(Transition, {
+    "name": "fade-transition",
+    "appear": true
+  }, {
+    default: () => [props.modelValue && createVNode("div", mergeProps({
+      "class": ["v-overlay__scrim", props.color.backgroundColorClasses.value],
+      "style": props.color.backgroundColorStyles.value
+    }, rest), null)]
+  });
+}
+const makeVOverlayProps = propsFactory({
+  absolute: Boolean,
+  attach: [Boolean, String, Object],
+  closeOnBack: {
+    type: Boolean,
+    default: true
+  },
+  contained: Boolean,
+  contentClass: null,
+  contentProps: null,
+  disabled: Boolean,
+  opacity: [Number, String],
+  noClickAnimation: Boolean,
+  modelValue: Boolean,
+  persistent: Boolean,
+  scrim: {
+    type: [Boolean, String],
+    default: true
+  },
+  zIndex: {
+    type: [Number, String],
+    default: 2e3
+  },
+  ...makeActivatorProps(),
+  ...makeComponentProps(),
+  ...makeDimensionProps(),
+  ...makeLazyProps(),
+  ...makeLocationStrategyProps(),
+  ...makeScrollStrategyProps(),
+  ...makeThemeProps(),
+  ...makeTransitionProps()
+}, "VOverlay");
+const VOverlay = genericComponent()({
+  name: "VOverlay",
+  directives: {
+    ClickOutside
+  },
+  inheritAttrs: false,
+  props: {
+    _disableGlobalStack: Boolean,
+    ...makeVOverlayProps()
+  },
+  emits: {
+    "click:outside": (e) => true,
+    "update:modelValue": (value) => true,
+    afterLeave: () => true
+  },
+  setup(props, _ref) {
+    let {
+      slots,
+      attrs,
+      emit: emit2
+    } = _ref;
+    const model = useProxiedModel(props, "modelValue");
+    const isActive = computed({
+      get: () => model.value,
+      set: (v) => {
+        if (!(v && props.disabled)) model.value = v;
+      }
+    });
+    const {
+      teleportTarget
+    } = useTeleport(computed(() => props.attach || props.contained));
+    const {
+      themeClasses
+    } = provideTheme(props);
+    const {
+      rtlClasses,
+      isRtl
+    } = useRtl();
+    const {
+      hasContent,
+      onAfterLeave: _onAfterLeave
+    } = useLazy(props, isActive);
+    const scrimColor = useBackgroundColor(computed(() => {
+      return typeof props.scrim === "string" ? props.scrim : null;
+    }));
+    const {
+      globalTop,
+      localTop,
+      stackStyles
+    } = useStack(isActive, toRef(props, "zIndex"), props._disableGlobalStack);
+    const {
+      activatorEl,
+      activatorRef,
+      target,
+      targetEl,
+      targetRef,
+      activatorEvents,
+      contentEvents,
+      scrimEvents
+    } = useActivator(props, {
+      isActive,
+      isTop: localTop
+    });
+    const {
+      dimensionStyles
+    } = useDimension(props);
+    const isMounted = useHydration();
+    const {
+      scopeId
+    } = useScopeId();
+    watch(() => props.disabled, (v) => {
+      if (v) isActive.value = false;
+    });
+    const root = ref();
+    const contentEl = ref();
+    const {
+      contentStyles,
+      updateLocation
+    } = useLocationStrategies(props, {
+      isRtl,
+      contentEl,
+      target,
+      isActive
+    });
+    useScrollStrategies(props, {
+      root,
+      contentEl,
+      targetEl,
+      isActive,
+      updateLocation
+    });
+    function onClickOutside(e) {
+      emit2("click:outside", e);
+      if (!props.persistent) isActive.value = false;
+      else animateClick();
+    }
+    function closeConditional() {
+      return isActive.value && globalTop.value;
+    }
+    IN_BROWSER && watch(isActive, (val) => {
+      if (val) {
+        window.addEventListener("keydown", onKeydown);
+      } else {
+        window.removeEventListener("keydown", onKeydown);
+      }
+    }, {
+      immediate: true
+    });
+    onBeforeUnmount(() => {
+      if (!IN_BROWSER) return;
+      window.removeEventListener("keydown", onKeydown);
+    });
+    function onKeydown(e) {
+      var _a, _b;
+      if (e.key === "Escape" && globalTop.value) {
+        if (!props.persistent) {
+          isActive.value = false;
+          if ((_a = contentEl.value) == null ? void 0 : _a.contains(document.activeElement)) {
+            (_b = activatorEl.value) == null ? void 0 : _b.focus();
+          }
+        } else animateClick();
+      }
+    }
+    const router2 = useRouter();
+    useToggleScope(() => props.closeOnBack, () => {
+      useBackButton(router2, (next) => {
+        if (globalTop.value && isActive.value) {
+          next(false);
+          if (!props.persistent) isActive.value = false;
+          else animateClick();
+        } else {
+          next();
+        }
+      });
+    });
+    const top = ref();
+    watch(() => isActive.value && (props.absolute || props.contained) && teleportTarget.value == null, (val) => {
+      if (val) {
+        const scrollParent = getScrollParent(root.value);
+        if (scrollParent && scrollParent !== document.scrollingElement) {
+          top.value = scrollParent.scrollTop;
+        }
+      }
+    });
+    function animateClick() {
+      if (props.noClickAnimation) return;
+      contentEl.value && animate(contentEl.value, [{
+        transformOrigin: "center"
+      }, {
+        transform: "scale(1.03)"
+      }, {
+        transformOrigin: "center"
+      }], {
+        duration: 150,
+        easing: standardEasing
+      });
+    }
+    function onAfterLeave() {
+      _onAfterLeave();
+      emit2("afterLeave");
+    }
+    useRender(() => {
+      var _a;
+      return createVNode(Fragment, null, [(_a = slots.activator) == null ? void 0 : _a.call(slots, {
+        isActive: isActive.value,
+        props: mergeProps({
+          ref: activatorRef,
+          targetRef
+        }, activatorEvents.value, props.activatorProps)
+      }), isMounted.value && hasContent.value && createVNode(Teleport, {
+        "disabled": !teleportTarget.value,
+        "to": teleportTarget.value
+      }, {
+        default: () => [createVNode("div", mergeProps({
+          "class": ["v-overlay", {
+            "v-overlay--absolute": props.absolute || props.contained,
+            "v-overlay--active": isActive.value,
+            "v-overlay--contained": props.contained
+          }, themeClasses.value, rtlClasses.value, props.class],
+          "style": [stackStyles.value, {
+            "--v-overlay-opacity": props.opacity,
+            top: convertToUnit(top.value)
+          }, props.style],
+          "ref": root
+        }, scopeId, attrs), [createVNode(Scrim, mergeProps({
+          "color": scrimColor,
+          "modelValue": isActive.value && !!props.scrim
+        }, scrimEvents.value), null), createVNode(MaybeTransition, {
+          "appear": true,
+          "persisted": true,
+          "transition": props.transition,
+          "target": target.value,
+          "onAfterLeave": onAfterLeave
+        }, {
+          default: () => {
+            var _a2;
+            return [withDirectives(createVNode("div", mergeProps({
+              "ref": contentEl,
+              "class": ["v-overlay__content", props.contentClass],
+              "style": [dimensionStyles.value, contentStyles.value]
+            }, contentEvents.value, props.contentProps), [(_a2 = slots.default) == null ? void 0 : _a2.call(slots, {
+              isActive
+            })]), [[vShow, isActive.value], [resolveDirective("click-outside"), {
+              handler: onClickOutside,
+              closeConditional,
+              include: () => [activatorEl.value]
+            }]])];
+          }
+        })])]
+      })]);
+    });
+    return {
+      activatorEl,
+      target,
+      animateClick,
+      contentEl,
+      globalTop,
+      localTop,
+      updateLocation
+    };
+  }
+});
+const Refs = Symbol("Forwarded refs");
+function getDescriptor(obj, key) {
+  let currentObj = obj;
+  while (currentObj) {
+    const descriptor = Reflect.getOwnPropertyDescriptor(currentObj, key);
+    if (descriptor) return descriptor;
+    currentObj = Object.getPrototypeOf(currentObj);
+  }
+  return void 0;
+}
+function forwardRefs(target) {
+  for (var _len = arguments.length, refs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    refs[_key - 1] = arguments[_key];
+  }
+  target[Refs] = refs;
+  return new Proxy(target, {
+    get(target2, key) {
+      if (Reflect.has(target2, key)) {
+        return Reflect.get(target2, key);
+      }
+      if (typeof key === "symbol" || key.startsWith("$") || key.startsWith("__")) return;
+      for (const ref2 of refs) {
+        if (ref2.value && Reflect.has(ref2.value, key)) {
+          const val = Reflect.get(ref2.value, key);
+          return typeof val === "function" ? val.bind(ref2.value) : val;
+        }
+      }
+    },
+    has(target2, key) {
+      if (Reflect.has(target2, key)) {
+        return true;
+      }
+      if (typeof key === "symbol" || key.startsWith("$") || key.startsWith("__")) return false;
+      for (const ref2 of refs) {
+        if (ref2.value && Reflect.has(ref2.value, key)) {
+          return true;
+        }
+      }
+      return false;
+    },
+    set(target2, key, value) {
+      if (Reflect.has(target2, key)) {
+        return Reflect.set(target2, key, value);
+      }
+      if (typeof key === "symbol" || key.startsWith("$") || key.startsWith("__")) return false;
+      for (const ref2 of refs) {
+        if (ref2.value && Reflect.has(ref2.value, key)) {
+          return Reflect.set(ref2.value, key, value);
+        }
+      }
+      return false;
+    },
+    getOwnPropertyDescriptor(target2, key) {
+      var _a;
+      const descriptor = Reflect.getOwnPropertyDescriptor(target2, key);
+      if (descriptor) return descriptor;
+      if (typeof key === "symbol" || key.startsWith("$") || key.startsWith("__")) return;
+      for (const ref2 of refs) {
+        if (!ref2.value) continue;
+        const descriptor2 = getDescriptor(ref2.value, key) ?? ("_" in ref2.value ? getDescriptor((_a = ref2.value._) == null ? void 0 : _a.setupState, key) : void 0);
+        if (descriptor2) return descriptor2;
+      }
+      for (const ref2 of refs) {
+        const childRefs = ref2.value && ref2.value[Refs];
+        if (!childRefs) continue;
+        const queue2 = childRefs.slice();
+        while (queue2.length) {
+          const ref3 = queue2.shift();
+          const descriptor2 = getDescriptor(ref3.value, key);
+          if (descriptor2) return descriptor2;
+          const childRefs2 = ref3.value && ref3.value[Refs];
+          if (childRefs2) queue2.push(...childRefs2);
+        }
+      }
+      return void 0;
+    }
+  });
+}
+const makeVMenuProps = propsFactory({
+  // TODO
+  // disableKeys: Boolean,
+  id: String,
+  ...omit(makeVOverlayProps({
+    closeDelay: 250,
+    closeOnContentClick: true,
+    locationStrategy: "connected",
+    openDelay: 300,
+    scrim: false,
+    scrollStrategy: "reposition",
+    transition: {
+      component: VDialogTransition
+    }
+  }), ["absolute"])
+}, "VMenu");
+const VMenu = genericComponent()({
+  name: "VMenu",
+  props: makeVMenuProps(),
+  emits: {
+    "update:modelValue": (value) => true
+  },
+  setup(props, _ref) {
+    let {
+      slots
+    } = _ref;
+    const isActive = useProxiedModel(props, "modelValue");
+    const {
+      scopeId
+    } = useScopeId();
+    const uid2 = getUid();
+    const id = computed(() => props.id || `v-menu-${uid2}`);
+    const overlay = ref();
+    const parent = inject$1(VMenuSymbol, null);
+    const openChildren = shallowRef(0);
+    provide(VMenuSymbol, {
+      register() {
+        ++openChildren.value;
+      },
+      unregister() {
+        --openChildren.value;
+      },
+      closeParents() {
+        setTimeout(() => {
+          if (!openChildren.value) {
+            isActive.value = false;
+            parent == null ? void 0 : parent.closeParents();
+          }
+        }, 40);
+      }
+    });
+    async function onFocusIn(e) {
+      var _a, _b, _c;
+      const before = e.relatedTarget;
+      const after = e.target;
+      await nextTick();
+      if (isActive.value && before !== after && ((_a = overlay.value) == null ? void 0 : _a.contentEl) && // We're the topmost menu
+      ((_b = overlay.value) == null ? void 0 : _b.globalTop) && // It isn't the document or the menu body
+      ![document, overlay.value.contentEl].includes(after) && // It isn't inside the menu body
+      !overlay.value.contentEl.contains(after)) {
+        const focusable = focusableChildren(overlay.value.contentEl);
+        (_c = focusable[0]) == null ? void 0 : _c.focus();
+      }
+    }
+    watch(isActive, (val) => {
+      if (val) {
+        parent == null ? void 0 : parent.register();
+        document.addEventListener("focusin", onFocusIn, {
+          once: true
+        });
+      } else {
+        parent == null ? void 0 : parent.unregister();
+        document.removeEventListener("focusin", onFocusIn);
+      }
+    });
+    function onClickOutside() {
+      parent == null ? void 0 : parent.closeParents();
+    }
+    function onKeydown(e) {
+      var _a, _b, _c;
+      if (props.disabled) return;
+      if (e.key === "Tab") {
+        const nextElement = getNextElement(focusableChildren((_a = overlay.value) == null ? void 0 : _a.contentEl, false), e.shiftKey ? "prev" : "next", (el) => el.tabIndex >= 0);
+        if (!nextElement) {
+          isActive.value = false;
+          (_c = (_b = overlay.value) == null ? void 0 : _b.activatorEl) == null ? void 0 : _c.focus();
+        }
+      }
+    }
+    function onActivatorKeydown(e) {
+      var _a;
+      if (props.disabled) return;
+      const el = (_a = overlay.value) == null ? void 0 : _a.contentEl;
+      if (el && isActive.value) {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          focusChild(el, "next");
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          focusChild(el, "prev");
+        }
+      } else if (["ArrowDown", "ArrowUp"].includes(e.key)) {
+        isActive.value = true;
+        e.preventDefault();
+        setTimeout(() => setTimeout(() => onActivatorKeydown(e)));
+      }
+    }
+    const activatorProps = computed(() => mergeProps({
+      "aria-haspopup": "menu",
+      "aria-expanded": String(isActive.value),
+      "aria-owns": id.value,
+      onKeydown: onActivatorKeydown
+    }, props.activatorProps));
+    useRender(() => {
+      const overlayProps = VOverlay.filterProps(props);
+      return createVNode(VOverlay, mergeProps({
+        "ref": overlay,
+        "id": id.value,
+        "class": ["v-menu", props.class],
+        "style": props.style
+      }, overlayProps, {
+        "modelValue": isActive.value,
+        "onUpdate:modelValue": ($event) => isActive.value = $event,
+        "absolute": true,
+        "activatorProps": activatorProps.value,
+        "onClick:outside": onClickOutside,
+        "onKeydown": onKeydown
+      }, scopeId), {
+        activator: slots.activator,
+        default: function() {
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+          return createVNode(VDefaultsProvider, {
+            "root": "VMenu"
+          }, {
+            default: () => {
+              var _a;
+              return [(_a = slots.default) == null ? void 0 : _a.call(slots, ...args)];
+            }
+          });
+        }
+      });
+    });
+    return forwardRefs({
+      id,
+      ΨopenChildren: openChildren
+    }, overlay);
+  }
+});
+const _hoisted_1 = /* @__PURE__ */ createBaseVNode("img", {
   src: _imports_0,
-  alt: "upc"
+  alt: "upc",
+  class: "mr-3 mr-md-5"
 }, null, -1);
-const _hoisted_3 = /* @__PURE__ */ createBaseVNode("img", {
+const _hoisted_2 = /* @__PURE__ */ createBaseVNode("img", {
   src: _imports_1,
   alt: "ecconnect"
 }, null, -1);
+const _hoisted_3 = { class: "d-flex ga-1 ga-md-4 align-center" };
+const _hoisted_4 = ["src"];
+const _hoisted_5 = { key: 0 };
+const _hoisted_6 = { key: 1 };
+const _hoisted_7 = ["src"];
 const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
   __name: "App",
   setup(__props) {
-    const { smAndDown } = useDisplay();
+    const { xs } = useDisplay();
     const cartStore = useCartStore();
     const { selectedProducts } = storeToRefs(cartStore);
     const isLoaded = ref(false);
+    const i18n2 = useI18n();
     (async () => {
       const productsListStore = useProductsListStore();
       await productsListStore.fetchProducts();
@@ -17649,10 +20842,13 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
       cartStore2.addProductToCart(1);
       isLoaded.value = true;
     })();
-    const i18n2 = useI18n();
-    const changeLocale = () => {
-      setLocale(i18n2.locale.value === LocaleCode.En ? LocaleCode.Uk : LocaleCode.En);
-    };
+    const activeLocale = computed(() => {
+      const result = Locales.find((i) => i.code === i18n2.locale.value);
+      if (!result) {
+        return Locales[0];
+      }
+      return result;
+    });
     return (_ctx, _cache) => {
       const _component_router_link = resolveComponent("router-link");
       const _component_router_view = resolveComponent("router-view");
@@ -17665,101 +20861,130 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent$1({
           createVNode(VAppBar, {
             elevation: "10",
             priority: "0",
-            class: "horizontal-header",
-            color: ""
+            class: "horizontal-header bg-background"
           }, {
             default: withCtx(() => [
-              createBaseVNode("div", _hoisted_1, [
-                withDirectives(createVNode(_component_router_link, { to: "/" }, {
-                  default: withCtx(() => [
-                    _hoisted_2,
-                    _hoisted_3
-                  ]),
-                  _: 1
-                }, 512), [
-                  [vShow, !unref(smAndDown)]
+              createVNode(VContainer, { class: "pl-4 d-flex align-center justify-space-between" }, {
+                default: withCtx(() => [
+                  createVNode(_component_router_link, {
+                    to: "/",
+                    class: "logo"
+                  }, {
+                    default: withCtx(() => [
+                      _hoisted_1,
+                      _hoisted_2
+                    ]),
+                    _: 1
+                  }),
+                  createBaseVNode("div", _hoisted_3, [
+                    createVNode(VBtn, {
+                      icon: "",
+                      variant: "text",
+                      color: "primary",
+                      title: _ctx.$t("title.test.cards"),
+                      size: "small",
+                      to: { name: unref(RouteName).TestCards, query: { ..._ctx.$route.query } }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(unref(IconCreditCard), {
+                          "stroke-width": "1.5",
+                          size: "22"
+                        })
+                      ]),
+                      _: 1
+                    }, 8, ["title", "to"]),
+                    createVNode(VMenu, { transition: "slide-y-transition" }, {
+                      activator: withCtx(({ props }) => [
+                        createVNode(VBtn, mergeProps({
+                          variant: "text",
+                          size: "small"
+                        }, props, { class: "px-1 px-sm-3" }), {
+                          default: withCtx(() => {
+                            var _a, _b, _c;
+                            return [
+                              createBaseVNode("img", {
+                                width: "20px",
+                                src: (_a = activeLocale.value) == null ? void 0 : _a.img,
+                                alt: "Flag",
+                                class: "mr-2"
+                              }, null, 8, _hoisted_4),
+                              unref(xs) ? (openBlock(), createElementBlock("span", _hoisted_5, toDisplayString$1((_b = activeLocale.value) == null ? void 0 : _b.shortText), 1)) : (openBlock(), createElementBlock("span", _hoisted_6, toDisplayString$1((_c = activeLocale.value) == null ? void 0 : _c.text), 1))
+                            ];
+                          }),
+                          _: 2
+                        }, 1040)
+                      ]),
+                      default: withCtx(() => [
+                        createVNode(VList, { class: "px-0 py-1 mt-2" }, {
+                          default: withCtx(() => [
+                            (openBlock(true), createElementBlock(Fragment, null, renderList(unref(Locales), (local) => {
+                              return openBlock(), createBlock(VListItem, {
+                                key: local.code,
+                                class: "pa-0",
+                                style: { "min-height": "auto" }
+                              }, {
+                                default: withCtx(() => [
+                                  createVNode(VBtn, {
+                                    variant: "text",
+                                    rounded: "0",
+                                    class: "w-100 justify-start px-3 py-1",
+                                    onClick: ($event) => unref(setLocale)(local.code)
+                                  }, {
+                                    default: withCtx(() => [
+                                      createBaseVNode("img", {
+                                        width: "20px",
+                                        src: local.img,
+                                        alt: "Flag",
+                                        class: "mr-2"
+                                      }, null, 8, _hoisted_7),
+                                      createBaseVNode("span", null, toDisplayString$1(local.text), 1)
+                                    ]),
+                                    _: 2
+                                  }, 1032, ["onClick"])
+                                ]),
+                                _: 2
+                              }, 1024);
+                            }), 128))
+                          ]),
+                          _: 1
+                        })
+                      ]),
+                      _: 1
+                    }),
+                    _ctx.$route.name !== unref(RouteName).Config ? (openBlock(), createBlock(VBtn, {
+                      key: 0,
+                      icon: "",
+                      variant: "text",
+                      title: _ctx.$t("title.shopping.cart"),
+                      color: "primary",
+                      to: { name: unref(RouteName).Checkout, query: { ..._ctx.$route.query } }
+                    }, {
+                      default: withCtx(() => [
+                        createVNode(VBadge, {
+                          color: "error",
+                          content: unref(selectedProducts).size
+                        }, {
+                          default: withCtx(() => [
+                            createVNode(unref(IconShoppingCart), {
+                              "stroke-width": "1.5",
+                              size: "22"
+                            })
+                          ]),
+                          _: 1
+                        }, 8, ["content"])
+                      ]),
+                      _: 1
+                    }, 8, ["title", "to"])) : createCommentVNode("", true)
+                  ])
                 ]),
-                createVNode(_component_router_link, { to: "/" }, {
-                  default: withCtx(() => [
-                    createBaseVNode("h3", null, toDisplayString$1(_ctx.$t("text.demo.shop")), 1)
-                  ]),
-                  _: 1
-                }),
-                createBaseVNode("div", null, [
-                  createVNode(VBtn, {
-                    icon: "",
-                    variant: "text",
-                    color: "primary",
-                    title: _ctx.$t("title.test.cards"),
-                    class: "mr-5",
-                    to: { name: unref(RouteName).TestCards, query: { ..._ctx.$route.query } }
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(IconCreditCard), {
-                        "stroke-width": "1.5",
-                        size: "22"
-                      })
-                    ]),
-                    _: 1
-                  }, 8, ["title", "to"]),
-                  _ctx.$route.name === unref(RouteName).Config ? (openBlock(), createBlock(VBtn, {
-                    key: 0,
-                    icon: "",
-                    variant: "text",
-                    color: "primary",
-                    title: _ctx.$t("title.language"),
-                    class: "mr-5",
-                    onClick: changeLocale
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(unref(IconWorld), {
-                        "stroke-width": "1.5",
-                        size: "22"
-                      }),
-                      createBaseVNode("span", null, toDisplayString$1(_ctx.$i18n.locale.toUpperCase()), 1)
-                    ]),
-                    _: 1
-                  }, 8, ["title"])) : createCommentVNode("", true),
-                  _ctx.$route.name !== unref(RouteName).Config ? (openBlock(), createBlock(VBtn, {
-                    key: 1,
-                    icon: "",
-                    variant: "text",
-                    title: _ctx.$t("title.shopping.cart"),
-                    color: "primary",
-                    to: { name: unref(RouteName).Checkout, query: { ..._ctx.$route.query } }
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(VBadge, {
-                        color: "error",
-                        content: unref(selectedProducts).size
-                      }, {
-                        default: withCtx(() => [
-                          createVNode(unref(IconShoppingCart), {
-                            "stroke-width": "1.5",
-                            size: "22"
-                          })
-                        ]),
-                        _: 1
-                      }, 8, ["content"])
-                    ]),
-                    _: 1
-                  }, 8, ["title", "to"])) : createCommentVNode("", true)
-                ])
-              ])
+                _: 1
+              })
             ]),
             _: 1
           }),
           createVNode(VMain, null, {
             default: withCtx(() => [
-              createVNode(VContainer, {
-                fluid: "",
-                class: "page-wrapper pb-sm-15 pb-10"
-              }, {
-                default: withCtx(() => [
-                  createVNode(_component_router_view)
-                ]),
-                _: 1
-              })
+              createVNode(_component_router_view)
             ]),
             _: 1
           })
@@ -18786,21 +22011,21 @@ const routerKey = Symbol("");
 const routeLocationKey = Symbol("");
 const routerViewLocationKey = Symbol("");
 function useCallbacks() {
-  let handlers = [];
+  let handlers2 = [];
   function add2(handler) {
-    handlers.push(handler);
+    handlers2.push(handler);
     return () => {
-      const i = handlers.indexOf(handler);
+      const i = handlers2.indexOf(handler);
       if (i > -1)
-        handlers.splice(i, 1);
+        handlers2.splice(i, 1);
     };
   }
   function reset() {
-    handlers = [];
+    handlers2 = [];
   }
   return {
     add: add2,
-    list: () => handlers.slice(),
+    list: () => handlers2.slice(),
     reset
   };
 }
@@ -19596,7 +22821,7 @@ function _sfc_render(_ctx, _cache) {
   const _component_router_view = resolveComponent("router-view");
   return openBlock(), createBlock(_component_router_view);
 }
-const ProxyComponent = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+const DefaultLayout = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 const getPaymentMode = (route) => {
   const mode = route.query.mode;
   const enumValue = getPaymentModeFromValue(mode);
@@ -19606,19 +22831,19 @@ const router = createRouter({
   history: createWebHashHistory("/fake-shop"),
   routes: [
     {
+      path: "/config",
+      name: RouteName.Config,
+      component: () => __vitePreload(() => import("./index-DNAFm7lu.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0)
+    },
+    {
       path: "",
-      component: ProxyComponent,
+      component: DefaultLayout,
       redirect: { name: RouteName.Config },
       children: [
         {
-          path: "/config",
-          name: RouteName.Config,
-          component: () => __vitePreload(() => import("./index-DxksOyCG.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0)
-        },
-        {
           path: "/products",
           name: RouteName.Products,
-          component: () => __vitePreload(() => import("./index-utSeVQN9.js"), true ? __vite__mapDeps([4,5,6,7,8,1,2,9,10,3,11]) : void 0),
+          component: () => __vitePreload(() => import("./index-Br-68o16.js"), true ? __vite__mapDeps([4,5,6,2,3,7,8,1,9]) : void 0),
           props: (route) => {
             return getPaymentMode(route);
           }
@@ -19626,7 +22851,7 @@ const router = createRouter({
         {
           path: "/checkout",
           name: RouteName.Checkout,
-          component: () => __vitePreload(() => import("./index-CaPvbWUf.js"), true ? __vite__mapDeps([12,5,6,7,8,1,2,13,14,3,15]) : void 0),
+          component: () => __vitePreload(() => import("./index-CjA8j5BB.js"), true ? __vite__mapDeps([10,5,6,2,3,11,12,1,13]) : void 0),
           props: (route) => {
             return getPaymentMode(route);
           }
@@ -19634,7 +22859,7 @@ const router = createRouter({
         {
           path: "/test-cards",
           name: RouteName.TestCards,
-          component: () => __vitePreload(() => import("./index-DaPyLiDI.js"), true ? __vite__mapDeps([16,9,6,7,10,1,2,13,14]) : void 0)
+          component: () => __vitePreload(() => import("./index-CCefUW74.js"), true ? __vite__mapDeps([14,2,3,7,8,11,12]) : void 0)
         },
         {
           path: "/:pathMatch(.*)*",
@@ -19674,9 +22899,9 @@ const BLUE_THEME = {
     borderColor: "#e5eaef",
     inputBorder: "#6680ad",
     containerBg: "#ffffff",
-    background: "#f4f6f9",
+    background: "#ffffff",
     hoverColor: "#f6f9fc",
-    surface: "#fff",
+    surface: "#f4f6f9",
     "on-surface-variant": "#fff",
     grey100: "#F2F6FA",
     grey200: "#EAEFF4",
@@ -19729,164 +22954,164 @@ loadAndSetLocaleMessages().then(() => {
   createApp(_sfc_main$1).use(router).use(createPinia()).use(i18n).use(vuetify).mount("#app");
 });
 export {
-  useElevation as $,
-  useRender as A,
-  mergeProps as B,
-  omit as C,
-  ref as D,
-  defineStore as E,
+  withDirectives as $,
+  makeDensityProps as A,
+  makeComponentProps as B,
+  clamp as C,
+  createRange as D,
+  getUid as E,
   Fragment as F,
-  filterInputAttrs as G,
-  makeGroupProps as H,
+  mergeProps as G,
+  useScopeId as H,
   IconValue as I,
-  useGroup as J,
-  provideDefaults as K,
-  toRef as L,
-  inject$1 as M,
-  withDirectives as N,
-  vShow as O,
+  VOverlay as J,
+  forwardRefs as K,
+  omit as L,
+  makeVOverlayProps as M,
+  defineStore as N,
+  filterInputAttrs as O,
   PaymentMode as P,
-  VExpandTransition as Q,
+  useGroup as Q,
   RouteName as R,
-  Ripple as S,
-  useBackgroundColor as T,
-  resolveDirective as U,
-  VBtn as V,
-  VIcon as W,
-  makeElevationProps as X,
-  makeGroupItemProps as Y,
-  makeRoundedProps as Z,
-  useGroupItem as _,
-  createBlock as a,
-  watchEffect as a$,
-  useRounded as a0,
-  provide as a1,
-  makeBorderProps as a2,
-  makeDimensionProps as a3,
-  makeLocationProps as a4,
-  makePositionProps as a5,
-  useBorder as a6,
-  useDimension as a7,
-  useLocation as a8,
-  usePosition as a9,
-  _export_sfc as aA,
-  VBtnToggle as aB,
-  Storage as aC,
-  useResizeObserver as aD,
-  IN_BROWSER as aE,
-  VFadeTransition as aF,
-  focusableChildren as aG,
-  deepEqual as aH,
-  makeVariantProps as aI,
-  EventProp as aJ,
-  makeRouterProps as aK,
-  useVariant as aL,
-  useDensity as aM,
-  useSize as aN,
-  useLink$1 as aO,
-  genOverlays as aP,
-  VExpandXTransition as aQ,
-  VDefaultsProvider as aR,
-  toRaw as aS,
-  getCurrentInstance as aT,
-  defineComponent as aU,
-  MaybeTransition as aV,
-  deprecate as aW,
-  useTextColor as aX,
-  getPropertyFromItem as aY,
-  focusChild as aZ,
-  getNextElement as a_,
-  useProductsListStore as aa,
-  storeToRefs as ab,
-  onMounted as ac,
-  createElementBlock as ad,
-  renderList as ae,
-  createCommentVNode as af,
-  convertToUnit as ag,
-  watch as ah,
-  onBeforeUnmount as ai,
-  CircularBuffer as aj,
-  makeDisplayProps as ak,
-  makeLayoutItemProps as al,
-  useRtl as am,
-  useDisplay as an,
-  useRouter as ao,
-  useSsrBoot as ap,
-  toPhysical as aq,
-  useToggleScope as ar,
-  onBeforeMount as as,
-  useLayoutItem as at,
-  Transition as au,
-  nextTick as av,
-  useCartStore as aw,
-  VImg as ax,
-  pushScopeId as ay,
-  popScopeId as az,
+  provideDefaults as S,
+  Transition as T,
+  toRef as U,
+  VContainer as V,
+  makeGroupProps as W,
+  inject$1 as X,
+  useLazy as Y,
+  VExpandTransition as Z,
+  makeLazyProps as _,
+  createBaseVNode as a,
+  debounce as a$,
+  vShow as a0,
+  Ripple as a1,
+  useBackgroundColor as a2,
+  resolveDirective as a3,
+  VIcon as a4,
+  useGroupItem as a5,
+  useElevation as a6,
+  useRounded as a7,
+  makeRoundedProps as a8,
+  makeGroupItemProps as a9,
+  makeLayoutItemProps as aA,
+  makeDisplayProps as aB,
+  toPhysical as aC,
+  nextTick as aD,
+  useCartStore as aE,
+  VImg as aF,
+  pushScopeId as aG,
+  popScopeId as aH,
+  _export_sfc as aI,
+  VBtnToggle as aJ,
+  Storage as aK,
+  useResizeObserver as aL,
+  IN_BROWSER as aM,
+  focusableChildren as aN,
+  VFadeTransition as aO,
+  makeVariantProps as aP,
+  deepEqual as aQ,
+  useVariant as aR,
+  useDensity as aS,
+  useSize as aT,
+  useLink$1 as aU,
+  genOverlays as aV,
+  VExpandXTransition as aW,
+  VDefaultsProvider as aX,
+  makeRouterProps as aY,
+  EventProp as aZ,
+  watchEffect as a_,
+  makeElevationProps as aa,
+  provide as ab,
+  useBorder as ac,
+  useDimension as ad,
+  useLocation as ae,
+  usePosition as af,
+  makePositionProps as ag,
+  makeLocationProps as ah,
+  makeDimensionProps as ai,
+  makeBorderProps as aj,
+  useProductsListStore as ak,
+  storeToRefs as al,
+  VDivider as am,
+  renderList as an,
+  VAvatar as ao,
+  watch as ap,
+  onBeforeUnmount as aq,
+  convertToUnit as ar,
+  CircularBuffer as as,
+  useRtl as at,
+  useDisplay as au,
+  useRouter as av,
+  useSsrBoot as aw,
+  useToggleScope as ax,
+  onBeforeMount as ay,
+  useLayoutItem as az,
   createVNode as b,
   onScopeDispose as b0,
-  debounce as b1,
-  makeTransitionProps as b2,
-  wrapInArray as b3,
-  ensureValidVNode as b4,
-  matchesSelector as b5,
-  useI18n as b6,
-  withModifiers as b7,
-  isRef as b8,
-  makeVBtnProps as b9,
-  defer as bA,
-  reactive as bB,
-  readonly as bC,
-  Teleport as bD,
-  useBackButton as bE,
-  camelize as bF,
-  isObject as ba,
-  keys as bb,
-  createSlots as bc,
-  VSlideYTransition as bd,
-  getCurrentInstanceName as be,
-  makeLoaderProps as bf,
-  useLoader as bg,
-  LoaderSlot as bh,
-  isOn as bi,
-  pick as bj,
-  Intersect as bk,
-  cloneVNode as bl,
-  callEvent as bm,
-  breakpoints as bn,
-  capitalize$1 as bo,
-  h as bp,
-  refElement as bq,
-  VProgressLinear as br,
-  eventName as bs,
-  destructComputed as bt,
-  parseAnchor as bu,
-  flipSide as bv,
-  flipAlign as bw,
-  flipCorner as bx,
-  getAxis as by,
-  effectScope as bz,
-  createVueComponent as c,
+  getCurrentInstance as b1,
+  getScrollParent as b2,
+  useItems as b3,
+  makeTransitionProps as b4,
+  VDialogTransition as b5,
+  matchesSelector as b6,
+  makeItemsProps as b7,
+  wrapInArray as b8,
+  VMenu as b9,
+  h as bA,
+  breakpoints as bB,
+  capitalize$1 as bC,
+  refElement as bD,
+  VProgressLinear as bE,
+  createSimpleFunctional as bF,
+  VList as ba,
+  VListItem as bb,
+  ensureValidVNode as bc,
+  useI18n as bd,
+  normalizeClass as be,
+  withModifiers as bf,
+  isRef as bg,
+  useTextColor as bh,
+  makeVBtnProps as bi,
+  animate as bj,
+  standardEasing as bk,
+  isObject as bl,
+  keys as bm,
+  MaybeTransition as bn,
+  createSlots as bo,
+  VSlideYTransition as bp,
+  getCurrentInstanceName as bq,
+  isOn as br,
+  pick as bs,
+  makeLoaderProps as bt,
+  useLoader as bu,
+  LoaderSlot as bv,
+  nullifyTransforms as bw,
+  Intersect as bx,
+  cloneVNode as by,
+  callEvent as bz,
+  createElementBlock as c,
   defineComponent$1 as d,
-  createBaseVNode as e,
-  createTextVNode as f,
-  makeDensityProps as g,
-  makeSizeProps as h,
-  makeTagProps as i,
-  makeThemeProps as j,
+  openBlock as e,
+  VBtn as f,
+  createTextVNode as g,
+  createBlock as h,
+  createCommentVNode as i,
+  createVueComponent as j,
   genericComponent as k,
   useLocale as l,
-  makeComponentProps as m,
-  normalizeClass as n,
-  openBlock as o,
+  provideTheme as m,
+  useProxiedModel as n,
+  onMounted as o,
   propsFactory as p,
-  provideTheme as q,
-  useProxiedModel as r,
-  computed as s,
+  computed as q,
+  ref as r,
+  shallowRef as s,
   toDisplayString$1 as t,
   unref as u,
-  clamp as v,
+  useRender as v,
   withCtx as w,
-  createRange as x,
-  shallowRef as y,
-  getUid as z
+  makeThemeProps as x,
+  makeTagProps as y,
+  makeSizeProps as z
 };

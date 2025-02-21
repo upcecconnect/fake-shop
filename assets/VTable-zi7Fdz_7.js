@@ -1,4 +1,4 @@
-import { p as propsFactory, m as makeComponentProps, g as makeDensityProps, i as makeTagProps, j as makeThemeProps, k as genericComponent, q as provideTheme, aM as useDensity, A as useRender, b as createVNode, ag as convertToUnit } from "./index-DSl-8azQ.js";
+import { k as genericComponent, p as propsFactory, m as provideTheme, aS as useDensity, v as useRender, b as createVNode, x as makeThemeProps, y as makeTagProps, A as makeDensityProps, B as makeComponentProps, ar as convertToUnit } from "./index-oInSTNWe.js";
 const makeVTableProps = propsFactory({
   fixedHeader: Boolean,
   fixedFooter: Boolean,
