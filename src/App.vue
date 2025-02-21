@@ -1,21 +1,21 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import { useDisplay } from 'vuetify/lib/framework.mjs';
 import { RouteName } from '@/router/RouteName';
 import { useCartStore } from '@/stores/useCartStore';
-import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { useProductsListStore } from '@/stores/useProductsListStore';
+import { setLocale } from '@/i18n/setLocale';
+import { Locales } from '@/i18n/Locales';
 import { IconShoppingCart } from '@tabler/icons-vue';
 import { IconCreditCard } from '@tabler/icons-vue';
-import { IconWorld } from '@tabler/icons-vue';
-import { useProductsListStore } from '@/stores/useProductsListStore';
-import { useI18n } from 'vue-i18n';
-import { setLocale } from './i18n/setLocale';
-import { LocaleCode } from './enums/LocaleCode';
-import { useDisplay } from 'vuetify/lib/framework.mjs';
 
-const { smAndDown } = useDisplay();
+const { xs } = useDisplay();
 const cartStore = useCartStore();
 const { selectedProducts } = storeToRefs(cartStore);
 const isLoaded = ref(false);
+const i18n = useI18n();
 
 (async () => {
   const productsListStore = useProductsListStore();
@@ -25,70 +25,60 @@ const isLoaded = ref(false);
   isLoaded.value = true;
 })();
 
-const i18n = useI18n();
 
-const changeLocale = () => {
-  setLocale(i18n.locale.value as LocaleCode === LocaleCode.En ? LocaleCode.Uk : LocaleCode.En);
-};
+const activeLocale = computed(() => {
+  const result = Locales.find(i => i.code === i18n.locale.value);
+  if (!result) {
+    return Locales[0];
+  }
+  return result;
+})
 </script>
 
 <template>
-  <v-app
-    v-if="isLoaded"
-    theme="BLUE_THEME"
-    class="BLUE_THEME"
-  >
-    <v-app-bar elevation="10" priority="0" class="horizontal-header" color="">
-      <div class="header pl-4">
-        <router-link v-show="!smAndDown" to="/">
-          <img src="@/assets/images/logos/upc.jpeg" alt="upc" />
+  <v-app v-if="isLoaded" theme="BLUE_THEME" class="BLUE_THEME">
+    <v-app-bar elevation="10" priority="0" class="horizontal-header bg-background">
+      <v-container class="pl-4 d-flex align-center justify-space-between">
+        <router-link to="/" class="logo">
+          <img src="@/assets/images/logos/upc.svg" alt="upc" class="mr-3 mr-md-5" />
           <img src="@/assets/images/logos/ecconnect.svg" alt="ecconnect" />
         </router-link>
-        <router-link to="/">
-          <h3>{{ $t('text.demo.shop') }}</h3>
-        </router-link>
-        <div>
-          <v-btn
-            icon
-            variant="text"
-            color="primary"
-            :title="$t('title.test.cards')"
-            class="mr-5"
-            :to="{ name: RouteName.TestCards, query: { ...$route.query } }"
-          >
-            <IconCreditCard stroke-width="1.5" size="22"  />
+
+        <div class="d-flex ga-1 ga-md-4 align-center">
+          <v-btn icon variant="text" color="primary" :title="$t('title.test.cards')" size="small"
+            :to="{ name: RouteName.TestCards, query: { ...$route.query } }">
+            <IconCreditCard stroke-width="1.5" size="22" />
           </v-btn>
-          <v-btn
-            v-if="$route.name === RouteName.Config"
-            icon
-            variant="text"
-            color="primary"
-            :title="$t('title.language')"
-            class="mr-5"
-            @click="changeLocale"
-          >
-            <IconWorld stroke-width="1.5" size="22"  />
-            <span>{{ $i18n.locale.toUpperCase() }}</span>
-          </v-btn>
-          <v-btn
-            v-if="$route.name !== RouteName.Config"
-            icon
-            variant="text"
-            :title="$t('title.shopping.cart')"
-            color="primary"
-            :to="{ name: RouteName.Checkout, query: { ...$route.query } }"
-          >
+
+          <v-menu transition="slide-y-transition">
+            <template v-slot:activator="{ props }">
+              <v-btn variant="text" size="small" v-bind="props" class=" px-1 px-sm-3">
+                <img width="20px" :src="activeLocale?.img" alt="Flag" class="mr-2" />
+                <span v-if="xs">{{ activeLocale?.shortText }}</span>
+                <span v-else>{{ activeLocale?.text }}</span>
+              </v-btn>
+            </template>
+            <v-list class="px-0 py-1 mt-2">
+              <v-list-item v-for="local in Locales" :key="local.code" class="pa-0 " style="min-height: auto;">
+                <v-btn variant="text" rounded="0" class="w-100 justify-start px-3 py-1 " @click="setLocale(local.code)">
+                  <img width="20px" :src="local.img" alt="Flag" class="mr-2"  />
+                  <span>{{ local.text }}</span>
+                </v-btn>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+
+          <v-btn v-if="$route.name !== RouteName.Config" icon variant="text" :title="$t('title.shopping.cart')"
+            color="primary" :to="{ name: RouteName.Checkout, query: { ...$route.query } }">
             <v-badge color="error" :content="selectedProducts.size">
               <IconShoppingCart stroke-width="1.5" size="22" />
             </v-badge>
           </v-btn>
         </div>
-      </div>
+      </v-container>
     </v-app-bar>
     <v-main>
-      <v-container fluid class="page-wrapper pb-sm-15 pb-10">
-        <router-view></router-view>
-      </v-container>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>

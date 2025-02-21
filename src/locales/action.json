@@ -58,5 +58,9 @@
   "action.update.order.id": {
     "en": "Update Order ID",
     "uk": "Оновити ID замовлення"
+  },
+  "action.try.payment.methods": {
+    "en": "Try These Payment Methods",
+    "uk": "Спробуйте ці способи оплати"
   }
 }

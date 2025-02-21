@@ -129,3 +129,11 @@
 		}
 	}
 }
+
+.logo img {
+	max-height: 30px;
+  
+	@media (max-width: 768px) {
+	  max-height: 22px;
+	}
+}
