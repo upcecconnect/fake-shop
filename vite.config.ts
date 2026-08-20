@@ -29,5 +29,21 @@ export default defineConfig({
     optimizeDeps: {
         exclude: ['vuetify'],
         entries: ['./src/**/*.vue']
-    }
+    },
+    server: {
+        proxy: {
+            '/upc': {
+                target: 'https://feature-pld-3748-link-manage-127814-mt.dev.ecommerce.upc.intranet',
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/upc/, ''),
+                configure: (proxy) => {
+                    proxy.on('proxyReq', (proxyReq) => {
+                        proxyReq.removeHeader('origin');
+                        proxyReq.removeHeader('referer');
+                    });
+                },
+            },
+        },
+    },
 });
