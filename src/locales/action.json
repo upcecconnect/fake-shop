@@ -62,5 +62,25 @@
   "action.try.payment.methods": {
     "en": "Try These Payment Methods",
     "uk": "Спробуйте ці способи оплати"
+  },
+  "action.generate.link": {
+    "en": "Generate Link",
+    "uk": "Згенерувати посилання"
+  },
+  "action.copy": {
+    "en": "Copy",
+    "uk": "Копіювати"
+  },
+  "action.copied": {
+    "en": "Copied!",
+    "uk": "Скопійовано!"
+  },
+  "action.create.another.link": {
+    "en": "Create Another Link",
+    "uk": "Створити ще одне посилання"
+  },
+  "action.try.again": {
+    "en": "Try Again",
+    "uk": "Спробувати ще раз"
   }
 }
