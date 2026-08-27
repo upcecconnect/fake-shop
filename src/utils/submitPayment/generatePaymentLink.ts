@@ -3,7 +3,7 @@ import { merchantData } from '@/static/merchantData';
 
 const PAYMENT_LINK_ENDPOINT = import.meta.env.DEV
   ? '/upc/dashboard/api/public/merchant-invoices'
-  : 'https://feature-pld-3748-link-manage-127814-mt.dev.ecommerce.upc.intranet/dashboard/api/public/merchant-invoices';
+  : 'https://ecg.test.upc.ua/dashboard/api/public/merchant-invoices';
 
 export interface PaymentLinkResult {
   url: string;
@@ -53,7 +53,7 @@ export const generatePaymentLink = async (
 ): Promise<PaymentLinkResult> => {
   const payment = new UpcPayment({ merchant: merchantData });
 
-  return payment.createPaymentLink({
+  return payment.createPaymentByLink({
     currencyCode: params.currency,
     recipientCardNumber: params.recipientCardNumber.replace(/\s/g, ''),
     uuid: generateUuid(),

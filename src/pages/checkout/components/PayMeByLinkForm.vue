@@ -56,7 +56,7 @@ const onGenerate = async () => {
     });
     status.value = 'success';
   } catch (error) {
-    console.error('createPaymentLink failed:', error);
+    console.error('createPaymentByLink failed:', error);
     status.value = 'error';
   }
 };
