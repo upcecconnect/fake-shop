@@ -1,7 +1,18 @@
 import { fileURLToPath, URL } from 'url';
+import { copyFileSync, existsSync } from 'fs';
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vuetify from 'vite-plugin-vuetify';
+
+const packServeAssets = () => ({
+    name: 'pack-serve-assets',
+    closeBundle() {
+        copyFileSync('serve.mjs', 'dist/serve.mjs');
+        if (existsSync('.env.local')) {
+            copyFileSync('.env.local', 'dist/.env');
+        }
+    },
+});
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -17,7 +28,8 @@ export default defineConfig(({ mode }) => {
             vuetify({
                 autoImport: true,
                 styles: { configFile: 'src/scss/variables.scss' }
-            })
+            }),
+            ...(mode === 'test' ? [packServeAssets()] : []),
         ],
         resolve: {
             alias: {

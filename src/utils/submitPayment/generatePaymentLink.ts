@@ -1,9 +1,10 @@
 import { UpcPayment } from 'upc-payment-js';
 import { merchantData } from '@/static/merchantData';
 
-const PAYMENT_LINK_ENDPOINT = import.meta.env.DEV
-  ? '/upc/dashboard/api/public/merchant-invoices'
-  : 'https://ecg.test.upc.ua/dashboard/api/public/merchant-invoices';
+const PAYMENT_LINK_ENDPOINT =
+  import.meta.env.DEV || import.meta.env.VITE_PAYME_PROXY === 'true'
+    ? '/upc/dashboard/api/public/merchant-invoices'
+    : 'https://ecg.test.upc.ua/dashboard/api/public/merchant-invoices';
 
 export interface PaymentLinkResult {
   url: string;
