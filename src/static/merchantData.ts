@@ -1,5 +1,5 @@
 export const merchantData = {
-  id: '1753545',
-  terminalId: 'E7881545',
+  id: '1000027',
+  terminalId: 'E1000027',
   signature: 'Signature',
 }

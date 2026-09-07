@@ -54,9 +54,10 @@ export default defineConfig(({ mode }) => {
                         secure: false,
                         rewrite: (path) => path.replace(/^\/upc/, ''),
                         configure: (proxy) => {
-                            proxy.on('proxyReq', (proxyReq) => {
+                            proxy.on('proxyReq', (proxyReq, req) => {
                                 proxyReq.removeHeader('origin');
                                 proxyReq.removeHeader('referer');
+                                console.log(`[proxy] ${req.method} -> ${env.PAYME_PROXY_TARGET}${proxyReq.path}`);
                             });
                         },
                     },

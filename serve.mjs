@@ -60,6 +60,8 @@ const proxyRequest = (req, res, pathname, search) => {
   delete headers.origin;
   delete headers.referer;
   headers.host = target.host;
+  const forwardedPath = pathname.slice(PROXY_PREFIX.length) + search;
+  console.log(`[proxy] ${req.method} -> ${target.origin}${forwardedPath}`);
   const client = target.protocol === 'https:' ? https : http;
   const upstream = client.request(
     {
@@ -67,7 +69,7 @@ const proxyRequest = (req, res, pathname, search) => {
       hostname: target.hostname,
       port: target.port || (target.protocol === 'https:' ? 443 : 80),
       method: req.method,
-      path: pathname.slice(PROXY_PREFIX.length) + search,
+      path: forwardedPath,
       headers,
       rejectUnauthorized: false,
     },
