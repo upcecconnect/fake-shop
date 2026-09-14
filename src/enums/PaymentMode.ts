@@ -4,6 +4,7 @@ export enum PaymentMode {
   ModalIframe = 'modal-iframe',
   PayByBank = 'pay-by-bank',
   Manual = 'manual',
+  PayMeByLink = 'pay-me-by-link',
 }
 
 export const isStringPaymentMode = (value: string | undefined): value is PaymentMode => {

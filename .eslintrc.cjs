@@ -16,4 +16,10 @@ module.exports = {
     "@typescript-eslint/comma-dangle": "off",
     "vue/multi-word-component-names": "off",
   },
+  overrides: [
+    {
+      files: ["*.mjs"],
+      env: { node: true },
+    },
+  ],
 };

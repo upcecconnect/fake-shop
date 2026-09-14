@@ -114,5 +114,21 @@
   "label.session.data": {
     "en": "Session Data",
     "uk": "Дані сесії"
+  },
+  "label.recipient.card.number": {
+    "en": "Recipient card number",
+    "uk": "Номер картки отримувача"
+  },
+  "label.currency": {
+    "en": "Currency",
+    "uk": "Валюта"
+  },
+  "label.cardholder.name": {
+    "en": "Cardholder name",
+    "uk": "Ім'я власника картки"
+  },
+  "label.due.date": {
+    "en": "Due date",
+    "uk": "Термін дії"
   }
 }

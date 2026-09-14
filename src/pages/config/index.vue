@@ -39,7 +39,7 @@ onMounted(() => {
     
     <transition name="fade-slide-up">
       <v-row v-if="isVisiblePayments">
-        <v-col cols="12" sm="6">
+        <v-col cols="12" sm="6" lg="4">
           <v-card elevation="10" class="overflow-hidden  d-flex flex-column  h-100 pa-6">
             <v-card-item class="pa-0 pb-1">
               <h4 class="text-h5 font-weight-medium">
@@ -55,7 +55,7 @@ onMounted(() => {
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="12" sm="6">
+        <v-col cols="12" sm="6" lg="4">
           <v-card elevation="10" class="overflow-hidden  d-flex flex-column  h-100 pa-6">
             <v-card-item class="pa-0 pb-1">
               <h4 class="text-h5 font-weight-medium">
@@ -103,7 +103,7 @@ onMounted(() => {
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="12" offset-sm="3" offset-lg="0" sm="6" lg="4">
+        <v-col cols="12" sm="6" lg="4">
           <v-card elevation="10" class="overflow-hidden  d-flex flex-column  h-100 pa-6">
             <v-card-item class="pa-0 pb-1">
               <h4 class="text-h5 font-weight-medium">
@@ -113,6 +113,22 @@ onMounted(() => {
             <v-card-text class="pa-0 pt-1  d-flex flex-column align-start justify-space-between">
               <p class="text-body-1">{{ $t('text.payment.with.manual.params.description') }}</p>
               <v-btn :to="{ name: RouteName.Products, query: { mode: PaymentMode.Manual } }" variant="flat"
+                class="mt-6 text-white" color="primary">
+                {{ $t('action.try.it.out') }}
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="6" lg="4">
+          <v-card elevation="10" class="overflow-hidden  d-flex flex-column  h-100 pa-6">
+            <v-card-item class="pa-0 pb-1">
+              <h4 class="text-h5 font-weight-medium">
+                {{ $t('text.payme.by.link') }}
+              </h4>
+            </v-card-item>
+            <v-card-text class="pa-0 pt-1  d-flex flex-column align-start justify-space-between">
+              <p class="text-body-1">{{ $t('text.payme.by.link.description') }}</p>
+              <v-btn :to="{ name: RouteName.Checkout, query: { mode: PaymentMode.PayMeByLink } }" variant="flat"
                 class="mt-6 text-white" color="primary">
                 {{ $t('action.try.it.out') }}
               </v-btn>

@@ -178,5 +178,37 @@
   "text.payment.params": {
     "en": "Payment params",
     "uk": "Параметри оплати"
+  },
+  "text.payme.by.link": {
+    "en": "PayMe by link",
+    "uk": "PayMe за посиланням"
+  },
+  "text.payme.by.link.description": {
+    "en": "Generate a payment link to receive funds via the PayMe service page",
+    "uk": "Згенеруйте платіжне посилання для отримання коштів через сторінку сервісу PayMe"
+  },
+  "text.generate.payment.link": {
+    "en": "Generate Payment Link",
+    "uk": "Згенерувати платіжне посилання"
+  },
+  "text.generate.payment.link.subtitle": {
+    "en": "Enter your card details and currency to create a personal link for receiving payments",
+    "uk": "Введіть дані картки та валюту, щоб створити персональне посилання для отримання платежів"
+  },
+  "text.link.ready": {
+    "en": "Your Link is Ready!",
+    "uk": "Ваше посилання готове!"
+  },
+  "text.link.ready.subtitle": {
+    "en": "Share this link with the sender to receive funds",
+    "uk": "Надішліть це посилання платнику, щоб отримати кошти"
+  },
+  "text.something.went.wrong": {
+    "en": "Something went wrong",
+    "uk": "Щось пішло не так"
+  },
+  "text.something.went.wrong.subtitle": {
+    "en": "We were unable to create a payment link at this time",
+    "uk": "Наразі не вдалося створити платіжне посилання"
   }
 }

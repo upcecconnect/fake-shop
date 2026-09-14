@@ -19,6 +19,7 @@ import { submitPaymentModal } from '@/utils/submitPayment/submitPaymentModal';
 import { usePayByBankBankStore } from '@/stores/usePayByBankStore';
 import { useI18n } from 'vue-i18n';
 import { NUPCPayByBank } from '@/types/pay-by-bank';
+import PayMeByLinkForm from './components/PayMeByLinkForm.vue';
 
 const props = defineProps({
   mode: {
@@ -56,6 +57,18 @@ const breadcrumbs = ref([
   },
   {
     text: 'Checkout Page',
+    disabled: true,
+    href: '#'
+  }
+]);
+const payMeBreadcrumbs = ref([
+  {
+    text: 'UPC demo-shop',
+    disabled: false,
+    href: '#'
+  },
+  {
+    text: 'Payment via Me to You link',
     disabled: true,
     href: '#'
   }
@@ -146,6 +159,20 @@ watch(paymentMode, (newValue: NUPCPayByBank.PaymentMode) => {
 </script>
 
 <template>
+  <div v-if="mode === PaymentMode.PayMeByLink" class="payme-page bg-surface">
+    <v-breadcrumbs :items="payMeBreadcrumbs" class="pa-0 ml-n1">
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+      <template v-slot:title="{ item }">
+        <h6 class="text-h6 font-weight-regular">{{ item.text }}</h6>
+      </template>
+    </v-breadcrumbs>
+    <div class="payme-page__body">
+      <PayMeByLinkForm />
+    </div>
+  </div>
+  <template v-else>
   <div class="mt-3 mb-6">
     <div class="d-flex justify-space-between">
       <div class="d-flex py-0 align-center">
@@ -239,6 +266,7 @@ watch(paymentMode, (newValue: NUPCPayByBank.PaymentMode) => {
       </v-window>
     </v-card-text>
   </v-card>
+  </template>
 </template>
 
 <style lang="scss">
@@ -249,5 +277,18 @@ watch(paymentMode, (newValue: NUPCPayByBank.PaymentMode) => {
   }
   .customTab {
     min-height: 68px;
+  }
+  .payme-page {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 32px;
+    box-sizing: border-box;
+  }
+  .payme-page__body {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
